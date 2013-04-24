@@ -1,0 +1,303 @@
+//
+//  GameClientPacketHandler.cpp
+//  GameClient
+//
+//  Created by Sinhyub Kim on 2/13/13.
+//  Copyright (c) 2013 RoughHands. All rights reserved.
+//
+
+#include "GameClientHeaders.pch"
+
+namespace flownet
+{
+
+GameClientPacketHandler::GameClientPacketHandler(RenderingTaskWorkerRoutine* renderingTaskWorkerRoutine):PacketHandler(),m_RenderingTaskWorkerRoutine(renderingTaskWorkerRoutine),m_GameClientRPCReceiver(nullptr)
+{
+    InitializeHandlerMap();
+}
+
+GameClientPacketHandler::~GameClientPacketHandler()
+{
+    if( m_HandlerMap == nullptr )
+    {
+        delete []m_HandlerMap;
+        m_HandlerMap = nullptr;
+    }
+}
+
+void GameClientPacketHandler::BindHandlerFunction(INT protocolNumber, const PacketHandlerFunction& packetHandlerFunction)
+{
+	m_HandlerMap[protocolNumber] = packetHandlerFunction;
+}
+
+void GameClientPacketHandler::SetGameClientRPCReceiver(const GameClientRPCInterface* gameClientRPCReceiver)
+{
+    ASSERT_RELEASE(m_GameClientRPCReceiver==nullptr);
+    
+    m_GameClientRPCReceiver = gameClientRPCReceiver;
+}
+
+
+void GameClientPacketHandler::HandlePacket(BasePacket* packet)
+{
+#ifdef PACKET_SIZE_LOGGING
+    // Add Packet Size Logger Here
+    PacketSizeLogger* packetSizeLogger = PacketSizeLogger::Instance();
+    packetSizeLogger->AddPacketSize(packet->GetPacketSize());
+    // end of Add Packet Size Logger Here
+#endif
+
+    GameSCProtocol protocol = static_cast<GameSCProtocol>(packet->GetProtocol());
+    LOG_STDOUT( std::cout << "handled Protocol" << protocol << std::endl; );
+    
+    (this->*m_HandlerMap[protocol])(static_cast<GamePacket*>(packet));
+
+    // 'packet' will be removed (deleted) after this return on packet parser
+}
+
+//void GameClientPacketHandler::SCProtocolErrorHandler(GamePacket* packet)
+//{
+//    m_RenderingTaskWorkerRoutine->AddTask(CreateLambdaTask("SCProtocolErrorHandler",[this](){
+//        this->OnSCProtocolError();
+//    }));
+//}
+
+void GameClientPacketHandler::OnSCProtocolError()
+{
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr );
+    
+    LOG_STDOUT( std::cout << "Wrong Protocol. Error occured " << std::endl; );
+    
+    this->m_GameClientRPCReceiver->OnSCProtocolError();
+}
+   
+void GameClientPacketHandler::OnSCResponseConnect(ConnectionID connectionID)
+{
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr );
+    
+    // Do Handle Game Jobs
+    GameClientObject& gameClientObject = GameClient::Instance().GetClientObject();
+    gameClientObject.SetConnectionID(connectionID);
+    
+    gameClientObject.StartHeartbeat();
+
+    this->m_GameClientRPCReceiver->OnSCResponseConnect(connectionID);
+}
+
+void GameClientPacketHandler::OnSCResponseSession(UserID userID, ActorID myPlayerID, SessionID sessionID)
+{
+    GameClientObject& gameClientObject = GameClient::Instance().GetClientObject();
+    gameClientObject.SetSessionID(sessionID);
+    
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr );
+    this->m_GameClientRPCReceiver->OnSCResponseSession(userID, myPlayerID, sessionID);
+}
+
+void GameClientPacketHandler::OnSCResponseHeartbeat(INT64 heartbeatCountAck)
+{
+    // Delay checking
+    DelayChecker* checker = DelayChecker::Instance();
+    checker->CheckEndTime();
+    // end of Delay checking
+
+    if( heartbeatCountAck%100 == 0)
+    {
+        std::cout << "fSCResponseHeartbeat : heartbeatCountAck" << heartbeatCountAck << std::endl;
+    }
+
+    
+//    GameClientObject->Send
+//    GameClient::Instance().GetClientObject().CheckHeartbeatTimeOver();
+    GameClient::Instance().GetClientObject().KeepHeartbeat(heartbeatCountAck);
+    
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr );
+    this->m_GameClientRPCReceiver->OnSCResponseHeartbeat(heartbeatCountAck);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  
+void GameClientPacketHandler::OnSCResponseCreateUserAccount(UserID userID, ActorID playerID, SessionID sessionID)
+{
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+    this->m_GameClientRPCReceiver->OnSCResponseCreateUserAccount(userID, playerID, sessionID);
+}
+    
+void GameClientPacketHandler::OnSCResponseLogInUserAccount(UserID userID, ActorID playerID, SessionID sessionID)
+{
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+    this->m_GameClientRPCReceiver->OnSCResponseLogInUserAccount(userID, playerID, sessionID);
+}
+
+void GameClientPacketHandler::OnSCResponseLogOutUserAccount(UserID userID)
+{
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+    this->m_GameClientRPCReceiver->OnSCResponseLogOutUserAccount(userID);
+}
+
+// stage
+void GameClientPacketHandler::OnSCResponseCreateStage(StageID stageID, Stage stage)
+{
+    ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
+    m_GameClientRPCReceiver->OnSCResponseCreateStage(stageID, stage);
+}
+
+void GameClientPacketHandler::OnSCResponseRunningStages(StageInfoList stageInfoList)
+{
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+    this->m_GameClientRPCReceiver->OnSCResponseRunningStages(stageInfoList);
+}
+
+void GameClientPacketHandler::OnSCResponseJoinRunningStage(StageID stageID, Stage stage, ErrorType errorType)
+{
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+    this->m_GameClientRPCReceiver->OnSCResponseJoinRunningStage(stageID, stage, errorType);
+}
+
+void GameClientPacketHandler::OnSCResponseExitStage(StageID stageID, ActorID playerID)
+{
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+    this->m_GameClientRPCReceiver->OnSCResponseExitStage(stageID, playerID);
+}
+
+void GameClientPacketHandler::OnSCNotifyExitStage(StageID stageID, ActorID playerID)
+{
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+    this->m_GameClientRPCReceiver->OnSCNotifyExitStage(stageID, playerID);
+}
+
+void GameClientPacketHandler::OnSCResponseRejoinCurrentStage(StageID stageID, Stage stage)
+{
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+    this->m_GameClientRPCReceiver->OnSCResponseRejoinCurrentStage(stageID, stage);
+}
+
+void GameClientPacketHandler::OnSCNotifyClearStage(StageID stageID)
+{
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+    this->m_GameClientRPCReceiver->OnSCNotifyClearStage(stageID);
+}
+
+void GameClientPacketHandler::OnSCNotifySpawnPlayer(StageID stageID, Player player)
+{
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+    this->m_GameClientRPCReceiver->OnSCNotifySpawnPlayer(stageID, player);
+}
+
+void GameClientPacketHandler::OnSCNotifySpawnMonster(StageID stageID, Monster monster)
+{
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+    this->m_GameClientRPCReceiver->OnSCNotifySpawnMonster(stageID, monster);
+}    
+    
+void GameClientPacketHandler::OnSCNotifyMoveActor(StageID stageID, ActorID playerID, flownet::POINT currentPosition, flownet::POINT destinationPosition)
+{
+    ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
+    m_GameClientRPCReceiver->OnSCNotifyMoveActor(stageID, playerID, currentPosition, destinationPosition);
+}
+
+void GameClientPacketHandler::OnSCNotifyActorAttributeChanged(StageID stageID, ActorID actorID, ActorAttribute actorAttribute, FLOAT amount)
+{
+    ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
+    m_GameClientRPCReceiver->OnSCNotifyActorAttributeChanged(stageID, actorID, actorAttribute, amount);
+}
+
+void GameClientPacketHandler::OnSCNotifyActorAttack(StageID stageID, ActorID actorID, ActorID targetPlayerID, AttackType attackType)
+{
+    ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
+    m_GameClientRPCReceiver->OnSCNotifyActorAttack(stageID, actorID, targetPlayerID, attackType);
+}
+    
+void GameClientPacketHandler::OnSCNotifyActorAttacked(StageID stageID, ActorID actorID, ActorID attackerActorID, AttackType attackType)
+{
+    ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
+    m_GameClientRPCReceiver->OnSCNotifyActorAttacked(stageID, actorID, attackerActorID, attackType);
+}
+
+void GameClientPacketHandler::OnSCNotifyActorDead(StageID stageID, ActorID actorID)
+{
+    ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
+    m_GameClientRPCReceiver->OnSCNotifyActorDead(stageID, actorID);
+}
+
+void GameClientPacketHandler::OnSCNotifyChangeTarget(StageID stageID, ActorID actorID, ActorID targetID)
+{
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+    this->m_GameClientRPCReceiver->OnSCNotifyChangeTarget(stageID, actorID, targetID);
+}
+
+void GameClientPacketHandler::OnSCNotifyBeginCast(StageID stageID, ActorID myPlayerID, SpellType spellType, POINT destination)
+{
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+    this->m_GameClientRPCReceiver->OnSCNotifyBeginCast(stageID, myPlayerID, spellType, destination);
+}
+
+void GameClientPacketHandler::OnSCNotifyEndCast(StageID stageID, ActorID playerID, SpellType spellType, POINT destination)
+{
+    ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
+    m_GameClientRPCReceiver->OnSCNotifyEndCast(stageID, playerID, spellType, destination);
+}
+
+// TO DO : do automation on these functions
+void GameClientPacketHandler::OnSCResponseDropItemToField(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID)
+{
+    ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
+    m_GameClientRPCReceiver->OnSCResponseDropItemToField(stageID, playerID, itemID);
+}
+
+void GameClientPacketHandler::OnSCNotifySpawnItem(flownet::StageID stageID, flownet::Item item, flownet::POINT spawnPosition)
+{
+    ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
+    m_GameClientRPCReceiver->OnSCNotifySpawnItem(stageID, item, spawnPosition);
+}
+
+void GameClientPacketHandler::OnSCNotifyPickUpItemFromField(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID)
+{
+    ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
+    m_GameClientRPCReceiver->OnSCNotifyPickUpItemFromField(stageID, playerID, itemID);
+}
+
+void GameClientPacketHandler::OnSCNotifyAddItemToStash(flownet::StageID stageID, flownet::ActorID playerID, flownet::Item item)
+{
+    ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
+    m_GameClientRPCReceiver->OnSCNotifyAddItemToStash(stageID, playerID, item);
+}
+
+void GameClientPacketHandler::OnSCNotifyRemoveItemFromStash(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID)
+{
+    ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
+    m_GameClientRPCReceiver->OnSCNotifyRemoveItemFromStash(stageID, playerID, itemID);
+}
+
+void GameClientPacketHandler::OnSCResponseRegisterStashItemToInventory(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID, flownet::InventorySlot slotNumber)
+{
+    ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
+    m_GameClientRPCReceiver->OnSCResponseRegisterStashItemToInventory(stageID, playerID, itemID, slotNumber);
+}
+
+void GameClientPacketHandler::OnSCResponseUnRegisterStashItemFromInventory(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID, flownet::InventorySlot slotNumber)
+{
+    ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
+    m_GameClientRPCReceiver->OnSCResponseUnRegisterStashItemFromInventory(stageID, playerID, itemID, slotNumber);
+}
+
+void GameClientPacketHandler::OnSCResponseSwapInventorySlot(flownet::StageID stageID, flownet::ActorID playerID, flownet::InventorySlot sourceSlotNumber, flownet::InventorySlot destinationSlotNumber)
+{
+    ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
+    m_GameClientRPCReceiver->OnSCResponseSwapInventorySlot(stageID, playerID, sourceSlotNumber, destinationSlotNumber);
+}
+
+void GameClientPacketHandler::OnSCNotifyUseItem(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID, flownet::InventorySlot inventorySlot)
+{
+    ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
+    m_GameClientRPCReceiver->OnSCNotifyUseItem(stageID, playerID, itemID, inventorySlot);
+}
+
+void GameClientPacketHandler::OnSCNotifyUnEquip(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID, flownet::InventorySlot inventorySlot)
+{
+    ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
+    m_GameClientRPCReceiver->OnSCNotifyUnEquip(stageID, playerID, itemID, inventorySlot);
+}
+
+    
+} // namespace flownet

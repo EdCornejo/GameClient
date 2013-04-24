@@ -1,0 +1,597 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>frames</key>
+	<dict>
+		
+		<key>kingspider_moving_0.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{11, 41}, {298, 229}}</string>
+			<key>spriteOffset</key>
+			<string>{-1, -2}</string>
+			<key>spriteSize</key>
+			<string>{298, 229}</string>
+			<key>spriteSourceSize</key>
+			<string>{322, 307}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{298, 460}, {298, 229}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>kingspider_moving_1.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{13, 41}, {296, 229}}</string>
+			<key>spriteOffset</key>
+			<string>{0, -2}</string>
+			<key>spriteSize</key>
+			<string>{296, 229}</string>
+			<key>spriteSourceSize</key>
+			<string>{322, 307}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{600, 231}, {296, 229}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>kingspider_moving_10.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{13, 50}, {288, 215}}</string>
+			<key>spriteOffset</key>
+			<string>{-4, -4}</string>
+			<key>spriteSize</key>
+			<string>{288, 215}</string>
+			<key>spriteSourceSize</key>
+			<string>{322, 307}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{585, 1131}, {288, 215}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>kingspider_moving_11.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{11, 47}, {290, 219}}</string>
+			<key>spriteOffset</key>
+			<string>{-5, -3}</string>
+			<key>spriteSize</key>
+			<string>{290, 219}</string>
+			<key>spriteSourceSize</key>
+			<string>{322, 307}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{1189, 454}, {290, 219}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>kingspider_moving_12.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{11, 45}, {290, 223}}</string>
+			<key>spriteOffset</key>
+			<string>{-5, -3}</string>
+			<key>spriteSize</key>
+			<string>{290, 223}</string>
+			<key>spriteSourceSize</key>
+			<string>{322, 307}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{1188, 231}, {290, 223}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>kingspider_moving_13.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{11, 43}, {290, 225}}</string>
+			<key>spriteOffset</key>
+			<string>{-5, -2}</string>
+			<key>spriteSize</key>
+			<string>{290, 225}</string>
+			<key>spriteSourceSize</key>
+			<string>{322, 307}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{898, 460}, {290, 225}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>kingspider_moving_14.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{11, 41}, {290, 229}}</string>
+			<key>spriteOffset</key>
+			<string>{-5, -2}</string>
+			<key>spriteSize</key>
+			<string>{290, 229}</string>
+			<key>spriteSourceSize</key>
+			<string>{322, 307}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{897, 231}, {290, 229}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>kingspider_moving_15.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{11, 41}, {290, 229}}</string>
+			<key>spriteOffset</key>
+			<string>{-5, -2}</string>
+			<key>spriteSize</key>
+			<string>{290, 229}</string>
+			<key>spriteSourceSize</key>
+			<string>{322, 307}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{891, 688}, {290, 229}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>kingspider_moving_16.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{11, 41}, {290, 229}}</string>
+			<key>spriteOffset</key>
+			<string>{-5, -2}</string>
+			<key>spriteSize</key>
+			<string>{290, 229}</string>
+			<key>spriteSourceSize</key>
+			<string>{322, 307}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{0, 924}, {290, 229}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>kingspider_moving_17.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{11, 41}, {290, 229}}</string>
+			<key>spriteOffset</key>
+			<string>{-5, -2}</string>
+			<key>spriteSize</key>
+			<string>{290, 229}</string>
+			<key>spriteSourceSize</key>
+			<string>{322, 307}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{1182, 687}, {290, 229}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>kingspider_moving_18.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{11, 41}, {290, 229}}</string>
+			<key>spriteOffset</key>
+			<string>{-5, -2}</string>
+			<key>spriteSize</key>
+			<string>{290, 229}</string>
+			<key>spriteSourceSize</key>
+			<string>{322, 307}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{1201, 0}, {290, 229}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>kingspider_moving_19.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{11, 41}, {290, 229}}</string>
+			<key>spriteOffset</key>
+			<string>{-5, -2}</string>
+			<key>spriteSize</key>
+			<string>{290, 229}</string>
+			<key>spriteSourceSize</key>
+			<string>{322, 307}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{0, 693}, {290, 229}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>kingspider_moving_2.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{9, 40}, {300, 227}}</string>
+			<key>spriteOffset</key>
+			<string>{-2, -0}</string>
+			<key>spriteSize</key>
+			<string>{300, 227}</string>
+			<key>spriteSourceSize</key>
+			<string>{322, 307}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{298, 231}, {300, 227}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>kingspider_moving_20.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{11, 41}, {292, 229}}</string>
+			<key>spriteOffset</key>
+			<string>{-4, -2}</string>
+			<key>spriteSize</key>
+			<string>{292, 229}</string>
+			<key>spriteSourceSize</key>
+			<string>{322, 307}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{597, 688}, {292, 229}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>kingspider_moving_21.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{11, 41}, {294, 229}}</string>
+			<key>spriteOffset</key>
+			<string>{-3, -2}</string>
+			<key>spriteSize</key>
+			<string>{294, 229}</string>
+			<key>spriteSourceSize</key>
+			<string>{322, 307}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{906, 0}, {294, 229}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>kingspider_moving_22.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{11, 41}, {296, 229}}</string>
+			<key>spriteOffset</key>
+			<string>{-2, -2}</string>
+			<key>spriteSize</key>
+			<string>{296, 229}</string>
+			<key>spriteSourceSize</key>
+			<string>{322, 307}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{0, 231}, {296, 229}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>kingspider_moving_23.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{11, 41}, {298, 229}}</string>
+			<key>spriteOffset</key>
+			<string>{-1, -2}</string>
+			<key>spriteSize</key>
+			<string>{298, 229}</string>
+			<key>spriteSourceSize</key>
+			<string>{322, 307}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{309, 0}, {298, 229}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>kingspider_moving_24.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{11, 41}, {298, 229}}</string>
+			<key>spriteOffset</key>
+			<string>{-1, -2}</string>
+			<key>spriteSize</key>
+			<string>{298, 229}</string>
+			<key>spriteSourceSize</key>
+			<string>{322, 307}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{607, 0}, {298, 229}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>kingspider_moving_25.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{11, 41}, {298, 229}}</string>
+			<key>spriteOffset</key>
+			<string>{-1, -2}</string>
+			<key>spriteSize</key>
+			<string>{298, 229}</string>
+			<key>spriteSourceSize</key>
+			<string>{322, 307}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{0, 462}, {298, 229}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>kingspider_moving_3.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{5, 36}, {308, 229}}</string>
+			<key>spriteOffset</key>
+			<string>{-2, 3}</string>
+			<key>spriteSize</key>
+			<string>{308, 229}</string>
+			<key>spriteSourceSize</key>
+			<string>{322, 307}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{0, 0}, {308, 229}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>kingspider_moving_4.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{15, 37}, {300, 227}}</string>
+			<key>spriteOffset</key>
+			<string>{4, 3}</string>
+			<key>spriteSize</key>
+			<string>{300, 227}</string>
+			<key>spriteSourceSize</key>
+			<string>{322, 307}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{597, 460}, {300, 227}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>kingspider_moving_5.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{25, 40}, {290, 223}}</string>
+			<key>spriteOffset</key>
+			<string>{9, 2}</string>
+			<key>spriteSize</key>
+			<string>{290, 223}</string>
+			<key>spriteSourceSize</key>
+			<string>{322, 307}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{292, 693}, {290, 223}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>kingspider_moving_6.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{23, 43}, {290, 219}}</string>
+			<key>spriteOffset</key>
+			<string>{7, 1}</string>
+			<key>spriteSize</key>
+			<string>{290, 219}</string>
+			<key>spriteSourceSize</key>
+			<string>{322, 307}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{292, 918}, {290, 219}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>kingspider_moving_7.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{20, 48}, {290, 215}}</string>
+			<key>spriteOffset</key>
+			<string>{4, -2}</string>
+			<key>spriteSize</key>
+			<string>{290, 215}</string>
+			<key>spriteSourceSize</key>
+			<string>{322, 307}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{1182, 918}, {290, 215}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>kingspider_moving_8.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{18, 53}, {288, 211}}</string>
+			<key>spriteOffset</key>
+			<string>{1, -5}</string>
+			<key>spriteSize</key>
+			<string>{288, 211}</string>
+			<key>spriteSourceSize</key>
+			<string>{322, 307}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{585, 919}, {288, 211}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>kingspider_moving_9.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{15, 52}, {288, 211}}</string>
+			<key>spriteOffset</key>
+			<string>{-2, -4}</string>
+			<key>spriteSize</key>
+			<string>{288, 211}</string>
+			<key>spriteSourceSize</key>
+			<string>{322, 307}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{291, 1138}, {288, 211}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+	</dict>
+	<key>metadata</key>
+	<dict>
+		<key>version</key>
+		<string>1.6.0</string>
+		<key>format</key>
+		<integer>3</integer>
+		<key>size</key>
+		<string>{1536, 1536}</string>
+		<key>name</key>
+		<string>kingspider_moving</string>
+		<key>textureFileName</key>
+		<string>kingspider_moving.png</string>
+		<key>premultipliedAlpha</key>
+		<false/>
+	</dict>
+</dict>
+</plist>

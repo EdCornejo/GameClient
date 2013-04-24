@@ -1,0 +1,420 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4D95D18616DEFD7B00D19372 /* boost.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D95D18516DEFD7B00D19372 /* boost.framework */; };
+		9413D39916CB89ED001FA2E9 /* libboost_regex.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9413D39716CB89ED001FA2E9 /* libboost_regex.a */; };
+		9413D39A16CB89ED001FA2E9 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9413D39816CB89ED001FA2E9 /* libboost_system.a */; };
+		9413D43E16CBD2DF001FA2E9 /* GameClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9413D43C16CBD2DF001FA2E9 /* GameClient.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		9413D44116CBD487001FA2E9 /* GameClientPacketHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9413D43F16CBD487001FA2E9 /* GameClientPacketHandler.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		9413D44416CBD4EA001FA2E9 /* GameClientPacketParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9413D44216CBD4E9001FA2E9 /* GameClientPacketParser.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		9413D44716CBE1CA001FA2E9 /* GameClientObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9413D44516CBE1C9001FA2E9 /* GameClientObject.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		9413D49216D2484A001FA2E9 /* libGameShared.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9413D49116D2484A001FA2E9 /* libGameShared.a */; };
+		9413D49F16D2846D001FA2E9 /* GameClientTasks.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9413D49D16D2846D001FA2E9 /* GameClientTasks.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		9413D4A216D2861D001FA2E9 /* GameClientScheduledTasks.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9413D4A016D2861D001FA2E9 /* GameClientScheduledTasks.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		945C0A1C16CB820E00FB8664 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 945C0A1B16CB820E00FB8664 /* main.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		945C0A1E16CB820E00FB8664 /* GameClient.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 945C0A1D16CB820E00FB8664 /* GameClient.1 */; };
+		945C0A4116CB82F000FB8664 /* libflownet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 945C0A4016CB82F000FB8664 /* libflownet.a */; };
+		94F5836616D5A9FF00AE632E /* HeartbeatGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94F5836416D5A9FF00AE632E /* HeartbeatGenerator.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		94F2963216DC48E3005DFDE4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4D95849116DBA30D00D19372 /* flownet.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9418CCBE16AD909E001355FD;
+			remoteInfo = flownet;
+		};
+		94F2963816DC48E3005DFDE4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4D95849216DBA31300D19372 /* GameShared.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9413D43116CBC103001FA2E9;
+			remoteInfo = GameShared;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		945C0A1516CB820E00FB8664 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+				945C0A1E16CB820E00FB8664 /* GameClient.1 in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		4D95849116DBA30D00D19372 /* flownet.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = flownet.xcodeproj; path = ../flownet/flownet.xcodeproj; sourceTree = "<group>"; };
+		4D95849216DBA31300D19372 /* GameShared.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GameShared.xcodeproj; path = ../GameShared/GameShared.xcodeproj; sourceTree = "<group>"; };
+		4D95D18516DEFD7B00D19372 /* boost.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = boost.framework; path = ../Boost/osx/framework/boost.framework; sourceTree = "<group>"; };
+		9413D39716CB89ED001FA2E9 /* libboost_regex.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_regex.a; path = ../Boost/lib/libboost_regex.a; sourceTree = "<group>"; };
+		9413D39816CB89ED001FA2E9 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = ../Boost/lib/libboost_system.a; sourceTree = "<group>"; };
+		9413D3C616CB9098001FA2E9 /* GameClientHeaders.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameClientHeaders.pch; path = GameClient/GameClientHeaders.pch; sourceTree = "<group>"; };
+		9413D43B16CBD0BB001FA2E9 /* GameClientProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameClientProperties.h; sourceTree = "<group>"; };
+		9413D43C16CBD2DF001FA2E9 /* GameClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameClient.cpp; sourceTree = "<group>"; };
+		9413D43D16CBD2DF001FA2E9 /* GameClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameClient.h; sourceTree = "<group>"; };
+		9413D43F16CBD487001FA2E9 /* GameClientPacketHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameClientPacketHandler.cpp; sourceTree = "<group>"; };
+		9413D44016CBD487001FA2E9 /* GameClientPacketHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameClientPacketHandler.h; sourceTree = "<group>"; };
+		9413D44216CBD4E9001FA2E9 /* GameClientPacketParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameClientPacketParser.cpp; sourceTree = "<group>"; };
+		9413D44316CBD4EA001FA2E9 /* GameClientPacketParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameClientPacketParser.h; sourceTree = "<group>"; };
+		9413D44516CBE1C9001FA2E9 /* GameClientObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameClientObject.cpp; sourceTree = "<group>"; };
+		9413D44616CBE1C9001FA2E9 /* GameClientObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameClientObject.h; sourceTree = "<group>"; };
+		9413D49116D2484A001FA2E9 /* libGameShared.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGameShared.a; path = ../GameShared/build/Release/libGameShared.a; sourceTree = "<group>"; };
+		9413D49D16D2846D001FA2E9 /* GameClientTasks.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameClientTasks.cpp; sourceTree = "<group>"; };
+		9413D49E16D2846D001FA2E9 /* GameClientTasks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameClientTasks.h; sourceTree = "<group>"; };
+		9413D4A016D2861D001FA2E9 /* GameClientScheduledTasks.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameClientScheduledTasks.cpp; sourceTree = "<group>"; };
+		9413D4A116D2861D001FA2E9 /* GameClientScheduledTasks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameClientScheduledTasks.h; sourceTree = "<group>"; };
+		945C0A1716CB820E00FB8664 /* GameClient */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = GameClient; sourceTree = BUILT_PRODUCTS_DIR; };
+		945C0A1B16CB820E00FB8664 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		945C0A1D16CB820E00FB8664 /* GameClient.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = GameClient.1; sourceTree = "<group>"; };
+		945C0A4016CB82F000FB8664 /* libflownet.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libflownet.a; path = ../flownet/build/Release/libflownet.a; sourceTree = "<group>"; };
+		94D9072316EB24FC00637B38 /* GameClientRPCInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameClientRPCInterface.h; path = GameClient/GameClientRPCInterface.h; sourceTree = "<group>"; };
+		94F5836416D5A9FF00AE632E /* HeartbeatGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HeartbeatGenerator.cpp; sourceTree = "<group>"; };
+		94F5836516D5A9FF00AE632E /* HeartbeatGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeartbeatGenerator.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		945C0A1416CB820E00FB8664 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9413D39916CB89ED001FA2E9 /* libboost_regex.a in Frameworks */,
+				9413D39A16CB89ED001FA2E9 /* libboost_system.a in Frameworks */,
+				945C0A4116CB82F000FB8664 /* libflownet.a in Frameworks */,
+				9413D49216D2484A001FA2E9 /* libGameShared.a in Frameworks */,
+				4D95D18616DEFD7B00D19372 /* boost.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		9413D49C16D2845B001FA2E9 /* Task */ = {
+			isa = PBXGroup;
+			children = (
+				9413D49D16D2846D001FA2E9 /* GameClientTasks.cpp */,
+				9413D49E16D2846D001FA2E9 /* GameClientTasks.h */,
+				9413D4A016D2861D001FA2E9 /* GameClientScheduledTasks.cpp */,
+				9413D4A116D2861D001FA2E9 /* GameClientScheduledTasks.h */,
+			);
+			name = Task;
+			sourceTree = "<group>";
+		};
+		945C0A0C16CB820E00FB8664 = {
+			isa = PBXGroup;
+			children = (
+				94D9072316EB24FC00637B38 /* GameClientRPCInterface.h */,
+				4D95D18516DEFD7B00D19372 /* boost.framework */,
+				4D95849116DBA30D00D19372 /* flownet.xcodeproj */,
+				4D95849216DBA31300D19372 /* GameShared.xcodeproj */,
+				9413D49116D2484A001FA2E9 /* libGameShared.a */,
+				945C0A4016CB82F000FB8664 /* libflownet.a */,
+				9413D3C616CB9098001FA2E9 /* GameClientHeaders.pch */,
+				9413D43B16CBD0BB001FA2E9 /* GameClientProperties.h */,
+				9413D39716CB89ED001FA2E9 /* libboost_regex.a */,
+				9413D39816CB89ED001FA2E9 /* libboost_system.a */,
+				945C0A1A16CB820E00FB8664 /* GameClient */,
+				945C0A1816CB820E00FB8664 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		945C0A1816CB820E00FB8664 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				945C0A1716CB820E00FB8664 /* GameClient */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		945C0A1A16CB820E00FB8664 /* GameClient */ = {
+			isa = PBXGroup;
+			children = (
+				94F5836316D5A9E400AE632E /* NetworkUtilities */,
+				94F5836116D5A9CE00AE632E /* RPC */,
+				9413D49C16D2845B001FA2E9 /* Task */,
+				945C0A1B16CB820E00FB8664 /* main.cpp */,
+				945C0A1D16CB820E00FB8664 /* GameClient.1 */,
+				9413D43C16CBD2DF001FA2E9 /* GameClient.cpp */,
+				9413D43D16CBD2DF001FA2E9 /* GameClient.h */,
+			);
+			path = GameClient;
+			sourceTree = "<group>";
+		};
+		94F2962F16DC48E3005DFDE4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				94F2963316DC48E3005DFDE4 /* libflownet.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		94F2963516DC48E3005DFDE4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				94F2963916DC48E3005DFDE4 /* libGameShared.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		94F5836116D5A9CE00AE632E /* RPC */ = {
+			isa = PBXGroup;
+			children = (
+				9413D43F16CBD487001FA2E9 /* GameClientPacketHandler.cpp */,
+				9413D44016CBD487001FA2E9 /* GameClientPacketHandler.h */,
+				9413D44216CBD4E9001FA2E9 /* GameClientPacketParser.cpp */,
+				9413D44316CBD4EA001FA2E9 /* GameClientPacketParser.h */,
+				9413D44516CBE1C9001FA2E9 /* GameClientObject.cpp */,
+				9413D44616CBE1C9001FA2E9 /* GameClientObject.h */,
+			);
+			name = RPC;
+			sourceTree = "<group>";
+		};
+		94F5836316D5A9E400AE632E /* NetworkUtilities */ = {
+			isa = PBXGroup;
+			children = (
+				94F5836416D5A9FF00AE632E /* HeartbeatGenerator.cpp */,
+				94F5836516D5A9FF00AE632E /* HeartbeatGenerator.h */,
+			);
+			name = NetworkUtilities;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		945C0A1616CB820E00FB8664 /* GameClient */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 945C0A2116CB820E00FB8664 /* Build configuration list for PBXNativeTarget "GameClient" */;
+			buildPhases = (
+				945C0A1316CB820E00FB8664 /* Sources */,
+				945C0A1416CB820E00FB8664 /* Frameworks */,
+				945C0A1516CB820E00FB8664 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = GameClient;
+			productName = GameClient;
+			productReference = 945C0A1716CB820E00FB8664 /* GameClient */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		945C0A0E16CB820E00FB8664 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0450;
+				ORGANIZATIONNAME = RoughHands;
+			};
+			buildConfigurationList = 945C0A1116CB820E00FB8664 /* Build configuration list for PBXProject "GameClient" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 945C0A0C16CB820E00FB8664;
+			productRefGroup = 945C0A1816CB820E00FB8664 /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 94F2962F16DC48E3005DFDE4 /* Products */;
+					ProjectRef = 4D95849116DBA30D00D19372 /* flownet.xcodeproj */;
+				},
+				{
+					ProductGroup = 94F2963516DC48E3005DFDE4 /* Products */;
+					ProjectRef = 4D95849216DBA31300D19372 /* GameShared.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				945C0A1616CB820E00FB8664 /* GameClient */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		94F2963316DC48E3005DFDE4 /* libflownet.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libflownet.a;
+			remoteRef = 94F2963216DC48E3005DFDE4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		94F2963916DC48E3005DFDE4 /* libGameShared.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libGameShared.a;
+			remoteRef = 94F2963816DC48E3005DFDE4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXSourcesBuildPhase section */
+		945C0A1316CB820E00FB8664 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				945C0A1C16CB820E00FB8664 /* main.cpp in Sources */,
+				9413D43E16CBD2DF001FA2E9 /* GameClient.cpp in Sources */,
+				9413D44116CBD487001FA2E9 /* GameClientPacketHandler.cpp in Sources */,
+				9413D44416CBD4EA001FA2E9 /* GameClientPacketParser.cpp in Sources */,
+				9413D44716CBE1CA001FA2E9 /* GameClientObject.cpp in Sources */,
+				9413D49F16D2846D001FA2E9 /* GameClientTasks.cpp in Sources */,
+				9413D4A216D2861D001FA2E9 /* GameClientScheduledTasks.cpp in Sources */,
+				94F5836616D5A9FF00AE632E /* HeartbeatGenerator.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		945C0A1F16CB820E00FB8664 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		945C0A2016CB820E00FB8664 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		945C0A2216CB820E00FB8664 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../Boost/osx/framework\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = GameClient/GameclientHeaders.pch;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				GCC_UNROLL_LOOPS = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				HEADER_SEARCH_PATHS = (
+					"$(BUILT_PRODUCTS_DIR)/**",
+					"../flownet/**",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					../Boost/lib,
+					"\"$(SRCROOT)/../Boost/lib\"",
+					"$(BUILT_PRODUCTS_DIR)/**",
+					"$(BUILT_PRODUCTS_DIR)/flownet/**",
+					"$(BUILT_PRODUCTS_DIR)/GameShared/**",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRELINK_LIBS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/** $(BUILT_PRODUCTS_DIR)/flownet/** ../Boost/include ../GameShared";
+			};
+			name = Debug;
+		};
+		945C0A2316CB820E00FB8664 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../Boost/osx/framework\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = GameClient/GameclientHeaders.pch;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				GCC_UNROLL_LOOPS = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				HEADER_SEARCH_PATHS = (
+					"$(BUILT_PRODUCTS_DIR)/**",
+					"../flownet/**",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					../Boost/lib,
+					"\"$(SRCROOT)/../Boost/lib\"",
+					"$(BUILT_PRODUCTS_DIR)/**",
+					"$(BUILT_PRODUCTS_DIR)/flownet/**",
+					"$(BUILT_PRODUCTS_DIR)/GameShared/**",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRELINK_LIBS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/** $(BUILT_PRODUCTS_DIR)/flownet/** ../Boost/include ../GameShared";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		945C0A1116CB820E00FB8664 /* Build configuration list for PBXProject "GameClient" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				945C0A1F16CB820E00FB8664 /* Debug */,
+				945C0A2016CB820E00FB8664 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		945C0A2116CB820E00FB8664 /* Build configuration list for PBXNativeTarget "GameClient" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				945C0A2216CB820E00FB8664 /* Debug */,
+				945C0A2316CB820E00FB8664 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 945C0A0E16CB820E00FB8664 /* Project object */;
+}

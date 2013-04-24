@@ -1,0 +1,33 @@
+//
+//  GameClientHeaders.pch
+//  GameClient
+//
+//  Created by Sinhyub Kim on 2/13/13.
+//  Copyright (c) 2013 Sinhyub Kim. All rights reserved.
+//
+
+#ifndef GameClient_GameClientHeaders_pch
+#define GameClient_GameClientHeaders_pch
+
+#include "flownetPublicHeaders.pch"
+
+#include "GameSharedHeaders.pch"        // from GameShared/
+#include "GameCSProtocol.h"
+#include "GameSCProtocol.h"
+
+#include "GameClientProperties.h"
+
+#include "HeartbeatGenerator.h"
+
+#include "GameClientRPCInterface.h"
+
+#include "GameClientPacketHandler.h"
+#include "GameClientPacketParser.h"
+#include "GameClientObject.h"
+#include "GameClient.h"
+
+#include "GameClientTasks.h"
+#include "GameClientScheduledTasks.h"
+
+
+#endif

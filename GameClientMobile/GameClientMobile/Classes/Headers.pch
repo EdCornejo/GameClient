@@ -1,0 +1,66 @@
+//
+//  Headers.pch
+//  GameClientMobile
+//
+//  Created by SungJinYoo on 3/6/13.
+//
+//
+
+#ifndef GameClientMobile_Headers_pch
+#define GameClientMobile_Headers_pch
+
+#include "GameClientHeaders.pch"
+
+// Cocos2d-x
+#include "cocos2d.h"
+#include "cocos-ext.h"
+#include "SimpleAudioEngine.h"
+
+// Spine
+#include <spine/spine-cocos2dx.h>
+
+#include "AppDelegate.h"
+#include "AppProperties.h"
+
+//  Utils
+#include "ClientDirector.h"
+#include "BackgroundImageLoader.h"
+#include "SpellAnimationLoader.h"
+#include "SpellImageLoader.h"
+#include "ItemImageLoader.h"
+#include "PointConverter.h"
+
+//  Nodes
+#include "ActorNode.h"
+#include "PlayerNode.h"
+#include "MonsterNode.h"
+#include "SpellNode.h"
+#include "ItemNode.h"
+
+#include "SpellQuickSlotNode.h"
+#include "ItemSlotNode.h"
+#include "MenuBarNode.h"
+#include "InventoryNode.h"
+#include "StashNode.h"
+
+//  Layers
+#include "BaseLayer.h"
+#include "BackgroundLayer.h"
+#include "EffectLayer.h"
+#include "ObjectLayer.h"
+#include "ActorLayer.h"
+#include "UILayer.h"
+#include "CaptionLayer.h"
+#include "HeartbeatLayer.h"
+
+//  Scenes
+#include "BaseScene.h"
+#include "SplashScene.h"
+#include "AccountScene.h"
+#include "BattleScene.h"
+#include "StageScene.h"
+#include "StageCreateScene.h"
+#include "LoadingScene.h"
+
+
+#endif

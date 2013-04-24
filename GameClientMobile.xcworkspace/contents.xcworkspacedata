@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:../flownet/flownet/flownetMobile.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:../GameShared/GameShared/GameSharedMobile.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:GameClientMobile/GameClientMobile.xcodeproj">
+   </FileRef>
+</Workspace>
