@@ -28,7 +28,9 @@ public :
     static ItemSlotNode* create(flownet::ItemType itemType, flownet::ItemID itemID, flownet::InventorySlot slotNumber);
 
     void TrackTouch(CCTouch* touch);
-    void Reset();
+    void ResetMoving();
+    void Highlight();
+    void ResetHighlight();
     void Empty();
     void ChangeItemTypeAndItemID(flownet::ItemType itemType, flownet::ItemID itemID);
 

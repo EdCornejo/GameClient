@@ -15,7 +15,12 @@ typedef flownet::Vector<ItemSlotNode*>::type ItemSlotNodeList;
 
 private:
     bool m_IsOpen;
+    
+    CCNode* m_MovingPart;
+    CCNode* m_PinnedPart;
+    
     std::string m_CurrentTab;
+    CCMenuItem* m_ScrollButton;
     CCMenuItem* m_SlideButton;
     CCSprite* m_Body;
     CCLabelTTF* m_GoldLabel;
@@ -26,16 +31,20 @@ private:
     ItemSlotNodeList m_ItemSlotNodeList;
     
     ItemSlotNode* m_TrackingItemSlotNode;
+    ItemSlotNode* m_HighlightedItemSlotNode;
+    bool m_IsTrackingItemSlotMoving;
+    flownet::ServerTime m_TrackingItemSlotTouchedTime;
+    
 
 private:
     enum {
         GoldLabelMarginX = 10,
         GoldLabelMarginY = -10,
-        DescriptionLabelMarginX = 10,
-        DescriptionLabelMarginY = 10,
         ItemSlotMargin = 2,
-        ItemSlotPositionX = 120,
-        ItemSlotPositionY = 90,
+        ItemSlotPositionX = 60,
+        ItemSlotPositionY = 82,
+        
+        TimeToBeganMove = 1000, // 1000 millisec
     };
 
 public:
@@ -64,6 +73,7 @@ public:
     void SwapInventorySlot(flownet::InventorySlot source, flownet::InventorySlot destination);
 
 private:
+    void OnScrollButtonClicked();
     void Slide();
     
     void OnEquipmentButtonClicked(CCObject* sender);

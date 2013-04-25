@@ -21,6 +21,7 @@ private:
 private:
     StageType m_StageType;
     SpellQuickSlotNode* m_SpellQuickSlotNode;
+    StashNode* m_StashNode;
     InventoryNode* m_InventoryNode;
     MenuBarNode* m_MenuBarNode;
     SpellType m_SelectedSpellType;
@@ -41,6 +42,10 @@ private:
     void InitializeSpellQuickSlot();
     void InitializeInventory();
     void InitializeMenuBar();
+    
+public:
+    InventoryNode* GetInventoryNode();
+    StashNode* GetStashNode();
     
 public:
     void SetSelectedSpellType(SpellType spellType);

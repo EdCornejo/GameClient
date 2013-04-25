@@ -13,10 +13,10 @@ std::string ItemImageLoader::GetImageFileName(flownet::ItemType itemType)
     std::string imageName;
     switch (itemType) {
         case ItemType_RedPotion9:
-            imageName = "red_potion_9";
+            imageName = "red_potion";
             break;
         case ItemType_BluePotion9:
-            imageName = "blue_potion_9";
+            imageName = "blue_potion";
             break;
         default:
             imageName = "item_none";

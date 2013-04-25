@@ -8,7 +8,7 @@
 
 #include "Headers.pch"
 
-UILayer::UILayer() : m_StageType(flownet::StageType_NONE), m_SpellQuickSlotNode(nullptr), m_InventoryNode(nullptr), m_SelectedSpellType(SpellType_NONE), m_SpellDestinationPoint()
+UILayer::UILayer() : m_StageType(flownet::StageType_NONE), m_SpellQuickSlotNode(nullptr), m_StashNode(nullptr), m_InventoryNode(nullptr), m_SelectedSpellType(SpellType_NONE), m_SpellDestinationPoint()
 {
     
 }
@@ -17,12 +17,17 @@ UILayer::~UILayer()
 {
     if(this->m_SpellQuickSlotNode)
     {
-        delete this->m_SpellQuickSlotNode;
+        delete this->m_SpellQuickSlotNode; // TO DO : refactor spellquickslot to auto release object
         this->m_SpellQuickSlotNode = nullptr;
+    }
+    if(this->m_StashNode)
+    {
+        this->m_StashNode->release();
+        this->m_StashNode = nullptr;
     }
     if(this->m_InventoryNode)
     {
-        delete this->m_InventoryNode;
+        this->m_InventoryNode->release();
         this->m_InventoryNode = nullptr;
     }
 }
@@ -183,6 +188,15 @@ void UILayer::InitializeMenuBar()
     this->addChild(this->m_MenuBarNode);
 }
 
+InventoryNode* UILayer::GetInventoryNode()
+{
+    return this->m_InventoryNode;
+}
+
+StashNode* UILayer::GetStashNode()
+{
+    return this->m_StashNode;
+}
 
 void UILayer::SetSelectedSpellType(flownet::SpellType spellType)
 {
@@ -191,10 +205,20 @@ void UILayer::SetSelectedSpellType(flownet::SpellType spellType)
 
 void UILayer::UseItem(flownet::ItemID itemID, flownet::InventorySlot inventorySlot)
 {
-    this->m_InventoryNode->UseItem(itemID, inventorySlot);
+    if(this->m_InventoryNode)
+    {
+        this->m_InventoryNode->UseItem(itemID, inventorySlot);
+    }
+    if(this->m_StashNode)
+    {
+        this->m_StashNode->UseItem(itemID);
+    }
 }
 
 void UILayer::SwapInventorySlot(flownet::InventorySlot sourceSlotNumber, flownet::InventorySlot destinationSlotNumber)
 {
-    this->m_InventoryNode->SwapInventorySlot(sourceSlotNumber, destinationSlotNumber);
+    if(this->m_InventoryNode)
+    {
+        this->m_InventoryNode->SwapInventorySlot(sourceSlotNumber, destinationSlotNumber);
+    }
 }

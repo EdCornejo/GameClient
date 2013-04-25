@@ -38,7 +38,7 @@ bool ItemSlotNode::init(flownet::ItemType itemType, flownet::ItemID itemID, flow
     this->m_ItemID = itemID;
     this->m_SlotNumber = slotNumber;
     
-    this->m_SlotBackground = CCSprite::create("ui/inventory/slot_background.png");
+    this->m_SlotBackground = CCSprite::create("ui/inventory/item_slot_normal.png");
     this->m_SlotBackground->retain();
     
     this->m_ItemImage = ItemImageLoader::GetItemInventoryImage(this->m_ItemType);
@@ -95,7 +95,7 @@ void ItemSlotNode::Empty()
     }
 }
 
-void ItemSlotNode::Reset()
+void ItemSlotNode::ResetMoving()
 {
     if(this->m_ItemPlaceHolder)
     {
@@ -107,6 +107,31 @@ void ItemSlotNode::Reset()
     {
         this->m_ItemImage->setPosition(CCPointZero);
     }
+}
+
+void ItemSlotNode::Highlight()
+{
+    if(this->m_SlotBackground)
+    {
+        this->removeChild(this->m_SlotBackground);
+        this->m_SlotBackground->release();
+    }
+    this->m_SlotBackground = CCSprite::create("ui/inventory/item_slot_active.png");
+    this->addChild(this->m_SlotBackground);
+    this->m_SlotBackground->retain();
+}
+
+void ItemSlotNode::ResetHighlight()
+{
+    if(this->m_SlotBackground)
+    {
+        this->removeChild(this->m_SlotBackground);
+        this->m_SlotBackground->release();
+
+    }
+    this->m_SlotBackground = CCSprite::create("ui/inventory/item_slot_normal.png");
+    this->addChild(this->m_SlotBackground);
+    this->m_SlotBackground->retain();
 }
 
 const CCSize& ItemSlotNode::getContentSize()

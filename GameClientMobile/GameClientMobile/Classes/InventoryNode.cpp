@@ -8,13 +8,28 @@
 
 #include "Headers.pch"
 
-InventoryNode::InventoryNode(): m_IsOpen(false), m_CurrentTab(), m_SlideButton(nullptr), m_Body(nullptr), m_GoldLabel(nullptr), m_DescriptionLabel(nullptr), m_EquipmentButton(nullptr), m_ConsumeButton(nullptr), m_MaterialButton(nullptr), m_ItemSlotNodeList(), m_TrackingItemSlotNode(nullptr)
+InventoryNode::InventoryNode(): m_IsOpen(false), m_MovingPart(nullptr), m_PinnedPart(nullptr), m_CurrentTab(), m_ScrollButton(nullptr), m_SlideButton(nullptr), m_Body(nullptr), m_GoldLabel(nullptr), m_DescriptionLabel(nullptr), m_EquipmentButton(nullptr), m_ConsumeButton(nullptr), m_MaterialButton(nullptr), m_ItemSlotNodeList(), m_TrackingItemSlotNode(nullptr), m_HighlightedItemSlotNode(nullptr), m_IsTrackingItemSlotMoving(false), m_TrackingItemSlotTouchedTime(0)
 {
 
 }
 
 InventoryNode::~InventoryNode()
 {
+    if(this->m_MovingPart)
+    {
+        this->m_MovingPart->release();
+        this->m_MovingPart = nullptr;
+    }
+    if(this->m_PinnedPart)
+    {
+        this->m_PinnedPart->release();
+        this->m_PinnedPart = nullptr;
+    }
+    if(this->m_PinnedPart)
+    {
+        this->m_PinnedPart->release();
+        this->m_PinnedPart = nullptr;
+    }
     if(this->m_SlideButton)
     {
         this->m_SlideButton->release();
@@ -44,41 +59,52 @@ InventoryNode::~InventoryNode()
 
 bool InventoryNode::init()
 {
-    this->m_SlideButton = CCMenuItemImage::create("ui/slide_button.png", "ui/slide_button.png", this, menu_selector(InventoryNode::Slide));
+    // 좌측에도 스크롤되는 버튼이 하나가 필요
+    // change SlideButton to TagButton
+    
+    this->m_MovingPart = CCNode::create();
+    this->m_MovingPart->retain();
+    
+    this->m_PinnedPart = CCNode::create();
+    this->m_PinnedPart->retain();
+    
+    this->m_SlideButton = CCMenuItemImage::create("ui/inventory/inventory_tag_button.png", "ui/inventory/inventory_tag_button.png", this, menu_selector(InventoryNode::Slide));
     this->m_SlideButton->retain();
     this->m_SlideButton->setAnchorPoint(CCPointLowerLeft);
     CCMenu* menu = CCMenu::create(this->m_SlideButton, NULL);
-    menu->setPosition(CCPointZero);
-    this->addChild(menu);
+    menu->setPosition(ccp(-10, 50));
+    this->m_MovingPart->addChild(menu);
     
-    this->m_Body = CCSprite::create("ui/inventory/body.png");
+    this->m_Body = CCSprite::create("ui/inventory/inventory_background.png");
     this->m_Body->retain();
-    this->m_Body->setAnchorPoint(CCPointLowerRight);
+    this->m_Body->setAnchorPoint(CCPointLowerLeft);
+    
+    CCRect bodyRect = this->m_Body->getTextureRect();
+    
+    CCNode* bodyNode = CCNode::create();
+    bodyNode->setPosition(-bodyRect.size.width, 0);
     
     // Add tab buttons to body
     this->m_EquipmentButton = CCMenuItemToggle::createWithTarget(this,
                 menu_selector(InventoryNode::OnEquipmentButtonClicked),
-                CCMenuItemImage::create("ui/inventory/tab_button_normal.png", "ui/inventory/tab_button_normal.png"),
-                CCMenuItemImage::create("ui/inventory/tab_button_active.png", "ui/inventory/tab_button_active.png"),
+                CCMenuItemImage::create("ui/inventory/equipment_button_normal.png", "ui/inventory/equipment_button_normal.png"),
+                CCMenuItemImage::create("ui/inventory/equipment_button_active.png", "ui/inventory/equipment_button_active.png"),
                 NULL);
     this->m_EquipmentButton->retain();
-    this->m_EquipmentButton->setAnchorPoint(CCPointLowerLeft);
     this->m_ConsumeButton = CCMenuItemToggle::createWithTarget(this,
                 menu_selector(InventoryNode::OnConsumeButtonClicked),
-                CCMenuItemImage::create("ui/inventory/tab_button_normal.png", "ui/inventory/tab_button_normal.png"),
-                CCMenuItemImage::create("ui/inventory/tab_button_active.png", "ui/inventory/tab_button_active.png"),
+                CCMenuItemImage::create("ui/inventory/consume_button_normal.png", "ui/inventory/consume_button_normal.png"),
+                CCMenuItemImage::create("ui/inventory/consume_button_active.png", "ui/inventory/consume_button_active.png"),
                 NULL);
     this->m_ConsumeButton->retain();
-    this->m_ConsumeButton->setAnchorPoint(CCPointLowerLeft);
     this->m_MaterialButton = CCMenuItemToggle::createWithTarget(this,
                 menu_selector(InventoryNode::OnMaterialButtonClicked),
-                CCMenuItemImage::create("ui/inventory/tab_button_normal.png", "ui/inventory/tab_button_normal.png"),
-                CCMenuItemImage::create("ui/inventory/tab_button_active.png", "ui/inventory/tab_button_active.png"),
+                CCMenuItemImage::create("ui/inventory/material_button_normal.png", "ui/inventory/material_button_normal.png"),
+                CCMenuItemImage::create("ui/inventory/material_button_active.png", "ui/inventory/material_button_active.png"),
                 NULL);
     this->m_MaterialButton->retain();
-    this->m_MaterialButton->setAnchorPoint(CCPointLowerLeft);
     
-    CCRect bodyRect = this->m_Body->getTextureRect();
+
     
     CCMenu* tabMenu = CCMenu::create(this->m_EquipmentButton, this->m_ConsumeButton, this->m_MaterialButton, NULL);
     tabMenu->alignItemsHorizontallyWithPadding(0);
@@ -88,16 +114,18 @@ bool InventoryNode::init()
     this->m_CurrentTab = "consume";
     this->m_ConsumeButton->setSelectedIndex(1);
 
-    this->m_Body->addChild(tabMenu);
-    // end of Add tab buttons to body
+    bodyNode->addChild(tabMenu);
+    bodyNode->addChild(this->m_Body);
+    // for changing order of render
+    
     
     // add gold label to body
-    this->m_GoldLabel = CCLabelTTF::create("3020", "", 10);
-    this->m_GoldLabel->retain();
-    this->m_GoldLabel->setAnchorPoint(CCPointUpperLeft);
-    this->m_GoldLabel->setHorizontalAlignment(kCCTextAlignmentRight);
-    this->m_GoldLabel->setPosition(ccp(GoldLabelMarginX, bodyRect.size.height + GoldLabelMarginY));
-    this->m_Body->addChild(this->m_GoldLabel);
+//    this->m_GoldLabel = CCLabelTTF::create("3020", "", 10);
+//    this->m_GoldLabel->retain();
+//    this->m_GoldLabel->setAnchorPoint(CCPointUpperLeft);
+//    this->m_GoldLabel->setHorizontalAlignment(kCCTextAlignmentRight);
+//    this->m_GoldLabel->setPosition(ccp(GoldLabelMarginX, bodyRect.size.height + GoldLabelMarginY));
+//    this->m_Body->addChild(this->m_GoldLabel);
     // end of add gold label to body
     
     // add description label to body
@@ -107,17 +135,11 @@ bool InventoryNode::init()
 
     this->m_DescriptionLabel = CCLabelTTF::create("description", "", 10); // TO DO : multi line?
     this->m_DescriptionLabel->retain();
-    this->m_DescriptionLabel->setAnchorPoint(CCPointLowerLeft);
-    this->m_DescriptionLabel->setPosition(ccp(DescriptionLabelMarginX, DescriptionLabelMarginY));
+    this->m_DescriptionLabel->setAnchorPoint(CCPointUpperLeft);
+    this->m_DescriptionLabel->setPosition(ccp(30, bodyRect.size.height - 20));
     
-    // this->m_DescriptionLabel->setAnchorPoint(CCPointUpperLeft);
-    // this->m_DescriptionLabel->setPosition(ccp(DescriptionLabelMarginX, DescriptionLabelMarginY));
-    // descriptionBackground->addChild(this->m_DescriptionLabel);
     this->m_Body->addChild(this->m_DescriptionLabel);
 
-    // this->m_Body->addChild(descriptionBackground);
-    // end of add description label to body
-    
     // add ItemSlotNodes to body
     
     ItemSlotNode* slotForSize = ItemSlotNode::create(ItemType_None, ItemID_None, InventorySlot_None);
@@ -144,7 +166,16 @@ bool InventoryNode::init()
 
     // end of add ItemSlotNodes to body
     
-    this->addChild(this->m_Body);
+    this->m_MovingPart->addChild(bodyNode);
+    
+    this->m_ScrollButton = CCMenuItemImage::create("ui/inventory/inventory_scroll_button.png", "ui/inventory/inventory_scroll_button.png", this, menu_selector(InventoryNode::OnScrollButtonClicked));
+    this->m_ScrollButton->setAnchorPoint(CCPointLowerLeft);
+    CCMenu* scroll_menu = CCMenu::create(this->m_ScrollButton, NULL);
+    scroll_menu->setPosition(ccp(-5, -5));
+    this->m_PinnedPart->addChild(scroll_menu);
+    
+    this->addChild(m_MovingPart);
+    this->addChild(m_PinnedPart);
     
     CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, 0, true);
     
@@ -172,9 +203,14 @@ bool InventoryNode::ccTouchBegan(CCTouch* touch, CCEvent* event)
     CC_UNUSED_PARAM(event);
     
     ItemSlotNode* selectedItemSlot = this->FindSelectedItemSlotNode(touch->getLocation());
+    if(this->m_HighlightedItemSlotNode && selectedItemSlot != this->m_HighlightedItemSlotNode)
+    {
+        this->m_HighlightedItemSlotNode->ResetHighlight();
+    }
     
     if(selectedItemSlot)
     {
+        this->m_TrackingItemSlotTouchedTime = GameClient::Instance().GetClientTimer().Check();
         this->m_TrackingItemSlotNode = selectedItemSlot;
         return true;
     }
@@ -184,41 +220,65 @@ bool InventoryNode::ccTouchBegan(CCTouch* touch, CCEvent* event)
 
 void InventoryNode::ccTouchMoved(cocos2d::CCTouch *touch, cocos2d::CCEvent *event)
 {
-    if(this->m_TrackingItemSlotNode)
+    // maybe time checking will be checked in a update logic
+    ServerTime currentTime = GameClient::Instance().GetClientTimer().Check();
+    
+    if(this->m_TrackingItemSlotNode && currentTime - this->m_TrackingItemSlotTouchedTime > ServerTime(TimeToBeganMove))
     {
+        this->m_IsTrackingItemSlotMoving = true;
         this->m_TrackingItemSlotNode->TrackTouch(touch);
     }
 }
 
 void InventoryNode::ccTouchEnded(cocos2d::CCTouch *touch, cocos2d::CCEvent *event)
 {
+    // if there is a tracking node
     if(this->m_TrackingItemSlotNode)
     {
-        this->m_TrackingItemSlotNode->Reset();
-    
         ItemSlotNode* selectedItemSlot = this->FindSelectedItemSlotNode(touch->getLocation());
         
         GameClient& client = GameClient::Instance();
         
+        CCRect bodyRect = GetRect(this->m_Body);
+        
+        // if the selected item was tracking node itself
         if(selectedItemSlot == this->m_TrackingItemSlotNode)
         {
-            CCLOG("used");
-            client.GetClientObject().SendCSRequestUseItem(client.GetClientStage()->GetStageID(), client.GetMyActorID(), this->m_TrackingItemSlotNode->GetItemID(), this->m_TrackingItemSlotNode->GetSlotNumber());
-            // TO DO : ask for using this item
+            // if the selected item was highlighted node use it
+            if(selectedItemSlot == this->m_HighlightedItemSlotNode)
+            {
+                CCLOG("used");
+                this->m_HighlightedItemSlotNode->ResetHighlight();
+                this->m_HighlightedItemSlotNode = nullptr;
+
+                client.GetClientObject().SendCSRequestUseItem(client.GetClientStage()->GetStageID(), client.GetMyActorID(), this->m_TrackingItemSlotNode->GetItemID(), this->m_TrackingItemSlotNode->GetSlotNumber());
+            }
+            // if the selected item was not highlighted highlight it
+            else
+            {
+                this->m_HighlightedItemSlotNode = this->m_TrackingItemSlotNode;
+                this->m_HighlightedItemSlotNode->Highlight();
+            }
         }
-        else if(selectedItemSlot)
+        else if(selectedItemSlot && this->m_IsTrackingItemSlotMoving )
         {
             client.GetClientObject().SendCSRequestSwapInventorySlot(client.GetClientStage()->GetStageID(), client.GetMyActorID(), this->m_TrackingItemSlotNode->GetSlotNumber(), selectedItemSlot->GetSlotNumber());
             // first request to server and change it in a response
         }
-        else
+        else if(selectedItemSlot && !bodyRect.containsPoint(touch->getLocation()))// drop boundary check modify
         {
             CCLOG("dropped");
             client.GetClientObject().SendCSRequestDropItemToField(client.GetClientStage()->GetStageID(), client.GetMyActorID(), this->m_TrackingItemSlotNode->GetSlotNumber(), PointConverter::Convert(touch->getLocation()));
             
             // TO DO : ask for dropping this item
         }
-        
+        else
+        {
+            // do nothing 
+        }
+
+        this->m_IsTrackingItemSlotMoving = false;
+        this->m_TrackingItemSlotNode->ResetMoving(); // Reset to ResetMoving, ResetHighlight
         this->m_TrackingItemSlotNode = nullptr;
     }
 }
@@ -285,6 +345,14 @@ void InventoryNode::SwapInventorySlot(flownet::InventorySlot source, flownet::In
     this->SwapInventorySlot(sourceSlot, destinationSlot);
 }
 
+void InventoryNode::OnScrollButtonClicked()
+{
+    if(!this->m_IsOpen)
+    {
+        this->Slide();
+    }
+}
+
 void InventoryNode::Slide()
 {
     if(this->m_IsOpen)
@@ -294,16 +362,16 @@ void InventoryNode::Slide()
         CCPoint slidePosition = CCPoint(PositionX, PositionY);
         CCMoveTo* moveIn = CCMoveTo::create(0.2, slidePosition);
         moveIn->setTag(ActionType_UI);
-        this->stopActionByTag(ActionType_UI);
-        this->runAction(moveIn);
+        this->m_MovingPart->stopActionByTag(ActionType_UI);
+        this->m_MovingPart->runAction(moveIn);
     }
     else{
         CCLOG("slide out");
         CCPoint slidePosition = CCPoint(PositionX + this->m_Body->getTextureRect().size.width, PositionY);
         CCMoveTo* moveOut = CCMoveTo::create(0.2, slidePosition);
         moveOut->setTag(ActionType_UI);
-        this->stopActionByTag(ActionType_UI);
-        this->runAction(moveOut);
+        this->m_MovingPart->stopActionByTag(ActionType_UI);
+        this->m_MovingPart->runAction(moveOut);
         // TO DO : slide out
     }
     
