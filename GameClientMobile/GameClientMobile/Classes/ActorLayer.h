@@ -72,7 +72,7 @@ public:
     void UseItem(flownet::ActorID playerID, flownet::ItemID itemID, flownet::InventorySlot inventorySlot);
     void AddNewItem(flownet::Item item, flownet::POINT spawnPosition);
     void RemoveItem(CCObject* itemNode);
-    void ItemPickuped(flownet::ActorID playerID, flownet::ItemID itemID);
+    void PickupItemFromField(flownet::ActorID playerID, flownet::ItemID itemID);
 
 };
 

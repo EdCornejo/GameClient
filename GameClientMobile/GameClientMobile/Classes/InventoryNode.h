@@ -69,9 +69,10 @@ public:
     ItemSlotNode* FindSelectedItemSlotNode(CCPoint touchLocation);
 
 public:
-    void UseItem(flownet::ItemID itemID, flownet::InventorySlot inventorySlot);
     void SwapInventorySlot(flownet::InventorySlot source, flownet::InventorySlot destination);
-
+    void AddItem(flownet::ItemType itemType, flownet::ItemID itemID);
+    void EraseItem(flownet::ItemID itemID);
+    
 private:
     void OnScrollButtonClicked();
     void Slide();

@@ -51,6 +51,8 @@ public:
     void SetSelectedSpellType(SpellType spellType);
     void UseItem(flownet::ItemID itemID, flownet::InventorySlot inventorySlot);
     void SwapInventorySlot(flownet::InventorySlot sourceSlotNumber, flownet::InventorySlot destinationSlotNumber);
+    void DropItemToField(flownet::ItemID itemID);
+    void PickupItemFromField(flownet::ItemType itemType, flownet::ItemID itemID);
 };
 
 #endif /* defined(__GameClientMobile__UILayer__) */

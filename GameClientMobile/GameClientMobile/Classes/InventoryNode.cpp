@@ -301,26 +301,34 @@ ItemSlotNode* InventoryNode::FindSelectedItemSlotNode(cocos2d::CCPoint touchLoca
     return selectedItemSlot;
 }
 
-void InventoryNode::UseItem(flownet::ItemID itemID, flownet::InventorySlot inventorySlot)
+void InventoryNode::AddItem(flownet::ItemType itemType, flownet::ItemID itemID)
 {
-    if( this->m_ItemSlotNodeList.size() <= inventorySlot )
+    bool result = false;
+    for(int i = 0; i < this->m_ItemSlotNodeList.size(); ++i)
     {
-        ASSERT_DEBUG(this->m_ItemSlotNodeList.size() > inventorySlot );
-        return;
-    }
-    if( this->m_ItemSlotNodeList[inventorySlot]->GetItemID() != itemID )
-    {
-        ASSERT_DEBUG(this->m_ItemSlotNodeList[inventorySlot]->GetItemID() != itemID);
-        return;
+        ItemSlotNode* itemSlot = this->m_ItemSlotNodeList[i];
+        if(itemSlot->GetItemID() == ItemID_None && itemSlot->GetItemType() == ItemType_None)
+        {
+            itemSlot->ChangeItemTypeAndItemID(itemType, itemID);
+            result = true;
+            break;
+        }
     }
     
-    this->m_ItemSlotNodeList[inventorySlot]->Empty();
-//    std::for_each(this->m_ItemSlotNodeList.begin(), this->m_ItemSlotNodeList.end(), [&itemID](ItemSlotNode* node){
-//        if(node->GetItemID() == itemID)
-//        {
-//            node->Empty();
-//        }
-//    });
+    ASSERT_DEBUG(result);
+}
+
+void InventoryNode::EraseItem(flownet::ItemID itemID)
+{
+    for(int i = 0; i < this->m_ItemSlotNodeList.size(); ++i)
+    {
+        ItemSlotNode* itemSlot = this->m_ItemSlotNodeList[i];
+        if(itemSlot->GetItemID() == itemID)
+        {
+            itemSlot->Empty();
+            break;
+        }
+    }
 }
 
 void InventoryNode::SwapInventorySlot(flownet::InventorySlot source, flownet::InventorySlot destination)

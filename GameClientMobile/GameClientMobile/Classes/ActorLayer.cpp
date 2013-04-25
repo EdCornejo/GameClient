@@ -563,7 +563,7 @@ void ActorLayer::RemoveItem(CCObject* object)
     delete itemNode;
 }
 
-void ActorLayer::ItemPickuped(flownet::ActorID playerID, flownet::ItemID itemID)
+void ActorLayer::PickupItemFromField(flownet::ActorID playerID, flownet::ItemID itemID)
 {
     ActorNode* actor = this->FindActorNode(playerID);
     ItemNode* item = this->FindItemNode(itemID);

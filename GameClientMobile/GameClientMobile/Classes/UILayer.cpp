@@ -62,6 +62,7 @@ UILayer* UILayer::create(StageType stageType)
     if(newUILayer && newUILayer->init())
     {
         newUILayer->m_StageType = stageType;
+        newUILayer->autorelease();
         return newUILayer;
     }
     else
@@ -207,11 +208,11 @@ void UILayer::UseItem(flownet::ItemID itemID, flownet::InventorySlot inventorySl
 {
     if(this->m_InventoryNode)
     {
-        this->m_InventoryNode->UseItem(itemID, inventorySlot);
+        this->m_InventoryNode->EraseItem(itemID);
     }
     if(this->m_StashNode)
     {
-        this->m_StashNode->UseItem(itemID);
+        this->m_StashNode->EraseItem(itemID);
     }
 }
 
@@ -220,5 +221,30 @@ void UILayer::SwapInventorySlot(flownet::InventorySlot sourceSlotNumber, flownet
     if(this->m_InventoryNode)
     {
         this->m_InventoryNode->SwapInventorySlot(sourceSlotNumber, destinationSlotNumber);
+    }
+}
+
+void UILayer::DropItemToField(flownet::ItemID itemID)
+{
+    if(this->m_InventoryNode)
+    {
+        this->m_InventoryNode->EraseItem(itemID);
+    }
+    // I really not sure this will be used
+    if(this->m_StashNode)
+    {
+        // this->m_StashNode->EraseItem
+    }
+}
+
+void UILayer::PickupItemFromField(flownet::ItemType itemType, flownet::ItemID itemID)
+{
+    if(this->m_InventoryNode)
+    {
+        this->m_InventoryNode->AddItem(itemType, itemID);
+    }
+    if(this->m_StashNode)
+    {
+        this->m_StashNode->AddItem(itemType, itemID);
     }
 }

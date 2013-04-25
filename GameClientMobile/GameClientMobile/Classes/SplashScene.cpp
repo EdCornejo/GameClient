@@ -32,6 +32,6 @@ void SplashScene::update(float deltaTime)
     if(GameClient::Instance().GetClientObject().GetConnectionID() != ConnectionID_NONE && !this->m_HasRequestSession)
     {
         this->m_HasRequestSession = true;
-        //GameClient::Instance().GetClientObject().SendCSRequestSession(GameClient::Instance().GetDeviceID(), GameClient::Instance().GetClientObject().GetConnectionID());
+        GameClient::Instance().GetClientObject().SendCSRequestSession(GameClient::Instance().GetDeviceID(), GameClient::Instance().GetClientObject().GetConnectionID(), GameClient::Instance().GetSessionID());
     }
 }

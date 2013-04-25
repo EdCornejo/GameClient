@@ -178,6 +178,16 @@ void AccountLayer::SendRejoinRequest()
     GameClient::Instance().GetClientObject().SendCSRequestRejoinCurrentStage();
 }
 
+CCTextFieldTTF* AccountLayer::GetEmailTextField()
+{
+    return this->m_EmailTextField;
+}
+
+CCTextFieldTTF* AccountLayer::GetPasswordTextField()
+{
+    return this->m_PasswordTextField;
+}
+
 void AccountLayer::OnGenderMaleButtonPressed(cocos2d::CCObject *sender)
 {
     CCMenuItemToggle* button = dynamic_cast<CCMenuItemToggle*>(sender);
@@ -220,7 +230,8 @@ void AccountLayer::OnRegisterButtonPressed(cocos2d::CCObject* sender)
     GameClient::Instance().GetClientObject().SendCSRequestCreateUserAccount(GameClient::Instance().GetDeviceID(), this->m_EmailTextField->getString(), this->m_PasswordTextField->getString(), selectedGender, this->m_NameTextField->getString());
 }
 
-AccountScene::AccountScene() {}
+AccountScene::AccountScene(): m_AccountLayer(nullptr)
+{}
 AccountScene::~AccountScene() {}
 
 bool AccountScene::init()
@@ -231,8 +242,8 @@ bool AccountScene::init()
     this->m_BackgroundLayer->retain();
     this->addChild(this->m_BackgroundLayer);
     
-    CCLayer* accountLayer = AccountLayer::create();
-    this->addChild(accountLayer);
+    this->m_AccountLayer = AccountLayer::create();
+    this->addChild(this->m_AccountLayer);
     
     scheduleUpdate();
     
@@ -243,5 +254,10 @@ bool AccountScene::init()
 void AccountScene::update(float deltaTime)
 {
     BaseScene::update(deltaTime);
+}
+
+AccountLayer* AccountScene::GetAccountLayer()
+{
+    return this->m_AccountLayer;
 }
 

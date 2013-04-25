@@ -39,10 +39,17 @@ private:
     bool IsLoggedIn();
     bool IsFirstBoot();
     void SendRejoinRequest();
+    
+public:
+    CCTextFieldTTF* GetEmailTextField();
+    CCTextFieldTTF* GetPasswordTextField();
 };
 
 class AccountScene : public BaseScene
 {
+private:
+    AccountLayer* m_AccountLayer;
+    
 public:
     AccountScene();
     virtual ~AccountScene();
@@ -51,6 +58,8 @@ public:
     CREATE_FUNC(AccountScene);
     
     virtual void update(float deltaTime) override;
+    
+    AccountLayer* GetAccountLayer();
 };
 
 #endif /* defined(__GameClientMobile__AccountScene__) */

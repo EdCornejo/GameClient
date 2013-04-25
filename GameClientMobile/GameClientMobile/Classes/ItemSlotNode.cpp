@@ -93,6 +93,9 @@ void ItemSlotNode::Empty()
         this->m_ItemImage->release();
         this->m_ItemImage = nullptr;
     }
+    
+    this->m_ItemType = ItemType_None;
+    this->m_ItemID = ItemID_None;
 }
 
 void ItemSlotNode::ResetMoving()

@@ -144,14 +144,16 @@ void AppDelegate::OnSCResponseHeartbeat(flownet::INT64 heartbeatCountAck) const
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void AppDelegate::OnSCResponseCreateUserAccount(flownet::UserID userID, flownet::ActorID playerID, flownet::SessionID sessionID) const
+void AppDelegate::OnSCResponseCreateUserAccount(flownet::UserID userID) const
 {
     if(userID != UserID_None)
     {
-        GameClient::Instance().SetMyActorID(playerID);
-        GameClient::Instance().SetSessionID(sessionID);
+        // this is called in account scene
+        AccountScene* scene = static_cast<AccountScene*>(CCDirector::sharedDirector()->getRunningScene());
+        AccountLayer* accountLayer = scene->GetAccountLayer();
         
-        GameClient::Instance().GetClientObject().SendCSRequestRejoinCurrentStage();
+        
+        GameClient::Instance().GetClientObject().SendCSRequestLogInUserAccount(GameClient::Instance().GetDeviceID(), accountLayer->GetEmailTextField()->getString() , accountLayer->GetPasswordTextField()->getString());
     }
     else
     {
@@ -552,6 +554,10 @@ void AppDelegate::OnSCResponseDropItemToField(flownet::StageID stageID, flownet:
     
     Actor* actor = clientStage->FindActor(playerID);
     actor->DropItemToField(clientStage, itemID, POINT(0, 0));
+    
+    BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
+    scene->GetUILayer()->DropItemToField(itemID);
+    
     // TO DO : discard item from inventory, stash
 }
 
@@ -563,6 +569,8 @@ void AppDelegate::OnSCNotifySpawnItem(flownet::StageID stageID, flownet::Item it
         //ASSERT_DEBUG(clientStage != nullptr && stageID == clientStage->GetStageID());
         return;
     }
+    
+    clientStage->GetStash().CreateAndAddItem(item.GetItemType(), item.GetItemID());
     
     BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
     scene->GetActorLayer()->AddNewItem(item, spawnPosition);
@@ -579,9 +587,15 @@ void AppDelegate::OnSCNotifyPickUpItemFromField(flownet::StageID stageID, flowne
     
     Actor* actor = GameClient::Instance().GetClientStage()->FindActor(playerID);
     actor->PickUpItemFromField(clientStage, itemID);
+    Item* item = actor->GetStash().FindItem(itemID);
     
     BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
-    scene->GetActorLayer()->ItemPickuped(playerID, itemID);
+    scene->GetActorLayer()->PickupItemFromField(playerID, itemID);
+    if(playerID == GameClient::Instance().GetMyActorID())
+    {
+        scene->GetUILayer()->PickupItemFromField(item->GetItemType(), item->GetItemID());
+    }
+    // ui + data
 }
 
 void AppDelegate::OnSCNotifyAddItemToStash(flownet::StageID stageID, flownet::ActorID playerID, flownet::Item item) const
@@ -597,7 +611,11 @@ void AppDelegate::OnSCNotifyAddItemToStash(flownet::StageID stageID, flownet::Ac
     
     Actor* actor = clientStage->FindActor(playerID);
     actor->GetStash().CreateAndAddItem(item.GetItemType(), item.GetItemID());
+
+
+    // 상점, 스테이지 만들어졋을때임.
     
+    // BaseScene* scene->
     // TO DO : ui work left
     // TO DO : notify I've got an item!
 }
@@ -610,6 +628,9 @@ void AppDelegate::OnSCNotifyRemoveItemFromStash(flownet::StageID stageID, flowne
         //ASSERT_DEBUG(clientStage != nullptr && stageID == clientStage->GetStageID());
         return;
     }
+    
+    
+    // 사용 혹은 뭐에 대한 데이터처리용
     
     // TO DO : reask to him
 }

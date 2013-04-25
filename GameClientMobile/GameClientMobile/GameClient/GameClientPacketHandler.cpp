@@ -117,10 +117,10 @@ void GameClientPacketHandler::OnSCResponseHeartbeat(INT64 heartbeatCountAck)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   
-void GameClientPacketHandler::OnSCResponseCreateUserAccount(UserID userID, ActorID playerID, SessionID sessionID)
+void GameClientPacketHandler::OnSCResponseCreateUserAccount(UserID userID)
 {
     ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
-    this->m_GameClientRPCReceiver->OnSCResponseCreateUserAccount(userID, playerID, sessionID);
+    this->m_GameClientRPCReceiver->OnSCResponseCreateUserAccount(userID);
 }
     
 void GameClientPacketHandler::OnSCResponseLogInUserAccount(UserID userID, ActorID playerID, SessionID sessionID)
