@@ -9,7 +9,7 @@
 #ifndef GameClient_GameClientHeaders_pch
 #define GameClient_GameClientHeaders_pch
 
-#include "flownetPublicHeaders.pch"
+#include "flownetPublicHeaders.gch"
 
 #include "GameSharedHeaders.pch"        // from GameShared/
 //#include "GameProtocol.h"               // from GameShared/
