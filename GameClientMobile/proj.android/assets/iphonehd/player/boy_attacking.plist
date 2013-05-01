@@ -1,0 +1,817 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>frames</key>
+	<dict>
+		
+		<key>boy_attacking_0.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{43, 6}, {104, 176}}</string>
+			<key>spriteOffset</key>
+			<string>{15, 1}</string>
+			<key>spriteSize</key>
+			<string>{104, 176}</string>
+			<key>spriteSourceSize</key>
+			<string>{160, 190}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{256, 0}, {104, 176}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>boy_attacking_1.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{43, 6}, {104, 176}}</string>
+			<key>spriteOffset</key>
+			<string>{15, 1}</string>
+			<key>spriteSize</key>
+			<string>{104, 176}</string>
+			<key>spriteSourceSize</key>
+			<string>{160, 190}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{572, 178}, {104, 176}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>boy_attacking_10.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{38, 6}, {108, 176}}</string>
+			<key>spriteOffset</key>
+			<string>{12, 1}</string>
+			<key>spriteSize</key>
+			<string>{108, 176}</string>
+			<key>spriteSourceSize</key>
+			<string>{160, 190}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{250, 178}, {108, 176}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>boy_attacking_11.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{33, 6}, {114, 176}}</string>
+			<key>spriteOffset</key>
+			<string>{10, 1}</string>
+			<key>spriteSize</key>
+			<string>{114, 176}</string>
+			<key>spriteSourceSize</key>
+			<string>{160, 190}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{134, 178}, {114, 176}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>boy_attacking_12.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{27, 6}, {120, 176}}</string>
+			<key>spriteOffset</key>
+			<string>{7, 1}</string>
+			<key>spriteSize</key>
+			<string>{120, 176}</string>
+			<key>spriteSourceSize</key>
+			<string>{160, 190}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{134, 0}, {120, 176}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>boy_attacking_13.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{21, 6}, {126, 176}}</string>
+			<key>spriteOffset</key>
+			<string>{4, 1}</string>
+			<key>spriteSize</key>
+			<string>{126, 176}</string>
+			<key>spriteSourceSize</key>
+			<string>{160, 190}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{132, 534}, {126, 176}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>boy_attacking_14.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{17, 6}, {130, 176}}</string>
+			<key>spriteOffset</key>
+			<string>{2, 1}</string>
+			<key>spriteSize</key>
+			<string>{130, 176}</string>
+			<key>spriteSourceSize</key>
+			<string>{160, 190}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{0, 534}, {130, 176}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>boy_attacking_15.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{14, 6}, {132, 176}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 1}</string>
+			<key>spriteSize</key>
+			<string>{132, 176}</string>
+			<key>spriteSourceSize</key>
+			<string>{160, 190}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{0, 0}, {132, 176}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>boy_attacking_16.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{14, 6}, {132, 176}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 1}</string>
+			<key>spriteSize</key>
+			<string>{132, 176}</string>
+			<key>spriteSourceSize</key>
+			<string>{160, 190}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{0, 356}, {132, 176}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>boy_attacking_17.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{35, 6}, {112, 176}}</string>
+			<key>spriteOffset</key>
+			<string>{11, 1}</string>
+			<key>spriteSize</key>
+			<string>{112, 176}</string>
+			<key>spriteSourceSize</key>
+			<string>{160, 190}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{134, 356}, {112, 176}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>boy_attacking_18.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{39, 6}, {108, 176}}</string>
+			<key>spriteOffset</key>
+			<string>{13, 1}</string>
+			<key>spriteSize</key>
+			<string>{108, 176}</string>
+			<key>spriteSourceSize</key>
+			<string>{160, 190}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{260, 534}, {108, 176}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>boy_attacking_19.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{26, 6}, {120, 176}}</string>
+			<key>spriteOffset</key>
+			<string>{6, 1}</string>
+			<key>spriteSize</key>
+			<string>{120, 176}</string>
+			<key>spriteSourceSize</key>
+			<string>{160, 190}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{258, 712}, {120, 176}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>boy_attacking_2.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{43, 6}, {104, 176}}</string>
+			<key>spriteOffset</key>
+			<string>{15, 1}</string>
+			<key>spriteSize</key>
+			<string>{104, 176}</string>
+			<key>spriteSourceSize</key>
+			<string>{160, 190}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{370, 534}, {104, 176}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>boy_attacking_20.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{17, 6}, {130, 176}}</string>
+			<key>spriteOffset</key>
+			<string>{2, 1}</string>
+			<key>spriteSize</key>
+			<string>{130, 176}</string>
+			<key>spriteSourceSize</key>
+			<string>{160, 190}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{0, 712}, {130, 176}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>boy_attacking_21.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{14, 6}, {132, 176}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 1}</string>
+			<key>spriteSize</key>
+			<string>{132, 176}</string>
+			<key>spriteSourceSize</key>
+			<string>{160, 190}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{0, 178}, {132, 176}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>boy_attacking_22.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{23, 6}, {124, 176}}</string>
+			<key>spriteOffset</key>
+			<string>{5, 1}</string>
+			<key>spriteSize</key>
+			<string>{124, 176}</string>
+			<key>spriteSourceSize</key>
+			<string>{160, 190}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{132, 712}, {124, 176}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>boy_attacking_23.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{34, 6}, {112, 176}}</string>
+			<key>spriteOffset</key>
+			<string>{10, 1}</string>
+			<key>spriteSize</key>
+			<string>{112, 176}</string>
+			<key>spriteSourceSize</key>
+			<string>{160, 190}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{248, 356}, {112, 176}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>boy_attacking_24.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{43, 6}, {104, 176}}</string>
+			<key>spriteOffset</key>
+			<string>{15, 1}</string>
+			<key>spriteSize</key>
+			<string>{104, 176}</string>
+			<key>spriteSourceSize</key>
+			<string>{160, 190}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{784, 178}, {104, 176}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>boy_attacking_25.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{43, 6}, {104, 176}}</string>
+			<key>spriteOffset</key>
+			<string>{15, 1}</string>
+			<key>spriteSize</key>
+			<string>{104, 176}</string>
+			<key>spriteSourceSize</key>
+			<string>{160, 190}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{680, 0}, {104, 176}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>boy_attacking_26.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{43, 6}, {104, 176}}</string>
+			<key>spriteOffset</key>
+			<string>{15, 1}</string>
+			<key>spriteSize</key>
+			<string>{104, 176}</string>
+			<key>spriteSourceSize</key>
+			<string>{160, 190}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{360, 178}, {104, 176}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>boy_attacking_27.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{43, 6}, {104, 176}}</string>
+			<key>spriteOffset</key>
+			<string>{15, 1}</string>
+			<key>spriteSize</key>
+			<string>{104, 176}</string>
+			<key>spriteSourceSize</key>
+			<string>{160, 190}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{574, 356}, {104, 176}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>boy_attacking_28.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{43, 6}, {104, 176}}</string>
+			<key>spriteOffset</key>
+			<string>{15, 1}</string>
+			<key>spriteSize</key>
+			<string>{104, 176}</string>
+			<key>spriteSourceSize</key>
+			<string>{160, 190}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{362, 356}, {104, 176}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>boy_attacking_29.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{43, 6}, {104, 176}}</string>
+			<key>spriteOffset</key>
+			<string>{15, 1}</string>
+			<key>spriteSize</key>
+			<string>{104, 176}</string>
+			<key>spriteSourceSize</key>
+			<string>{160, 190}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{786, 0}, {104, 176}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>boy_attacking_3.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{43, 6}, {104, 176}}</string>
+			<key>spriteOffset</key>
+			<string>{15, 1}</string>
+			<key>spriteSize</key>
+			<string>{104, 176}</string>
+			<key>spriteSourceSize</key>
+			<string>{160, 190}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{362, 0}, {104, 176}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>boy_attacking_30.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{43, 6}, {104, 176}}</string>
+			<key>spriteOffset</key>
+			<string>{15, 1}</string>
+			<key>spriteSize</key>
+			<string>{104, 176}</string>
+			<key>spriteSourceSize</key>
+			<string>{160, 190}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{574, 0}, {104, 176}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>boy_attacking_31.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{43, 6}, {104, 176}}</string>
+			<key>spriteOffset</key>
+			<string>{15, 1}</string>
+			<key>spriteSize</key>
+			<string>{104, 176}</string>
+			<key>spriteSourceSize</key>
+			<string>{160, 190}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{380, 712}, {104, 176}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>boy_attacking_32.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{43, 6}, {104, 176}}</string>
+			<key>spriteOffset</key>
+			<string>{15, 1}</string>
+			<key>spriteSize</key>
+			<string>{104, 176}</string>
+			<key>spriteSourceSize</key>
+			<string>{160, 190}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{466, 178}, {104, 176}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>boy_attacking_33.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{43, 6}, {104, 176}}</string>
+			<key>spriteOffset</key>
+			<string>{15, 1}</string>
+			<key>spriteSize</key>
+			<string>{104, 176}</string>
+			<key>spriteSourceSize</key>
+			<string>{160, 190}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{892, 0}, {104, 176}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>boy_attacking_34.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{43, 6}, {104, 176}}</string>
+			<key>spriteOffset</key>
+			<string>{15, 1}</string>
+			<key>spriteSize</key>
+			<string>{104, 176}</string>
+			<key>spriteSourceSize</key>
+			<string>{160, 190}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{476, 534}, {104, 176}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>boy_attacking_35.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{43, 6}, {104, 176}}</string>
+			<key>spriteOffset</key>
+			<string>{15, 1}</string>
+			<key>spriteSize</key>
+			<string>{104, 176}</string>
+			<key>spriteSourceSize</key>
+			<string>{160, 190}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{468, 0}, {104, 176}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>boy_attacking_4.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{43, 6}, {104, 176}}</string>
+			<key>spriteOffset</key>
+			<string>{15, 1}</string>
+			<key>spriteSize</key>
+			<string>{104, 176}</string>
+			<key>spriteSourceSize</key>
+			<string>{160, 190}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{486, 712}, {104, 176}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>boy_attacking_5.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{43, 6}, {104, 176}}</string>
+			<key>spriteOffset</key>
+			<string>{15, 1}</string>
+			<key>spriteSize</key>
+			<string>{104, 176}</string>
+			<key>spriteSourceSize</key>
+			<string>{160, 190}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{680, 356}, {104, 176}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>boy_attacking_6.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{43, 6}, {104, 176}}</string>
+			<key>spriteOffset</key>
+			<string>{15, 1}</string>
+			<key>spriteSize</key>
+			<string>{104, 176}</string>
+			<key>spriteSourceSize</key>
+			<string>{160, 190}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{678, 178}, {104, 176}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>boy_attacking_7.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{43, 6}, {104, 176}}</string>
+			<key>spriteOffset</key>
+			<string>{15, 1}</string>
+			<key>spriteSize</key>
+			<string>{104, 176}</string>
+			<key>spriteSourceSize</key>
+			<string>{160, 190}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{582, 534}, {104, 176}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>boy_attacking_8.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{43, 6}, {104, 176}}</string>
+			<key>spriteOffset</key>
+			<string>{15, 1}</string>
+			<key>spriteSize</key>
+			<string>{104, 176}</string>
+			<key>spriteSourceSize</key>
+			<string>{160, 190}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{890, 178}, {104, 176}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>boy_attacking_9.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{42, 6}, {104, 176}}</string>
+			<key>spriteOffset</key>
+			<string>{14, 1}</string>
+			<key>spriteSize</key>
+			<string>{104, 176}</string>
+			<key>spriteSourceSize</key>
+			<string>{160, 190}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{468, 356}, {104, 176}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+	</dict>
+	<key>metadata</key>
+	<dict>
+		<key>version</key>
+		<string>1.6.0</string>
+		<key>format</key>
+		<integer>3</integer>
+		<key>size</key>
+		<string>{1024, 1024}</string>
+		<key>name</key>
+		<string>boy_attacking</string>
+		<key>textureFileName</key>
+		<string>boy_attacking.png</string>
+		<key>premultipliedAlpha</key>
+		<false/>
+	</dict>
+</dict>
+</plist>
