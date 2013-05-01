@@ -14,5 +14,9 @@
 //#define SERVER_CONNECT_ADDRESS          "127.0.0.1"         //loop back for test server
 #define SERVER_CONNECT_PORT             1988
 
+#define FESERVER_CF_CONNECT_ADDRESS     "61.43.139.149"
+#define FESERVER_CF_CONNECT_PORT        1990
+
+#define GAMECLIENTTESTER
 
 #endif

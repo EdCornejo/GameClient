@@ -2,10 +2,10 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:flownet/flownet.xcodeproj">
+      location = "group:../flownet/flownet/flownet.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:GameShared/GameShared.xcodeproj">
+      location = "group:../GameShared/GameShared/GameShared.xcodeproj">
    </FileRef>
    <FileRef
       location = "container:GameClient/GameClient.xcodeproj">

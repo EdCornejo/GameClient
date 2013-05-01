@@ -7,38 +7,31 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4D95D18616DEFD7B00D19372 /* boost.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D95D18516DEFD7B00D19372 /* boost.framework */; };
-		9413D39916CB89ED001FA2E9 /* libboost_regex.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9413D39716CB89ED001FA2E9 /* libboost_regex.a */; };
-		9413D39A16CB89ED001FA2E9 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9413D39816CB89ED001FA2E9 /* libboost_system.a */; };
+		4D9108EA1730F2290073AE04 /* TesterRPCReceiver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4D9108E81730F2290073AE04 /* TesterRPCReceiver.cpp */; };
+		4DE253C2172FB2660064B1A7 /* libflownet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DE253C0172FB2660064B1A7 /* libflownet.a */; };
+		4DE253C3172FB2660064B1A7 /* libGameShared.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DE253C1172FB2660064B1A7 /* libGameShared.a */; };
+		4DE253C5172FB2740064B1A7 /* boost.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DE253C4172FB2730064B1A7 /* boost.framework */; };
+		4DE253E1172FB33D0064B1A7 /* ClientMonster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DE253C6172FB33D0064B1A7 /* ClientMonster.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		4DE253E2172FB33D0064B1A7 /* ClientPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DE253C8172FB33D0064B1A7 /* ClientPlayer.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		4DE253E3172FB33D0064B1A7 /* ClientStage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DE253CA172FB33D0064B1A7 /* ClientStage.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		4DE253E4172FB33E0064B1A7 /* DelayChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DE253CC172FB33D0064B1A7 /* DelayChecker.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		4DE253E7172FB33E0064B1A7 /* GameClientPacketHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DE253D3172FB33D0064B1A7 /* GameClientPacketHandler.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		4DE253E8172FB33E0064B1A7 /* GameClientPacketParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DE253D5172FB33D0064B1A7 /* GameClientPacketParser.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		4DE253ED172FB33E0064B1A7 /* RenderingTaskWorkerRoutine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DE253DF172FB33D0064B1A7 /* RenderingTaskWorkerRoutine.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		4DE253F0172FE0FB0064B1A7 /* CFConnection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DE253EE172FE0FB0064B1A7 /* CFConnection.cpp */; };
+		4DE253F3172FE2D70064B1A7 /* FCPacketHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DE253F1172FE2D60064B1A7 /* FCPacketHandler.cpp */; };
+		4DE253F6172FE2E20064B1A7 /* FCPacketParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DE253F4172FE2E10064B1A7 /* FCPacketParser.cpp */; };
+		4DE253F9172FF91B0064B1A7 /* GameClientTester.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DE253F7172FF91A0064B1A7 /* GameClientTester.cpp */; };
+		4DE253FC1730021B0064B1A7 /* GameClientObjectManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DE253FA1730021B0064B1A7 /* GameClientObjectManager.cpp */; };
+		4DE253FF1730022B0064B1A7 /* CFConnectionManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DE253FD1730022B0064B1A7 /* CFConnectionManager.cpp */; };
 		9413D43E16CBD2DF001FA2E9 /* GameClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9413D43C16CBD2DF001FA2E9 /* GameClient.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
-		9413D44116CBD487001FA2E9 /* GameClientPacketHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9413D43F16CBD487001FA2E9 /* GameClientPacketHandler.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
-		9413D44416CBD4EA001FA2E9 /* GameClientPacketParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9413D44216CBD4E9001FA2E9 /* GameClientPacketParser.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		9413D44716CBE1CA001FA2E9 /* GameClientObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9413D44516CBE1C9001FA2E9 /* GameClientObject.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
-		9413D49216D2484A001FA2E9 /* libGameShared.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9413D49116D2484A001FA2E9 /* libGameShared.a */; };
 		9413D49F16D2846D001FA2E9 /* GameClientTasks.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9413D49D16D2846D001FA2E9 /* GameClientTasks.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		9413D4A216D2861D001FA2E9 /* GameClientScheduledTasks.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9413D4A016D2861D001FA2E9 /* GameClientScheduledTasks.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		945C0A1C16CB820E00FB8664 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 945C0A1B16CB820E00FB8664 /* main.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		945C0A1E16CB820E00FB8664 /* GameClient.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 945C0A1D16CB820E00FB8664 /* GameClient.1 */; };
-		945C0A4116CB82F000FB8664 /* libflownet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 945C0A4016CB82F000FB8664 /* libflownet.a */; };
 		94F5836616D5A9FF00AE632E /* HeartbeatGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94F5836416D5A9FF00AE632E /* HeartbeatGenerator.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		94F2963216DC48E3005DFDE4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 4D95849116DBA30D00D19372 /* flownet.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 9418CCBE16AD909E001355FD;
-			remoteInfo = flownet;
-		};
-		94F2963816DC48E3005DFDE4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 4D95849216DBA31300D19372 /* GameShared.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 9413D43116CBC103001FA2E9;
-			remoteInfo = GameShared;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		945C0A1516CB820E00FB8664 /* CopyFiles */ = {
@@ -54,22 +47,51 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		4D95849116DBA30D00D19372 /* flownet.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = flownet.xcodeproj; path = ../flownet/flownet.xcodeproj; sourceTree = "<group>"; };
-		4D95849216DBA31300D19372 /* GameShared.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GameShared.xcodeproj; path = ../GameShared/GameShared.xcodeproj; sourceTree = "<group>"; };
-		4D95D18516DEFD7B00D19372 /* boost.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = boost.framework; path = ../Boost/osx/framework/boost.framework; sourceTree = "<group>"; };
-		9413D39716CB89ED001FA2E9 /* libboost_regex.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_regex.a; path = ../Boost/lib/libboost_regex.a; sourceTree = "<group>"; };
-		9413D39816CB89ED001FA2E9 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = ../Boost/lib/libboost_system.a; sourceTree = "<group>"; };
+		4D9108E81730F2290073AE04 /* TesterRPCReceiver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TesterRPCReceiver.cpp; sourceTree = "<group>"; };
+		4D9108E91730F2290073AE04 /* TesterRPCReceiver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TesterRPCReceiver.h; sourceTree = "<group>"; };
+		4DE253C0172FB2660064B1A7 /* libflownet.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libflownet.a; path = ../../flownet/flownet/build/Release/libflownet.a; sourceTree = "<group>"; };
+		4DE253C1172FB2660064B1A7 /* libGameShared.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGameShared.a; path = ../../GameShared/GameShared/build/Release/libGameShared.a; sourceTree = "<group>"; };
+		4DE253C4172FB2730064B1A7 /* boost.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = boost.framework; path = ../../flownet/Boost/osx/framework/boost.framework; sourceTree = "<group>"; };
+		4DE253C6172FB33D0064B1A7 /* ClientMonster.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ClientMonster.cpp; sourceTree = "<group>"; };
+		4DE253C7172FB33D0064B1A7 /* ClientMonster.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientMonster.h; sourceTree = "<group>"; };
+		4DE253C8172FB33D0064B1A7 /* ClientPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ClientPlayer.cpp; sourceTree = "<group>"; };
+		4DE253C9172FB33D0064B1A7 /* ClientPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientPlayer.h; sourceTree = "<group>"; };
+		4DE253CA172FB33D0064B1A7 /* ClientStage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ClientStage.cpp; sourceTree = "<group>"; };
+		4DE253CB172FB33D0064B1A7 /* ClientStage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientStage.h; sourceTree = "<group>"; };
+		4DE253CC172FB33D0064B1A7 /* DelayChecker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DelayChecker.cpp; sourceTree = "<group>"; };
+		4DE253CD172FB33D0064B1A7 /* DelayChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DelayChecker.h; sourceTree = "<group>"; };
+		4DE253D3172FB33D0064B1A7 /* GameClientPacketHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameClientPacketHandler.cpp; sourceTree = "<group>"; };
+		4DE253D4172FB33D0064B1A7 /* GameClientPacketHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameClientPacketHandler.h; sourceTree = "<group>"; };
+		4DE253D5172FB33D0064B1A7 /* GameClientPacketParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameClientPacketParser.cpp; sourceTree = "<group>"; };
+		4DE253D6172FB33D0064B1A7 /* GameClientPacketParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameClientPacketParser.h; sourceTree = "<group>"; };
+		4DE253D7172FB33D0064B1A7 /* GameClientRPCInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameClientRPCInterface.h; sourceTree = "<group>"; };
+		4DE253D8172FB33D0064B1A7 /* GameClientScheduledTasks.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameClientScheduledTasks.cpp; sourceTree = "<group>"; };
+		4DE253D9172FB33D0064B1A7 /* GameClientScheduledTasks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameClientScheduledTasks.h; sourceTree = "<group>"; };
+		4DE253DA172FB33D0064B1A7 /* GameClientTasks.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameClientTasks.cpp; sourceTree = "<group>"; };
+		4DE253DB172FB33D0064B1A7 /* GameClientTasks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameClientTasks.h; sourceTree = "<group>"; };
+		4DE253DC172FB33D0064B1A7 /* HeartbeatGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HeartbeatGenerator.cpp; sourceTree = "<group>"; };
+		4DE253DD172FB33D0064B1A7 /* HeartbeatGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeartbeatGenerator.h; sourceTree = "<group>"; };
+		4DE253DE172FB33D0064B1A7 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		4DE253DF172FB33D0064B1A7 /* RenderingTaskWorkerRoutine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderingTaskWorkerRoutine.cpp; sourceTree = "<group>"; };
+		4DE253E0172FB33D0064B1A7 /* RenderingTaskWorkerRoutine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderingTaskWorkerRoutine.h; sourceTree = "<group>"; };
+		4DE253EE172FE0FB0064B1A7 /* CFConnection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CFConnection.cpp; sourceTree = "<group>"; };
+		4DE253EF172FE0FB0064B1A7 /* CFConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CFConnection.h; sourceTree = "<group>"; };
+		4DE253F1172FE2D60064B1A7 /* FCPacketHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FCPacketHandler.cpp; sourceTree = "<group>"; };
+		4DE253F2172FE2D60064B1A7 /* FCPacketHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCPacketHandler.h; sourceTree = "<group>"; };
+		4DE253F4172FE2E10064B1A7 /* FCPacketParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FCPacketParser.cpp; sourceTree = "<group>"; };
+		4DE253F5172FE2E20064B1A7 /* FCPacketParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCPacketParser.h; sourceTree = "<group>"; };
+		4DE253F7172FF91A0064B1A7 /* GameClientTester.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameClientTester.cpp; sourceTree = "<group>"; };
+		4DE253F8172FF91A0064B1A7 /* GameClientTester.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameClientTester.h; sourceTree = "<group>"; };
+		4DE253FA1730021B0064B1A7 /* GameClientObjectManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameClientObjectManager.cpp; sourceTree = "<group>"; };
+		4DE253FB1730021B0064B1A7 /* GameClientObjectManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameClientObjectManager.h; sourceTree = "<group>"; };
+		4DE253FD1730022B0064B1A7 /* CFConnectionManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CFConnectionManager.cpp; sourceTree = "<group>"; };
+		4DE253FE1730022B0064B1A7 /* CFConnectionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CFConnectionManager.h; sourceTree = "<group>"; };
 		9413D3C616CB9098001FA2E9 /* GameClientHeaders.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameClientHeaders.pch; path = GameClient/GameClientHeaders.pch; sourceTree = "<group>"; };
 		9413D43B16CBD0BB001FA2E9 /* GameClientProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameClientProperties.h; sourceTree = "<group>"; };
 		9413D43C16CBD2DF001FA2E9 /* GameClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameClient.cpp; sourceTree = "<group>"; };
 		9413D43D16CBD2DF001FA2E9 /* GameClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameClient.h; sourceTree = "<group>"; };
-		9413D43F16CBD487001FA2E9 /* GameClientPacketHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameClientPacketHandler.cpp; sourceTree = "<group>"; };
-		9413D44016CBD487001FA2E9 /* GameClientPacketHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameClientPacketHandler.h; sourceTree = "<group>"; };
-		9413D44216CBD4E9001FA2E9 /* GameClientPacketParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameClientPacketParser.cpp; sourceTree = "<group>"; };
-		9413D44316CBD4EA001FA2E9 /* GameClientPacketParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameClientPacketParser.h; sourceTree = "<group>"; };
 		9413D44516CBE1C9001FA2E9 /* GameClientObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameClientObject.cpp; sourceTree = "<group>"; };
 		9413D44616CBE1C9001FA2E9 /* GameClientObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameClientObject.h; sourceTree = "<group>"; };
-		9413D49116D2484A001FA2E9 /* libGameShared.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGameShared.a; path = ../GameShared/build/Release/libGameShared.a; sourceTree = "<group>"; };
 		9413D49D16D2846D001FA2E9 /* GameClientTasks.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameClientTasks.cpp; sourceTree = "<group>"; };
 		9413D49E16D2846D001FA2E9 /* GameClientTasks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameClientTasks.h; sourceTree = "<group>"; };
 		9413D4A016D2861D001FA2E9 /* GameClientScheduledTasks.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameClientScheduledTasks.cpp; sourceTree = "<group>"; };
@@ -77,7 +99,6 @@
 		945C0A1716CB820E00FB8664 /* GameClient */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = GameClient; sourceTree = BUILT_PRODUCTS_DIR; };
 		945C0A1B16CB820E00FB8664 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		945C0A1D16CB820E00FB8664 /* GameClient.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = GameClient.1; sourceTree = "<group>"; };
-		945C0A4016CB82F000FB8664 /* libflownet.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libflownet.a; path = ../flownet/build/Release/libflownet.a; sourceTree = "<group>"; };
 		94D9072316EB24FC00637B38 /* GameClientRPCInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameClientRPCInterface.h; path = GameClient/GameClientRPCInterface.h; sourceTree = "<group>"; };
 		94F5836416D5A9FF00AE632E /* HeartbeatGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HeartbeatGenerator.cpp; sourceTree = "<group>"; };
 		94F5836516D5A9FF00AE632E /* HeartbeatGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeartbeatGenerator.h; sourceTree = "<group>"; };
@@ -88,17 +109,24 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9413D39916CB89ED001FA2E9 /* libboost_regex.a in Frameworks */,
-				9413D39A16CB89ED001FA2E9 /* libboost_system.a in Frameworks */,
-				945C0A4116CB82F000FB8664 /* libflownet.a in Frameworks */,
-				9413D49216D2484A001FA2E9 /* libGameShared.a in Frameworks */,
-				4D95D18616DEFD7B00D19372 /* boost.framework in Frameworks */,
+				4DE253C5172FB2740064B1A7 /* boost.framework in Frameworks */,
+				4DE253C2172FB2660064B1A7 /* libflownet.a in Frameworks */,
+				4DE253C3172FB2660064B1A7 /* libGameShared.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4D9108E71730F2180073AE04 /* Tester */ = {
+			isa = PBXGroup;
+			children = (
+				4D9108E81730F2290073AE04 /* TesterRPCReceiver.cpp */,
+				4D9108E91730F2290073AE04 /* TesterRPCReceiver.h */,
+			);
+			name = Tester;
+			sourceTree = "<group>";
+		};
 		9413D49C16D2845B001FA2E9 /* Task */ = {
 			isa = PBXGroup;
 			children = (
@@ -113,16 +141,12 @@
 		945C0A0C16CB820E00FB8664 = {
 			isa = PBXGroup;
 			children = (
+				4DE253C4172FB2730064B1A7 /* boost.framework */,
+				4DE253C0172FB2660064B1A7 /* libflownet.a */,
+				4DE253C1172FB2660064B1A7 /* libGameShared.a */,
 				94D9072316EB24FC00637B38 /* GameClientRPCInterface.h */,
-				4D95D18516DEFD7B00D19372 /* boost.framework */,
-				4D95849116DBA30D00D19372 /* flownet.xcodeproj */,
-				4D95849216DBA31300D19372 /* GameShared.xcodeproj */,
-				9413D49116D2484A001FA2E9 /* libGameShared.a */,
-				945C0A4016CB82F000FB8664 /* libflownet.a */,
 				9413D3C616CB9098001FA2E9 /* GameClientHeaders.pch */,
 				9413D43B16CBD0BB001FA2E9 /* GameClientProperties.h */,
-				9413D39716CB89ED001FA2E9 /* libboost_regex.a */,
-				9413D39816CB89ED001FA2E9 /* libboost_system.a */,
 				945C0A1A16CB820E00FB8664 /* GameClient */,
 				945C0A1816CB820E00FB8664 /* Products */,
 			);
@@ -139,42 +163,57 @@
 		945C0A1A16CB820E00FB8664 /* GameClient */ = {
 			isa = PBXGroup;
 			children = (
+				4DE253C6172FB33D0064B1A7 /* ClientMonster.cpp */,
+				4DE253C7172FB33D0064B1A7 /* ClientMonster.h */,
+				4DE253C8172FB33D0064B1A7 /* ClientPlayer.cpp */,
+				4DE253C9172FB33D0064B1A7 /* ClientPlayer.h */,
+				4DE253CA172FB33D0064B1A7 /* ClientStage.cpp */,
+				4DE253CB172FB33D0064B1A7 /* ClientStage.h */,
+				4DE253CC172FB33D0064B1A7 /* DelayChecker.cpp */,
+				4DE253CD172FB33D0064B1A7 /* DelayChecker.h */,
+				4DE253D8172FB33D0064B1A7 /* GameClientScheduledTasks.cpp */,
+				4DE253D9172FB33D0064B1A7 /* GameClientScheduledTasks.h */,
+				4DE253DA172FB33D0064B1A7 /* GameClientTasks.cpp */,
+				4DE253DB172FB33D0064B1A7 /* GameClientTasks.h */,
+				4DE253DC172FB33D0064B1A7 /* HeartbeatGenerator.cpp */,
+				4DE253DD172FB33D0064B1A7 /* HeartbeatGenerator.h */,
+				4DE253DE172FB33D0064B1A7 /* main.cpp */,
+				4DE253DF172FB33D0064B1A7 /* RenderingTaskWorkerRoutine.cpp */,
+				4DE253E0172FB33D0064B1A7 /* RenderingTaskWorkerRoutine.h */,
 				94F5836316D5A9E400AE632E /* NetworkUtilities */,
 				94F5836116D5A9CE00AE632E /* RPC */,
+				4D9108E71730F2180073AE04 /* Tester */,
 				9413D49C16D2845B001FA2E9 /* Task */,
 				945C0A1B16CB820E00FB8664 /* main.cpp */,
 				945C0A1D16CB820E00FB8664 /* GameClient.1 */,
 				9413D43C16CBD2DF001FA2E9 /* GameClient.cpp */,
 				9413D43D16CBD2DF001FA2E9 /* GameClient.h */,
+				4DE253F7172FF91A0064B1A7 /* GameClientTester.cpp */,
+				4DE253F8172FF91A0064B1A7 /* GameClientTester.h */,
 			);
 			path = GameClient;
-			sourceTree = "<group>";
-		};
-		94F2962F16DC48E3005DFDE4 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				94F2963316DC48E3005DFDE4 /* libflownet.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		94F2963516DC48E3005DFDE4 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				94F2963916DC48E3005DFDE4 /* libGameShared.a */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		94F5836116D5A9CE00AE632E /* RPC */ = {
 			isa = PBXGroup;
 			children = (
-				9413D43F16CBD487001FA2E9 /* GameClientPacketHandler.cpp */,
-				9413D44016CBD487001FA2E9 /* GameClientPacketHandler.h */,
-				9413D44216CBD4E9001FA2E9 /* GameClientPacketParser.cpp */,
-				9413D44316CBD4EA001FA2E9 /* GameClientPacketParser.h */,
+				4DE253D3172FB33D0064B1A7 /* GameClientPacketHandler.cpp */,
+				4DE253D4172FB33D0064B1A7 /* GameClientPacketHandler.h */,
+				4DE253D5172FB33D0064B1A7 /* GameClientPacketParser.cpp */,
+				4DE253D6172FB33D0064B1A7 /* GameClientPacketParser.h */,
+				4DE253D7172FB33D0064B1A7 /* GameClientRPCInterface.h */,
 				9413D44516CBE1C9001FA2E9 /* GameClientObject.cpp */,
 				9413D44616CBE1C9001FA2E9 /* GameClientObject.h */,
+				4DE253EE172FE0FB0064B1A7 /* CFConnection.cpp */,
+				4DE253EF172FE0FB0064B1A7 /* CFConnection.h */,
+				4DE253F1172FE2D60064B1A7 /* FCPacketHandler.cpp */,
+				4DE253F2172FE2D60064B1A7 /* FCPacketHandler.h */,
+				4DE253F4172FE2E10064B1A7 /* FCPacketParser.cpp */,
+				4DE253F5172FE2E20064B1A7 /* FCPacketParser.h */,
+				4DE253FA1730021B0064B1A7 /* GameClientObjectManager.cpp */,
+				4DE253FB1730021B0064B1A7 /* GameClientObjectManager.h */,
+				4DE253FD1730022B0064B1A7 /* CFConnectionManager.cpp */,
+				4DE253FE1730022B0064B1A7 /* CFConnectionManager.h */,
 			);
 			name = RPC;
 			sourceTree = "<group>";
@@ -227,39 +266,12 @@
 			mainGroup = 945C0A0C16CB820E00FB8664;
 			productRefGroup = 945C0A1816CB820E00FB8664 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 94F2962F16DC48E3005DFDE4 /* Products */;
-					ProjectRef = 4D95849116DBA30D00D19372 /* flownet.xcodeproj */;
-				},
-				{
-					ProductGroup = 94F2963516DC48E3005DFDE4 /* Products */;
-					ProjectRef = 4D95849216DBA31300D19372 /* GameShared.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				945C0A1616CB820E00FB8664 /* GameClient */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		94F2963316DC48E3005DFDE4 /* libflownet.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libflownet.a;
-			remoteRef = 94F2963216DC48E3005DFDE4 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		94F2963916DC48E3005DFDE4 /* libGameShared.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libGameShared.a;
-			remoteRef = 94F2963816DC48E3005DFDE4 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXSourcesBuildPhase section */
 		945C0A1316CB820E00FB8664 /* Sources */ = {
@@ -268,12 +280,24 @@
 			files = (
 				945C0A1C16CB820E00FB8664 /* main.cpp in Sources */,
 				9413D43E16CBD2DF001FA2E9 /* GameClient.cpp in Sources */,
-				9413D44116CBD487001FA2E9 /* GameClientPacketHandler.cpp in Sources */,
-				9413D44416CBD4EA001FA2E9 /* GameClientPacketParser.cpp in Sources */,
 				9413D44716CBE1CA001FA2E9 /* GameClientObject.cpp in Sources */,
 				9413D49F16D2846D001FA2E9 /* GameClientTasks.cpp in Sources */,
 				9413D4A216D2861D001FA2E9 /* GameClientScheduledTasks.cpp in Sources */,
 				94F5836616D5A9FF00AE632E /* HeartbeatGenerator.cpp in Sources */,
+				4DE253E1172FB33D0064B1A7 /* ClientMonster.cpp in Sources */,
+				4DE253E2172FB33D0064B1A7 /* ClientPlayer.cpp in Sources */,
+				4DE253E3172FB33D0064B1A7 /* ClientStage.cpp in Sources */,
+				4DE253E4172FB33E0064B1A7 /* DelayChecker.cpp in Sources */,
+				4DE253E7172FB33E0064B1A7 /* GameClientPacketHandler.cpp in Sources */,
+				4DE253E8172FB33E0064B1A7 /* GameClientPacketParser.cpp in Sources */,
+				4DE253ED172FB33E0064B1A7 /* RenderingTaskWorkerRoutine.cpp in Sources */,
+				4DE253F0172FE0FB0064B1A7 /* CFConnection.cpp in Sources */,
+				4DE253F3172FE2D70064B1A7 /* FCPacketHandler.cpp in Sources */,
+				4DE253F6172FE2E20064B1A7 /* FCPacketParser.cpp in Sources */,
+				4DE253F9172FF91B0064B1A7 /* GameClientTester.cpp in Sources */,
+				4DE253FC1730021B0064B1A7 /* GameClientObjectManager.cpp in Sources */,
+				4DE253FF1730022B0064B1A7 /* CFConnectionManager.cpp in Sources */,
+				4D9108EA1730F2290073AE04 /* TesterRPCReceiver.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -338,6 +362,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../Boost/osx/framework\"",
+					"\"$(SRCROOT)/../../flownet/Boost/osx/framework\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = GameClient/GameclientHeaders.pch;
@@ -346,19 +371,13 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
 					"$(BUILT_PRODUCTS_DIR)/**",
-					"../flownet/**",
+					"../../flownet/flownet/**",
 				);
-				LIBRARY_SEARCH_PATHS = (
-					../Boost/lib,
-					"\"$(SRCROOT)/../Boost/lib\"",
-					"$(BUILT_PRODUCTS_DIR)/**",
-					"$(BUILT_PRODUCTS_DIR)/flownet/**",
-					"$(BUILT_PRODUCTS_DIR)/GameShared/**",
-				);
+				LIBRARY_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/**";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRELINK_LIBS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/** $(BUILT_PRODUCTS_DIR)/flownet/** ../Boost/include ../GameShared";
+				USER_HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/** ../../flownet/flownet ../../GameShared/GameShared";
 			};
 			name = Debug;
 		};
@@ -369,6 +388,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../Boost/osx/framework\"",
+					"\"$(SRCROOT)/../../flownet/Boost/osx/framework\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = GameClient/GameclientHeaders.pch;
@@ -377,19 +397,13 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
 					"$(BUILT_PRODUCTS_DIR)/**",
-					"../flownet/**",
+					"../../flownet/flownet/**",
 				);
-				LIBRARY_SEARCH_PATHS = (
-					../Boost/lib,
-					"\"$(SRCROOT)/../Boost/lib\"",
-					"$(BUILT_PRODUCTS_DIR)/**",
-					"$(BUILT_PRODUCTS_DIR)/flownet/**",
-					"$(BUILT_PRODUCTS_DIR)/GameShared/**",
-				);
+				LIBRARY_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/**";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRELINK_LIBS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/** $(BUILT_PRODUCTS_DIR)/flownet/** ../Boost/include ../GameShared";
+				USER_HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/** ../../flownet/flownet ../../GameShared/GameShared";
 			};
 			name = Release;
 		};

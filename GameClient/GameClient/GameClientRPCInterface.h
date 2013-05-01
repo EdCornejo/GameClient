@@ -21,11 +21,8 @@ public:
     virtual ~GameClientRPCInterface(){}
 
 public:
-    virtual void OnSCProtocolError() const = 0;
-    virtual void OnSCResponseConnect(INT64 connectionID) const = 0;
-    virtual void OnSCResponseSession(INT64 sessionID) const = 0;
-    virtual void OnSCResponseHeartbeat(INT64 heartbeatCountAck) const = 0;
-    virtual void OnSCResponseMyPlayerInfo(Player player) const = 0;
+    #include "GameSCVirtualProtocolHandlerDeclaration.hpp"
+    #include "GameFCVirtualProtocolHandlerDeclaration.hpp"
 };
 
 } // namespace
