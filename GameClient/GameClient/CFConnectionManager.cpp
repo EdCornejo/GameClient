@@ -30,6 +30,7 @@ void CFConnectionManager::Initialize(const INT numberOfCFConnection)
     for( int i=0; i<numberOfCFConnection; ++i )
     {
         CFConnection* newConnection = CreateCFConnection();
+        
     }
 }
 
@@ -51,6 +52,13 @@ CFConnection* CFConnectionManager::CreateCFConnection()
     CFConnection* cfConnection = new CFConnection(m_IOService, packetParser);
     packetHandler->LinkCFConnection(cfConnection);
     packetHandler->SetGameClientRPCReceiver(testerRPCReceiver);
+    
+    #ifndef GAMECLIENTTESTER
+        #error "SERVICE VERSION MUST SET/GET DeviceID From  shared GameClient"
+    #else
+    // TO DO : This is a test code
+        cfConnection->SetDeviceID(boost::uuids::random_generator()());
+    #endif
     
     cfConnection->InitializeClient(m_FEServerAddress.c_str(), m_FEServerPort);
     

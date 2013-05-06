@@ -18,24 +18,22 @@ private:
     GameClientObjectList        m_GameClientObjectList;
     BaseLock                    m_LockList;
     BoostIOService&             m_IOService;
-    STRING                      m_ServerAddress;
-    INT                         m_ServerPort;
+////    STRING                      m_ServerAddress;
+//    INT                         m_ServerPort;
     INT                         m_NumberOfGameClientObjects;
     volatile INT                m_NextGameClientObject;
     
 public:
-    GameClientObjectManager(BoostIOService& ioService, const STRING& serverAddress=SERVER_CONNECT_ADDRESS, const INT serverPort=SERVER_CONNECT_PORT);
+    GameClientObjectManager(BoostIOService& ioService);//, /*const STRING& serverAddress=SERVER_CONNECT_ADDRESS,*/ const INT serverPort=SERVER_CONNECT_PORT);
     ~GameClientObjectManager();
     
-    void  Initialize(const INT numberOfGameClientObject);
+//    void  Initialize(const INT numberOfGameClientObject);
     
     // Round Robin Request ?
     GameClientObject*         GetNextGameClientObject();
     
-private:
-    // To guarantee multi-thread-safe behavior
-    // DO NOT CreateDBServerConnection after initialize()
-    GameClientObject*         CreateGameClientObject();
+public:
+    GameClientObject*         CreateGameClientObject(const STRING gameServerIP, const INT gameServerPORT);
 };
 
 }

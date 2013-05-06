@@ -32,18 +32,14 @@ void TesterRPCReceiver::OnSCResponseSession(flownet::UserID userID, flownet::Act
 {
 }
 
+void TesterRPCReceiver::OnSCResponseLogInWithOTP(flownet::UserID userID, flownet::ActorID playerID, flownet::SessionID sessionID) const
+{
+
+}
+
 void TesterRPCReceiver::OnSCResponseHeartbeat(flownet::INT64 heartbeatCountAck) const 
 {
 }
-
-void TesterRPCReceiver::OnSCResponseCreateUserAccount(flownet::UserID userID) const 
-{
-}
-
-void TesterRPCReceiver::OnSCResponseLogInUserAccount(flownet::UserID userID, flownet::ActorID playerID, flownet::SessionID sessionID) const 
-{
-}
-
 void TesterRPCReceiver::OnSCResponseLogOutUserAccount(flownet::UserID userID) const 
 {
 }
@@ -170,11 +166,12 @@ void TesterRPCReceiver::OnFCResponseCreateUserAccount(flownet::UserID userID) co
 {
 }
 
-void TesterRPCReceiver::OnFCResponseLogInUserAccount(flownet::UserID userID, flownet::ActorID playerID, flownet::GameServerID gameServerID, flownet::OTP otp) const 
+void TesterRPCReceiver::OnFCResponseLogInUserAccount(flownet::UserID userID, flownet::GameServerID gameServerID, flownet::STRING gameServerIP, flownet::OTP otp) const
 {
+    // Implemented on FCPacketHandler
 }
 
-void TesterRPCReceiver::OnFCResponseLogOutUserAccount(flownet::UserID userID) const 
+void TesterRPCReceiver::OnFCResponseLogOutUserAccount(flownet::UserID userID) const
 {
 }
 

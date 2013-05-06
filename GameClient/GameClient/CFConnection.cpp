@@ -21,7 +21,7 @@ namespace flownet
 //    return dbServerConnection;
 //}
 
-CFConnection::CFConnection(BoostIOService& ioService, PacketParser* packetParser):ClientObject(ioService, packetParser),m_CFConnectionID(ConnectionID_NONE)
+CFConnection::CFConnection(BoostIOService& ioService, PacketParser* packetParser):ClientObject(ioService, packetParser),m_CFConnectionID(ConnectionID_NONE),m_DeviceID(DeviceID_None)
 {
 }
 
@@ -45,6 +45,8 @@ void CFConnection::OnConnect(const BoostErrorCode& error, BoostTCPSocket* connec
     if( !error )
     {
         RecvStart();
+        
+        this->SendCFRequestLogInUserAccount(this->GetDeviceID(), "test5", "test5");
     }
     {
         

@@ -20,7 +20,7 @@ GameClientTester::GameClientTester():
     m_NetworkWorkerRoutine(),
     m_ThreadController(THREAD_SCHEDULING_TIMESLICE),
     m_RenderingTaskWorkerRoutine(),
-    m_GameClientObjectManager(m_NetworkWorkerRoutine.m_IOService,SERVER_CONNECT_ADDRESS,SERVER_CONNECT_PORT),
+    m_GameClientObjectManager(m_NetworkWorkerRoutine.m_IOService),
     m_CFConnectionManager(m_NetworkWorkerRoutine.m_IOService,FESERVER_CF_CONNECT_ADDRESS,FESERVER_CF_CONNECT_PORT),
 //    m_ClientPacketHandler(&m_RenderingTaskWorkerRoutine),
 //    m_ClientPacketParser(&m_ClientPacketHandler),
@@ -80,6 +80,10 @@ void GameClientTester::InitializeClient(GameClientRPCInterface* gameClientRPCRec
     m_ThreadController.AddWorkerRoutine(&m_ScheduledTaskWorkerRoutine);
     m_ThreadController.AddWorkerRoutine(&m_GameTaskWorkerRoutine);
     m_ThreadController.AddWorkerRoutine(&m_NetworkWorkerRoutine);
+    
+    #ifdef GAMECLIENTTESTER
+        m_ThreadController.AddWorkerRoutine(&m_RenderingTaskWorkerRoutine);
+    #endif
     // NOTE :
     // RenderingTaskWorkerRoutine is managed by Cocos2d main thread
     // DO NOT ADD this m_RenderingTaskWorkerRoutine
@@ -87,6 +91,7 @@ void GameClientTester::InitializeClient(GameClientRPCInterface* gameClientRPCRec
     
     // connect to server
     m_CFConnectionManager.Initialize(1);
+//    m_GameClientObjectManager.Initialize(1);
 //    m_GameClientObjectManager.Initialize(500);
 
 //    m_ClientObject.InitializeClient(SERVER_CONNECT_ADDRESS, SERVER_CONNECT_PORT);
@@ -142,15 +147,6 @@ PlayerMap& GameClientTester::GetPlayerMap()
 MonsterMap& GameClientTester::GetMonsterMap()
 {
     return this->m_ClientStage->GetMonsterMap();
-}
-
-void GameClientTester::SetDeviceID(DeviceID deviceID)
-{
-    this->m_DeviceID = deviceID;
-    std::stringstream deviceIDStringStream;
-    deviceIDStringStream << deviceID;
-//    cocos2d::CCUserDefault::sharedUserDefault()->setStringForKey("DeviceID", deviceIDStringStream.str());
-//    cocos2d::CCUserDefault::sharedUserDefault()->flush();
 }
 
 void GameClientTester::SetSessionID(SessionID sessionID)

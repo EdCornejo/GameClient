@@ -18,7 +18,8 @@ friend class GameFCPacketHandler;
 
 private:
     ConnectionID        m_CFConnectionID;
-
+    DeviceID            m_DeviceID;
+    
 public:
     CFConnection(BoostIOService& ioService, PacketParser* packetParser);
     virtual ~CFConnection();
@@ -26,6 +27,9 @@ public:
 
     void                    SetCFConnectionID(const ConnectionID connectionID)  {   m_CFConnectionID = connectionID; }
     const ConnectionID      GetConnectionID()                                   {   return m_CFConnectionID; }
+    
+    void                    SetDeviceID(const DeviceID& deviceID)   { m_DeviceID = deviceID; }
+    DeviceID                GetDeviceID()       {   return m_DeviceID; }
     
 protected:
     virtual void        OnConnect(const BoostErrorCode& error, BoostTCPSocket* connectedSocket) override;

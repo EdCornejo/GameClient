@@ -90,7 +90,6 @@ public:
     PlayerMap& GetPlayerMap();
     MonsterMap& GetMonsterMap();
     
-    void SetDeviceID(DeviceID deviceID);
     void SetSessionID(SessionID sessionID);
     void SetMyActorID(ActorID myActorID);
     void SetClientStage(ClientStage* clientStage);

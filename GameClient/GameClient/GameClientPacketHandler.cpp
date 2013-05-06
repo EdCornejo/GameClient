@@ -13,7 +13,7 @@ namespace flownet
 
 GameClientPacketHandler::PacketHandlerFunction* GameClientPacketHandler::m_HandlerMap = nullptr;
 
-GameClientPacketHandler::GameClientPacketHandler(RenderingTaskWorkerRoutine* renderingTaskWorkerRoutine):PacketHandler(),m_RenderingTaskWorkerRoutine(renderingTaskWorkerRoutine),m_GameClientRPCReceiver(nullptr)
+GameClientPacketHandler::GameClientPacketHandler(RenderingTaskWorkerRoutine* renderingTaskWorkerRoutine):PacketHandler(),m_GameClientObject(nullptr),m_RenderingTaskWorkerRoutine(renderingTaskWorkerRoutine),m_GameClientRPCReceiver(nullptr)
 {
     InitializeHandlerMap();
 }
@@ -122,22 +122,38 @@ void GameClientPacketHandler::OnSCResponseHeartbeat(INT64 heartbeatCountAck)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   
-void GameClientPacketHandler::OnSCResponseCreateUserAccount(UserID userID)
+//void GameClientPacketHandler::OnSCResponseCreateUserAccount(UserID userID)
+//{
+//    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+//    this->m_GameClientRPCReceiver->OnSCResponseCreateUserAccount(userID);
+//}
+//    
+//void GameClientPacketHandler::OnSCResponseLogInUserAccount(UserID userID, ActorID playerID, SessionID sessionID)
+//{
+//    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+//    this->m_GameClientRPCReceiver->OnSCResponseLogInUserAccount(userID, playerID, sessionID);
+//}
+//
+//void GameClientPacketHandler::OnSCResponseLogOutUserAccount(UserID userID)
+//{
+//    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+//    this->m_GameClientRPCReceiver->OnSCResponseLogOutUserAccount(userID);
+//}
+
+void GameClientPacketHandler::OnSCResponseLogInWithOTP(UserID userID, ActorID playerID, SessionID sessionID)
 {
-    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
-    this->m_GameClientRPCReceiver->OnSCResponseCreateUserAccount(userID);
-}
+    m_GameClientObject->SetUserID(userID);
+    m_GameClientObject->SetMyActorID(playerID);
+    m_GameClientObject->SetSessionID(sessionID);
     
-void GameClientPacketHandler::OnSCResponseLogInUserAccount(UserID userID, ActorID playerID, SessionID sessionID)
-{
-    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
-    this->m_GameClientRPCReceiver->OnSCResponseLogInUserAccount(userID, playerID, sessionID);
+    ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
+    m_GameClientRPCReceiver->OnSCResponseLogInWithOTP(userID, playerID, sessionID);
 }
 
 void GameClientPacketHandler::OnSCResponseLogOutUserAccount(UserID userID)
 {
-    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
-    this->m_GameClientRPCReceiver->OnSCResponseLogOutUserAccount(userID);
+    ASSERT_DEBUG(m_GameClientRPCReceiver!=nullptr);
+    m_GameClientRPCReceiver->OnSCResponseLogOutUserAccount(userID);
 }
 
 // stage

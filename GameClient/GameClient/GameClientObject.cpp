@@ -16,8 +16,12 @@ GameClientObject::GameClientObject(BoostIOService& ioService, PacketParser* pack
     m_SessionID(SessionID_NONE),
     m_HeartbeatGenerator(this),
     m_DeviceID(DeviceID_None),
+    m_GameServerID(GameServerID_None),
+    m_GameServerIP(""),
+    m_UserID(UserID_None),
     m_MyActorID(ActorID_None),
-    m_ClientStage(nullptr)
+    m_ClientStage(nullptr),
+    m_OTP(OTP_None)
 {
 
 }
@@ -78,6 +82,8 @@ void GameClientObject::OnConnect(const BoostErrorCode& error, BoostTCPSocket* co
     {
         std::cout << "connect completed clientObject" << std::endl;
         RecvStart();
+        
+        this->SendCSRequestLogInWithOTP(this->GetDeviceID(), this->GetUserID(), this->GetOTP());
     }
     else
     {

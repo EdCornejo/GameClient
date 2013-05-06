@@ -86,14 +86,31 @@ void FCPacketHandler::OnFCResponseCreateUserAccount(UserID userID)
     m_GameClientRPCReceiver->OnFCResponseCreateUserAccount(userID);
 }
 
-void FCPacketHandler::OnFCResponseLogInUserAccount(UserID userID, ActorID playerID, GameServerID gameServerID, OTP otp)
+void FCPacketHandler::OnFCResponseLogInUserAccount(flownet::UserID userID, flownet::GameServerID gameServerID, flownet::STRING gameServerIP, flownet::OTP otp)
 {
-    m_GameClientRPCReceiver->OnFCResponseLogInUserAccount(userID, playerID, gameServerID, otp);
+    if( userID == UserID_None )
+    {
+        ASSERT_DEBUG(userID!=UserID_None);
+    }
+
+    m_CFConnection->Disconnect();
+    
+    GameClientObject* gameClientObject = GameClientTester::Instance().GetGameClientObjectManager().CreateGameClientObject(gameServerIP, SERVER_CONNECT_PORT);
+//    GameClientObject* gameClientObject = GameClientTester::Instance().GetGameClientObjectManager().GetNextGameClientObject();
+
+    gameClientObject->SetDeviceID(m_CFConnection->GetDeviceID());
+    gameClientObject->SetUserID(userID);
+    gameClientObject->SetGameServerID(gameServerID);
+    gameClientObject->SetOTP(otp);
+
+    m_GameClientRPCReceiver->OnFCResponseLogInUserAccount(userID, gameServerID, gameServerIP, otp);
 }
 
 void FCPacketHandler::OnFCResponseLogOutUserAccount(UserID userID)
 {
     m_GameClientRPCReceiver->OnFCResponseLogOutUserAccount(userID);
 }
+
+    
     
 } // namespace flownet

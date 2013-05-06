@@ -43,13 +43,13 @@
 #include "GameClientObject.h"
 #include "GameClientObjectManager.h"
 
+#define GAMECLIENTTESTER
 //#include "GameClient.h"
 #include "TesterRPCReceiver.h"
 #include "GameClientTester.h"
 
 #include "GameClientTasks.h"
 #include "GameClientScheduledTasks.h"
-
 
 
 #endif

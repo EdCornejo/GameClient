@@ -24,8 +24,12 @@ private:
 
 private:
     DeviceID            m_DeviceID;
+    UserID              m_UserID;
+    GameServerID        m_GameServerID;
+    STRING              m_GameServerIP;
     ActorID             m_MyActorID;
     ClientStage*        m_ClientStage;
+    OTP                 m_OTP;
 
 public:
     GameClientObject(BoostIOService& ioService, PacketParser* packetParser);
@@ -34,14 +38,22 @@ public:
     
     void            SetSessionID(const SessionID sessionID)  {   m_SessionID = sessionID; }
     SessionID       GetSessionID()                          {return m_SessionID;}
-    DeviceID        GetDeviceID(){      return this->m_DeviceID; }
-    ActorID         GetMyActorID(){     return this->m_MyActorID;}
-    ClientStage*    GetClientStage(){   return this->m_ClientStage;}
-    PlayerMap&      GetPlayerMap(){    return this->m_ClientStage->GetPlayerMap();}
-    MonsterMap&     GetMonsterMap(){    return this->m_ClientStage->GetMonsterMap();}
-    void            SetDeviceID(DeviceID deviceID){    this->m_DeviceID = deviceID;    std::stringstream deviceIDStringStream;     deviceIDStringStream << deviceID; }
-    void            SetMyActorID(ActorID actorID){    this->m_MyActorID = actorID;}
+    DeviceID        GetDeviceID()               {   return this->m_DeviceID; }
+    UserID          GetUserID()                 {   return this->m_UserID; }
+    GameServerID    GetGameServerID()           {   return this->m_GameServerID; }
+    STRING          GetGameServerIP()           {   return this->m_GameServerIP; }
+    ActorID         GetMyActorID()              {   return this->m_MyActorID;}
+    ClientStage*    GetClientStage()            {   return this->m_ClientStage;}
+    PlayerMap&      GetPlayerMap()              {   return this->m_ClientStage->GetPlayerMap();}
+    MonsterMap&     GetMonsterMap()             {   return this->m_ClientStage->GetMonsterMap();}
+    OTP&            GetOTP()                    {   return this->m_OTP; }
+    void            SetDeviceID(DeviceID deviceID){ this->m_DeviceID = deviceID;/*    std::stringstream deviceIDStringStream;     deviceIDStringStream << deviceID;*/ }
+    void            SetUserID(const UserID userID){ this->m_UserID = userID; }
+    void            SetGameServerID(const GameServerID gameServerID){   this->m_GameServerID = gameServerID;}
+    void            SetGameServerIP(const STRING& gameServerIP){    this->m_GameServerIP = gameServerIP;}
+    void            SetMyActorID(ActorID actorID){  this->m_MyActorID = actorID;}
     void            SetClientStage(ClientStage *clientStage){    ASSERT_DEBUG(this->m_ClientStage==nullptr);    this->m_ClientStage = clientStage;}
+    void            SetOTP(const OTP& otp)      { m_OTP = otp; }
     void            EndStage(){    delete this->m_ClientStage;}
 
 private:

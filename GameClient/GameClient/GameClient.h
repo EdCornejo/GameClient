@@ -72,14 +72,14 @@ public:
     
 // GameClient Data Part
     
-//private:
-//    DeviceID m_DeviceID;
-//    SessionID m_SessionID;
-//    ActorID m_MyActorID;
-//    ClientStage* m_ClientStage;
+private:
+    DeviceID m_DeviceID;
+    SessionID m_SessionID;
+    ActorID m_MyActorID;
+    ClientStage* m_ClientStage;
 //    
 //public:
-//    DeviceID GetDeviceID();
+    DeviceID GetDeviceID();
 //    SessionID GetSessionID();
 //    ActorID GetMyActorID();
 //    ClientStage* GetClientStage();
@@ -101,8 +101,8 @@ public:
 // end of test data generation
 };
 
-} // namespace flownet
-
 #endif // GAMECLIENTTESTER
+
+} // namespace flownet
 
 #endif /* defined(__GameClient__GameClient__) */

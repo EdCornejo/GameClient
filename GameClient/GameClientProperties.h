@@ -10,7 +10,7 @@
 #define GameClient_GameClientProperties_h
 
 #define THREAD_SCHEDULING_TIMESLICE     30                  //milliseconds
-#define SERVER_CONNECT_ADDRESS          "61.43.139.149"         //loop back for test server
+//#define SERVER_CONNECT_ADDRESS          "61.43.139.149"         //loop back for test server
 //#define SERVER_CONNECT_ADDRESS          "127.0.0.1"         //loop back for test server
 #define SERVER_CONNECT_PORT             1988
 

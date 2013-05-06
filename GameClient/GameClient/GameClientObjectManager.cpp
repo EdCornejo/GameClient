@@ -11,7 +11,7 @@
 namespace flownet
 {
 
-GameClientObjectManager::GameClientObjectManager(BoostIOService& boostIOService, const STRING& serverAddress, const INT serverPort):m_IOService(boostIOService),m_ServerAddress(serverAddress),m_ServerPort(serverPort),m_NumberOfGameClientObjects(0),m_NextGameClientObject(0)
+GameClientObjectManager::GameClientObjectManager(BoostIOService& boostIOService):m_IOService(boostIOService),m_NumberOfGameClientObjects(0),m_NextGameClientObject(0)
 {
 }
 
@@ -25,13 +25,13 @@ GameClientObjectManager::~GameClientObjectManager()
     });
 }
 
-void GameClientObjectManager::Initialize(const INT numberOfGameClientObject)
-{
-    for( int i=0; i<numberOfGameClientObject; ++i )
-    {
-        GameClientObject* newConnection = CreateGameClientObject();
-    }
-}
+//void GameClientObjectManager::Initialize(const INT numberOfGameClientObject)
+//{
+//    for( int i=0; i<numberOfGameClientObject; ++i )
+//    {
+//        GameClientObject* newConnection = CreateGameClientObject();
+//    }
+//}
 
 GameClientObject* GameClientObjectManager::GetNextGameClientObject()
 {
@@ -40,7 +40,7 @@ GameClientObject* GameClientObjectManager::GetNextGameClientObject()
     return m_GameClientObjectList[nextGameClientObject];
 }
 
-GameClientObject* GameClientObjectManager::CreateGameClientObject()
+GameClientObject* GameClientObjectManager::CreateGameClientObject(const STRING gameServerIP, const INT gameServerPORT)
 {
     GameClientPacketHandler* packetHandler = new GameClientPacketHandler(&GameClientTester::Instance().GetRenderingTaskWorkerRoutine());
     GameClientPacketParser* packetParser = new GameClientPacketParser(packetHandler);
@@ -50,7 +50,7 @@ GameClientObject* GameClientObjectManager::CreateGameClientObject()
     packetHandler->LinkGameClientObject(gameClientObject);
     packetHandler->SetGameClientRPCReceiver(testerRPCReceiver);
     
-    gameClientObject->InitializeClient(m_ServerAddress.c_str(), m_ServerPort);
+    gameClientObject->InitializeClient(gameServerIP.c_str(), gameServerPORT);
     
     {
         ScopedLock lockList(m_LockList);
