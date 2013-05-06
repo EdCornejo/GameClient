@@ -12,7 +12,7 @@ namespace flownet
 {
 FCPacketHandler::PacketHandlerFunction* FCPacketHandler::m_HandlerMap = nullptr;
 
-FCPacketHandler::FCPacketHandler(RenderingTaskWorkerRoutine* renderingTaskWorkerRoutine):PacketHandler(),m_RenderingTaskWorkerRoutine(renderingTaskWorkerRoutine),m_CFConnection(nullptr)/*,m_FCRPCReceiver(nullptr)*/
+FCPacketHandler::FCPacketHandler(RenderingTaskWorkerRoutine* renderingTaskWorkerRoutine):PacketHandler(),m_RenderingTaskWorkerRoutine(renderingTaskWorkerRoutine),m_CFConnection(nullptr),m_GameClientRPCReceiver(nullptr)/*,m_FCRPCReceiver(nullptr)*/
 {
     InitializeHandlerMap();
 }

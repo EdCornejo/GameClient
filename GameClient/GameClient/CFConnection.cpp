@@ -46,7 +46,11 @@ void CFConnection::OnConnect(const BoostErrorCode& error, BoostTCPSocket* connec
     {
         RecvStart();
         
-        this->SendCFRequestLogInUserAccount(this->GetDeviceID(), "test5", "test5");
+        static volatile INT i=0;
+        INT myID= AtomicIncrement(&i)-1;
+        std::ostringstream accountString;
+        accountString << "test"<<myID;
+        this->SendCFRequestLogInUserAccount(this->GetDeviceID(), accountString.str().c_str(), accountString.str().c_str());
     }
     {
         
