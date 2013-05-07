@@ -171,10 +171,5 @@ void TesterRPCReceiver::OnFCResponseLogInUserAccount(flownet::UserID userID, flo
     // Implemented on FCPacketHandler
 }
 
-void TesterRPCReceiver::OnFCResponseLogOutUserAccount(flownet::UserID userID) const
-{
-}
-
-
 
 } // namespace flownet
