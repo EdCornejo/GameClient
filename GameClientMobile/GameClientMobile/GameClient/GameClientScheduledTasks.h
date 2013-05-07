@@ -15,10 +15,11 @@ namespace flownet
 class TaskCheckHeartbeatTimeOver : public ScheduledTask
 {
 private:
-    INT64       m_HeartbeatCount;
+    GameClientObject*   m_GameClientObject;
+    INT64               m_HeartbeatCount;
 public:
-    TaskCheckHeartbeatTimeOver(const INT64 heartbeatCount)
-        :ScheduledTask("TaskCheckHeartbeatTimeOver"),m_HeartbeatCount(heartbeatCount){}
+    TaskCheckHeartbeatTimeOver(GameClientObject* gameClientObject, const INT64 heartbeatCount)
+        :ScheduledTask("TaskCheckHeartbeatTimeOver"),m_GameClientObject(gameClientObject),m_HeartbeatCount(heartbeatCount){}
     virtual ~TaskCheckHeartbeatTimeOver(){}
     
     virtual void Execute() override;
@@ -27,9 +28,10 @@ public:
 class TaskSendHeartbeat : public ScheduledTask
 {
 private:
-    INT64       m_HeartbeatCount;
+    GameClientObject*   m_GameClientObject;
+    INT64               m_HeartbeatCount;
 public:
-    TaskSendHeartbeat(const INT64 heartbeatCount):ScheduledTask("TaskSendHeartbeat"), m_HeartbeatCount(heartbeatCount){}
+    TaskSendHeartbeat(GameClientObject* gameClientObject, const INT64 heartbeatCount):ScheduledTask("TaskSendHeartbeat"),m_GameClientObject(gameClientObject),m_HeartbeatCount(heartbeatCount){}
     virtual ~TaskSendHeartbeat(){}
     
     virtual void Execute() override;

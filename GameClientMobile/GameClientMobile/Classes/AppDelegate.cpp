@@ -79,6 +79,8 @@ bool AppDelegate::applicationDidFinishLaunching()
     // Initialize GameClient
     flownet::GameClient::Instance().InitializeClient(this);
     flownet::GameClient::Instance().StartClient();
+    
+    this->InitializeConnection();
 
     return true;
 }
@@ -102,16 +104,38 @@ void AppDelegate::applicationWillEnterForeground()
     // Re start GameClient
     flownet::GameClient::Instance().InitializeClient(this);
     flownet::GameClient::Instance().StartClient();
+    
+    this->InitializeConnection();
 
     CCDirector::sharedDirector()->startAnimation();
     SimpleAudioEngine::sharedEngine()->resumeBackgroundMusic();
     SimpleAudioEngine::sharedEngine()->resumeAllEffects();
 }
 
+void AppDelegate::InitializeConnection()
+{
+    std::string serverIP;
+    serverIP = CCUserDefault::sharedUserDefault()->getStringForKey("yours", "");
+    
+    if(serverIP.empty())
+    {
+        // Connect with frontend server
+        GameClient::Instance().GetCFConnection().InitializeClient("61.43.139.149", 1990);
+    }
+    else
+    {
+        // Connect with game server
+        GameClient::Instance().GetClientObject().InitializeClient(serverIP.c_str(), SERVER_CONNECT_PORT);
+    }
+}
 
 void AppDelegate::OnSCProtocolError() const
 {
 
+}
+
+void AppDelegate::OnFCProtocolError() const
+{
 }
 
 void AppDelegate::OnSCResponseConnect(flownet::INT64 connectionID) const
@@ -141,46 +165,84 @@ void AppDelegate::OnSCResponseHeartbeat(flownet::INT64 heartbeatCountAck) const
     
     heartbeatLayer->changeHeartbeatText(heartbeatCountAck);
 }
+void AppDelegate::OnFCResponseConnect(flownet::ConnectionID feConnectionID) const
+{
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void AppDelegate::OnSCResponseCreateUserAccount(flownet::UserID userID) const
+}
+
+void AppDelegate::OnFCResponseCreateUserAccount(flownet::UserID userID) const
 {
     if(userID != UserID_None)
     {
-    
+        std::cout << "User Account Created " << userID << std::endl;
+    // TO DO :
     }
     else
     {
+        std::cout << "Error. Create User Account " << std::endl;
         return;
         // TO DO : if failed alert in current scene
     }
 }
 
-void AppDelegate::OnSCResponseLogInUserAccount(flownet::UserID userID, flownet::ActorID playerID, flownet::SessionID sessionID) const
+void AppDelegate::OnFCResponseLogInUserAccount(flownet::UserID userID, flownet::GameServerID gameServerID, flownet::STRING gameServerIP, flownet::OTP otp) const
 {
-    if(userID != UserID_None)
+    if( userID == UserID_None )
     {
-        GameClient::Instance().SetMyActorID(playerID);
-        GameClient::Instance().SetSessionID(sessionID);
-    
-        GameClient::Instance().GetClientObject().SendCSRequestRejoinCurrentStage();
+        std::cout << "LogInUserAccount Failed. 1) logged-in session is exist  2) useraccount / password missmatch" << std::endl;
+        return;
     }
     else
     {
-        AccountScene* scene = static_cast<AccountScene*>(CCDirector::sharedDirector()->getRunningScene());
-        AccountLayer* accountLayer = scene->GetAccountLayer();
-        ASSERT_DEBUG(accountLayer);
+        GameClient::Instance().GetCFConnection().Disconnect();
         
-        GameClient::Instance().GetClientObject().SendCSRequestLogInUserAccount(GameClient::Instance().GetDeviceID(), accountLayer->GetEmailTextField()->getString(), accountLayer->GetPasswordTextField()->getString());
+        GameClient::Instance().SetUserID(userID);
+        GameClient::Instance().SetGameServerID(gameServerID);
+        GameClient::Instance().SetOTP(otp);
         
-        // failed
+        // save ServerIP
+        CCUserDefault::sharedUserDefault()->setStringForKey("yours", gameServerIP.c_str());
+        CCUserDefault::sharedUserDefault()->flush();
+        
+        GameClient::Instance().GetClientObject().InitializeClient(gameServerIP.c_str(), SERVER_CONNECT_PORT);
     }
 }
 
+void AppDelegate::OnSCResponseLogInWithOTP(flownet::UserID userID, flownet::ActorID playerID, flownet::SessionID sessionID) const
+{
+    GameClient::Instance().SetUserID(userID);
+    GameClient::Instance().SetMyActorID(playerID);
+    GameClient::Instance().SetSessionID(sessionID);    
+
+    if( userID == UserID_None)
+    {
+        std::cout << "LogInWithOTP FAILED" << std::endl;
+        return;
+    }
+    
+    if( playerID == ActorID_None )
+    {
+        // To Do : have to create new player
+        return;
+    }
+    
+    GameClient::Instance().GetClientObject().SendCSRequestRejoinCurrentStage();
+    
+    ASSERT_DEBUG(sessionID != SessionID_NONE);
+}
+
+
 void AppDelegate::OnSCResponseLogOutUserAccount(flownet::UserID userID) const
 {
-    // TO DO : log out user
+    if( userID == UserID_None )
+    {
+        std::cout << "LogOut Failed" << std::endl;
+    }
+    else
+    {
+        CCUserDefault::sharedUserDefault()->setStringForKey("yours", "");
+        CCUserDefault::sharedUserDefault()->flush();
+    }
 }
 
 void AppDelegate::OnSCResponseCreateStage(flownet::StageID stageID, flownet::Stage stage) const

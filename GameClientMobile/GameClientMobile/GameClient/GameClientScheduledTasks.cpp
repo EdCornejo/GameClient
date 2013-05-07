@@ -13,15 +13,12 @@ namespace flownet
 
 void TaskCheckHeartbeatTimeOver::Execute()
 {
-    GameClientObject& gameClientObject = GameClient::Instance().GetClientObject();
-    gameClientObject.CheckHeartbeatTimeOver(m_HeartbeatCount);
+    m_GameClientObject->CheckHeartbeatTimeOver(m_HeartbeatCount);
 }
 
 void TaskSendHeartbeat::Execute()
 {
-    GameClientObject& gameClientObject = GameClient::Instance().GetClientObject();
-    gameClientObject.SendCSRequestHeartbeat(GameClient::Instance().GetDeviceID(), m_HeartbeatCount, gameClientObject.GetConnectionID());
-    
+    m_GameClientObject->SendCSRequestHeartbeat(GameClient::Instance().GetDeviceID(), m_HeartbeatCount, m_GameClientObject->GetConnectionID());
 }
 
 } // namespace flownet

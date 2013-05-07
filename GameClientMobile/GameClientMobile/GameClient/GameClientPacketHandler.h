@@ -12,20 +12,23 @@
 namespace flownet
 {
 
+class GameClientObject;
 class GameClientPacketHandler : public PacketHandler
 {
     typedef void (GameClientPacketHandler::*PacketHandlerFunction)(GamePacket* packet);
 private:
-	// To do : Implement Callback Map
-    // use array to directly call the packet handler
-	PacketHandlerFunction*          m_HandlerMap;
-    RenderingTaskWorkerRoutine*     m_RenderingTaskWorkerRoutine;
+	GameClientObject*               m_GameClientObject;
     
+	static PacketHandlerFunction*   m_HandlerMap;
+    RenderingTaskWorkerRoutine*     m_RenderingTaskWorkerRoutine;
     const GameClientRPCInterface*   m_GameClientRPCReceiver;
+    
 
 public:
     GameClientPacketHandler(RenderingTaskWorkerRoutine* renderingTaskWorkerRoutine);
     virtual ~GameClientPacketHandler();
+    
+    void            LinkGameClientObject(GameClientObject* gameClientObject);
     
     void            BindHandlerFunction(INT protocolNumber, const PacketHandlerFunction& packetHandlerFunction);
     

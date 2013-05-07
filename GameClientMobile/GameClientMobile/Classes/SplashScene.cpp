@@ -8,7 +8,7 @@
 
 #include "Headers.pch"
 
-SplashScene::SplashScene(): m_HasRequestSession(false){}
+SplashScene::SplashScene(): m_HasRequestSession(false), m_HasRequestConnect(false){}
 SplashScene::~SplashScene() {}
     
 bool SplashScene::init()
@@ -31,7 +31,14 @@ void SplashScene::update(float deltaTime)
     
     if(GameClient::Instance().GetClientObject().GetConnectionID() != ConnectionID_NONE && !this->m_HasRequestSession)
     {
-        this->m_HasRequestSession = true;
         GameClient::Instance().GetClientObject().SendCSRequestSession(GameClient::Instance().GetDeviceID(), GameClient::Instance().GetClientObject().GetConnectionID(), GameClient::Instance().GetSessionID());
+        this->m_HasRequestSession = true;
+    }
+    if(GameClient::Instance().GetCFConnection().GetConnectionID() != ConnectionID_NONE && !this->m_HasRequestSession)
+    {
+        // TO DO : change to account scene
+        ClientDirector* director = static_cast<ClientDirector*>(CCDirector::sharedDirector());
+        director->ChangeScene<AccountScene>();
+        this->m_HasRequestSession = true;
     }
 }

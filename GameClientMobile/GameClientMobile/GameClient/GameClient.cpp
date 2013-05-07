@@ -23,12 +23,26 @@ GameClient::GameClient():
     m_ClientPacketHandler(&m_RenderingTaskWorkerRoutine),
     m_ClientPacketParser(&m_ClientPacketHandler),
     m_ClientObject(m_NetworkWorkerRoutine.m_IOService,&m_ClientPacketParser),
+    m_FCPacketHandler(&m_RenderingTaskWorkerRoutine),
+    m_FCPacketParser(&m_FCPacketHandler),
+    m_CFConnection(m_NetworkWorkerRoutine.m_IOService, &m_FCPacketParser),
     m_IsInitialized(false),
     m_IsStarted(false),
     m_DeviceID(DeviceID_None),
+    m_GameServerID(GameServerID_None),
     m_SessionID(SessionID_NONE),
+    m_UserID(UserID_None),
     m_MyActorID(ActorID_None),
-    m_ClientStage(nullptr)
+    m_ClientStage(nullptr),
+    m_OTP(OTP_None)
+{
+    this->InitializeDeviceID();
+    
+    m_ClientPacketHandler.LinkGameClientObject(&m_ClientObject);
+    m_FCPacketHandler.LinkCFConnection(&m_CFConnection);
+}
+
+void GameClient::InitializeDeviceID()
 {
     std::string deviceID = cocos2d::CCUserDefault::sharedUserDefault()->getStringForKey("DeviceID");
     std::stringstream deviceIDStringStream;
@@ -44,7 +58,10 @@ GameClient::GameClient():
     
     CCLOG("Device ID is : %s", deviceIDStringStream.str().c_str());
     
-    deviceIDStringStream >> this->m_DeviceID;
+    DeviceID thisDeviceID;
+    deviceIDStringStream >> thisDeviceID;
+    
+    this->SetDeviceID(thisDeviceID);
 }
 
 GameClient::~GameClient()
@@ -93,8 +110,9 @@ void GameClient::InitializeClient(GameClientRPCInterface* gameClientRPCReceiver)
     
     
     // connect to server
-    m_ClientObject.InitializeClient(SERVER_CONNECT_ADDRESS, SERVER_CONNECT_PORT);
+    //m_ClientObject.InitializeClient(SERVER_CONNECT_ADDRESS, SERVER_CONNECT_PORT);
     m_ClientPacketHandler.SetGameClientRPCReceiver(gameClientRPCReceiver);
+    m_FCPacketHandler.SetGameClientRPCReceiver(gameClientRPCReceiver);
     
     m_IsInitialized = true;
 }

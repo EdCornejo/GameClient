@@ -11,7 +11,9 @@
 namespace flownet
 {
 
-GameClientPacketHandler::GameClientPacketHandler(RenderingTaskWorkerRoutine* renderingTaskWorkerRoutine):PacketHandler(),m_RenderingTaskWorkerRoutine(renderingTaskWorkerRoutine),m_GameClientRPCReceiver(nullptr)
+GameClientPacketHandler::PacketHandlerFunction* GameClientPacketHandler::m_HandlerMap = nullptr;
+
+GameClientPacketHandler::GameClientPacketHandler(RenderingTaskWorkerRoutine* renderingTaskWorkerRoutine):PacketHandler(),m_GameClientObject(nullptr),m_RenderingTaskWorkerRoutine(renderingTaskWorkerRoutine),m_GameClientRPCReceiver(nullptr)
 {
     InitializeHandlerMap();
 }
@@ -23,6 +25,12 @@ GameClientPacketHandler::~GameClientPacketHandler()
         delete []m_HandlerMap;
         m_HandlerMap = nullptr;
     }
+}
+
+void GameClientPacketHandler::LinkGameClientObject(GameClientObject* gameClientObject)
+{
+    ASSERT_DEBUG(m_GameClientObject==nullptr);
+    m_GameClientObject = gameClientObject;
 }
 
 void GameClientPacketHandler::BindHandlerFunction(INT protocolNumber, const PacketHandlerFunction& packetHandlerFunction)
@@ -76,18 +84,15 @@ void GameClientPacketHandler::OnSCResponseConnect(ConnectionID connectionID)
     ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr );
     
     // Do Handle Game Jobs
-    GameClientObject& gameClientObject = GameClient::Instance().GetClientObject();
-    gameClientObject.SetConnectionID(connectionID);
-    
-    gameClientObject.StartHeartbeat();
+    m_GameClientObject->SetConnectionID(connectionID);
+    m_GameClientObject->StartHeartbeat();
 
     this->m_GameClientRPCReceiver->OnSCResponseConnect(connectionID);
 }
 
 void GameClientPacketHandler::OnSCResponseSession(UserID userID, ActorID myPlayerID, SessionID sessionID)
 {
-    GameClientObject& gameClientObject = GameClient::Instance().GetClientObject();
-    gameClientObject.SetSessionID(sessionID);
+    GameClient::Instance().SetSessionID(sessionID);
     
     ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr );
     this->m_GameClientRPCReceiver->OnSCResponseSession(userID, myPlayerID, sessionID);
@@ -117,22 +122,34 @@ void GameClientPacketHandler::OnSCResponseHeartbeat(INT64 heartbeatCountAck)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   
-void GameClientPacketHandler::OnSCResponseCreateUserAccount(UserID userID)
-{
-    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
-    this->m_GameClientRPCReceiver->OnSCResponseCreateUserAccount(userID);
-}
-    
-void GameClientPacketHandler::OnSCResponseLogInUserAccount(UserID userID, ActorID playerID, SessionID sessionID)
-{
-    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
-    this->m_GameClientRPCReceiver->OnSCResponseLogInUserAccount(userID, playerID, sessionID);
+//void GameClientPacketHandler::OnSCResponseCreateUserAccount(UserID userID)
+//{
+//    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+//    this->m_GameClientRPCReceiver->OnSCResponseCreateUserAccount(userID);
+//}
+//    
+//void GameClientPacketHandler::OnSCResponseLogInUserAccount(UserID userID, ActorID playerID, SessionID sessionID)
+//{
+//    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+//    this->m_GameClientRPCReceiver->OnSCResponseLogInUserAccount(userID, playerID, sessionID);
+//}
+//
+//void GameClientPacketHandler::OnSCResponseLogOutUserAccount(UserID userID)
+//{
+//    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+//    this->m_GameClientRPCReceiver->OnSCResponseLogOutUserAccount(userID);
+//}
+
+void GameClientPacketHandler::OnSCResponseLogInWithOTP(UserID userID, ActorID playerID, SessionID sessionID)
+{   
+    ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
+    m_GameClientRPCReceiver->OnSCResponseLogInWithOTP(userID, playerID, sessionID);
 }
 
 void GameClientPacketHandler::OnSCResponseLogOutUserAccount(UserID userID)
 {
-    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
-    this->m_GameClientRPCReceiver->OnSCResponseLogOutUserAccount(userID);
+    ASSERT_DEBUG(m_GameClientRPCReceiver!=nullptr);
+    m_GameClientRPCReceiver->OnSCResponseLogOutUserAccount(userID);
 }
 
 // stage

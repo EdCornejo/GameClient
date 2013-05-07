@@ -12,6 +12,7 @@
 namespace flownet
 {
 
+#ifndef GAMECLIENTTESTER
 
 
 // Implement as a Singleton Object
@@ -44,7 +45,10 @@ private:
     GameClientPacketHandler         m_ClientPacketHandler;
     GameClientPacketParser          m_ClientPacketParser;
     GameClientObject                m_ClientObject;         // NetworkObject
-
+    
+    FCPacketHandler                 m_FCPacketHandler;
+    FCPacketParser                  m_FCPacketParser;
+    CFConnection                    m_CFConnection;
    
     // State for assert accurate operation calls
 private:
@@ -64,30 +68,39 @@ public:
     inline NetworkWorkerRoutine&        GetNeworkWorkerRoutine()        {   return m_NetworkWorkerRoutine; }
     inline ThreadController&            GetThreadController()           {   return m_ThreadController; }
     inline GameClientObject&            GetClientObject()               {   return m_ClientObject; }
+    inline CFConnection&                GetCFConnection()               {   return m_CFConnection; }
 
 // End of GameClient Network Part
     
 // GameClient Data Part
     
 private:
-    DeviceID m_DeviceID;
-    SessionID m_SessionID;
-    ActorID m_MyActorID;
-    ClientStage* m_ClientStage;
+    DeviceID        m_DeviceID;
+    GameServerID    m_GameServerID;
+    SessionID       m_SessionID;
+    UserID          m_UserID;
+    ActorID         m_MyActorID;
+    ClientStage*    m_ClientStage;
+    OTP             m_OTP;
     
 public:
-    DeviceID GetDeviceID();
-    SessionID GetSessionID();
-    ActorID GetMyActorID();
-    ClientStage* GetClientStage();
-
-    PlayerMap& GetPlayerMap();
-    MonsterMap& GetMonsterMap();
+    DeviceID        GetDeviceID();
+    GameServerID    GetGameServerID();
+    SessionID       GetSessionID();
+    UserID          GetUserID()         {   return m_UserID; }
+    ActorID         GetMyActorID();
+    ClientStage*    GetClientStage();
+    OTP             GetOTP()        {return m_OTP; }
+    PlayerMap&      GetPlayerMap();
+    MonsterMap&     GetMonsterMap();
     
     void SetDeviceID(DeviceID deviceID);
+    void SetGameServerID(const GameServerID gameServerID){ m_GameServerID = gameServerID; }
     void SetSessionID(SessionID sessionID);
+    void SetUserID(const UserID userID) { m_UserID = userID;}
     void SetMyActorID(ActorID myActorID);
     void SetClientStage(ClientStage* clientStage);
+    void SetOTP(const OTP otp) {        m_OTP = otp; }
 
     void EndStage();
     
@@ -96,7 +109,12 @@ public:
 // test data generation
     void InitializeTestData();
 // end of test data generation
+
+private:
+    void InitializeDeviceID();
 };
+
+#endif // GAMECLIENTTESTER
 
 } // namespace flownet
 

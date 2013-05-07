@@ -270,6 +270,9 @@
 		6BC6C3EA17251FED00B439F9 /* ItemImageLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BC6C3E817251FEC00B439F9 /* ItemImageLoader.cpp */; };
 		6BC6C3F11725AA1600B439F9 /* ItemNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BC6C3EF1725AA1400B439F9 /* ItemNode.cpp */; };
 		6BC6C3F6172600DD00B439F9 /* StashNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BC6C3F4172600DB00B439F9 /* StashNode.cpp */; };
+		6BF045FB1738FC7700EE0E53 /* CFConnection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BF045F51738FC7700EE0E53 /* CFConnection.cpp */; };
+		6BF045FC1738FC7700EE0E53 /* FCPacketHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BF045F71738FC7700EE0E53 /* FCPacketHandler.cpp */; };
+		6BF045FD1738FC7700EE0E53 /* FCPacketParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BF045F91738FC7700EE0E53 /* FCPacketParser.cpp */; };
 		6BFA0EB3171542BE00E4F079 /* AccountScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BFA0EB1171542BE00E4F079 /* AccountScene.cpp */; };
 		6BFA0EBA1715DCCF00E4F079 /* SpellImageLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BFA0EB81715DCCF00E4F079 /* SpellImageLoader.cpp */; };
 		94F29CB316DDD6FB005DFDE4 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94F29CB216DDD6FB005DFDE4 /* QuartzCore.framework */; };
@@ -881,6 +884,12 @@
 		6BC6C3F01725AA1500B439F9 /* ItemNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ItemNode.h; path = Classes/ItemNode.h; sourceTree = "<group>"; };
 		6BC6C3F4172600DB00B439F9 /* StashNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StashNode.cpp; path = Classes/StashNode.cpp; sourceTree = "<group>"; };
 		6BC6C3F5172600DC00B439F9 /* StashNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StashNode.h; path = Classes/StashNode.h; sourceTree = "<group>"; };
+		6BF045F51738FC7700EE0E53 /* CFConnection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CFConnection.cpp; sourceTree = "<group>"; };
+		6BF045F61738FC7700EE0E53 /* CFConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CFConnection.h; sourceTree = "<group>"; };
+		6BF045F71738FC7700EE0E53 /* FCPacketHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FCPacketHandler.cpp; sourceTree = "<group>"; };
+		6BF045F81738FC7700EE0E53 /* FCPacketHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCPacketHandler.h; sourceTree = "<group>"; };
+		6BF045F91738FC7700EE0E53 /* FCPacketParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FCPacketParser.cpp; sourceTree = "<group>"; };
+		6BF045FA1738FC7700EE0E53 /* FCPacketParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCPacketParser.h; sourceTree = "<group>"; };
 		6BFA0EB1171542BE00E4F079 /* AccountScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AccountScene.cpp; path = Classes/AccountScene.cpp; sourceTree = "<group>"; };
 		6BFA0EB2171542BE00E4F079 /* AccountScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AccountScene.h; path = Classes/AccountScene.h; sourceTree = "<group>"; };
 		6BFA0EB81715DCCF00E4F079 /* SpellImageLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SpellImageLoader.cpp; path = Classes/SpellImageLoader.cpp; sourceTree = "<group>"; };
@@ -2078,6 +2087,25 @@
 			name = UINodes;
 			sourceTree = "<group>";
 		};
+		6BF045EA1738F29700EE0E53 /* RPC */ = {
+			isa = PBXGroup;
+			children = (
+				6BF045F51738FC7700EE0E53 /* CFConnection.cpp */,
+				6BF045F61738FC7700EE0E53 /* CFConnection.h */,
+				6BF045F71738FC7700EE0E53 /* FCPacketHandler.cpp */,
+				6BF045F81738FC7700EE0E53 /* FCPacketHandler.h */,
+				6BF045F91738FC7700EE0E53 /* FCPacketParser.cpp */,
+				6BF045FA1738FC7700EE0E53 /* FCPacketParser.h */,
+				94F29F7C16DDD738005DFDE4 /* GameClientObject.cpp */,
+				94F29F7D16DDD738005DFDE4 /* GameClientObject.h */,
+				94F29F7E16DDD738005DFDE4 /* GameClientPacketHandler.cpp */,
+				94F29F7F16DDD738005DFDE4 /* GameClientPacketHandler.h */,
+				94F29F8016DDD738005DFDE4 /* GameClientPacketParser.cpp */,
+				94F29F8116DDD738005DFDE4 /* GameClientPacketParser.h */,
+			);
+			name = RPC;
+			sourceTree = "<group>";
+		};
 		94F29CA316DDD6FA005DFDE4 = {
 			isa = PBXGroup;
 			children = (
@@ -2205,17 +2233,12 @@
 		94F29F7816DDD738005DFDE4 /* GameClient */ = {
 			isa = PBXGroup;
 			children = (
+				6BF045EA1738F29700EE0E53 /* RPC */,
 				6B7477B516F0E6930014C286 /* ThreadManagement */,
 				6BAA3A9516E6EF9C00BB233E /* GameClientObject */,
 				6B9E9A1716EE6C7E007A2BAC /* GameClient.cpp */,
 				94F29F7A16DDD738005DFDE4 /* GameClient.h */,
 				94F29F7B16DDD738005DFDE4 /* GameClientHeaders.pch */,
-				94F29F7C16DDD738005DFDE4 /* GameClientObject.cpp */,
-				94F29F7D16DDD738005DFDE4 /* GameClientObject.h */,
-				94F29F7E16DDD738005DFDE4 /* GameClientPacketHandler.cpp */,
-				94F29F7F16DDD738005DFDE4 /* GameClientPacketHandler.h */,
-				94F29F8016DDD738005DFDE4 /* GameClientPacketParser.cpp */,
-				94F29F8116DDD738005DFDE4 /* GameClientPacketParser.h */,
 				94F29F8216DDD738005DFDE4 /* GameClientScheduledTasks.cpp */,
 				94F29F8316DDD738005DFDE4 /* GameClientScheduledTasks.h */,
 				94F29F8416DDD738005DFDE4 /* GameClientTasks.cpp */,
@@ -2585,6 +2608,9 @@
 				6BC6C3EA17251FED00B439F9 /* ItemImageLoader.cpp in Sources */,
 				6BC6C3F11725AA1600B439F9 /* ItemNode.cpp in Sources */,
 				6BC6C3F6172600DD00B439F9 /* StashNode.cpp in Sources */,
+				6BF045FB1738FC7700EE0E53 /* CFConnection.cpp in Sources */,
+				6BF045FC1738FC7700EE0E53 /* FCPacketHandler.cpp in Sources */,
+				6BF045FD1738FC7700EE0E53 /* FCPacketParser.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
