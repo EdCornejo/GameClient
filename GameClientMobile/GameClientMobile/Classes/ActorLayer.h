@@ -9,15 +9,67 @@
 #ifndef __GameClientMobile__ActorLayer__
 #define __GameClientMobile__ActorLayer__
 
+struct ActorNodeSet {
+    ActorNode* m_ActorNode;
+    HUDNode* m_HUDNode;
+    ShadowNode* m_ShadowNode;
+    HighlightNode* m_HighlightNode;
+    GuideLineNode* m_GuideLineNode;
+    
+    ActorNodeSet(flownet::ActorID actorID): m_ActorNode(nullptr), m_HUDNode(nullptr), m_ShadowNode(nullptr), m_HighlightNode(nullptr), m_GuideLineNode(nullptr)
+    {
+        if(flownet::IsPlayerID(actorID))
+        {
+            this->m_ActorNode = PlayerNode::create(actorID);
+        }
+        else
+        {
+            this->m_ActorNode = MonsterNode::create(actorID);
+        }
+        this->m_ActorNode->retain();
+        
+        this->m_HUDNode = HUDNode::create(actorID);
+        this->m_HUDNode->retain();
+        
+        this->m_ShadowNode = ShadowNode::create(actorID);
+        this->m_ShadowNode->retain();
+    }
+    
+    ~ActorNodeSet()
+    {
+        if(this->m_ActorNode) this->m_ActorNode->release();
+        if(this->m_HUDNode) this->m_HUDNode->release();
+        if(this->m_ShadowNode) this->m_ShadowNode->release();
+        if(this->m_HighlightNode) this->m_HighlightNode->release();
+        if(this->m_GuideLineNode) this->m_GuideLineNode->release();
+        this->m_ActorNode = nullptr;
+        this->m_HUDNode = nullptr;
+        this->m_ShadowNode = nullptr;
+        this->m_HighlightNode = nullptr;
+    }
+    
+    void SetZOrder(int zOrder)
+    {
+        this->m_ActorNode->setZOrder(zOrder);
+        this->m_HUDNode->setZOrder(zOrder + 9);
+        this->m_ShadowNode->setZOrder(zOrder - 9);
+        this->m_HighlightNode->setZOrder(zOrder - 8);
+    }
+    
+    int GetZOrder(int zOrder)
+    {
+
+    }
+};
+
+
 class ActorLayer : public BaseLayer
 {
-    typedef flownet::Map<flownet::ActorID, ActorNode*>::type PlayerNodeMap;
-    typedef flownet::Map<flownet::ActorID, ActorNode*>::type MonsterNodeMap;
+    typedef flownet::Map<flownet::ActorID, ActorNodeSet*>::type ActorNodeSetMap;
     typedef flownet::Map<flownet::ItemID, ItemNode*>::type ItemNodeMap;
 
 private:
-    PlayerNodeMap m_PlayerNodeMap;
-    MonsterNodeMap m_MonsterNodeMap;
+    ActorNodeSetMap m_ActorNodeSetMap;
     ItemNodeMap m_ItemNodeMap;
     
 public:
@@ -30,21 +82,18 @@ public:
 
     virtual void update(float deltaTime) override;
 
-// Node Managing
 public:
-    void AddPlayerNode(ActorID playerID, PlayerNode* playerNode);
-    void DeletePlayerNode(ActorID playerID);
+    void DeletePlayer(ActorID playerID);
     PlayerNode* FindPlayerNode(ActorID playerID);
     
-    void AddMonsterNode(ActorID monsterID, MonsterNode* monsterNode);
-    void DeleteMonsterNode(ActorID monsterID);
+    void DeleteMonster(ActorID monsterID);
     MonsterNode* FindMonsterNode(ActorID monsterID);
     
     ActorNode* FindActorNode(ActorID actorID);
+    ActorNodeSet* FindActorNodeSet(ActorID actorID);
     ItemNode* FindItemNode(ItemID itemID);
     
     void SortNodes();
-// end of Node Managing
 
 // Util functions
     void UpdateActorLookingDirection(Actor* actor, CCPoint actorPoint, CCPoint lookingPoint);
@@ -69,11 +118,11 @@ public:
 // spell part
     void FireSpell(flownet::ActorID playerID, flownet::POINT destination, SpellInfo spellInfo);
 // end of spell part
-    void UseItem(flownet::ActorID playerID, flownet::ItemID itemID, flownet::InventorySlot inventorySlot);
+
+    void UseItem(flownet::ActorID playerID, flownet::ItemID itemID);
     void AddNewItem(flownet::Item item, flownet::POINT spawnPosition);
     void RemoveItem(CCObject* itemNode);
     void PickupItemFromField(flownet::ActorID playerID, flownet::ItemID itemID);
-
 };
 
 

@@ -8,9 +8,15 @@
 
 #include "Headers.pch"
 
-MonsterNode::MonsterNode(flownet::ActorID actorID) : ActorNode(actorID)
+MonsterNode::MonsterNode() : ActorNode() {}
+
+MonsterNode::~MonsterNode() {}
+
+bool MonsterNode::init()
 {
-    Monster* monster = GameClient::Instance().GetClientStage()->FindMonster(actorID);
+    if(!ActorNode::init()) return false;
+    
+    Monster* monster = GameClient::Instance().GetClientStage()->FindMonster(this->m_ActorID);
     
     switch(monster->GetMonsterType())
     {
@@ -33,39 +39,25 @@ MonsterNode::MonsterNode(flownet::ActorID actorID) : ActorNode(actorID)
     }
     this->m_Skeleton->setAnimation("idle", true);
     this->m_Skeleton->setAnchorPoint(CharacterAnchorPoint);
+
     this->addChild(this->m_Skeleton);
+    
+    return true;
 }
 
-MonsterNode::MonsterNode(flownet::Actor* actor): ActorNode(actor)
+MonsterNode* MonsterNode::create(flownet::ActorID actorID)
 {
-    Monster* monster = static_cast<Monster*>(actor);
+    MonsterNode* newNode = new MonsterNode();
+    newNode->m_ActorID = actorID;
     
-    switch(monster->GetMonsterType())
+    if(newNode && newNode->init())
     {
-        case flownet::MonsterType_Mushroom:
-
-        case flownet::MonsterType_Goblin:
-
-        case flownet::MonsterType_Spider:
-
-        case flownet::MonsterType_KingSpider:
-        default:
-            this->m_Skeleton = CCSkeleton::create("monster/goblins.json", "monster/goblin.atlas");
-            break;
-        
+        newNode->autorelease();
+        return newNode;
     }
-    
-    this->m_Skeleton->setAnchorPoint(CharacterAnchorPoint);
-    this->addChild(this->m_Skeleton);
+    else
+    {
+        delete newNode;
+        return nullptr;
+    }
 }
-
-MonsterNode::~MonsterNode()
-{
-
-}
-
-CCSprite* MonsterNode::LoadHighLightImage()
-{
-    return CCSprite::create("monster_highlight_circle.png");
-}
-

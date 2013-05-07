@@ -12,11 +12,19 @@
 class PlayerNode : public ActorNode
 {
 public:
-    PlayerNode(flownet::ActorID actorID);
-    PlayerNode(flownet::Actor* actor);
+    PlayerNode();
     virtual ~PlayerNode();
+    
+    virtual bool init();
+    
+    static PlayerNode* create(flownet::ActorID);
 
-    virtual CCSprite* LoadHighLightImage();
+    virtual void ChangeWand(flownet::ItemType itemType);
+    virtual void ChangeHat(flownet::ItemType itemType);
+    virtual void ChangeRobe(flownet::ItemType itemType);
+    virtual void ChangeCloak(flownet::ItemType itemType);
+    virtual void ChangeShoes(flownet::ItemType itemType);
+    virtual void ChangeRing(flownet::ItemType itemType);
 };
 
 #endif /* defined(__GameClientMobile__PlayerNode__) */

@@ -13,37 +13,100 @@ USING_NS_CC;
 
 using namespace spine;
 
-typedef int WeaponType;
-typedef int HatType;
-typedef int ClothType;
+
+class ShadowNode : public CCNode
+{
+private:
+    flownet::ActorID m_ActorID;
+    
+public:
+    ShadowNode();
+    virtual ~ShadowNode();
+    
+    virtual bool init();
+    static ShadowNode* create(flownet::ActorID actorID);
+    
+    virtual void update(float deltaTime);
+};
+
+class HighlightNode : public CCNode
+{
+private:
+    flownet::ActorID m_ActorID;
+    
+public:
+    HighlightNode();
+    virtual ~HighlightNode();
+    
+    virtual bool init();
+    static HighlightNode* create(flownet::ActorID actorID);
+    
+    virtual void update(float deltaTime);
+};
+
+class GuideLineNode : public CCNode
+{
+private:
+    flownet::SpellType m_SpellType;
+    CCPoint m_Source;
+    CCPoint m_Destination;
+    
+    CCSprite* m_SpellGuideLine;
+    CCSprite* m_SpellGuideIcon;
+    
+public:
+    GuideLineNode();
+    virtual ~GuideLineNode();
+    
+    virtual bool init();
+    static GuideLineNode* create(flownet::SpellType spellType, CCPoint source, CCPoint destination);
+};
+
+class HUDNode : public CCNode
+{
+private:
+    enum {
+        PositionX = 0,
+        PositionY = -20,
+    };
+    
+private:
+    flownet::ActorID m_ActorID;
+    
+    CCSprite* m_RemainHealthPointBar;
+    CCSprite* m_DamagedHealthPointBar;
+    
+public:
+    HUDNode();
+    virtual ~HUDNode();
+    
+    virtual bool init();
+    static HUDNode* create(flownet::ActorID actorID);
+    
+    virtual void update(float deltaTime);
+    
+    void ChangeHealthPointBar(float scaleFactor);
+    
+private:
+    void ShowHUD();
+    void HideHUD();
+};
+
+
 
 class ActorNode : public CCNode
 {
-private:
-    enum{
-        HP_BAR_REMAIN_TAG,
-        HP_BAR_CONSUMED_TAG,
-        MP_BAR_REMAIN_TAG,
-        MP_BAR_CONSUMED_TAG,
-    };
-
-private:
-    flownet::ActorID m_ActorID;
-    CCSprite* m_HUD;
-    CCSprite* m_SpellGuideLine;
-    CCSprite* m_SpellGuideIcon;
-
 protected:
+    flownet::ActorID m_ActorID;
     CCSkeleton* m_Skeleton;
 
 public:
-    ActorNode(flownet::ActorID actorID);
-    ActorNode(flownet::Actor* player);
+    ActorNode();
     virtual ~ActorNode();
     
-public:
-    void HighLight();
+    virtual bool init();
     
+public:
     void StopAnimationActions();
     
     virtual void AnimateIdle();
@@ -56,27 +119,26 @@ public:
     virtual void AnimateFire();
     virtual void AnimateDead();
 
-    void ChangeWeapon(WeaponType weaponType);
-    void ChangeHat(HatType hatType);
-    void ChangeCloth(ClothType clothType);
+    virtual void ChangeEquipment(flownet::EquipmentSlot equipmentSlot, flownet::ItemType itemType);
 
     flownet::ActorID GetActorID();
     flownet::Actor* GetActorInfo();
 
     CCRect GetRect();
     
-public:
-    void ChangeHealthPointBar(float scaleFactor);
-    void ChangeManaPointBar(float scaleFactor);
-    void ShowSpellGuide(flownet::SpellType spellType, CCPoint destination);
-    void HideSpellGuide();
+    virtual float getScale();
+    virtual void setScale(float scaleFactor);
     
 private:
-    virtual CCSprite* LoadHighLightImage() = 0;
-    void InitializeHUD();
-    void ShowHUD();
-    void HideHUD();
     void StopCharacterAnimate();
+    
+    virtual void ChangeWand(flownet::ItemType itemType);
+    virtual void ChangeHat(flownet::ItemType itemType);
+    virtual void ChangeRobe(flownet::ItemType itemType);
+    virtual void ChangeCloak(flownet::ItemType itemType);
+    virtual void ChangeShoes(flownet::ItemType itemType);
+    virtual void ChangeRing(flownet::ItemType itemType);
+//    virtual void ChangeHair(flownet::ItemType itemType);
 };
 
 #endif /* defined(__GameClientMobile__ActorNode__) */
