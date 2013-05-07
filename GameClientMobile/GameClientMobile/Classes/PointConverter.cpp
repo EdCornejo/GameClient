@@ -15,8 +15,8 @@
 //        rate of change(CCPoint / flownet::POINT) for y is 9.5
 //        rate of change(flownet::POINT / CCPoint) for x is 0.05333333333333.....
 //        rate of change(flownet::POINT / CCPoint) for y is 0.10526315789474
-//        flownet::POINT(0, 0) -> CCPoint(0 + boundary, 0)        boundary is 10 pixel
-//        flownet::POINT(24, 20) -> CCPoint(480 - boundary, 190)   480 - 10 is right boundary
+//        flownet::POINT(0, 0) -> CCPoint(0 + boundary, 0)        boundary is 15 pixel
+//        flownet::POINT(24, 20) -> CCPoint(480 - boundary, 190)   480 - 15 is right boundary
 
 flownet::POINT PointConverter::Convert(CCPoint point)
 {
