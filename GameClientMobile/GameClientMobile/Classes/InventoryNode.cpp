@@ -119,20 +119,6 @@ bool InventoryNode::init()
     // for changing order of render
     
     
-    // add gold label to body
-//    this->m_GoldLabel = CCLabelTTF::create("3020", "", 10);
-//    this->m_GoldLabel->retain();
-//    this->m_GoldLabel->setAnchorPoint(CCPointUpperLeft);
-//    this->m_GoldLabel->setHorizontalAlignment(kCCTextAlignmentRight);
-//    this->m_GoldLabel->setPosition(ccp(GoldLabelMarginX, bodyRect.size.height + GoldLabelMarginY));
-//    this->m_Body->addChild(this->m_GoldLabel);
-    // end of add gold label to body
-    
-    // add description label to body
-    // CCSprite* descriptionBackground = CCSprite::create("ui/inventory/description_background.png");
-    // descriptionBackground->setAnchorPoint(CCPointLowerLeft);
-    // descriptionBackground->setPosition(ccp(DescriptionBackgroundMarginX, DescriptionBackgroundMarginY));
-
     this->m_DescriptionLabel = CCLabelTTF::create("description", "", 10); // TO DO : multi line?
     this->m_DescriptionLabel->retain();
     this->m_DescriptionLabel->setAnchorPoint(CCPointUpperLeft);
@@ -149,6 +135,8 @@ bool InventoryNode::init()
     const float ItemSlotSizeY = slotRect.size.height;
     
     delete slotForSize;
+    
+    // TO DO : get users inventory's items and initialize the slots
     
     const int perRow = 4;
     for(int i = 0; i < InventorySlot_Max; i++)
@@ -251,7 +239,7 @@ void InventoryNode::ccTouchEnded(cocos2d::CCTouch *touch, cocos2d::CCEvent *even
                 this->m_HighlightedItemSlotNode->ResetHighlight();
                 this->m_HighlightedItemSlotNode = nullptr;
 
-                client.GetClientObject().SendCSRequestUseItem(client.GetClientStage()->GetStageID(), client.GetMyActorID(), this->m_TrackingItemSlotNode->GetItemID(), this->m_TrackingItemSlotNode->GetSlotNumber());
+                client.GetClientObject().SendCSRequestUseItem(client.GetClientStage()->GetStageID(), client.GetMyActorID(), this->m_TrackingItemSlotNode->GetItemID());
             }
             // if the selected item was not highlighted highlight it
             else

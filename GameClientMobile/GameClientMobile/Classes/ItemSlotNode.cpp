@@ -44,7 +44,7 @@ bool ItemSlotNode::init(flownet::ItemType itemType, flownet::ItemID itemID, flow
     this->m_ItemImage = ItemImageLoader::GetItemInventoryImage(this->m_ItemType);
     this->m_ItemImage->retain();
     
-    this->addChild(this->m_SlotBackground);
+    this->addChild(this->m_SlotBackground, BackgroundIndex);
     this->addChild(this->m_ItemImage);
     
     return true;
@@ -120,7 +120,7 @@ void ItemSlotNode::Highlight()
         this->m_SlotBackground->release();
     }
     this->m_SlotBackground = CCSprite::create("ui/inventory/item_slot_active.png");
-    this->addChild(this->m_SlotBackground);
+    this->addChild(this->m_SlotBackground, BackgroundIndex);
     this->m_SlotBackground->retain();
 }
 
@@ -133,7 +133,7 @@ void ItemSlotNode::ResetHighlight()
 
     }
     this->m_SlotBackground = CCSprite::create("ui/inventory/item_slot_normal.png");
-    this->addChild(this->m_SlotBackground);
+    this->addChild(this->m_SlotBackground, BackgroundIndex);
     this->m_SlotBackground->retain();
 }
 

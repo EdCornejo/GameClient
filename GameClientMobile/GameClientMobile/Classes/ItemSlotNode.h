@@ -12,6 +12,11 @@
 class ItemSlotNode : public CCNode
 {
 private:
+    enum {
+        BackgroundIndex = -10,
+    };
+
+private:
     flownet::ItemType m_ItemType;
     flownet::ItemID m_ItemID;
     flownet::InventorySlot m_SlotNumber;
