@@ -90,7 +90,11 @@ void FCPacketHandler::OnFCResponseLogInUserAccount(flownet::UserID userID, flown
 {
     if( userID == UserID_None )
     {
-        ASSERT_DEBUG(userID!=UserID_None);
+        #ifndef GAMECLIENTTESTER
+        std::cout << "LogIn Failed" << std::endl;
+        #endif
+        return;
+//        ASSERT_DEBUG(userID!=UserID_None);
     }
 
     m_CFConnection->Disconnect();

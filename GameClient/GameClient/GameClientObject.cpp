@@ -67,7 +67,9 @@ void GameClientObject::KeepHeartbeat(const INT64 heartbeatCount)
 void GameClientObject::OnHeartbeatTimeOver()
 {
     // TO Do : Self Disconnect or ReConnect
+    #ifndef GAMECLIENTTESTER
     std::cout << "OnHeartbeatTimeOver" << std::endl;
+    #endif
 #ifndef HEARTBEAT_ALLOW_DEBUG
     Disconnect();
 #endif //HEARTBEAT_ALLOW_DEBUG
@@ -80,7 +82,9 @@ void GameClientObject::OnConnect(const BoostErrorCode& error, BoostTCPSocket* co
     
     if( !error )
     {
+        #ifndef GAMECLIENTTESTER
         std::cout << "connect completed clientObject" << std::endl;
+        #endif
         RecvStart();
         
         this->SendCSRequestLogInWithOTP(this->GetDeviceID(), this->GetUserID(), this->GetOTP());
