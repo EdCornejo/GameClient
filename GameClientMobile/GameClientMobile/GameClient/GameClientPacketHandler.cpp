@@ -287,16 +287,16 @@ void GameClientPacketHandler::OnSCResponseSwapInventorySlot(flownet::StageID sta
     m_GameClientRPCReceiver->OnSCResponseSwapInventorySlot(stageID, playerID, sourceSlotNumber, destinationSlotNumber);
 }
 
-void GameClientPacketHandler::OnSCNotifyUseItem(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID, flownet::InventorySlot inventorySlot)
+void GameClientPacketHandler::OnSCNotifyUseItem(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID)
 {
     ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
-    m_GameClientRPCReceiver->OnSCNotifyUseItem(stageID, playerID, itemID, inventorySlot);
+    m_GameClientRPCReceiver->OnSCNotifyUseItem(stageID, playerID, itemID);
 }
 
-void GameClientPacketHandler::OnSCNotifyUnEquip(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID, flownet::InventorySlot inventorySlot)
+void GameClientPacketHandler::OnSCNotifyUnEquip(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID)
 {
     ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
-    m_GameClientRPCReceiver->OnSCNotifyUnEquip(stageID, playerID, itemID, inventorySlot);
+    m_GameClientRPCReceiver->OnSCNotifyUnEquip(stageID, playerID, itemID);
 }
 
     

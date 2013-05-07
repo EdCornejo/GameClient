@@ -41,18 +41,28 @@ public:
 private:
     void InitializeSpellQuickSlot();
     void InitializeInventory();
+    void InitializeStash();
     void InitializeMenuBar();
     
 public:
     InventoryNode* GetInventoryNode();
     StashNode* GetStashNode();
+
+private:
+    bool TouchProcessSpellBegan(CCPoint touchLocation);
+    bool TouchProcessSpellEnded(CCPoint touchLocation);
+    bool TouchProcessItem(CCPoint touchLocation);
+    bool TouchProcessMove(CCPoint touchLocation);
+    void TranslateScreen();
     
 public:
     void SetSelectedSpellType(SpellType spellType);
-    void UseItem(flownet::ItemID itemID, flownet::InventorySlot inventorySlot);
+    void UseItem(flownet::ItemID itemID);
     void SwapInventorySlot(flownet::InventorySlot sourceSlotNumber, flownet::InventorySlot destinationSlotNumber);
     void DropItemToField(flownet::ItemID itemID);
     void PickupItemFromField(flownet::ItemType itemType, flownet::ItemID itemID);
+    
+    void ChangeRobe();
 };
 
 #endif /* defined(__GameClientMobile__UILayer__) */

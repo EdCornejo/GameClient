@@ -148,12 +148,7 @@ void AppDelegate::OnSCResponseCreateUserAccount(flownet::UserID userID) const
 {
     if(userID != UserID_None)
     {
-        // this is called in account scene
-        AccountScene* scene = static_cast<AccountScene*>(CCDirector::sharedDirector()->getRunningScene());
-        AccountLayer* accountLayer = scene->GetAccountLayer();
-        
-        
-        GameClient::Instance().GetClientObject().SendCSRequestLogInUserAccount(GameClient::Instance().GetDeviceID(), accountLayer->GetEmailTextField()->getString() , accountLayer->GetPasswordTextField()->getString());
+    
     }
     else
     {
@@ -173,7 +168,12 @@ void AppDelegate::OnSCResponseLogInUserAccount(flownet::UserID userID, flownet::
     }
     else
     {
-        return;
+        AccountScene* scene = static_cast<AccountScene*>(CCDirector::sharedDirector()->getRunningScene());
+        AccountLayer* accountLayer = scene->GetAccountLayer();
+        ASSERT_DEBUG(accountLayer);
+        
+        GameClient::Instance().GetClientObject().SendCSRequestLogInUserAccount(GameClient::Instance().GetDeviceID(), accountLayer->GetEmailTextField()->getString(), accountLayer->GetPasswordTextField()->getString());
+        
         // failed
     }
 }
@@ -689,7 +689,7 @@ void AppDelegate::OnSCResponseSwapInventorySlot(flownet::StageID stageID, flowne
     scene->GetUILayer()->SwapInventorySlot(sourceSlotNumber, destinationSlotNumber);
 }
 
-void AppDelegate::OnSCNotifyUseItem(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID, flownet::InventorySlot inventorySlot) const
+void AppDelegate::OnSCNotifyUseItem(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID) const
 {
     ClientStage* clientStage = GameClient::Instance().GetClientStage();
     if(clientStage == nullptr || stageID != clientStage->GetStageID())
@@ -699,16 +699,16 @@ void AppDelegate::OnSCNotifyUseItem(flownet::StageID stageID, flownet::ActorID p
     }
 
     BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
-    scene->GetActorLayer()->UseItem(playerID, itemID, inventorySlot);
+    scene->GetActorLayer()->UseItem(playerID, itemID);
     if(playerID == GameClient::Instance().GetMyActorID())
     {
         Player* player = clientStage->FindPlayer(playerID);
-        player->UseItem(clientStage, itemID, inventorySlot);
-        scene->GetUILayer()->UseItem(itemID, inventorySlot);
+        player->UseItem(clientStage, itemID);
+        scene->GetUILayer()->UseItem(itemID);
     }
 }
 
-void AppDelegate::OnSCNotifyUnEquip(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID, flownet::InventorySlot inventorySlot) const
+void AppDelegate::OnSCNotifyUnEquip(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID) const
 {
     ClientStage* clientStage = GameClient::Instance().GetClientStage();
     if(clientStage == nullptr || stageID != clientStage->GetStageID())

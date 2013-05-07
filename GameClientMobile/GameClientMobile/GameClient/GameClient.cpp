@@ -42,6 +42,8 @@ GameClient::GameClient():
         cocos2d::CCUserDefault::sharedUserDefault()->flush();
     }
     
+    CCLOG("Device ID is : %s", deviceIDStringStream.str().c_str());
+    
     deviceIDStringStream >> this->m_DeviceID;
 }
 
@@ -183,7 +185,7 @@ void GameClient::InitializeTestData()
 {
     // test data generation code
     ActorID ownerID = 1;
-    StageInfo* stageInfo = new StageInfo(StageType_MushroomField, 1, 200, 100, 3);
+    StageInfo* stageInfo = new StageInfo(StageType_MushroomField, 1, 26, 26, 3);
     Stage* stage = new Stage(*stageInfo, ownerID);
     
     ClientStage* clientStage = new ClientStage(*stage);
