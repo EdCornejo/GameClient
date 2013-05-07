@@ -15,7 +15,7 @@ using namespace flownet;
 class BackgroundLayer : public BaseLayer
 {
 private:
-    CCSprite* m_BackgroundImage;
+    CCParallaxNode* m_BackgroundParallaxNode;
     
 public:
     BackgroundLayer();
@@ -31,6 +31,8 @@ public:
     virtual void update(float deltaTime);
 
     void AttachBackgroundImage(CCSprite* backgroundImage);
+    
+    void setPosition(CCPoint newPoint);
 };
 
 #endif /* defined(__GameClientMobile__BackgroundLayer__) */
