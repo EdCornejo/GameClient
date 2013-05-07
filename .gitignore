@@ -124,4 +124,5 @@ xcuserdata
 *.so
 *.a
 *.o
+*.o.d
 *.apk
