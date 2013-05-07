@@ -1,31 +1,29 @@
 //
-//  GameClient.h
+//  GameClientTester.h
 //  GameClient
 //
-//  Created by Sinhyub Kim on 2/13/13.
+//  Created by Kim Sinhyub on 4/30/13.
 //  Copyright (c) 2013 RoughHands. All rights reserved.
 //
 
-#ifndef __GameClient__GameClient__
-#define __GameClient__GameClient__
+#ifndef __GameClient__GameClientTester__
+#define __GameClient__GameClientTester__
 
 namespace flownet
 {
 
-#ifndef GAMECLIENTTESTER
-
 // Implement as a Singleton Object
-class GameClient
+class GameClientTester
 {
 private:
-    static GameClient*              _SingletonInstance;
+    static GameClientTester*              _SingletonInstance;
 
-    GameClient();
+    GameClientTester();
     
 public:
-    ~GameClient();
+    ~GameClientTester();
     
-    static GameClient& Instance();
+    static GameClientTester& Instance();
     static void DeleteInstance();
     
 
@@ -41,13 +39,16 @@ private:
     // Managed by Cocos2D main therad
     RenderingTaskWorkerRoutine      m_RenderingTaskWorkerRoutine;
     
-    GameClientPacketHandler         m_ClientPacketHandler;
-    GameClientPacketParser          m_ClientPacketParser;
-    GameClientObject                m_ClientObject;         // NetworkObject
     
-    FCPacketHandler                 m_FCPacketHandler;
-    FCPacketParser                  m_FCPacketParser;
-    CFConnection                    m_CFConnection;
+//    GameClientPacketHandler         m_ClientPacketHandler;
+//    GameClientPacketParser          m_ClientPacketParser;
+//    GameClientObject                m_ClientObject;         // NetworkObject
+    GameClientObjectManager         m_GameClientObjectManager;
+    CFConnectionManager             m_CFConnectionManager;
+    
+//    FCPacketHandler                 m_FCPacketHandler;
+//    FCPacketParser                  m_FCPacketParser;
+//    CFConnection                    m_CFConnection;
    
     // State for assert accurate operation calls
 private:
@@ -60,13 +61,15 @@ public:
     void TerminateClient();
     
 public:
-    inline SystemTimer&                 GetClientTimer()                {   return m_ClientTimer;   }
+    inline SystemTimer&                 GetClientTimer()                {   return m_ClientTimer;  }
     inline ScheduledTaskWorkerRoutine&  GetScheduledTaskWorkerRoutine() { return m_ScheduledTaskWorkerRoutine;    }
     inline TaskWorkerRoutine&           GetGameTaskWorkerRoutine()      {   return m_GameTaskWorkerRoutine; }
     inline RenderingTaskWorkerRoutine&  GetRenderingTaskWorkerRoutine() {   return m_RenderingTaskWorkerRoutine; }
     inline NetworkWorkerRoutine&        GetNeworkWorkerRoutine()        {   return m_NetworkWorkerRoutine; }
     inline ThreadController&            GetThreadController()           {   return m_ThreadController; }
-    inline GameClientObject&            GetClientObject()               {   return m_ClientObject; }
+    inline GameClientObjectManager&     GetGameClientObjectManager()    {   return m_GameClientObjectManager; }
+    inline CFConnectionManager&         GetCFConnectionManager()        {   return m_CFConnectionManager; }
+//    inline GameClientObject&            GetClientObject()               {   return m_ClientObject; }
 
 // End of GameClient Network Part
     
@@ -77,22 +80,21 @@ private:
     SessionID m_SessionID;
     ActorID m_MyActorID;
     ClientStage* m_ClientStage;
-//    
-//public:
+    
+public:
     DeviceID GetDeviceID();
-//    SessionID GetSessionID();
-//    ActorID GetMyActorID();
-//    ClientStage* GetClientStage();
-//
-//    PlayerMap& GetPlayerMap();
-//    MonsterMap& GetMonsterMap();
-//    
-//    void SetDeviceID(DeviceID deviceID);
-//    void SetSessionID(SessionID sessionID);
-//    void SetMyActorID(ActorID myActorID);
-//    void SetClientStage(ClientStage* clientStage);
-//
-//    void EndStage();
+    SessionID GetSessionID();
+    ActorID GetMyActorID();
+    ClientStage* GetClientStage();
+
+    PlayerMap& GetPlayerMap();
+    MonsterMap& GetMonsterMap();
+    
+    void SetSessionID(SessionID sessionID);
+    void SetMyActorID(ActorID myActorID);
+    void SetClientStage(ClientStage* clientStage);
+
+    void EndStage();
     
 // End of GameClient Data Part
     
@@ -101,8 +103,7 @@ private:
 // end of test data generation
 };
 
-#endif // GAMECLIENTTESTER
-
 } // namespace flownet
 
-#endif /* defined(__GameClient__GameClient__) */
+
+#endif /* defined(__GameClient__GameClientTester__) */

@@ -12,42 +12,35 @@
 namespace flownet
 {
 
+class GameClientObject;
 class GameClientPacketHandler : public PacketHandler
 {
     typedef void (GameClientPacketHandler::*PacketHandlerFunction)(GamePacket* packet);
 private:
-	// To do : Implement Callback Map
-    // use array to directly call the packet handler
-	PacketHandlerFunction*          m_HandlerMap;
-    TaskWorkerRoutine*              m_RPCTaskWorkerRoutine;
+	GameClientObject*               m_GameClientObject;
     
+	static PacketHandlerFunction*   m_HandlerMap;
+    RenderingTaskWorkerRoutine*     m_RenderingTaskWorkerRoutine;
     const GameClientRPCInterface*   m_GameClientRPCReceiver;
+    
 
 public:
-    GameClientPacketHandler(TaskWorkerRoutine* rpcTaskWorkerRoutine);
+    GameClientPacketHandler(RenderingTaskWorkerRoutine* renderingTaskWorkerRoutine);
     virtual ~GameClientPacketHandler();
     
-    void            InitializeHandlerMap();
+    void            LinkGameClientObject(GameClientObject* gameClientObject);
+    
     void            BindHandlerFunction(INT protocolNumber, const PacketHandlerFunction& packetHandlerFunction);
     
     void            SetGameClientRPCReceiver(const GameClientRPCInterface* gameClientRPCReceiver);
     
     virtual void    HandlePacket(BasePacket* packet) override;
     
-    
-    // RPC Handlers and Callback Functions
-    void SCProtocolErrorHandler(GamePacket* packet);
-    void OnSCProtocolError();
-    void SCResponseConnectHandler(GamePacket* packet);
-    void OnSCResponseConnect(ConnectionID connectionID);
-    void SCResponseSessionHandler(GamePacket* packet);
-    void OnSCResponseSession(SessionID sessionID);
-    void SCResponseHeartbeatHandler(GamePacket* packet);
-    void OnSCResponseHeartbeat(INT64 heartbeatCountAck);
-    
-    void SCResponseMyPlayerInfoHandler(GamePacket* packet);
-    void OnSCResponseMyPlayerInfo(Player player);
-    
+
+    #undef AutoGenerateHandlerName
+    #define AutoGenerateHandlerName GameClientPacketHandler
+
+    #include "GameSCProtocolHandlerDeclaration.hpp"
 };
 
 } // namespace flownet

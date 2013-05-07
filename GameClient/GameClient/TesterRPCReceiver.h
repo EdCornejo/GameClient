@@ -1,28 +1,27 @@
 //
-//  main.cpp
+//  TesterRPCReceiver.h
 //  GameClient
 //
-//  Created by Sinhyub Kim on 2/13/13.
-//  Copyright (c) 2013 Sinhyub Kim. All rights reserved.
+//  Created by Kim Sinhyub on 5/1/13.
+//  Copyright (c) 2013 RoughHands. All rights reserved.
 //
 
-#include <iostream>
-#include "GameClientHeaders.pch"
-
-using namespace flownet;
-using namespace std;
+#ifndef __GameClient__TesterRPCReceiver__
+#define __GameClient__TesterRPCReceiver__
 
 namespace flownet
 {
-}
-//class GameClientRPCReceiver : public GameClientRPCInterface
-//{
-//private:
-//
-//public:
-//    GameClientRPCReceiver(){}
-//    virtual ~GameClientRPCReceiver(){}
-//    
+
+class TesterRPCReceiver : public GameClientRPCInterface
+{
+private:
+
+public:
+    TesterRPCReceiver();
+    virtual ~TesterRPCReceiver();
+    
+    #include "GameSCOverrideProtocolHandlerDeclaration.hpp"
+    #include "GameFCOverrideProtocolHandlerDeclaration.hpp"
 //    virtual void OnSCProtocolError() const {}
 //    virtual void OnSCResponseConnect(flownet::ConnectionID connectionID) const {}
 //    virtual void OnSCResponseSession(flownet::UserID userID, flownet::ActorID myPlayerID, flownet::SessionID sessionID) const {}
@@ -57,29 +56,8 @@ namespace flownet
 //    virtual void OnSCResponseSwapInventorySlot(flownet::StageID stageID, flownet::ActorID playerID, flownet::InventorySlot sourceSlot, flownet::InventorySlot destinationSlot) const {}
 //    virtual void OnSCNotifyUseItem(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID) const {}
 //    virtual void OnSCNotifyUnEquip(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID) const {}
-//};
-//
-//
-//} //namespace flownet
+};
 
-int main(int argc, const char * argv[])
-{
-    
-    TesterRPCReceiver testerRPCReceiver;
-    GameClientTester::Instance().InitializeClient(&testerRPCReceiver);
-    GameClientTester::Instance().StartClient();
+} // namesapce flownet
 
-    while(true)
-    {
-        std::cout << "GameClient is on. Worker Thread is Working.." << std::endl;
-        std::this_thread::sleep_for(seconds(9));
-        
-//        GameClient::Instance().GetClientObject().SendCSRequestHeartbeat(, , )
-//        GameClient::Instance().GetClientObject().SendCSRequestHeartbeat(1);
-    }
-    
-    GameClientTester::Instance().TerminateClient();
-    
-    return 0;
-
-}
+#endif /* defined(__GameClient__TesterRPCReceiver__) */

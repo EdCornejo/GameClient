@@ -1,42 +1,46 @@
 //
-//  GameClient.cpp
+//  GameClientTester.cpp
 //  GameClient
 //
-//  Created by Sinhyub Kim on 2/13/13.
+//  Created by Kim Sinhyub on 4/30/13.
 //  Copyright (c) 2013 RoughHands. All rights reserved.
 //
 
 #include "GameClientHeaders.pch"
 
-#ifndef GAMECLIENTTESTER
-
 namespace flownet
 {
 
-GameClient* GameClient::_SingletonInstance = 0;
+GameClientTester* GameClientTester::_SingletonInstance = 0;
 
-GameClient::GameClient():
+GameClientTester::GameClientTester():
     m_ClientTimer(),
     m_ScheduledTaskWorkerRoutine(m_ClientTimer),
     m_GameTaskWorkerRoutine(),
     m_NetworkWorkerRoutine(),
     m_ThreadController(THREAD_SCHEDULING_TIMESLICE),
     m_RenderingTaskWorkerRoutine(),
-    m_ClientPacketHandler(&m_RenderingTaskWorkerRoutine),
-    m_ClientPacketParser(&m_ClientPacketHandler),
-    m_ClientObject(m_NetworkWorkerRoutine.m_IOService,&m_ClientPacketParser),
-    m_FCPacketHandler(&m_RenderingTaskWorkerRoutine),
-    m_FCPacketParser(&m_FCPacketHandler),
-    m_CFConnection(m_NetworkWorkerRoutine.m_IOService,&m_FCPacketParser),
+    m_GameClientObjectManager(m_NetworkWorkerRoutine.m_IOService),
+    m_CFConnectionManager(m_NetworkWorkerRoutine.m_IOService,FESERVER_CF_CONNECT_ADDRESS,FESERVER_CF_CONNECT_PORT),
+//    m_ClientPacketHandler(&m_RenderingTaskWorkerRoutine),
+//    m_ClientPacketParser(&m_ClientPacketHandler),
+//    m_ClientObject(m_NetworkWorkerRoutine.m_IOService,&m_ClientPacketParser),
+//    m_FCPacketHandler(&m_RenderingTaskWorkerRoutine),
+//    m_FCPacketParser(&m_FCPacketHandler),
+//    m_CFConnection(m_NetworkWorkerRoutine.m_IOService,&m_FCPacketParser),
     m_IsInitialized(false),
-    m_IsStarted(false)
+    m_IsStarted(false),
+    m_DeviceID(DeviceID_None),
+    m_SessionID(SessionID_NONE),
+    m_MyActorID(ActorID_None),
+    m_ClientStage(nullptr)
 {
     this->m_DeviceID = boost::uuids::random_generator()();
-    m_ClientPacketHandler.LinkGameClientObject(&m_ClientObject);
-    m_FCPacketHandler.LinkCFConnection(&m_CFConnection);
+//    m_ClientPacketHandler.LinkGameClientObject(&m_ClientObject);
+//    m_FCPacketHandler.LinkCFConnection(&m_CFConnection);
 }
 
-GameClient::~GameClient()
+GameClientTester::~GameClientTester()
 {
     if( m_IsStarted == true )
     {
@@ -44,16 +48,16 @@ GameClient::~GameClient()
     }
 }
 
-GameClient& GameClient::Instance()
+GameClientTester& GameClientTester::Instance()
 {
     if(_SingletonInstance==nullptr)
     {
-        _SingletonInstance= new GameClient;
+        _SingletonInstance= new GameClientTester;
     }
     return *_SingletonInstance;
 }
 
-void GameClient::DeleteInstance()
+void GameClientTester::DeleteInstance()
 {
     if( _SingletonInstance != nullptr )
     {
@@ -64,7 +68,7 @@ void GameClient::DeleteInstance()
 
 // GameClient Network Part
     
-void GameClient::InitializeClient(GameClientRPCInterface* gameClientRPCReceiver)
+void GameClientTester::InitializeClient(GameClientRPCInterface* gameClientRPCReceiver)
 {
     ASSERT_RELEASE(m_IsInitialized == false);
     ASSERT_RELEASE(m_IsStarted == false);
@@ -76,19 +80,28 @@ void GameClient::InitializeClient(GameClientRPCInterface* gameClientRPCReceiver)
     m_ThreadController.AddWorkerRoutine(&m_ScheduledTaskWorkerRoutine);
     m_ThreadController.AddWorkerRoutine(&m_GameTaskWorkerRoutine);
     m_ThreadController.AddWorkerRoutine(&m_NetworkWorkerRoutine);
+    
+    #ifdef GAMECLIENTTESTER
+        m_ThreadController.AddWorkerRoutine(&m_RenderingTaskWorkerRoutine);
+    #endif
     // NOTE :
     // RenderingTaskWorkerRoutine is managed by Cocos2d main thread
     // DO NOT ADD this m_RenderingTaskWorkerRoutine
     
     
     // connect to server
-    m_ClientObject.InitializeClient(SERVER_CONNECT_ADDRESS, SERVER_CONNECT_PORT);
-    m_ClientPacketHandler.SetGameClientRPCReceiver(gameClientRPCReceiver);
+    m_CFConnectionManager.Initialize(900);
+//    m_GameClientObjectManager.Initialize(1);
+//    m_GameClientObjectManager.Initialize(500);
+
+//    m_ClientObject.InitializeClient(SERVER_CONNECT_ADDRESS, SERVER_CONNECT_PORT);
+    
+//    m_ClientPacketHandler.SetGameClientRPCReceiver(gameClientRPCReceiver);
     
     m_IsInitialized = true;
 }
 
-void GameClient::StartClient()
+void GameClientTester::StartClient()
 {
     ASSERT_RELEASE(m_IsInitialized == true);
     ASSERT_RELEASE(m_IsStarted == false);
@@ -97,7 +110,7 @@ void GameClient::StartClient()
     m_ThreadController.Start();
 }
 
-void GameClient::TerminateClient()
+void GameClientTester::TerminateClient()
 {
     DeleteInstance();
 }
@@ -106,11 +119,62 @@ void GameClient::TerminateClient()
     
 // GameClient Data Part
 
+DeviceID GameClientTester::GetDeviceID()
+{
+    return this->m_DeviceID;
+}
+
+SessionID GameClientTester::GetSessionID()
+{
+    return this->m_SessionID;
+}
+
+ActorID GameClientTester::GetMyActorID()
+{
+    return this->m_MyActorID;
+}
+
+ClientStage* GameClientTester::GetClientStage()
+{
+    return this->m_ClientStage;
+}
+
+PlayerMap& GameClientTester::GetPlayerMap()
+{
+    return this->m_ClientStage->GetPlayerMap();
+}
+
+MonsterMap& GameClientTester::GetMonsterMap()
+{
+    return this->m_ClientStage->GetMonsterMap();
+}
+
+void GameClientTester::SetSessionID(SessionID sessionID)
+{
+    this->m_SessionID = sessionID;
+}
+
+void GameClientTester::SetMyActorID(ActorID actorID)
+{
+    this->m_MyActorID = actorID;
+}
+
+void GameClientTester::SetClientStage(ClientStage *clientStage)
+{
+    ASSERT_DEBUG(this->m_ClientStage==nullptr);
+
+    this->m_ClientStage = clientStage;
+}
+ 
+void GameClientTester::EndStage()
+{
+    delete this->m_ClientStage;
+}
     
 // End of GameClient Data Part
     
 // test data generation
-void GameClient::InitializeTestData()
+void GameClientTester::InitializeTestData()
 {
     // test data generation code
     ActorID ownerID = 1;
@@ -153,13 +217,13 @@ void GameClient::InitializeTestData()
     clientStage->AddMonster(monster11->GetActorID(), monster11);
     clientStage->AddMonster(monster12->GetActorID(), monster12);
     
-    GameClient::Instance().SetClientStage(clientStage);
-    GameClient::Instance().SetMyActorID(player1->GetActorID());
+    GameClientTester::Instance().SetClientStage(clientStage);
+    GameClientTester::Instance().SetMyActorID(player1->GetActorID());
     // end of test data generation code
 
 }
 // end of test data generation
+
     
 } // namespace flownet
 
-#endif GAMECLIENTTESTER

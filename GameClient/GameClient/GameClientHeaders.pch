@@ -12,19 +12,41 @@
 #include "flownetPublicHeaders.pch"
 
 #include "GameSharedHeaders.pch"        // from GameShared/
+//#include "GameProtocol.h"               // from GameShared/
+
 #include "GameCSProtocol.h"
 #include "GameSCProtocol.h"
+#include "GameFCProtocol.h"
+#include "GameCFProtocol.h"
 
 #include "GameClientProperties.h"
+
+#include "RenderingTaskWorkerRoutine.h"
+
+#include "ClientPlayer.h"
+#include "ClientMonster.h"
+#include "ClientStage.h"
+
+#include "DelayChecker.h"
 
 #include "HeartbeatGenerator.h"
 
 #include "GameClientRPCInterface.h"
 
+#include "FCPacketHandler.h"
+#include "FCPacketParser.h"
+#include "CFConnection.h"
+#include "CFConnectionManager.h"
+
 #include "GameClientPacketHandler.h"
 #include "GameClientPacketParser.h"
 #include "GameClientObject.h"
-#include "GameClient.h"
+#include "GameClientObjectManager.h"
+
+#define GAMECLIENTTESTER
+//#include "GameClient.h"
+#include "TesterRPCReceiver.h"
+#include "GameClientTester.h"
 
 #include "GameClientTasks.h"
 #include "GameClientScheduledTasks.h"
