@@ -35,6 +35,8 @@ void HeartbeatGenerator::StartHeartbeat(const ServerTime& startTime)
 
 BOOL HeartbeatGenerator::CheckHeartbeatTimeOver(const INT64 heartbeatCount, const ServerTime& checkTime)
 {
+    static const milliseconds networkDelayAllowance = milliseconds(200);
+    
     if( m_HeartbeatCount < heartbeatCount )
     {
 #ifndef HEARTBEAT_ALLOW_DEBUG
@@ -43,7 +45,7 @@ BOOL HeartbeatGenerator::CheckHeartbeatTimeOver(const INT64 heartbeatCount, cons
         std::cout << "CheckHeartbeatTimeOver : heartbeatCount :" << m_HeartbeatCount << std::endl;
         return true;
     }
-    if( checkTime-m_LastHeartbeatTime > m_AllowanceTime )
+    if( checkTime-m_LastHeartbeatTime > (m_AllowanceTime + networkDelayAllowance) )
     {
 #ifndef HEARTBEAT_ALLOW_DEBUG
         ASSERT_RELEASE(false);

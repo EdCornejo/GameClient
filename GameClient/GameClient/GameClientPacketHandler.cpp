@@ -105,14 +105,14 @@ void GameClientPacketHandler::OnSCResponseHeartbeat(INT64 heartbeatCountAck)
     checker->CheckEndTime();
     // end of Delay checking
 
-    if( heartbeatCountAck%100 == 0)
+    if( heartbeatCountAck%50 == 0)
     {
         std::cout << "fSCResponseHeartbeat : heartbeatCountAck" << heartbeatCountAck << std::endl;
     }
 
     
 //    GameClientObject->Send
-//    GameClient::Instance().GetClientObject().CheckHeartbeatTimeOver();
+    m_GameClientObject->CheckHeartbeatTimeOver(heartbeatCountAck);
     m_GameClientObject->KeepHeartbeat(heartbeatCountAck);
     
     ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr );
@@ -145,6 +145,10 @@ void GameClientPacketHandler::OnSCResponseLogInWithOTP(UserID userID, ActorID pl
     m_GameClientObject->SetUserID(userID);
     m_GameClientObject->SetMyActorID(playerID);
     m_GameClientObject->SetSessionID(sessionID);
+    
+    
+    m_GameClientObject->SendCSRequestCreateStage(StageType_SpiderCaveFront);
+    
     
     ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
     m_GameClientRPCReceiver->OnSCResponseLogInWithOTP(userID, playerID, sessionID);
