@@ -73,7 +73,7 @@ void FCPacketHandler::OnFCProtocolError()
 void FCPacketHandler::OnFCResponseConnect(ConnectionID feConnectionID)
 {
     m_CFConnection->SetConnectionID(feConnectionID);
-    if( feConnectionID % 100 == 0)
+    if( feConnectionID % 500 == 0)
     {
         std::cout << "ConnectionID:" << feConnectionID << std::endl;
     }
