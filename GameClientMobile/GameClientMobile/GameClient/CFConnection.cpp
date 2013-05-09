@@ -21,7 +21,7 @@ namespace flownet
 //    return dbServerConnection;
 //}
 
-CFConnection::CFConnection(BoostIOService& ioService, PacketParser* packetParser):ClientObject(ioService, packetParser),m_CFConnectionID(ConnectionID_NONE),m_DeviceID(DeviceID_None)
+CFConnection::CFConnection(BoostIOService& ioService, PacketParser* packetParser):ClientObject(ioService, packetParser)
 {
 }
 
