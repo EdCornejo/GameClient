@@ -132,15 +132,15 @@ void TesterRPCReceiver::OnSCNotifyRemoveItemFromStash(flownet::StageID stageID, 
 {
 }
 
-void TesterRPCReceiver::OnSCResponseRegisterStashItemToInventory(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID, flownet::InventorySlot inventorySlot) const 
+void TesterRPCReceiver::OnSCResponseRegisterStashItemToInventory(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID, ItemGroup itemGroup, flownet::InventorySlot inventorySlot) const
 {
 }
 
-void TesterRPCReceiver::OnSCResponseUnRegisterStashItemFromInventory(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID, flownet::InventorySlot inventorySlot) const 
+void TesterRPCReceiver::OnSCResponseUnRegisterStashItemFromInventory(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID, ItemGroup itemGroup, flownet::InventorySlot inventorySlot) const
 {
 }
 
-void TesterRPCReceiver::OnSCResponseSwapInventorySlot(flownet::StageID stageID, flownet::ActorID playerID, flownet::InventorySlot sourceSlot, flownet::InventorySlot destinationSlot) const 
+void TesterRPCReceiver::OnSCResponseSwapInventorySlot(flownet::StageID stageID, flownet::ActorID playerID, ItemGroup itemGroup, flownet::InventorySlot sourceSlot, flownet::InventorySlot destinationSlot) const
 {
 }
 
@@ -170,11 +170,6 @@ void TesterRPCReceiver::OnFCResponseLogInUserAccount(flownet::UserID userID, flo
 {
     // Implemented on FCPacketHandler
 }
-
-void TesterRPCReceiver::OnFCResponseLogOutUserAccount(flownet::UserID userID) const
-{
-}
-
 
 
 } // namespace flownet

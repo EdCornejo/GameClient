@@ -294,22 +294,22 @@ void GameClientPacketHandler::OnSCNotifyRemoveItemFromStash(flownet::StageID sta
     m_GameClientRPCReceiver->OnSCNotifyRemoveItemFromStash(stageID, playerID, itemID);
 }
 
-void GameClientPacketHandler::OnSCResponseRegisterStashItemToInventory(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID, flownet::InventorySlot slotNumber)
+void GameClientPacketHandler::OnSCResponseRegisterStashItemToInventory(StageID stageID, ActorID playerID, ItemID itemID, ItemGroup itemGroup, InventorySlot inventorySlot)
 {
     ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
-    m_GameClientRPCReceiver->OnSCResponseRegisterStashItemToInventory(stageID, playerID, itemID, slotNumber);
+    m_GameClientRPCReceiver->OnSCResponseRegisterStashItemToInventory(stageID, playerID, itemID, itemGroup, inventorySlot);
 }
 
-void GameClientPacketHandler::OnSCResponseUnRegisterStashItemFromInventory(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID, flownet::InventorySlot slotNumber)
+void GameClientPacketHandler::OnSCResponseUnRegisterStashItemFromInventory(StageID stageID, ActorID playerID, ItemID itemID, ItemGroup itemGroup, InventorySlot inventorySlot)
 {
     ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
-    m_GameClientRPCReceiver->OnSCResponseUnRegisterStashItemFromInventory(stageID, playerID, itemID, slotNumber);
+    m_GameClientRPCReceiver->OnSCResponseUnRegisterStashItemFromInventory(stageID, playerID, itemID, itemGroup, inventorySlot);
 }
 
-void GameClientPacketHandler::OnSCResponseSwapInventorySlot(flownet::StageID stageID, flownet::ActorID playerID, flownet::InventorySlot sourceSlotNumber, flownet::InventorySlot destinationSlotNumber)
+void GameClientPacketHandler::OnSCResponseSwapInventorySlot(StageID stageID, ActorID playerID, ItemGroup itemGroup, InventorySlot sourceSlot, InventorySlot destinationSlot)
 {
     ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
-    m_GameClientRPCReceiver->OnSCResponseSwapInventorySlot(stageID, playerID, sourceSlotNumber, destinationSlotNumber);
+    m_GameClientRPCReceiver->OnSCResponseSwapInventorySlot(stageID, playerID, itemGroup, sourceSlot, destinationSlot);
 }
 
 void GameClientPacketHandler::OnSCNotifyUseItem(StageID stageID, ActorID playerID, ItemID itemID)
