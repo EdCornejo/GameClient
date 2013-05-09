@@ -140,5 +140,3 @@ void PlayerNode::ChangeRing(flownet::ItemType itemType)
     }
     this->m_Skeleton->setAttachment("ring", itemImageName.c_str());
 }
-
-

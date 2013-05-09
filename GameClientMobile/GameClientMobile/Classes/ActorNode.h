@@ -74,6 +74,9 @@ private:
     flownet::ActorID m_ActorID;
     
     CCSprite* m_RemainHealthPointBar;
+    CCSprite* m_GreenBar;
+    CCSprite* m_YellowBar;
+    CCSprite* m_RedBar;
     CCSprite* m_DamagedHealthPointBar;
     
 public:
@@ -128,6 +131,10 @@ public:
     
     virtual float getScale();
     virtual void setScale(float scaleFactor);
+    
+    CCPoint GetSpellPosition();
+    CCPoint GetTopPosition();
+    CCPoint GetMidPosition();
     
 private:
     void StopCharacterAnimate();

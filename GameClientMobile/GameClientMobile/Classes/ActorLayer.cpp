@@ -235,6 +235,13 @@ void ActorLayer::AddNewPlayer(flownet::ClientPlayer player)
     
     ActorNodeSet* actorNodeSet = new ActorNodeSet(player.GetActorID());
 
+    if(player.GetActorID() == GameClient::Instance().GetMyActorID())
+    {
+        actorNodeSet->m_HighlightNode = HighlightNode::create(player.GetActorID());
+        actorNodeSet->m_HighlightNode->retain();
+    }
+
+
     actorNodeSet->m_ActorNode->setPosition(PointConverter::Convert(player.GetCurrentPosition()));
     
     ActorNodeSetMap::iterator iter = this->m_ActorNodeSetMap.find(player.GetActorID());
@@ -243,10 +250,10 @@ void ActorLayer::AddNewPlayer(flownet::ClientPlayer player)
     
     this->m_ActorNodeSetMap.insert(ActorNodeSetMap::value_type(player.GetActorID(), actorNodeSet));
     
-    this->addChild(actorNodeSet->m_ActorNode);
-    this->addChild(actorNodeSet->m_HUDNode);
-    this->addChild(actorNodeSet->m_ShadowNode);
-    this->addChild(actorNodeSet->m_HighlightNode);
+    if(actorNodeSet->m_ActorNode) this->addChild(actorNodeSet->m_ActorNode);
+    if(actorNodeSet->m_HUDNode)this->addChild(actorNodeSet->m_HUDNode);
+    if(actorNodeSet->m_ShadowNode)this->addChild(actorNodeSet->m_ShadowNode);
+    if(actorNodeSet->m_HighlightNode)this->addChild(actorNodeSet->m_HighlightNode);
 }
 
 void ActorLayer::AddNewMonster(flownet::ClientMonster monster)
@@ -263,10 +270,10 @@ void ActorLayer::AddNewMonster(flownet::ClientMonster monster)
     
     this->m_ActorNodeSetMap.insert(ActorNodeSetMap::value_type(monster.GetActorID(), actorNodeSet));
     
-    this->addChild(actorNodeSet->m_ActorNode);
-    this->addChild(actorNodeSet->m_HUDNode);
-    this->addChild(actorNodeSet->m_ShadowNode);
-    this->addChild(actorNodeSet->m_HighlightNode);
+    if(actorNodeSet->m_ActorNode) this->addChild(actorNodeSet->m_ActorNode);
+    if(actorNodeSet->m_HUDNode) this->addChild(actorNodeSet->m_HUDNode);
+    if(actorNodeSet->m_ShadowNode) this->addChild(actorNodeSet->m_ShadowNode);
+    if(actorNodeSet->m_HighlightNode) this->addChild(actorNodeSet->m_HighlightNode);
 }
 
 void ActorLayer::ChangeTarget(flownet::ActorID monsterID, flownet::ActorID targetPlayerID)
@@ -285,7 +292,7 @@ void ActorLayer::MoveActor(flownet::ActorID actorID, flownet::POINT currentPosit
     
     if( !actor->IsAlive() )
     {
-        CCLOG("ignore actor move request. actor is dead");
+        CCLOG("ActorLayer::MoveActor >> ignore actor move request. actor is dead");
         return;
     }
 
@@ -307,7 +314,6 @@ void ActorLayer::MoveActor(flownet::ActorID actorID, flownet::POINT currentPosit
         ClientMonster* monster = static_cast<ClientMonster*>(actor);
         monster->ChangeToMovingState();
         changeToIdleState = CCCallFunc::create(monster, callfunc_selector(ClientMonster::ChangeToIdleState));
-        sequence = CCSequence::create(animateMove, actionMove, actionMoveDone, changeToIdleState, NULL);
     }
     
     if(IsPlayerID(actorID))
@@ -315,8 +321,9 @@ void ActorLayer::MoveActor(flownet::ActorID actorID, flownet::POINT currentPosit
         ClientPlayer* player = static_cast<ClientPlayer*>(actor);
         player->ChangeToMovingState();
         changeToIdleState = CCCallFunc::create(player, callfunc_selector(ClientPlayer::ChangeToIdleState));
-        sequence = CCSequence::create(animateMove, actionMove, actionMoveDone, changeToIdleState, NULL);
     }
+    
+    sequence = CCSequence::create(animateMove, actionMove, actionMoveDone, changeToIdleState, NULL);
     
     ASSERT_DEBUG(sequence != nullptr);
     ASSERT_DEBUG(changeToIdleState != nullptr);
@@ -335,7 +342,7 @@ void ActorLayer::ActorAttack(flownet::ActorID attackerActorID, flownet::ActorID 
     
     if( !actor->IsAlive() )
     {
-        CCLOG("ignore actor's attack request. actor is dead");
+        CCLOG("ActorLayer::ActorAttack >> ignore actor's attack request. actor is dead");
         return;
     }
 
@@ -375,7 +382,7 @@ void ActorLayer::ActorBeginCast(flownet::ActorID casterActorID, flownet::SpellTy
 
     if( !actor->IsAlive() )
     {
-        CCLOG("ignore actor's cast request. actor is dead");
+        CCLOG("ActorLayer::ActorBeginCast >> ignore actor's cast request. actor is dead");
         return;
     }
     
@@ -392,6 +399,7 @@ void ActorLayer::ActorBeginCast(flownet::ActorID casterActorID, flownet::SpellTy
     }
     
     castingObject->StopAnimationActions();
+    this->UpdateActorLookingDirection(actor, castingObject->getPosition(), PointConverter::Convert(destination));
     CCFiniteTimeAction* animateBeginCasting = CCCallFunc::create(castingObject, callfunc_selector(ActorNode::AnimateBeginCasting));
     CCDelayTime* delay = CCDelayTime::create(0.2);
     CCFiniteTimeAction* animateRepeatCasting = CCCallFunc::create(castingObject, callfunc_selector(ActorNode::AnimateRepeatCasting));
@@ -413,7 +421,7 @@ void ActorLayer::ActorEndCast(flownet::ActorID invokerActorID, flownet::SpellTyp
     
     if( !actor->IsAlive() )
     {
-        CCLOG("ignore fire spell request. player is dead");
+        CCLOG("ActorLayer::ActorEndCast >> ignore fire spell request. player is dead");
         return;
     }
    
@@ -453,7 +461,7 @@ void ActorLayer::ActorAttacked(flownet::ActorID attackedActorID, flownet::ActorI
     
     if( !actor->IsAlive() )
     {
-        CCLOG("ignore player attacked request. player is dead");
+        CCLOG("ActorLayer::ActorAttacked >> ignore player attacked request. player is dead");
         return;
     }
 
@@ -502,8 +510,6 @@ void ActorLayer::ActorTakeDamage(flownet::ActorID actorID)
     ASSERT_DEBUG(actorNodeSet != nullptr);
     
     ASSERT_DEBUG(actor->GetMaxHealthPoint() != 0); // just checking for division by zero exception, will be this happened?
-    // TO DO : make him to set the max health point now
-    
     
     actorNodeSet->m_HUDNode->ChangeHealthPointBar(actor->GetHealthPoint() / actor->GetMaxHealthPoint());
 }
@@ -590,7 +596,7 @@ void ActorLayer::PickupItemFromField(flownet::ActorID playerID, flownet::ItemID 
 {
     ActorNode* actor = this->FindActorNode(playerID);
     ItemNode* item = this->FindItemNode(itemID);
-    CCJumpTo* jumpTo = CCJumpTo::create(0.3, actor->getPosition(), 30, 1);
+    CCJumpTo* jumpTo = CCJumpTo::create(0.3, actor->GetMidPosition(), 30, 1);
     CCDelayTime* delay = CCDelayTime::create(0.3);
     CCCallFuncO* remove = CCCallFuncO::create(this, callfuncO_selector(ActorLayer::RemoveItem), item);
     CCSequence* sequence = CCSequence::create(jumpTo, delay, remove, NULL);

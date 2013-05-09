@@ -16,7 +16,7 @@ public:
     virtual ~PlayerNode();
     
     virtual bool init();
-    
+
     static PlayerNode* create(flownet::ActorID);
 
     virtual void ChangeWand(flownet::ItemType itemType);

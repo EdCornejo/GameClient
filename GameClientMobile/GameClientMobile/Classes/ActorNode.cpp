@@ -14,7 +14,6 @@ ShadowNode::~ShadowNode(){}
 bool ShadowNode::init()
 {
     CCSprite* shadowImage = CCSprite::create("actor/shadow.png");
-    shadowImage->setAnchorPoint(CharacterAnchorPoint);
     this->addChild(shadowImage);
     
     scheduleUpdate();
@@ -59,7 +58,6 @@ HighlightNode::~HighlightNode() {}
 bool HighlightNode::init()
 {
     CCSprite* highlightImage = CCSprite::create("actor/highlight_circle.png");
-    highlightImage->setAnchorPoint(CharacterAnchorPoint);
     this->addChild(highlightImage);
     
     scheduleUpdate();
@@ -173,13 +171,28 @@ GuideLineNode* GuideLineNode::create(flownet::SpellType spellType, CCPoint sourc
 }
 
 
-HUDNode::HUDNode(): m_ActorID(ActorID_None), m_RemainHealthPointBar(nullptr), m_DamagedHealthPointBar(nullptr){}
+HUDNode::HUDNode(): m_ActorID(ActorID_None), m_RemainHealthPointBar(nullptr), m_GreenBar(nullptr), m_YellowBar(nullptr), m_RedBar(nullptr), m_DamagedHealthPointBar(nullptr){}
 HUDNode::~HUDNode()
 {
     if(this->m_RemainHealthPointBar)
     {
         this->m_RemainHealthPointBar->release();
         this->m_RemainHealthPointBar = nullptr;
+    }
+    if(this->m_GreenBar)
+    {
+        this->m_GreenBar->release();
+        this->m_GreenBar = nullptr;
+    }
+    if(this->m_YellowBar)
+    {
+        this->m_YellowBar->release();
+        this->m_YellowBar = nullptr;
+    }
+    if(this->m_RedBar)
+    {
+        this->m_RedBar->release();
+        this->m_RedBar = nullptr;
     }
     if(this->m_DamagedHealthPointBar)
     {
@@ -190,14 +203,31 @@ HUDNode::~HUDNode()
     
 bool HUDNode::init()
 {
-    CCSprite* background = CCSprite::create("blank.png"); // CCSprite::create("ui/hud/background.png");
-    // set position
+    CCSprite* background = CCSprite::create("ui/hud/background.png");
+    this->addChild(background);
 
-    this->m_DamagedHealthPointBar = CCSprite::create("blank.png"); //CCSprite::create("ui/hud/health_damaged.png");
+    this->m_DamagedHealthPointBar = CCSprite::create("ui/hud/health_damaged.png");
+    this->m_DamagedHealthPointBar->setAnchorPoint(ccp(0, 0.5));
+    this->m_DamagedHealthPointBar->setPosition(ccp(-this->m_DamagedHealthPointBar->getTextureRect().size.width / 2, 0));
     this->m_DamagedHealthPointBar->retain();
     this->addChild(this->m_DamagedHealthPointBar);
     
-    this->m_RemainHealthPointBar = CCSprite::create("blank.png");//CCSprite::create("ui/hud/health_remain_green.png");
+    this->m_GreenBar = CCSprite::create("ui/hud/health_remain_green.png");
+    this->m_GreenBar->setAnchorPoint(ccp(0, 0.5));
+    this->m_GreenBar->setPosition(ccp(-this->m_GreenBar->getTextureRect().size.width / 2, 0));
+    this->m_GreenBar->retain();
+    
+    this->m_YellowBar = CCSprite::create("ui/hud/health_remain_yellow.png");
+    this->m_YellowBar->setAnchorPoint(ccp(0, 0.5));
+    this->m_YellowBar->setPosition(ccp(-this->m_YellowBar->getTextureRect().size.width / 2, 0));
+    this->m_YellowBar->retain();
+    
+    this->m_RedBar = CCSprite::create("ui/hud/health_remain_red.png");
+    this->m_RedBar->setAnchorPoint(ccp(0, 0.5));
+    this->m_RedBar->setPosition(ccp(-this->m_RedBar->getTextureRect().size.width / 2, 0));
+    this->m_RedBar->retain();
+    
+    this->m_RemainHealthPointBar = this->m_GreenBar;
     this->m_RemainHealthPointBar->retain();
     this->addChild(this->m_RemainHealthPointBar);
     
@@ -245,6 +275,40 @@ void HUDNode::ChangeHealthPointBar(float scaleFactor)
 {
     this->m_DamagedHealthPointBar->stopActionByTag(ActionType_UI);
     this->stopActionByTag(ActionType_UI);
+    
+    if(scaleFactor >= 0.5)
+    {
+        if(this->m_GreenBar != this->m_RemainHealthPointBar)
+        {
+            this->removeChild(this->m_RemainHealthPointBar);
+            this->m_RemainHealthPointBar->release();
+            this->m_RemainHealthPointBar = this->m_GreenBar;
+            this->addChild(this->m_RemainHealthPointBar);
+            this->m_RemainHealthPointBar->retain();
+        }
+    }
+    else if(scaleFactor >= 0.25)
+    {
+        if(this->m_RemainHealthPointBar != this->m_YellowBar)
+        {
+            this->removeChild(this->m_RemainHealthPointBar);
+            this->m_RemainHealthPointBar->release();
+            this->m_RemainHealthPointBar = this->m_YellowBar;
+            this->addChild(this->m_RemainHealthPointBar);
+            this->m_RemainHealthPointBar->retain();
+        }
+    }
+    else
+    {
+        if(this->m_RemainHealthPointBar != this->m_RedBar)
+        {
+            this->removeChild(this->m_RemainHealthPointBar);
+            this->m_RemainHealthPointBar->release();
+            this->m_RemainHealthPointBar = this->m_RedBar;
+            this->addChild(this->m_RemainHealthPointBar);
+            this->m_RemainHealthPointBar->retain();
+        }
+    }
     
     this->m_RemainHealthPointBar->setScaleX(scaleFactor);
 
@@ -637,6 +701,48 @@ float ActorNode::getScale()
 void ActorNode::setScale(float scaleFactor)
 {
     this->m_Skeleton->setScale(scaleFactor);
+}
+
+CCPoint ActorNode::GetSpellPosition()
+{
+    CCPoint position = this->getPosition();
+    
+    Skeleton_updateWorldTransform(this->m_Skeleton->skeleton);
+    const Bone* bone = this->m_Skeleton->findBone("spell_position");
+    if(bone)
+    {
+        position.x += bone->worldX * this->m_Skeleton->getScale();
+        position.y += bone->worldY * this->m_Skeleton->getScale();
+    }
+    return position;
+}
+
+CCPoint ActorNode::GetTopPosition()
+{
+    CCPoint position = this->getPosition();
+    
+    Skeleton_updateWorldTransform(this->m_Skeleton->skeleton);
+    const Bone* bone = this->m_Skeleton->findBone("top_position");
+    if(bone)
+    {
+        position.x += bone->worldX;
+        position.y += bone->worldY;
+    }
+    return position;
+}
+
+CCPoint ActorNode::GetMidPosition()
+{
+    CCPoint position = this->getPosition();
+    
+    Skeleton_updateWorldTransform(this->m_Skeleton->skeleton);
+    const Bone* bone = this->m_Skeleton->findBone("mid_position");
+    if(bone)
+    {
+        position.x += bone->worldX;
+        position.y += bone->worldY;
+    }
+    return position;
 }
 
 void ActorNode::ChangeWand(flownet::ItemType itemType) { }
