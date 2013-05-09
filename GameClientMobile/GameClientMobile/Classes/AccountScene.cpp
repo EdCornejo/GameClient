@@ -114,14 +114,6 @@ bool AccountLayer::init()
             this->addChild(loginButtonMenu);
             // TO DO : popup login window
         }
-        else
-        {
-            // TO DO : goto character window or stage window
-            CCDelayTime* delay = CCDelayTime::create(0.5f);
-            CCCallFunc* callfunc = CCCallFunc::create(this, callfunc_selector(AccountLayer::SendRejoinRequest));
-            CCSequence* sequence = CCSequence::create(delay, callfunc, NULL);
-            this->runAction(sequence);
-        }
     }
 
     this->setTouchEnabled(true);
