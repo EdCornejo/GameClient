@@ -49,7 +49,7 @@ bool SpellNode::initWithFile(const char* fileName)
         }
         case flownet::StartingPoint_Self:
         default:
-            spellStartPoint = firingObject->getPosition();
+            spellStartPoint = firingObject->GetSpellPosition();
             // NOTE : character height adjustment
             spellStartPoint.y += firingObject->GetRect().size.height / 2;
             // NOTE : character width adjustment

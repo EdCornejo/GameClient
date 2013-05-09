@@ -49,17 +49,24 @@ class StashNode : public CCNode, public CCTouchDelegate
 typedef flownet::Vector<ItemSlotNode*>::type ItemSlotNodeList;
 
 private:
-    std::string m_CurrentTab;
+    enum {
+        PerPage = 16,
+        PerRow = 2,
+    };
+
+private:
     CCSprite* m_Body;
-    CCMenuItemToggle* m_EquipmentButton;
-    CCMenuItemToggle* m_ConsumeButton;
-    CCMenuItemToggle* m_MaterialButton;
-    ItemSlotNodeList m_ItemSlotNodeList;
+    flownet::ItemGroup  m_CurrentItemGroup;
+    int                 m_CurrentPage;
+    CCMenuItemToggle*   m_EquipmentButton;
+    CCMenuItemToggle*   m_ConsumeButton;
+    CCMenuItemToggle*   m_MaterialButton;
+    ItemSlotNodeList    m_ItemSlotNodeList;
     
     ItemInfoPopupLayer* m_ItemInfoPopup;
     
-    ItemSlotNode* m_TrackingItemSlotNode;
-    bool m_IsTrackingItemSlotMoving;
+    ItemSlotNode*       m_TrackingItemSlotNode;
+    bool                m_IsTrackingItemSlotMoving;
     flownet::ServerTime m_TrackingItemSlotTouchedTime;
 
 public:
@@ -86,9 +93,10 @@ public:
     
 public:
     ItemSlotNode* FindSelectedItemSlotNode(CCPoint touchLocation);
-    void AddItem(flownet::ItemType itemType, flownet::ItemID itemID);
-    void EraseItem(flownet::ItemID itemID);
-    
+//    void AddItem(flownet::ItemType itemType, flownet::ItemID itemID);
+//    void EraseItem(flownet::ItemID itemID);
+
+    void Update();
     
 private:
     void OnEquipmentButtonClicked(CCObject* sender);

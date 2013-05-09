@@ -8,7 +8,7 @@
 
 #include "Headers.pch"
 
-InventoryNode::InventoryNode(): m_IsOpen(false), m_MovingPart(nullptr), m_PinnedPart(nullptr), m_CurrentTab(), m_ScrollButton(nullptr), m_SlideButton(nullptr), m_Body(nullptr), m_GoldLabel(nullptr), m_DescriptionLabel(nullptr), m_EquipmentButton(nullptr), m_ConsumeButton(nullptr), m_MaterialButton(nullptr), m_ItemSlotNodeList(), m_TrackingItemSlotNode(nullptr), m_HighlightedItemSlotNode(nullptr), m_IsTrackingItemSlotMoving(false), m_TrackingItemSlotTouchedTime(0)
+InventoryNode::InventoryNode(): m_IsOpen(false), m_MovingPart(nullptr), m_PinnedPart(nullptr), m_CurrentItemGroup(ItemGroup_None), m_ScrollButton(nullptr), m_SlideButton(nullptr), m_Body(nullptr), m_GoldLabel(nullptr), m_DescriptionLabel(nullptr), m_EquipmentButton(nullptr), m_ConsumeButton(nullptr), m_MaterialButton(nullptr), m_ItemSlotNodeList(), m_TrackingItemSlotNode(nullptr), m_HighlightedItemSlotNode(nullptr), m_IsTrackingItemSlotMoving(false), m_TrackingItemSlotTouchedTime(0)
 {
 
 }
@@ -111,7 +111,7 @@ bool InventoryNode::init()
     tabMenu->setPosition(ccp(bodyRect.size.width / 2, bodyRect.size.height));
     
     // NOTE : default tab is consume tab
-    this->m_CurrentTab = "consume";
+    this->m_CurrentItemGroup = ItemGroup_Consume;
     this->m_ConsumeButton->setSelectedIndex(1);
 
     bodyNode->addChild(tabMenu);
@@ -127,7 +127,6 @@ bool InventoryNode::init()
     this->m_Body->addChild(this->m_DescriptionLabel);
 
     // add ItemSlotNodes to body
-    
     ItemSlotNode* slotForSize = ItemSlotNode::create(ItemType_None, ItemID_None, InventorySlot_None);
     CCRect slotRect = GetRect(slotForSize);
     
@@ -136,12 +135,12 @@ bool InventoryNode::init()
     
     delete slotForSize;
     
-    // TO DO : get users inventory's items and initialize the slots
-    
+    // NOTE : first initialize inventory slot with empty items
     const int perRow = 4;
     for(int i = 0; i < InventorySlot_Max; i++)
     {
         ItemSlotNode* slotNode = ItemSlotNode::create(ItemType_None, ItemID_None, static_cast<InventorySlot>(i));
+       
         slotNode->setAnchorPoint(CCPointUpperLeft);
         CCPoint slotPosition;
         slotPosition.x = ItemSlotPositionX + ((ItemSlotMargin + ItemSlotSizeX) * (i % perRow));
@@ -151,7 +150,6 @@ bool InventoryNode::init()
         this->m_ItemSlotNodeList.push_back(slotNode);
         this->m_Body->addChild(slotNode);
     }
-
     // end of add ItemSlotNodes to body
     
     this->m_MovingPart->addChild(bodyNode);
@@ -164,6 +162,9 @@ bool InventoryNode::init()
     
     this->addChild(m_MovingPart);
     this->addChild(m_PinnedPart);
+
+    // Initialize with actor's inventory
+    this->Update();
     
     CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, 0, true);
     
@@ -244,20 +245,22 @@ void InventoryNode::ccTouchEnded(cocos2d::CCTouch *touch, cocos2d::CCEvent *even
             // if the selected item was not highlighted highlight it
             else
             {
-                this->m_HighlightedItemSlotNode = this->m_TrackingItemSlotNode;
-                this->m_HighlightedItemSlotNode->Highlight();
+                // if ItemType is not None highlight
+                if(this->m_TrackingItemSlotNode->GetItemType() != ItemType_None)
+                {
+                    this->m_HighlightedItemSlotNode = this->m_TrackingItemSlotNode;
+                    this->m_HighlightedItemSlotNode->Highlight();
+                }
             }
         }
         else if(selectedItemSlot && this->m_IsTrackingItemSlotMoving )
         {
-            client.GetClientObject().SendCSRequestSwapInventorySlot(client.GetClientStage()->GetStageID(), client.GetMyActorID(), this->m_TrackingItemSlotNode->GetSlotNumber(), selectedItemSlot->GetSlotNumber());
-            // first request to server and change it in a response
+            client.GetClientObject().SendCSRequestSwapInventorySlot(client.GetClientStage()->GetStageID(), client.GetMyActorID(), this->m_CurrentItemGroup, this->m_TrackingItemSlotNode->GetSlotNumber(), selectedItemSlot->GetSlotNumber());
+            // TO DO : first request to server and change it in a response
         }
-        else if(selectedItemSlot && !bodyRect.containsPoint(touch->getLocation()))// drop boundary check modify
+        else if(!bodyRect.containsPoint(touch->getLocation()))// drop boundary check modify
         {
-            CCLOG("dropped");
-            client.GetClientObject().SendCSRequestDropItemToField(client.GetClientStage()->GetStageID(), client.GetMyActorID(), this->m_TrackingItemSlotNode->GetSlotNumber(), PointConverter::Convert(touch->getLocation()));
-            
+            client.GetClientObject().SendCSRequestDropItemToField(client.GetClientStage()->GetStageID(), client.GetMyActorID(), this->m_TrackingItemSlotNode->GetItemID(), PointConverter::Convert(touch->getLocation()));
             // TO DO : ask for dropping this item
         }
         else
@@ -289,32 +292,22 @@ ItemSlotNode* InventoryNode::FindSelectedItemSlotNode(cocos2d::CCPoint touchLoca
     return selectedItemSlot;
 }
 
-void InventoryNode::AddItem(flownet::ItemType itemType, flownet::ItemID itemID)
+void InventoryNode::Update()
 {
-    bool result = false;
-    for(int i = 0; i < this->m_ItemSlotNodeList.size(); ++i)
+    Actor* actor = GameClient::Instance().GetClientStage()->FindPlayer(GameClient::Instance().GetMyActorID());
+    if(actor)
     {
-        ItemSlotNode* itemSlot = this->m_ItemSlotNodeList[i];
-        if(itemSlot->GetItemID() == ItemID_None && itemSlot->GetItemType() == ItemType_None)
+        for(int i = 0; i < InventorySlot_Max; i++)
         {
-            itemSlot->ChangeItemTypeAndItemID(itemType, itemID);
-            result = true;
-            break;
-        }
-    }
-    
-    ASSERT_DEBUG(result);
-}
-
-void InventoryNode::EraseItem(flownet::ItemID itemID)
-{
-    for(int i = 0; i < this->m_ItemSlotNodeList.size(); ++i)
-    {
-        ItemSlotNode* itemSlot = this->m_ItemSlotNodeList[i];
-        if(itemSlot->GetItemID() == itemID)
-        {
-            itemSlot->Empty();
-            break;
+            const Item* item = actor->GetInventory().FindItem(this->m_CurrentItemGroup, static_cast<InventorySlot>(i));
+            if(item)
+            {
+                this->m_ItemSlotNodeList[i]->ChangeItemTypeAndItemID(item->GetItemType(), item->GetItemID());
+            }
+            else
+            {
+                this->m_ItemSlotNodeList[i]->ChangeItemTypeAndItemID(ItemType_None, ItemID_None);
+            }
         }
     }
 }
@@ -377,7 +370,7 @@ void InventoryNode::Slide()
 void InventoryNode::OnEquipmentButtonClicked(CCObject* sender)
 {
     CCLOG("equip tab clicked");
-    if(this->m_CurrentTab.compare("equipment") == 0)
+    if(this->m_CurrentItemGroup == ItemGroup_Equipment)
     {
         this->m_EquipmentButton->setSelectedIndex(1);
         return;
@@ -386,17 +379,15 @@ void InventoryNode::OnEquipmentButtonClicked(CCObject* sender)
     // TO DO : unselect tabs
     this->m_ConsumeButton->setSelectedIndex(0);
     this->m_MaterialButton->setSelectedIndex(0);
-    this->m_CurrentTab = "equipment";
+    this->m_CurrentItemGroup = ItemGroup_Equipment;
     
-    
-    // TO DO : change slots to equipment inven items
-
+    this->Update();
 }
 
 void InventoryNode::OnConsumeButtonClicked(CCObject* sender)
 {
     CCLOG("consume tab clicked");
-    if(this->m_CurrentTab.compare("consume") == 0)
+    if(this->m_CurrentItemGroup == ItemGroup_Consume)
     {
         this->m_ConsumeButton->setSelectedIndex(1);
         return;
@@ -404,14 +395,15 @@ void InventoryNode::OnConsumeButtonClicked(CCObject* sender)
     
     this->m_EquipmentButton->setSelectedIndex(0);
     this->m_MaterialButton->setSelectedIndex(0);
-    this->m_CurrentTab = "consume";
-    // TO DO : change slot to consume inven items
+    this->m_CurrentItemGroup = ItemGroup_Consume;
+    
+    this->Update();
 }
 
 void InventoryNode::OnMaterialButtonClicked(CCObject* sender)
 {
     CCLOG("material tab clicked");
-    if(this->m_CurrentTab.compare("material") == 0)
+    if(this->m_CurrentItemGroup == ItemGroup_Material)
     {
         this->m_MaterialButton->setSelectedIndex(1);
         return;
@@ -419,8 +411,9 @@ void InventoryNode::OnMaterialButtonClicked(CCObject* sender)
     
     this->m_EquipmentButton->setSelectedIndex(0);
     this->m_ConsumeButton->setSelectedIndex(0);
-    this->m_CurrentTab = "material";
-    // TO DO : change slots to material inven items
+    this->m_CurrentItemGroup = ItemGroup_Material;
+
+    this->Update();
 }
 
 void InventoryNode::SwapInventorySlot(ItemSlotNode *lhs, ItemSlotNode *rhs)
@@ -431,3 +424,4 @@ void InventoryNode::SwapInventorySlot(ItemSlotNode *lhs, ItemSlotNode *rhs)
     rhs->ChangeItemTypeAndItemID(lhs->GetItemType(), lhs->GetItemID());
     lhs->ChangeItemTypeAndItemID(itemType, itemID);
 }
+

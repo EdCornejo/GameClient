@@ -146,5 +146,6 @@ void MenuBarNode::OnHomeButtonClicked(CCObject* sender)
 
 void MenuBarNode::OnSettingButtonClicked(CCObject* sender)
 {
+    GameClient::Instance().GetClientObject().SendCSRequestLogOutUserAccount(GameClient::Instance().GetDeviceID(), GameClient::Instance().GetUserID());
     CCLOG("setting button clicked");
 }

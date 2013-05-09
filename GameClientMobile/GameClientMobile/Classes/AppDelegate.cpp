@@ -117,16 +117,8 @@ void AppDelegate::InitializeConnection()
     std::string serverIP;
     serverIP = CCUserDefault::sharedUserDefault()->getStringForKey("yours", "");
     
-    if(serverIP.empty())
-    {
-        // Connect with frontend server
-        GameClient::Instance().GetCFConnection().InitializeClient("61.43.139.149", 1990);
-    }
-    else
-    {
-        // Connect with game server
-        GameClient::Instance().GetClientObject().InitializeClient(serverIP.c_str(), SERVER_CONNECT_PORT);
-    }
+    GameClient::Instance().GetCFConnection().InitializeClient("61.43.139.149", 1990);
+    GameClient::Instance().GetClientObject().InitializeClient(serverIP.c_str(), SERVER_CONNECT_PORT);
 }
 
 void AppDelegate::OnSCProtocolError() const
@@ -140,20 +132,34 @@ void AppDelegate::OnFCProtocolError() const
 
 void AppDelegate::OnSCResponseConnect(flownet::INT64 connectionID) const
 {
-    CCLOG("response connect");
+    CCLOG("AppDelegate::OnSCResponseConnect >> response connect");
 }
 
 void AppDelegate::OnSCResponseSession(flownet::UserID userID, flownet::ActorID myPlayerID, flownet::SessionID sessionID) const
 {
-    CCLOG("session responsed with %d", sessionID);
+    CCLOG("AppDelegate::OnSCResponseSession >> session responsed with %d", sessionID);
     GameClient::Instance().SetMyActorID(myPlayerID);
     GameClient::Instance().SetSessionID(sessionID);
-
-    if( false == static_cast<ClientDirector*>(CCDirector::sharedDirector())->ChangeScene<AccountScene>() )
+    
+    if(sessionID == SessionID_NONE)
     {
-        // TO DO : handle error
-        ASSERT_DEBUG(false);
+//        GameClient::Instance().GetClientObject().Disconnect();
+        
+//        if(!GameClient::Instance().GetCFConnection().InitializeClientWithBlocking(FESERVER_CF_CONNECT_ADDRESS, FESERVER_CF_CONNECT_PORT))
+//        {
+//            ASSERT_DEBUG( false );
+//        }
+        
+        if( false == static_cast<ClientDirector*>(CCDirector::sharedDirector())->ChangeScene<AccountScene>() )
+        {
+            // TO DO : handle error
+            ASSERT_DEBUG(false);
+        }
+
+        return;
     }
+    
+    GameClient::Instance().GetClientObject().SendCSRequestRejoinCurrentStage();
 }
 
 void AppDelegate::OnSCResponseHeartbeat(flownet::INT64 heartbeatCountAck) const
@@ -174,12 +180,12 @@ void AppDelegate::OnFCResponseCreateUserAccount(flownet::UserID userID) const
 {
     if(userID != UserID_None)
     {
-        std::cout << "User Account Created " << userID << std::endl;
+        CCLOG("AppDelegate::OnFCResponseCreateUserAccount >> User Account Created");
     // TO DO :
     }
     else
     {
-        std::cout << "Error. Create User Account " << std::endl;
+        CCLOG("AppDelegate::OnFCResponseCreateUserAccount >> Error. Create User Account");
         return;
         // TO DO : if failed alert in current scene
     }
@@ -189,12 +195,12 @@ void AppDelegate::OnFCResponseLogInUserAccount(flownet::UserID userID, flownet::
 {
     if( userID == UserID_None )
     {
-        std::cout << "LogInUserAccount Failed. 1) logged-in session is exist  2) useraccount / password missmatch" << std::endl;
+        CCLOG("AppDelegate::OnFCResponseLogInUserAccount >> LogInUserAccount Failed. 1) logged-in session is exist  2) useraccount / password missmatch");
         return;
     }
     else
     {
-        GameClient::Instance().GetCFConnection().Disconnect();
+//        GameClient::Instance().GetCFConnection().Disconnect();
         
         GameClient::Instance().SetUserID(userID);
         GameClient::Instance().SetGameServerID(gameServerID);
@@ -204,7 +210,9 @@ void AppDelegate::OnFCResponseLogInUserAccount(flownet::UserID userID, flownet::
         CCUserDefault::sharedUserDefault()->setStringForKey("yours", gameServerIP.c_str());
         CCUserDefault::sharedUserDefault()->flush();
         
-        GameClient::Instance().GetClientObject().InitializeClient(gameServerIP.c_str(), SERVER_CONNECT_PORT);
+        GameClient::Instance().GetClientObject().SendCSRequestLogInWithOTP(GameClient::Instance().GetDeviceID(), userID, otp);
+        
+//        GameClient::Instance().GetClientObject().InitializeClient(gameServerIP.c_str(), SERVER_CONNECT_PORT);
     }
 }
 
@@ -216,7 +224,7 @@ void AppDelegate::OnSCResponseLogInWithOTP(flownet::UserID userID, flownet::Acto
 
     if( userID == UserID_None)
     {
-        std::cout << "LogInWithOTP FAILED" << std::endl;
+        CCLOG("LogInWithOTP FAILED");
         return;
     }
     
@@ -227,7 +235,6 @@ void AppDelegate::OnSCResponseLogInWithOTP(flownet::UserID userID, flownet::Acto
     }
     
     GameClient::Instance().GetClientObject().SendCSRequestRejoinCurrentStage();
-    
     ASSERT_DEBUG(sessionID != SessionID_NONE);
 }
 
@@ -236,7 +243,7 @@ void AppDelegate::OnSCResponseLogOutUserAccount(flownet::UserID userID) const
 {
     if( userID == UserID_None )
     {
-        std::cout << "LogOut Failed" << std::endl;
+        CCLOG("AppDelegate::OnSCResponseLogOutUserAccount >> LogOut Failed");
     }
     else
     {
@@ -247,6 +254,12 @@ void AppDelegate::OnSCResponseLogOutUserAccount(flownet::UserID userID) const
 
 void AppDelegate::OnSCResponseCreateStage(flownet::StageID stageID, flownet::Stage stage) const
 {
+    if(stageID == StageID_None)
+    {
+        ASSERT_DEBUG(stageID != StageID_None);
+        CCLOGERROR("AppDelegate::OnSCResponseCreateStage >> stage not created!");
+    }
+
     ASSERT_DEBUG(stageID == stage.GetStageID());
     
     ClientStage* newClientStage = new ClientStage(stage);
@@ -272,6 +285,11 @@ void AppDelegate::OnSCResponseRunningStages(flownet::StageInfoList stageInfoList
 
 void AppDelegate::OnSCResponseJoinRunningStage(flownet::StageID stageID, flownet::Stage stage, flownet::ErrorType errorType) const
 {
+    if(stageID == StageID_None)
+    {
+        ASSERT_DEBUG(stageID != StageID_None);
+        CCLOGERROR("joining to empty stage!");
+    }
     ASSERT_DEBUG(stageID == stage.GetStageID());
     
     if(errorType != ErrorType_None){
@@ -353,7 +371,14 @@ void AppDelegate::OnSCNotifySpawnPlayer(flownet::StageID stageID, flownet::Playe
     
     ClientPlayer* newPlayer = new ClientPlayer(player);
     GameClient::Instance().GetClientStage()->AddPlayer(newPlayer->GetActorID(), newPlayer);
-    scene->GetActorLayer()->AddNewPlayer(player);
+
+    ActorLayer* actorLayer = scene->GetActorLayer();
+    ASSERT_DEBUG(actorLayer);
+    actorLayer->AddNewPlayer(player);
+    
+    UILayer* uiLayer = scene->GetUILayer();
+    ASSERT_DEBUG(uiLayer);
+    uiLayer->UpdateInventory();
 }
 
 void AppDelegate::OnSCNotifySpawnMonster(flownet::StageID stageID, flownet::Monster monster) const
@@ -583,6 +608,18 @@ void AppDelegate::OnSCNotifyEndCast(flownet::StageID stageID, flownet::ActorID a
     if(actorLayer == nullptr) return;
 
     actorLayer->ActorEndCast(actorID, spellType, destination);
+    
+    UILayer* uiLayer = scene->GetUILayer();
+    
+    if(actorID == GameClient::Instance().GetMyActorID())
+    {
+        if(!uiLayer)
+        {
+            CCLOGERROR("AppDelegate::OnSCNotifyEndCast >> no UILayer exists");
+            ASSERT_DEBUG(uiLayer != nullptr);
+        }
+        uiLayer->ApplyCoolTime(spellType);
+    }
 }
 
 //void AppDelegate::OnSCNotifyFireSpell(flownet::StageID stageID, flownet::ActorID invokerID, flownet::SpellType spellType, flownet::POINT destination) const
@@ -618,9 +655,13 @@ void AppDelegate::OnSCResponseDropItemToField(flownet::StageID stageID, flownet:
     actor->DropItemToField(clientStage, itemID, POINT(0, 0));
     
     BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
-    scene->GetUILayer()->DropItemToField(itemID);
-    
-    // TO DO : discard item from inventory, stash
+    UILayer* uiLayer = scene->GetUILayer();
+    if(uiLayer)
+    {
+        // TO DO : check the item is removed when dropped
+        uiLayer->UpdateStash();
+        uiLayer->UpdateInventory();
+    }
 }
 
 void AppDelegate::OnSCNotifySpawnItem(flownet::StageID stageID, flownet::Item item, flownet::POINT spawnPosition) const
@@ -649,13 +690,21 @@ void AppDelegate::OnSCNotifyPickUpItemFromField(flownet::StageID stageID, flowne
     
     Actor* actor = GameClient::Instance().GetClientStage()->FindActor(playerID);
     actor->PickUpItemFromField(clientStage, itemID);
-    Item* item = actor->GetStash().FindItem(itemID);
     
     BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
-    scene->GetActorLayer()->PickupItemFromField(playerID, itemID);
+    ActorLayer* actorLayer = scene->GetActorLayer();
+    if(!actorLayer)
+    {
+        CCLOGERROR("AppDelegate::OnSCNotifyPickUpItemFromField >> no ActorLayer exist");
+        ASSERT_DEBUG(actorLayer != nullptr);
+    }
+
+    actorLayer->PickupItemFromField(playerID, itemID);
+
     if(playerID == GameClient::Instance().GetMyActorID())
     {
-        scene->GetUILayer()->PickupItemFromField(item->GetItemType(), item->GetItemID());
+        scene->GetUILayer()->UpdateStash();
+        scene->GetUILayer()->UpdateInventory();
     }
     // ui + data
 }
@@ -697,7 +746,7 @@ void AppDelegate::OnSCNotifyRemoveItemFromStash(flownet::StageID stageID, flowne
     // TO DO : reask to him
 }
 
-void AppDelegate::OnSCResponseRegisterStashItemToInventory(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID, flownet::InventorySlot slotNumber) const
+void AppDelegate::OnSCResponseRegisterStashItemToInventory(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID, flownet::ItemGroup itemGroup, flownet::InventorySlot slotNumber) const
 {
     ClientStage* clientStage = GameClient::Instance().GetClientStage();
     if(clientStage == nullptr || stageID != clientStage->GetStageID())
@@ -713,12 +762,12 @@ void AppDelegate::OnSCResponseRegisterStashItemToInventory(flownet::StageID stag
     }
     
     Actor* actor = clientStage->FindActor(playerID);
-    actor->RegisterStashItemToInventory(clientStage, itemID, slotNumber);
+    actor->RegisterStashItemToInventory(clientStage, itemID, itemGroup, slotNumber);
     
     // TO DO : display on inventory
 }
 
-void AppDelegate::OnSCResponseUnRegisterStashItemFromInventory(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID, flownet::InventorySlot slotNumber) const
+void AppDelegate::OnSCResponseUnRegisterStashItemFromInventory(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID, flownet::ItemGroup itemGroup, flownet::InventorySlot slotNumber) const
 {
     ClientStage* clientStage = GameClient::Instance().GetClientStage();
     if(clientStage == nullptr || stageID != clientStage->GetStageID())
@@ -734,11 +783,11 @@ void AppDelegate::OnSCResponseUnRegisterStashItemFromInventory(flownet::StageID 
     }
     
     Actor* actor = clientStage->FindActor(playerID);
-    actor->UnRegisterStashItemFromInventory(clientStage, itemID, slotNumber);
+    actor->UnRegisterStashItemFromInventory(clientStage, itemID, itemGroup, slotNumber);
     // TO DO : undisplay on inventory
 }
 
-void AppDelegate::OnSCResponseSwapInventorySlot(flownet::StageID stageID, flownet::ActorID playerID, flownet::InventorySlot sourceSlotNumber, flownet::InventorySlot destinationSlotNumber) const
+void AppDelegate::OnSCResponseSwapInventorySlot(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemGroup itemGroup, flownet::InventorySlot sourceSlotNumber, flownet::InventorySlot destinationSlotNumber) const
 {
     ClientStage* clientStage = GameClient::Instance().GetClientStage();
     if(clientStage == nullptr || stageID != clientStage->GetStageID())
@@ -753,20 +802,46 @@ void AppDelegate::OnSCResponseSwapInventorySlot(flownet::StageID stageID, flowne
 
 void AppDelegate::OnSCNotifyUseItem(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID) const
 {
+    // TO DO : refactor this error detect code
+    //          divide into clientstage == nullptr -> return;
+    //          stageID != clientStage->GetStageID() -> ASSERT
     ClientStage* clientStage = GameClient::Instance().GetClientStage();
     if(clientStage == nullptr || stageID != clientStage->GetStageID())
     {
         //ASSERT_DEBUG(clientStage != nullptr && stageID == clientStage->GetStageID());
         return;
     }
+    
+    Player* player = clientStage->FindPlayer(playerID);
+    if(!player)
+    {
+        CCLOGERROR("AppDelegate::OnSCNotifyUseItem >> use item notify on non exist player");
+        ASSERT_DEBUG(player != nullptr);
+    }
+    player->UseItem(clientStage, itemID);
+
 
     BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
-    scene->GetActorLayer()->UseItem(playerID, itemID);
+    ActorLayer* actorLayer = scene->GetActorLayer();
+    
+    if(!actorLayer)
+    {
+        CCLOGERROR("AppDelegate::OnSCNotifyUseItem >> no ActorLayer exist");
+        ASSERT_DEBUG(actorLayer != nullptr);
+    }
+    actorLayer->UseItem(playerID, itemID);
+
     if(playerID == GameClient::Instance().GetMyActorID())
     {
-        Player* player = clientStage->FindPlayer(playerID);
-        player->UseItem(clientStage, itemID);
-        scene->GetUILayer()->UseItem(itemID);
+        UILayer* uiLayer = scene->GetUILayer();
+        if(!uiLayer)
+        {
+            CCLOGERROR("AppDelegate::OnSCNotifyUseItem >> no UILayer exist");
+            ASSERT_DEBUG(uiLayer != nullptr);
+        }
+        
+        uiLayer->UpdateStash();
+        uiLayer->UpdateInventory();
     }
 }
 

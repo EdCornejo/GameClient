@@ -180,7 +180,7 @@ bool ItemInfoPopupLayer::ccTouchBegan(CCTouch* touch, CCEvent* event)
     return true;
 }
 
-StashNode::StashNode(): m_CurrentTab(), m_Body(nullptr), m_EquipmentButton(nullptr), m_ConsumeButton(nullptr), m_MaterialButton(nullptr), m_ItemSlotNodeList(), m_ItemInfoPopup(nullptr), m_TrackingItemSlotNode(nullptr), m_IsTrackingItemSlotMoving(false), m_TrackingItemSlotTouchedTime(0)
+StashNode::StashNode(): m_Body(nullptr), m_CurrentItemGroup(ItemGroup_None), m_CurrentPage(0), m_EquipmentButton(nullptr), m_ConsumeButton(nullptr), m_MaterialButton(nullptr), m_ItemSlotNodeList(), m_ItemInfoPopup(nullptr), m_TrackingItemSlotNode(nullptr), m_IsTrackingItemSlotMoving(false), m_TrackingItemSlotTouchedTime(0)
 {
 
 }
@@ -196,6 +196,7 @@ StashNode::~StashNode()
 
 bool StashNode::init()
 {
+    // TO DO : make this stash can be initialized different by stage type.
     // add background (body)
     this->m_Body = CCSprite::create("ui/stash/body.png");
     this->m_Body->retain();
@@ -229,7 +230,7 @@ bool StashNode::init()
     this->m_MaterialButton->retain();
     this->m_MaterialButton->setAnchorPoint(CCPointLowerMid);
     
-    this->m_CurrentTab = "equipment";
+    this->m_CurrentItemGroup = ItemGroup_Equipment;
     this->m_EquipmentButton->setSelectedIndex(1);
     
     CCMenu* tabMenu = CCMenu::create(this->m_EquipmentButton, this->m_ConsumeButton, this->m_MaterialButton, NULL);
@@ -244,8 +245,6 @@ bool StashNode::init()
     // insert item slots
     Actor* actor = GameClient::Instance().GetClientStage()->FindActor(GameClient::Instance().GetMyActorID());
     
-    const int perPage = 15;
-    const int perRow = 2;
     const int SlotInitialPositionX = 10;
     const int SlotInitialPositionY = bodyRect.size.height - 10;
     
@@ -277,7 +276,7 @@ bool StashNode::init()
         
         ItemSlotNode* node = ItemSlotNode::create(item->GetItemType(), item->GetItemID(), static_cast<InventorySlot>(i));
         node->setAnchorPoint(CCPointUpperLeft);
-        CCPoint position = ccp(SlotInitialPositionX + ((ItemSlotMargin + ItemSlotSizeX) * (i % perRow)), SlotInitialPositionY - ((ItemSlotMargin + ItemSlotSizeY) * (i / perRow)));
+        CCPoint position = ccp(SlotInitialPositionX + ((ItemSlotMargin + ItemSlotSizeX) * (i % PerRow)), SlotInitialPositionY - ((ItemSlotMargin + ItemSlotSizeY) * (i / PerRow)));
         node->setPosition(position);
         
         this->m_ItemSlotNodeList.push_back(node);
@@ -336,7 +335,7 @@ void StashNode::ccTouchEnded(cocos2d::CCTouch *touch, cocos2d::CCEvent *event)
         }
         else if(selectedInventoryItemSlot)
         {
-            client.GetClientObject().SendCSRequestRegisterStashItemToInventory(client.GetClientStage()->GetStageID(), client.GetMyActorID(), this->m_TrackingItemSlotNode->GetItemID(), selectedInventoryItemSlot->GetSlotNumber());
+            client.GetClientObject().SendCSRequestRegisterStashItemToInventory(client.GetClientStage()->GetStageID(), client.GetMyActorID(), this->m_TrackingItemSlotNode->GetItemID(), this->m_CurrentItemGroup, selectedInventoryItemSlot->GetSlotNumber());
         }
         
         this->m_IsTrackingItemSlotMoving = false;
@@ -361,37 +360,31 @@ ItemSlotNode* StashNode::FindSelectedItemSlotNode(cocos2d::CCPoint touchLocation
     return selectedItemSlot;
 }
 
-void StashNode::AddItem(flownet::ItemType itemType, flownet::ItemID itemID)
+void StashNode::Update()
 {
-    for(int i = 0; i < this->m_ItemSlotNodeList.size(); ++i)
-    {
-        ItemSlotNode* itemSlot = this->m_ItemSlotNodeList[i];
-        if(itemSlot->GetItemType() == ItemType_None && itemSlot->GetItemID() == ItemID_None)
-        {
-            itemSlot->ChangeItemTypeAndItemID(itemType, itemID);
-            break;
-        }
-    }
-}
+    Actor* actor = GameClient::Instance().GetClientStage()->FindActor(GameClient::Instance().GetMyActorID());
+    
+    // TO DO : add finditem(group, index)
 
-void StashNode::EraseItem(flownet::ItemID itemID)
-{
+    int indexOffset = this->m_CurrentPage * PerPage;
+    
     for(int i = 0; i < this->m_ItemSlotNodeList.size(); ++i)
     {
-        ItemSlotNode* itemSlot = this->m_ItemSlotNodeList[i];
-        
-        if(itemID == itemSlot->GetItemID())
-        {
-            itemSlot->Empty();
-            break;
-        }
+        // TO DO : fix here !
+//        if(item)
+//        const Item* item = actor->GetStash().FindItem(this->m_CurrentItemGroup, i + indexOffset); // this is calling by itemgroup, itemid fix it!
+//        this->m_ItemSlotNodeList[i + indexOffset]->ChangeItemTypeAndItemID(item->GetItemType(), item->GetItemID());
+//        else
+//        {
+//            this->m_ItemSlotNodeList[i + indexOffset]->ChangeItemTypeAndItemID(ItemType_None, ItemID_None);
+//        }
     }
 }
 
 
 void StashNode::OnEquipmentButtonClicked(CCObject* sender)
 {
-    if(this->m_CurrentTab.compare("equipment") == 0)
+    if(this->m_CurrentItemGroup == ItemGroup_Equipment)
     {
         this->m_EquipmentButton->setSelectedIndex(1);
         return;
@@ -399,12 +392,14 @@ void StashNode::OnEquipmentButtonClicked(CCObject* sender)
     
     this->m_ConsumeButton->setSelectedIndex(0);
     this->m_MaterialButton->setSelectedIndex(0);
-    this->m_CurrentTab = "equipment";
+    this->m_CurrentItemGroup = ItemGroup_Equipment;
+    
+    this->Update();
 }
 
 void StashNode::OnConsumeButtonClicked(CCObject* sender)
 {
-    if(this->m_CurrentTab.compare("consume") == 0)
+    if(this->m_CurrentItemGroup == ItemGroup_Consume)
     {
         this->m_ConsumeButton->setSelectedIndex(1);
         return;
@@ -412,12 +407,14 @@ void StashNode::OnConsumeButtonClicked(CCObject* sender)
     
     this->m_EquipmentButton->setSelectedIndex(0);
     this->m_MaterialButton->setSelectedIndex(0);
-    this->m_CurrentTab = "consume";
+    this->m_CurrentItemGroup = ItemGroup_Consume;
+    
+    this->Update();
 }
 
 void StashNode::OnMaterialButtonClicked(CCObject* sender)
 {
-    if(this->m_CurrentTab.compare("material") == 0)
+    if(this->m_CurrentItemGroup == ItemGroup_Material)
     {
         this->m_MaterialButton->setSelectedIndex(1);
         return;
@@ -425,7 +422,9 @@ void StashNode::OnMaterialButtonClicked(CCObject* sender)
     
     this->m_EquipmentButton->setSelectedIndex(0);
     this->m_ConsumeButton->setSelectedIndex(0);
-    this->m_CurrentTab = "material";
+    this->m_CurrentItemGroup = ItemGroup_Material;
+    
+    this->Update();
 }
 
 void StashNode::ShowItemInfoPopup(flownet::ItemType itemType, flownet::ItemID itemID)

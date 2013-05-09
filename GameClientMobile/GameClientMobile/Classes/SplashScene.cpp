@@ -29,12 +29,16 @@ void SplashScene::update(float deltaTime)
 {
     BaseScene::update(deltaTime);
     
-    if(GameClient::Instance().GetClientObject().GetConnectionID() != ConnectionID_NONE && !this->m_HasRequestSession)
+    std::string serverIP = CCUserDefault::sharedUserDefault()->getStringForKey("yours", "");
+    
+    if(!serverIP.empty() && !this->m_HasRequestSession)
+    //if(GameClient::Instance().GetClientObject().GetConnectionID() != ConnectionID_NONE && !this->m_HasRequestSession)
     {
         GameClient::Instance().GetClientObject().SendCSRequestSession(GameClient::Instance().GetDeviceID(), GameClient::Instance().GetClientObject().GetConnectionID(), GameClient::Instance().GetSessionID());
         this->m_HasRequestSession = true;
     }
-    if(GameClient::Instance().GetCFConnection().GetConnectionID() != ConnectionID_NONE && !this->m_HasRequestSession)
+    else if(serverIP.empty() && !this->m_HasRequestSession)
+    //if(GameClient::Instance().GetCFConnection().GetConnectionID() != ConnectionID_NONE && !this->m_HasRequestSession)
     {
         // TO DO : change to account scene
         ClientDirector* director = static_cast<ClientDirector*>(CCDirector::sharedDirector());
