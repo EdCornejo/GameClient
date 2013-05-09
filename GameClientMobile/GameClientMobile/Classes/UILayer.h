@@ -10,14 +10,7 @@
 #define __GameClientMobile__UILayer__
 
 class UILayer : public BaseLayer
-{
-private:
-    enum
-    {
-        SpellStackPositionX = 10,
-        SpellStackPositionY = 320 - 60 - 10, // windowSizeHeight - iconsize - realposition
-    };
-    
+{    
 private:
     StageType m_StageType;
     SpellQuickSlotNode* m_SpellQuickSlotNode;
@@ -57,12 +50,13 @@ private:
     
 public:
     void SetSelectedSpellType(SpellType spellType);
-    void UseItem(flownet::ItemID itemID);
     void SwapInventorySlot(flownet::InventorySlot sourceSlotNumber, flownet::InventorySlot destinationSlotNumber);
-    void DropItemToField(flownet::ItemID itemID);
-    void PickupItemFromField(flownet::ItemType itemType, flownet::ItemID itemID);
-    
+    void ApplyCoolTime(flownet::SpellType spellType);
     void ChangeRobe();
+    
+public:
+    void UpdateInventory();
+    void UpdateStash();
 };
 
 #endif /* defined(__GameClientMobile__UILayer__) */

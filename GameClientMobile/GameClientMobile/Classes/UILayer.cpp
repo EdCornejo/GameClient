@@ -17,7 +17,7 @@ UILayer::~UILayer()
 {
     if(this->m_SpellQuickSlotNode)
     {
-        delete this->m_SpellQuickSlotNode; // TO DO : refactor spellquickslot to auto release object
+        this->m_SpellQuickSlotNode->release();
         this->m_SpellQuickSlotNode = nullptr;
     }
     if(this->m_StashNode)
@@ -118,10 +118,8 @@ void UILayer::ccTouchesEnded(CCSet *touches, CCEvent *event)
 
 void UILayer::InitializeSpellQuickSlot()
 {
-    this->m_SpellQuickSlotNode = new SpellQuickSlotNode();
-    this->m_SpellQuickSlotNode->Initialize();
-    
-    this->m_SpellQuickSlotNode->setPosition(ccp(SpellStackPositionX, SpellStackPositionY));
+    this->m_SpellQuickSlotNode = SpellQuickSlotNode::create();
+    this->m_SpellQuickSlotNode->setPosition(ccp(SpellQuickSlotNode::PositionX, SpellQuickSlotNode::PositionY));
     
     this->addChild(this->m_SpellQuickSlotNode);
 }
@@ -269,6 +267,8 @@ void UILayer::TranslateScreen()
     
     ActorNode* actor = actorLayer->FindPlayerNode(GameClient::Instance().GetMyActorID());
     
+    if(!actor) return;
+    
     CCPoint positionInScene = actorLayer->convertToWorldSpace(actor->getPosition());
     positionInScene.y = 0;
     
@@ -317,18 +317,6 @@ void UILayer::SetSelectedSpellType(flownet::SpellType spellType)
     this->m_SelectedSpellType = spellType;
 }
 
-void UILayer::UseItem(flownet::ItemID itemID)
-{
-    if(this->m_InventoryNode)
-    {
-        this->m_InventoryNode->EraseItem(itemID);
-    }
-    if(this->m_StashNode)
-    {
-        this->m_StashNode->EraseItem(itemID);
-    }
-}
-
 void UILayer::SwapInventorySlot(flownet::InventorySlot sourceSlotNumber, flownet::InventorySlot destinationSlotNumber)
 {
     if(this->m_InventoryNode)
@@ -337,27 +325,26 @@ void UILayer::SwapInventorySlot(flownet::InventorySlot sourceSlotNumber, flownet
     }
 }
 
-void UILayer::DropItemToField(flownet::ItemID itemID)
+void UILayer::ApplyCoolTime(flownet::SpellType spellType)
 {
-    if(this->m_InventoryNode)
+    if(this->m_SpellQuickSlotNode)
     {
-        this->m_InventoryNode->EraseItem(itemID);
-    }
-    // I really not sure this will be used
-    if(this->m_StashNode)
-    {
-        // this->m_StashNode->EraseItem
+        this->m_SpellQuickSlotNode->ApplyCoolTime(spellType);
     }
 }
 
-void UILayer::PickupItemFromField(flownet::ItemType itemType, flownet::ItemID itemID)
+void UILayer::UpdateInventory()
 {
     if(this->m_InventoryNode)
     {
-        this->m_InventoryNode->AddItem(itemType, itemID);
+        this->m_InventoryNode->Update();
     }
+}
+
+void UILayer::UpdateStash()
+{
     if(this->m_StashNode)
     {
-        this->m_StashNode->AddItem(itemType, itemID);
+        this->m_StashNode->Update();
     }
 }

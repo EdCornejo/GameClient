@@ -22,8 +22,11 @@ std::string SpellImageLoader::GetImageFileName(SpellType spellType)
             imageName = "ice_arrow.png";
             break;
         case SpellType_WaterFire:
-        default:
             imageName = "ice_fog.png";
+            break;
+        case SpellType_NONE:
+        default:
+            imageName = "empty.png";
             break;
     }
     return imageName;
