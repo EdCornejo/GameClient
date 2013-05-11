@@ -318,11 +318,28 @@ void GameClientPacketHandler::OnSCNotifyUseItem(StageID stageID, ActorID playerI
     m_GameClientRPCReceiver->OnSCNotifyUseItem(stageID, playerID, itemID);
 }
 
-void GameClientPacketHandler::OnSCNotifyUnEquip(StageID stageID, ActorID playerID, ItemID itemID)
+void GameClientPacketHandler::OnSCNotifyUnEquipItem(StageID stageID, ActorID playerID, EquipmentSlot unequipedSlot)
 {
     ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
-    m_GameClientRPCReceiver->OnSCNotifyUnEquip(stageID, playerID, itemID);
+    m_GameClientRPCReceiver->OnSCNotifyUnEquipItem(stageID, playerID, unequipedSlot);
 }
 
+void GameClientPacketHandler::OnSCNotifyEquipItem(StageID stageID, ActorID playerID, ItemID itemID, EquipmentSlot equipedSlot)
+{
+    ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
+    m_GameClientRPCReceiver->OnSCNotifyEquipItem(stageID, playerID, itemID, equipedSlot);
+}
+
+void GameClientPacketHandler::OnSCNotifySendMessageToStagePlayers(StageID stageID, ActorID playerID, STRING message)
+{
+    ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
+    m_GameClientRPCReceiver->OnSCNotifySendMessageToStagePlayers(stageID, playerID, message);
+}
+
+void GameClientPacketHandler::OnSCNotifyResetActorAttributeAmplifier(StageID stageID, ActorID actorID)
+{
+    ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
+    m_GameClientRPCReceiver->OnSCNotifyResetActorAttributeAmplifier(stageID, actorID);
+}
     
 } // namespace flownet

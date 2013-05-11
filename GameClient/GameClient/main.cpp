@@ -64,18 +64,28 @@ namespace flownet
 
 int main(int argc, const char * argv[])
 {
-    
+    LogTerminal::Initialize();
+    LogSystem::Initialize("GameClientSystemLog");
+
     TesterRPCReceiver testerRPCReceiver;
+    
     GameClientTester::Instance().InitializeClient(&testerRPCReceiver);
     GameClientTester::Instance().StartClient();
 
+    INT clientPrintoutCount = 0;
+    
     while(true)
     {
-        std::cout << "GameClient is on. Worker Thread is Working.." << std::endl;
-        std::this_thread::sleep_for(seconds(9));
+        if( ++clientPrintoutCount >= 100)
+        {
+            LogTerminal::Instance() << "GameClientTester is on. Worker Thread is Working..";
+            LogTerminal::Instance().Commit();
+        }
+
+        LogTerminal::GetLogReceiver()->FlushLog();
+        LogSystem::GetLogReceiver()->FlushLog();
         
-//        GameClient::Instance().GetClientObject().SendCSRequestHeartbeat(, , )
-//        GameClient::Instance().GetClientObject().SendCSRequestHeartbeat(1);
+        std::this_thread::sleep_for(seconds(100));
     }
     
     GameClientTester::Instance().TerminateClient();

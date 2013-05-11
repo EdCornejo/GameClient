@@ -148,9 +148,22 @@ void TesterRPCReceiver::OnSCNotifyUseItem(flownet::StageID stageID, flownet::Act
 {
 }
 
-void TesterRPCReceiver::OnSCNotifyUnEquip(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID) const 
+void TesterRPCReceiver::OnSCNotifyUnEquipItem(flownet::StageID stageID, flownet::ActorID playerID, flownet::EquipmentSlot equipmentSlot) const
 {
 }
+
+void TesterRPCReceiver::OnSCNotifyEquipItem(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID, flownet::EquipmentSlot equipedSlot) const
+{
+}
+
+void TesterRPCReceiver::OnSCNotifySendMessageToStagePlayers(flownet::StageID stageID, flownet::ActorID playerID, flownet::STRING message) const
+{
+}
+
+void TesterRPCReceiver::OnSCNotifyResetActorAttributeAmplifier(flownet::StageID stageID, flownet::ActorID actorID) const
+{
+}
+
 
 ////////////////////////////////////////
 
@@ -170,6 +183,5 @@ void TesterRPCReceiver::OnFCResponseLogInUserAccount(flownet::UserID userID, flo
 {
     // Implemented on FCPacketHandler
 }
-
 
 } // namespace flownet
