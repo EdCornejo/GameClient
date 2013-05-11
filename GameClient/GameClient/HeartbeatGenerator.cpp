@@ -42,7 +42,8 @@ BOOL HeartbeatGenerator::CheckHeartbeatTimeOver(const INT64 heartbeatCount, cons
 #ifndef HEARTBEAT_ALLOW_DEBUG
         ASSERT_RELEASE(false);
 #endif // HEARTBEAT_ALLOW_DEBUG
-        std::cout << "CheckHeartbeatTimeOver : heartbeatCount :" << m_HeartbeatCount << std::endl;
+        LogSystem::Instance() << "CheckHeartbeatTimeOver : heartbeatCount :" << m_HeartbeatCount;
+        LogSystem::Instance().Commit();
         return true;
     }
     if( checkTime-m_LastHeartbeatTime > (m_AllowanceTime + networkDelayAllowance) )
@@ -50,7 +51,8 @@ BOOL HeartbeatGenerator::CheckHeartbeatTimeOver(const INT64 heartbeatCount, cons
 #ifndef HEARTBEAT_ALLOW_DEBUG
         ASSERT_RELEASE(false);
 #endif // HEARTBEAT_ALLOW_DEBUG
-        std::cout << "CheckHeaertbeatTimeOver : " << (checkTime-m_LastHeartbeatTime).count() << std::endl;
+        LogSystem::Instance() << "CheckHeaertbeatTimeOver : " << (checkTime-m_LastHeartbeatTime).count();
+        LogSystem::Instance().Commit();
         return true;
     }
 
@@ -63,7 +65,8 @@ void HeartbeatGenerator::KeepHeartbeat(const INT64 heartbeatCount, const ServerT
     
     if( heartbeatCount != m_HeartbeatCount )
     {
-        std::cout << "KeepHeartbeat Time Error :" << (heartbeatTime-m_LastHeartbeatTime).count() << "LastHeartbeat : " << m_LastHeartbeatTime.count() <<  std::endl;
+        LogSystem::Instance() << "KeepHeartbeat Time Error :" << (heartbeatTime-m_LastHeartbeatTime).count() << "LastHeartbeat : " << m_LastHeartbeatTime.count();
+        LogSystem::Instance().Commit();
         return;
     }
     

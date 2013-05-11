@@ -66,16 +66,28 @@ int main(int argc, const char * argv[])
 {
     
     TesterRPCReceiver testerRPCReceiver;
+    
+    LogTerminal::Initialize();
+    LogSystem::Initialize("GameClientSystemLog");
+    
     GameClientTester::Instance().InitializeClient(&testerRPCReceiver);
     GameClientTester::Instance().StartClient();
 
+    INT serverPrintoutCount = 0;
     while(true)
     {
-        std::cout << "GameClient is on. Worker Thread is Working.." << std::endl;
-        std::this_thread::sleep_for(seconds(9));
+        if( ++serverPrintoutCount >= 100 )
+        {
+            LogTerminal::Instance() << "GameClient is on. Worker Thread is Working..";
+            LogTerminal::Instance().Commit();
+            
+            serverPrintoutCount = 0;
+        }
         
-//        GameClient::Instance().GetClientObject().SendCSRequestHeartbeat(, , )
-//        GameClient::Instance().GetClientObject().SendCSRequestHeartbeat(1);
+        LogTerminal::GetLogReceiver()->FlushLog();
+        LogSystem::GetLogReceiver()->FlushLog();
+    
+        std::this_thread::sleep_for(seconds(100));
     }
     
     GameClientTester::Instance().TerminateClient();
