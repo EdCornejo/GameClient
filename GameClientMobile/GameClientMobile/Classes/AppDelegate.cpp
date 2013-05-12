@@ -76,6 +76,8 @@ bool AppDelegate::applicationDidFinishLaunching()
 
     pDirector->runWithScene(pScene);
     
+    LogTerminal::Initialize();
+    LogSystem::Initialize("GameClientSystemLog");
     // Initialize GameClient
     flownet::GameClient::Instance().InitializeClient(this);
     this->InitializeConnection();

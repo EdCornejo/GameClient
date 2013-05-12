@@ -50,7 +50,10 @@ void FCPacketHandler::HandlePacket(BasePacket* packet)
 #endif
 
     GameFCProtocol protocol = static_cast<GameFCProtocol>(packet->GetProtocol());
-    LOG_STDOUT( std::cout << "handled Protocol" << protocol << std::endl; );
+    #ifdef GAMEPROTOCOL_DEBUGGING
+    LogSystem::Instance() << "handled Protocol" << protocol;
+    LogSystem::Instance().Commit();
+    #endif
     
     (this->*m_HandlerMap[protocol])(static_cast<GamePacket*>(packet));
 
@@ -73,9 +76,10 @@ void FCPacketHandler::OnFCProtocolError()
 void FCPacketHandler::OnFCResponseConnect(ConnectionID feConnectionID)
 {
     m_CFConnection->SetConnectionID(feConnectionID);
-    if( feConnectionID % 100 == 0)
+    if( feConnectionID % 50 == 0)
     {
-        std::cout << "ConnectionID:" << feConnectionID << std::endl;
+        LogSystem::Instance() << "ConnectionID:" << feConnectionID;
+        LogSystem::Instance().Commit();
     }
     
     m_GameClientRPCReceiver->OnFCResponseConnect(feConnectionID);
@@ -91,7 +95,8 @@ void FCPacketHandler::OnFCResponseLogInUserAccount(flownet::UserID userID, flown
     if( userID == UserID_None )
     {
         #ifndef GAMECLIENTTESTER
-        std::cout << "LogIn Failed" << std::endl;
+        LogSystem::Instance() << "LogIn Failed";
+        LogSystem::Instance().Commit();
         #endif
         return;
 //        ASSERT_DEBUG(userID!=UserID_None);
