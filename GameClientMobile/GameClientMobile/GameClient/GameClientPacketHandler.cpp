@@ -219,6 +219,12 @@ void GameClientPacketHandler::OnSCNotifyActorAttributeChanged(StageID stageID, A
     m_GameClientRPCReceiver->OnSCNotifyActorAttributeChanged(stageID, actorID, actorAttribute, amount);
 }
 
+void GameClientPacketHandler::OnSCNotifyResetActorAttributeAmplifier(StageID stageID, ActorID actorID)
+{
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+    this->m_GameClientRPCReceiver->OnSCNotifyResetActorAttributeAmplifier(stageID, actorID);
+}
+
 void GameClientPacketHandler::OnSCNotifyActorAttack(StageID stageID, ActorID actorID, ActorID targetPlayerID, AttackType attackType)
 {
     ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
@@ -306,15 +312,26 @@ void GameClientPacketHandler::OnSCResponseSwapInventorySlot(flownet::StageID sta
 
 void GameClientPacketHandler::OnSCNotifyUseItem(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID)
 {
-    ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
-    m_GameClientRPCReceiver->OnSCNotifyUseItem(stageID, playerID, itemID);
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+    this->m_GameClientRPCReceiver->OnSCNotifyUseItem(stageID, playerID, itemID);
 }
 
-void GameClientPacketHandler::OnSCNotifyUnEquip(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID)
+void GameClientPacketHandler::OnSCNotifyEquipItem(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID, flownet::EquipmentSlot equipedSlot)
 {
-    ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
-    m_GameClientRPCReceiver->OnSCNotifyUnEquip(stageID, playerID, itemID);
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+    this->m_GameClientRPCReceiver->OnSCNotifyEquipItem(stageID, playerID, itemID, equipedSlot);
 }
 
+void GameClientPacketHandler::OnSCNotifyUnEquipItem(StageID stageID, ActorID playerID, EquipmentSlot unequipedSlot)
+{
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+    this->m_GameClientRPCReceiver->OnSCNotifyUnEquipItem(stageID, playerID, unequipedSlot);
+}
+
+void GameClientPacketHandler::OnSCNotifySendMessageToStagePlayers(StageID stageID, ActorID playerID, STRING message)
+{
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+    this->m_GameClientRPCReceiver->OnSCNotifySendMessageToStagePlayers(stageID, playerID, message);
+}
     
 } // namespace flownet

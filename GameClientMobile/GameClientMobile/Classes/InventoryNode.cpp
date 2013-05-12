@@ -25,11 +25,6 @@ InventoryNode::~InventoryNode()
         this->m_PinnedPart->release();
         this->m_PinnedPart = nullptr;
     }
-    if(this->m_PinnedPart)
-    {
-        this->m_PinnedPart->release();
-        this->m_PinnedPart = nullptr;
-    }
     if(this->m_SlideButton)
     {
         this->m_SlideButton->release();
@@ -55,6 +50,11 @@ InventoryNode::~InventoryNode()
         this->m_MaterialButton->release();
         this->m_MaterialButton = nullptr;
     }
+    
+    std::for_each(this->m_ItemSlotNodeList.begin(), this->m_ItemSlotNodeList.end(), [](ItemSlotNode* node){
+        node->release();
+    });
+    this->m_ItemSlotNodeList.clear();
 }
 
 bool InventoryNode::init()
@@ -140,7 +140,6 @@ bool InventoryNode::init()
     for(int i = 0; i < InventorySlot_Max; i++)
     {
         ItemSlotNode* slotNode = ItemSlotNode::create(ItemType_None, ItemID_None, static_cast<InventorySlot>(i));
-       
         slotNode->setAnchorPoint(CCPointUpperLeft);
         CCPoint slotPosition;
         slotPosition.x = ItemSlotPositionX + ((ItemSlotMargin + ItemSlotSizeX) * (i % perRow));
@@ -148,6 +147,7 @@ bool InventoryNode::init()
         
         slotNode->setPosition(slotPosition);
         this->m_ItemSlotNodeList.push_back(slotNode);
+        slotNode->retain();
         this->m_Body->addChild(slotNode);
     }
     // end of add ItemSlotNodes to body
@@ -239,8 +239,14 @@ void InventoryNode::ccTouchEnded(cocos2d::CCTouch *touch, cocos2d::CCEvent *even
                 CCLOG("used");
                 this->m_HighlightedItemSlotNode->ResetHighlight();
                 this->m_HighlightedItemSlotNode = nullptr;
-
-                client.GetClientObject().SendCSRequestUseItem(client.GetClientStage()->GetStageID(), client.GetMyActorID(), this->m_TrackingItemSlotNode->GetItemID());
+                if(this->m_CurrentItemGroup == ItemGroup_Consume)
+                {
+                    client.GetClientObject().SendCSRequestUseItem(client.GetClientStage()->GetStageID(), client.GetMyActorID(), this->m_TrackingItemSlotNode->GetItemID());
+                }
+                else if(this->m_CurrentItemGroup == ItemGroup_Equipment)
+                {
+                    client.GetClientObject().SendCSRequestEquipItem(client.GetClientStage()->GetStageID(), client.GetMyActorID(), this->m_TrackingItemSlotNode->GetItemID());
+                }
             }
             // if the selected item was not highlighted highlight it
             else
@@ -255,7 +261,7 @@ void InventoryNode::ccTouchEnded(cocos2d::CCTouch *touch, cocos2d::CCEvent *even
         }
         else if(selectedItemSlot && this->m_IsTrackingItemSlotMoving )
         {
-            client.GetClientObject().SendCSRequestSwapInventorySlot(client.GetClientStage()->GetStageID(), client.GetMyActorID(), this->m_CurrentItemGroup, this->m_TrackingItemSlotNode->GetSlotNumber(), selectedItemSlot->GetSlotNumber());
+            client.GetClientObject().SendCSRequestSwapInventorySlot(client.GetClientStage()->GetStageID(), client.GetMyActorID(), this->m_CurrentItemGroup, this->m_TrackingItemSlotNode->GetInventorySlot(), selectedItemSlot->GetInventorySlot());
             // TO DO : first request to server and change it in a response
         }
         else if(!bodyRect.containsPoint(touch->getLocation()))// drop boundary check modify

@@ -642,6 +642,17 @@ void ActorNode::AnimateDead()
     this->m_Skeleton->setAnimation("dead", false);
 }
 
+void ActorNode::Reload()
+{
+    Actor* actor = GameClient::Instance().GetClientStage()->FindPlayer(this->m_ActorID);
+    flownet::EquipmentList& equipmentList = actor->GetEquipmentList();
+    equipmentList.ForAllItemSlots([this, actor](EquipmentSlot equipmentSlot, ItemID itemID){
+        if(itemID == ItemID_None) return;
+        const Item* item = actor->GetStash().FindItem(itemID);
+        this->ChangeEquipment(equipmentSlot, item->GetItemType());
+    });
+}
+
 void ActorNode::ChangeEquipment(flownet::EquipmentSlot equipmentSlot, flownet::ItemType itemType)
 {
     switch (equipmentSlot) {

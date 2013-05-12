@@ -9,7 +9,7 @@
 #include "Headers.pch"
 
 
-MenuBarNode::MenuBarNode(): m_IsOpen(false), m_SlideButton(nullptr), m_Body(nullptr), m_HomeMenuItem(nullptr), m_SettingMenuItem(nullptr) {}
+MenuBarNode::MenuBarNode(): m_IsOpen(false), m_SlideButton(nullptr), m_Body(nullptr), m_HomeMenuItem(nullptr), m_SettingMenuItem(nullptr), m_LogoutMenuItem(nullptr) {}
 MenuBarNode::~MenuBarNode()
 {
     if(this->m_SlideButton)
@@ -36,26 +36,29 @@ MenuBarNode::~MenuBarNode()
 
 bool MenuBarNode::init()
 {
-    this->m_SlideButton = CCSprite::create("ui/slide_button.png");
+    this->m_SlideButton = CCSprite::create("ui/system_menu/scroll_button.png");
     this->m_SlideButton->retain();
     this->m_SlideButton->setAnchorPoint(CCPointLowerRight);
-    this->m_Body = CCSprite::create("ui/paper.png");
+    this->m_SlideButton->setPosition(ccp(14, -10));
+    this->m_Body = CCSprite::create("ui/system_menu/background.png");
     this->m_Body->retain();
     this->m_Body->setAnchorPoint(CCPointLowerLeft);
     
-    this->m_HomeMenuItem = CCMenuItemImage::create("ui/spell_icon/fire_ball.png", "ui/spell_icon/fire_burst.png", this, menu_selector(MenuBarNode::OnHomeButtonClicked));
+    this->m_HomeMenuItem = CCMenuItemImage::create("ui/system_menu/home.png", "ui/system_menu/home.png", this, menu_selector(MenuBarNode::OnHomeButtonClicked));
     this->m_HomeMenuItem->retain();
-    this->m_SettingMenuItem = CCMenuItemImage::create("ui/spell_icon/ice_arrow.png", "ui/spell_icon/ice_fog.png", this, menu_selector(MenuBarNode::OnSettingButtonClicked));
+    this->m_SettingMenuItem = CCMenuItemImage::create("ui/system_menu/settings.png", "ui/system_menu/settings.png", this, menu_selector(MenuBarNode::OnSettingButtonClicked));
     this->m_SettingMenuItem->retain();
+    this->m_LogoutMenuItem = CCMenuItemImage::create("ui/system_menu/settings.png", "ui/system_menu/settings.png", this, menu_selector(MenuBarNode::OnLogoutButtonClicked));
+    this->m_LogoutMenuItem->retain();
 
-    CCMenu* menu = CCMenu::create(this->m_HomeMenuItem, this->m_SettingMenuItem, NULL);
+    CCMenu* menu = CCMenu::create(this->m_HomeMenuItem, this->m_SettingMenuItem, this->m_LogoutMenuItem, NULL);
     CCRect bodyRect = this->m_Body->getTextureRect();
     menu->setPosition(ccp(bodyRect.size.width / 2, bodyRect.size.height / 2)); // change it's position
     menu->alignItemsHorizontallyWithPadding(10);
     this->m_Body->addChild(menu);
-    
-    this->addChild(this->m_SlideButton);
+
     this->addChild(this->m_Body);
+    this->addChild(this->m_SlideButton);
     
     CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, 0, true);
     
@@ -118,7 +121,7 @@ void MenuBarNode::Slide()
     }
     else{
         CCLOG("slide out");
-        CCPoint slidePosition = CCPoint(PositionX - this->m_Body->getTextureRect().size.width, PositionY);
+        CCPoint slidePosition = CCPoint(PositionX - this->m_Body->getTextureRect().size.width + 10, PositionY);
         CCMoveTo* moveOut = CCMoveTo::create(0.3, slidePosition);
 //        CCProgressTimer *moveOut = CCProgressTimer::create(this->m_Body);
 //        right->setType(kCCProgressTimerTypeBar);
@@ -141,11 +144,13 @@ void MenuBarNode::Slide()
 
 void MenuBarNode::OnHomeButtonClicked(CCObject* sender)
 {
-    CCLOG("home button clicked");
 }
 
 void MenuBarNode::OnSettingButtonClicked(CCObject* sender)
 {
+}
+
+void MenuBarNode::OnLogoutButtonClicked(CCObject* sender)
+{
     GameClient::Instance().GetClientObject().SendCSRequestLogOutUserAccount(GameClient::Instance().GetDeviceID(), GameClient::Instance().GetUserID());
-    CCLOG("setting button clicked");
 }

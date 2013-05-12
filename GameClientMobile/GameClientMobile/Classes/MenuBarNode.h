@@ -17,6 +17,7 @@ private:
     CCSprite* m_Body;
     CCMenuItem* m_HomeMenuItem;
     CCMenuItem* m_SettingMenuItem;
+    CCMenuItem* m_LogoutMenuItem;
     
 
 public:
@@ -39,6 +40,7 @@ private:
 
     void OnHomeButtonClicked(CCObject* sender);
     void OnSettingButtonClicked(CCObject* sender);
+    void OnLogoutButtonClicked(CCObject* sender);
 };
 
 #endif /* defined(__GameClientMobile__MenuBarNode__) */

@@ -78,9 +78,9 @@ bool AppDelegate::applicationDidFinishLaunching()
     
     // Initialize GameClient
     flownet::GameClient::Instance().InitializeClient(this);
+    this->InitializeConnection();
     flownet::GameClient::Instance().StartClient();
     
-    this->InitializeConnection();
 
     return true;
 }
@@ -103,9 +103,10 @@ void AppDelegate::applicationWillEnterForeground()
 {
     // Re start GameClient
     flownet::GameClient::Instance().InitializeClient(this);
+    this->InitializeConnection();
     flownet::GameClient::Instance().StartClient();
     
-    this->InitializeConnection();
+
 
     CCDirector::sharedDirector()->startAnimation();
     SimpleAudioEngine::sharedEngine()->resumeBackgroundMusic();
@@ -375,10 +376,16 @@ void AppDelegate::OnSCNotifySpawnPlayer(flownet::StageID stageID, flownet::Playe
     ActorLayer* actorLayer = scene->GetActorLayer();
     ASSERT_DEBUG(actorLayer);
     actorLayer->AddNewPlayer(player);
-    
-    UILayer* uiLayer = scene->GetUILayer();
-    ASSERT_DEBUG(uiLayer);
-    uiLayer->UpdateInventory();
+
+    if(player.GetActorID() == GameClient::Instance().GetMyActorID())
+    {
+        UILayer* uiLayer = scene->GetUILayer();
+        ASSERT_DEBUG(uiLayer);
+
+        uiLayer->UpdateStash();
+        uiLayer->UpdateInventory();
+        uiLayer->UpdateEquipment();
+    }
 }
 
 void AppDelegate::OnSCNotifySpawnMonster(flownet::StageID stageID, flownet::Monster monster) const
@@ -405,6 +412,8 @@ void AppDelegate::OnSCNotifyMoveActor(flownet::StageID stageID, flownet::ActorID
         //ASSERT_DEBUG(clientStage != nullptr && stageID == clientStage->GetStageID());
         return;
     }
+    
+    CCLOG("destination %f, %f", destinationPosition.x, destinationPosition.y);
 
     BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
     ActorLayer* actorLayer = scene->GetActorLayer();
@@ -456,6 +465,14 @@ void AppDelegate::OnSCNotifyActorAttributeChanged(flownet::StageID stageID, flow
             break;
     
     }
+}
+
+void AppDelegate::OnSCNotifyResetActorAttributeAmplifier(flownet::StageID stageID, flownet::ActorID actorID) const
+{
+    ClientStage* clientStage = GameClient::Instance().GetClientStage();
+    if(!clientStage) return;
+    if(stageID != clientStage->GetStageID()) ASSERT_DEBUG(stageID == clientStage->GetStageID());
+    
 }
 
 
@@ -845,13 +862,89 @@ void AppDelegate::OnSCNotifyUseItem(flownet::StageID stageID, flownet::ActorID p
     }
 }
 
-void AppDelegate::OnSCNotifyUnEquip(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID) const
+void AppDelegate::OnSCNotifyEquipItem(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID, flownet::EquipmentSlot equipedSlot) const
 {
     ClientStage* clientStage = GameClient::Instance().GetClientStage();
-    if(clientStage == nullptr || stageID != clientStage->GetStageID())
-    {
-        //ASSERT_DEBUG(clientStage != nullptr && stageID == clientStage->GetStageID());
-        return;
-    }
+    if(clientStage == nullptr) return;
+    if(stageID != clientStage->GetStageID()) ASSERT_DEBUG(stageID == clientStage->GetStageID());
 
+    Actor* actor = clientStage->FindPlayer(GameClient::Instance().GetMyActorID());
+    if(!actor)
+    {
+        CCLOGERROR("AppDelegate::OnSCNotifyEquipItem >> actor %d does not exists", playerID);
+        ASSERT_DEBUG(actor);
+    }
+    
+    if(!actor->EquipItem(clientStage, equipedSlot, itemID))
+    {
+        CCLOGERROR("AppDelegate::OnSCNotifyEquipItem >> failed to actor->EquipItem");
+        ASSERT_DEBUG(false);
+    }
+    
+    BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
+    ActorLayer* actorLayer = scene->GetActorLayer();
+    if(actorLayer)
+    {
+        actorLayer->ActorNodeReload(playerID);
+    }
+    
+    if(playerID == GameClient::Instance().GetMyActorID())
+    {
+        UILayer* uiLayer = scene->GetUILayer();
+        if(uiLayer)
+        {
+            uiLayer->UpdateInventory();
+            uiLayer->UpdateStash();
+            uiLayer->UpdateEquipment();
+        }
+    }
 }
+
+void AppDelegate::OnSCNotifyUnEquipItem(flownet::StageID stageID, flownet::ActorID playerID, flownet::EquipmentSlot unequipedSlot) const
+{
+    // TO DO : replace all error prevention code to this
+    ClientStage* clientStage = GameClient::Instance().GetClientStage();
+    if(clientStage == nullptr) return;
+    if(stageID != clientStage->GetStageID()) ASSERT_DEBUG(stageID == clientStage->GetStageID());
+    // end of prevention
+    
+    Actor* actor = clientStage->FindPlayer(GameClient::Instance().GetMyActorID());
+    if(!actor)
+    {
+        CCLOGERROR("AppDelegate::OnSCNotifyUnEquipItem >> actor %d does not exists", playerID);
+        ASSERT_DEBUG(actor);
+    }
+    
+    actor->UnEquipItem(clientStage, unequipedSlot);
+    
+    BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
+    ActorLayer* actorLayer = scene->GetActorLayer();
+    if(actorLayer)
+    {
+        // TO DO : update actor's visual
+        actorLayer->ActorNodeReload(playerID);
+    }
+    
+    if(playerID == GameClient::Instance().GetMyActorID())
+    {
+        UILayer* uiLayer = scene->GetUILayer();
+        if(uiLayer)
+        {
+            // TO DO : update stash?, inven?, equip
+            uiLayer->UpdateInventory();
+            uiLayer->UpdateStash();
+            uiLayer->UpdateEquipment();
+        }
+    }
+}
+
+void AppDelegate::OnSCNotifySendMessageToStagePlayers(flownet::StageID stageID, flownet::ActorID playerID, flownet::STRING message) const
+{
+    ClientStage* clientStage = GameClient::Instance().GetClientStage();
+    if(clientStage == nullptr) return;
+    if(stageID != clientStage->GetStageID()) ASSERT_DEBUG(stageID == clientStage->GetStageID());
+    
+    
+}
+
+

@@ -29,7 +29,6 @@
 class SpellQuickSlotNode : public CCNode, public CCTargetedTouchDelegate
 {
     typedef flownet::Map<CCMenuItem*, flownet::SpellType>::type ButtonSpellMap;
-    typedef flownet::Map<flownet::SpellType, CCProgressTimer*>::type SpellTimerMap;
 public:
     enum
     {
@@ -39,7 +38,6 @@ public:
 
 private:
     ButtonSpellMap m_ButtonSpellMap;
-    SpellTimerMap m_SpellTimerMap;
     
 public:
     SpellQuickSlotNode();
@@ -54,7 +52,6 @@ private:
     
     void DisableButton(CCObject* menuItem);
     void EnableButton(CCObject* menuItem);
-    void AddProgressTimer(CCObject* timer);
     void RemoveProgressTimer(CCObject* timer);
     
 public:

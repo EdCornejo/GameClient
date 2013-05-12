@@ -51,6 +51,7 @@
 		6B2AA40C16FE8C1800DEB7C3 /* StageCreateScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B2AA40A16FE8C1500DEB7C3 /* StageCreateScene.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		6B30CE75171C12C400316D9F /* SplashScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B30CE73171C12C400316D9F /* SplashScene.cpp */; };
 		6B30CE79171D491300316D9F /* common in Resources */ = {isa = PBXBuildFile; fileRef = 6B30CE78171D491300316D9F /* common */; };
+		6B369641173B93CC007F2985 /* EquipmentNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B36963F173B93CC007F2985 /* EquipmentNode.cpp */; };
 		6B3C0FB116E862190089F2C8 /* ActorNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B3C0FAF16E862180089F2C8 /* ActorNode.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		6B3C0FB516E862BB0089F2C8 /* PlayerNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B3C0FB316E862BB0089F2C8 /* PlayerNode.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		6B3C0FB816E862C60089F2C8 /* MonsterNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B3C0FB616E862C50089F2C8 /* MonsterNode.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -389,6 +390,8 @@
 		6B30CE73171C12C400316D9F /* SplashScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SplashScene.cpp; path = Classes/SplashScene.cpp; sourceTree = "<group>"; };
 		6B30CE74171C12C400316D9F /* SplashScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SplashScene.h; path = Classes/SplashScene.h; sourceTree = "<group>"; };
 		6B30CE78171D491300316D9F /* common */ = {isa = PBXFileReference; lastKnownFileType = folder; name = common; path = Resources/common; sourceTree = "<group>"; };
+		6B36963F173B93CC007F2985 /* EquipmentNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EquipmentNode.cpp; path = Classes/EquipmentNode.cpp; sourceTree = "<group>"; };
+		6B369640173B93CC007F2985 /* EquipmentNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EquipmentNode.h; path = Classes/EquipmentNode.h; sourceTree = "<group>"; };
 		6B3C0FAD16E858D00089F2C8 /* AppProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppProperties.h; path = Classes/AppProperties.h; sourceTree = "<group>"; };
 		6B3C0FAF16E862180089F2C8 /* ActorNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = ActorNode.cpp; path = Classes/ActorNode.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		6B3C0FB016E862180089F2C8 /* ActorNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = ActorNode.h; path = Classes/ActorNode.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -2085,6 +2088,8 @@
 				6BC6C3E117229E7E00B439F9 /* ItemSlotNode.h */,
 				6BC6C3F4172600DB00B439F9 /* StashNode.cpp */,
 				6BC6C3F5172600DC00B439F9 /* StashNode.h */,
+				6B36963F173B93CC007F2985 /* EquipmentNode.cpp */,
+				6B369640173B93CC007F2985 /* EquipmentNode.h */,
 			);
 			name = UINodes;
 			sourceTree = "<group>";
@@ -2613,6 +2618,7 @@
 				6BF045FB1738FC7700EE0E53 /* CFConnection.cpp in Sources */,
 				6BF045FC1738FC7700EE0E53 /* FCPacketHandler.cpp in Sources */,
 				6BF045FD1738FC7700EE0E53 /* FCPacketParser.cpp in Sources */,
+				6B369641173B93CC007F2985 /* EquipmentNode.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

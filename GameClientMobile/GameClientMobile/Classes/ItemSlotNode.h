@@ -19,7 +19,8 @@ private:
 private:
     flownet::ItemType m_ItemType;
     flownet::ItemID m_ItemID;
-    flownet::InventorySlot m_SlotNumber;
+    flownet::InventorySlot m_InventorySlot;
+    flownet::EquipmentSlot m_EquipmentSlot;
     
     CCSprite* m_SlotBackground;
     CCSprite* m_ItemPlaceHolder;
@@ -30,7 +31,9 @@ public :
     virtual ~ItemSlotNode();
     
     virtual bool init(flownet::ItemType itemType, flownet::ItemID itemID, flownet::InventorySlot slotNumber);
+    virtual bool init(flownet::ItemType itemType, flownet::ItemID itemID, flownet::EquipmentSlot equipmentSlot);
     static ItemSlotNode* create(flownet::ItemType itemType, flownet::ItemID itemID, flownet::InventorySlot slotNumber);
+    static ItemSlotNode* create(flownet::ItemType itemType, flownet::ItemID itemID, flownet::EquipmentSlot equipmentSlot);
 
     void TrackTouch(CCTouch* touch);
     void ResetMoving();
@@ -43,7 +46,8 @@ public :
 
     flownet::ItemType GetItemType() { return this->m_ItemType; }
     flownet::ItemID GetItemID() { return this->m_ItemID; }
-    flownet::InventorySlot GetSlotNumber() { return this->m_SlotNumber; }
+    flownet::InventorySlot GetInventorySlot() { return this->m_InventorySlot; }
+    flownet::EquipmentSlot GetEquipmentSlot() { return this->m_EquipmentSlot; }
 };
 
 #endif /* defined(__GameClientMobile__InventorySlotNode__) */

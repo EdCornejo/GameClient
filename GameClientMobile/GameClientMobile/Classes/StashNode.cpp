@@ -192,6 +192,12 @@ StashNode::~StashNode()
         this->m_Body->release();
         this->m_Body = nullptr;
     }
+    
+    std::for_each(this->m_ItemSlotNodeList.begin(), this->m_ItemSlotNodeList.end(), [](ItemSlotNode* node){
+        node->release();
+    });
+    
+    this->m_ItemSlotNodeList.clear();
 }
 
 bool StashNode::init()
@@ -268,13 +274,14 @@ bool StashNode::init()
 //        i++;
 //    });
 
-    for(int i = 0; i < 25; i++)
+    for(int i = 0; i < PerPage; i++)
     {
         ItemData* itemData = new ItemData(ItemGroup_None, ItemType_None, EquipmentSlot_None);
         Item* item = new Item(ItemGroup_None, ItemType_None, static_cast<ItemID>(i), itemData);
         // if( i % 2 == 0) item = ItemFactory::Instance().CreateItem(ItemType_BluePotion9, i);    else item = ItemFactory::Instance().CreateItem(ItemType_RedPotion9, i);
         
         ItemSlotNode* node = ItemSlotNode::create(item->GetItemType(), item->GetItemID(), static_cast<InventorySlot>(i));
+        node->retain();
         node->setAnchorPoint(CCPointUpperLeft);
         CCPoint position = ccp(SlotInitialPositionX + ((ItemSlotMargin + ItemSlotSizeX) * (i % PerRow)), SlotInitialPositionY - ((ItemSlotMargin + ItemSlotSizeY) * (i / PerRow)));
         node->setPosition(position);
@@ -335,7 +342,7 @@ void StashNode::ccTouchEnded(cocos2d::CCTouch *touch, cocos2d::CCEvent *event)
         }
         else if(selectedInventoryItemSlot)
         {
-            client.GetClientObject().SendCSRequestRegisterStashItemToInventory(client.GetClientStage()->GetStageID(), client.GetMyActorID(), this->m_TrackingItemSlotNode->GetItemID(), this->m_CurrentItemGroup, selectedInventoryItemSlot->GetSlotNumber());
+            client.GetClientObject().SendCSRequestRegisterStashItemToInventory(client.GetClientStage()->GetStageID(), client.GetMyActorID(), this->m_TrackingItemSlotNode->GetItemID(), this->m_CurrentItemGroup, selectedInventoryItemSlot->GetInventorySlot());
         }
         
         this->m_IsTrackingItemSlotMoving = false;

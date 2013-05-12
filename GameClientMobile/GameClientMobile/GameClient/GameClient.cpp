@@ -99,6 +99,7 @@ void GameClient::InitializeClient(GameClientRPCInterface* gameClientRPCReceiver)
 
     SpellDictionary::Initialize();
     ItemDataDictionary::Initialize();
+    ItemAbilityApplier::Initialize();
     
     m_ThreadController.Initialize(DEFAULT_NUMBER_OF_THREADS);
     m_ThreadController.AddWorkerRoutine(&m_ScheduledTaskWorkerRoutine);

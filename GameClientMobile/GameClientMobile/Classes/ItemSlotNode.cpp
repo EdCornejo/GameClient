@@ -8,7 +8,7 @@
 
 #include "Headers.pch"
 
-ItemSlotNode::ItemSlotNode(): m_ItemType(ItemType_None), m_ItemID(ItemID_None), m_SlotNumber(InventorySlot_None), m_SlotBackground(nullptr), m_ItemPlaceHolder(nullptr), m_ItemImage(nullptr)
+ItemSlotNode::ItemSlotNode(): m_ItemType(ItemType_None), m_ItemID(ItemID_None), m_InventorySlot(InventorySlot_None), m_EquipmentSlot(EquipmentSlot_None), m_SlotBackground(nullptr), m_ItemPlaceHolder(nullptr), m_ItemImage(nullptr)
 {
 
 }
@@ -32,13 +32,33 @@ ItemSlotNode::~ItemSlotNode()
     }
 }
 
-bool ItemSlotNode::init(flownet::ItemType itemType, flownet::ItemID itemID, flownet::InventorySlot slotNumber)
+bool ItemSlotNode::init(flownet::ItemType itemType, flownet::ItemID itemID, flownet::InventorySlot inventorySlot)
 {
     this->m_ItemType = itemType;
     this->m_ItemID = itemID;
-    this->m_SlotNumber = slotNumber;
+    this->m_InventorySlot = inventorySlot;
+    this->m_EquipmentSlot = EquipmentSlot_None;
     
     this->m_SlotBackground = CCSprite::create("ui/inventory/item_slot_normal.png");
+    this->m_SlotBackground->retain();
+    
+    this->m_ItemImage = ItemImageLoader::GetItemInventoryImage(this->m_ItemType);
+    this->m_ItemImage->retain();
+    
+    this->addChild(this->m_SlotBackground, BackgroundIndex);
+    this->addChild(this->m_ItemImage);
+    
+    return true;
+}
+
+bool ItemSlotNode::init(flownet::ItemType itemType, flownet::ItemID itemID, flownet::EquipmentSlot equipmentSlot)
+{
+    this->m_ItemType = itemType;
+    this->m_ItemID = itemID;
+    this->m_InventorySlot = InventorySlot_None;
+    this->m_EquipmentSlot = equipmentSlot;
+    
+    this->m_SlotBackground = CCSprite::create("ui/inventory/item_slot_normal.png"); // if needed change this texture
     this->m_SlotBackground->retain();
     
     this->m_ItemImage = ItemImageLoader::GetItemInventoryImage(this->m_ItemType);
@@ -60,7 +80,20 @@ ItemSlotNode* ItemSlotNode::create(flownet::ItemType itemType, flownet::ItemID i
     else
     {
         delete newItemSlotNode;
-        newItemSlotNode = nullptr;
+        return nullptr;
+    }
+}
+
+ItemSlotNode* ItemSlotNode::create(flownet::ItemType itemType, flownet::ItemID itemID, flownet::EquipmentSlot equipmentSlot)
+{
+    ItemSlotNode* newNode = new ItemSlotNode();
+    if(newNode && newNode->init(itemType, itemID, equipmentSlot))
+    {
+        return newNode;
+    }
+    else
+    {
+        delete newNode;
         return nullptr;
     }
 }

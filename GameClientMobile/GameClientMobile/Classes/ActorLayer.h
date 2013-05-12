@@ -114,6 +114,7 @@ public:
     void ActorDead(flownet::ActorID deadActorID, bool afterDelete = false); // TO DO : when delete is default after die, change this false to true
     void ActorTakeDamage(flownet::ActorID actorID);
 
+    void ActorNodeReload(flownet::ActorID actorID);
 
 // spell part
     void FireSpell(flownet::ActorID playerID, flownet::POINT destination, SpellInfo spellInfo);

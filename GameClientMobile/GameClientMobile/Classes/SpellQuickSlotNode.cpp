@@ -8,19 +8,14 @@
 
 #include "Headers.pch"
 
-SpellQuickSlotNode::SpellQuickSlotNode(): m_ButtonSpellMap(), m_SpellTimerMap()
+SpellQuickSlotNode::SpellQuickSlotNode(): m_ButtonSpellMap()
 {
 
 }
 
 SpellQuickSlotNode::~SpellQuickSlotNode()
 {
-    std::for_each(this->m_SpellTimerMap.begin(), this->m_SpellTimerMap.end(), [this](SpellTimerMap::value_type pair){
-        pair.second->release();
-        pair.second = nullptr;
-    });
-    
-    this->m_SpellTimerMap.clear();
+
 }
 
 bool SpellQuickSlotNode::init()
@@ -42,12 +37,6 @@ bool SpellQuickSlotNode::init()
         this->m_ButtonSpellMap.insert(ButtonSpellMap::value_type(menuItem, spellType));
         menuItem->retain();
         menu->addChild(menuItem);
-        
-        CCSprite* icon = SpellImageLoader::GetSpellQuickSlotImage(spellType);
-        CCProgressTimer* timer = CCProgressTimer::create(icon);
-        timer->retain();
-        
-        this->m_SpellTimerMap.insert(SpellTimerMap::value_type(spellType, timer));
     });
     
     menu->alignItemsHorizontallyWithPadding(10);
@@ -107,12 +96,6 @@ void SpellQuickSlotNode::EnableButton(CCObject* object)
     menuItem->setEnabled(true);
 }
 
-void SpellQuickSlotNode::AddProgressTimer(CCObject* object)
-{
-    CCProgressTimer* timer = static_cast<CCProgressTimer*>(object);
-    this->addChild(timer);
-}
-
 void SpellQuickSlotNode::RemoveProgressTimer(CCObject* object)
 {
     CCProgressTimer* timer = static_cast<CCProgressTimer*>(object);
@@ -120,14 +103,8 @@ void SpellQuickSlotNode::RemoveProgressTimer(CCObject* object)
 }
 
 void SpellQuickSlotNode::ApplyCoolTime(flownet::SpellType spellType)
-{
-    SpellTimerMap::iterator iter = this->m_SpellTimerMap.find(spellType);
-    if(iter == this->m_SpellTimerMap.end())
-    {
-        return;
-    }
-    
-    CCProgressTimer* timer = iter->second;
+{    
+    CCProgressTimer* timer = CCProgressTimer::create(SpellImageLoader::GetSpellQuickSlotImage(spellType));
     
     SpellInfo spellInfo = SpellDictionary::Instance().FindSpellInfoBySpellType(spellType);
     
@@ -150,14 +127,13 @@ void SpellQuickSlotNode::ApplyCoolTime(flownet::SpellType spellType)
         }
     });
     
-    CCCallFuncO* addChild = CCCallFuncO::create(this, callfuncO_selector(SpellQuickSlotNode::AddProgressTimer), iter->second);
-    CCDelayTime* delay = CCDelayTime::create(5);
-    CCCallFuncO* removeChild = CCCallFuncO::create(this, callfuncO_selector(SpellQuickSlotNode::RemoveProgressTimer), iter->second);
-    CCSequence* sequence = CCSequence::create(addChild, delay, removeChild, NULL);
-
-    this->runAction(sequence);
-    
+    this->addChild(timer, 1);
     CCProgressTo* progress = CCProgressTo::create(5, 100);
     timer->runAction(progress);
+    
+    CCDelayTime* delay = CCDelayTime::create(5);
+    CCCallFuncO* removeChild = CCCallFuncO::create(this, callfuncO_selector(SpellQuickSlotNode::RemoveProgressTimer), timer);
+    CCSequence* sequence = CCSequence::create(delay, removeChild, NULL);
 
+    this->runAction(sequence);
 }

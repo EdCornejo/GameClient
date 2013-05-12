@@ -8,7 +8,7 @@
 
 #include "Headers.pch"
 
-UILayer::UILayer() : m_StageType(flownet::StageType_NONE), m_SpellQuickSlotNode(nullptr), m_StashNode(nullptr), m_InventoryNode(nullptr), m_SelectedSpellType(SpellType_NONE), m_SpellDestinationPoint()
+UILayer::UILayer() : m_StageType(flownet::StageType_NONE), m_SpellQuickSlotNode(nullptr), m_StashNode(nullptr), m_EquipmentNode(nullptr), m_InventoryNode(nullptr), m_SelectedSpellType(SpellType_NONE), m_SpellDestinationPoint()
 {
     
 }
@@ -24,6 +24,11 @@ UILayer::~UILayer()
     {
         this->m_StashNode->release();
         this->m_StashNode = nullptr;
+    }
+    if(this->m_EquipmentNode)
+    {
+        this->m_EquipmentNode->release();
+        this->m_EquipmentNode = nullptr;
     }
     if(this->m_InventoryNode)
     {
@@ -46,6 +51,7 @@ bool UILayer::init()
             this->InitializeSpellQuickSlot();
             this->InitializeInventory();
             this->InitializeStash();
+            this->InitializeEquipment();
             this->InitializeMenuBar();
             break;
     }
@@ -140,6 +146,15 @@ void UILayer::InitializeStash()
     this->m_StashNode->setPosition(ccp(StashNode::PositionX, StashNode::PositionY));
     
     this->addChild(this->m_StashNode);
+}
+
+void UILayer::InitializeEquipment()
+{
+    this->m_EquipmentNode = EquipmentNode::create();
+    this->m_EquipmentNode->retain();
+    this->m_EquipmentNode->setPosition(ccp(EquipmentNode::PositionX, EquipmentNode::PositionY));
+    
+    this->addChild(this->m_EquipmentNode);
 }
 
 void UILayer::InitializeMenuBar()
@@ -346,5 +361,13 @@ void UILayer::UpdateStash()
     if(this->m_StashNode)
     {
         this->m_StashNode->Update();
+    }
+}
+
+void UILayer::UpdateEquipment()
+{
+    if(this->m_EquipmentNode)
+    {
+        this->m_EquipmentNode->Update();
     }
 }

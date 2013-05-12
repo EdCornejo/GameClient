@@ -299,6 +299,8 @@ void ActorLayer::MoveActor(flownet::ActorID actorID, flownet::POINT currentPosit
     float distance = destinationPosition.DistanceTo(currentPosition);
     ASSERT_DEBUG(actor->GetMovingSpeed() != 0);
     float duration = distance / actor->GetMovingSpeed() ;
+    
+    CCLOG("moving speed %f", actor->GetMovingSpeed());
 
     this->UpdateActorLookingDirection(actor, movingObject->getPosition(), PointConverter::Convert(destinationPosition));
     movingObject->StopAnimationActions();
@@ -512,6 +514,14 @@ void ActorLayer::ActorTakeDamage(flownet::ActorID actorID)
     ASSERT_DEBUG(actor->GetMaxHealthPoint() != 0); // just checking for division by zero exception, will be this happened?
     
     actorNodeSet->m_HUDNode->ChangeHealthPointBar(actor->GetHealthPoint() / actor->GetMaxHealthPoint());
+}
+
+void ActorLayer::ActorNodeReload(flownet::ActorID actorID)
+{
+    ActorNode* actorNode = this->FindActorNode(actorID);
+    ASSERT_DEBUG(actorNode != nullptr);
+    
+    actorNode->Reload();
 }
 
 MonsterNode* ActorLayer::FindSelectedMonsterNode(cocos2d::CCPoint touchLocation)

@@ -42,6 +42,7 @@
 #include "MenuBarNode.h"
 #include "InventoryNode.h"
 #include "StashNode.h"
+#include "EquipmentNode.h"
 
 //  Layers
 #include "BaseLayer.h"

@@ -102,6 +102,13 @@ void SpellNode::update(float deltaTime)
     }
     this->m_LastTickTime = 0;
     
+    ActorLayer* actorLayer = static_cast<ActorLayer*>(this->getParent());
+    if(!actorLayer) ASSERT_DEBUG(actorLayer);
+    
+    // NOTE : reoder spell's ZOrder based on caster's ZOrder
+    ActorNode* actorNode = actorLayer->FindActorNode(this->m_CasterID);
+    this->setZOrder(actorNode->getZOrder() + 1);
+    
     switch(this->m_SpellInfo.m_StartingPoint)
     {
         case flownet::StartingPoint_Target:

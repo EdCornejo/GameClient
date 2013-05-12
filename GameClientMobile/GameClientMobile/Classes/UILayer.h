@@ -15,6 +15,7 @@ private:
     StageType m_StageType;
     SpellQuickSlotNode* m_SpellQuickSlotNode;
     StashNode* m_StashNode;
+    EquipmentNode* m_EquipmentNode;
     InventoryNode* m_InventoryNode;
     MenuBarNode* m_MenuBarNode;
     SpellType m_SelectedSpellType;
@@ -35,6 +36,7 @@ private:
     void InitializeSpellQuickSlot();
     void InitializeInventory();
     void InitializeStash();
+    void InitializeEquipment();
     void InitializeMenuBar();
     
 public:
@@ -57,6 +59,7 @@ public:
 public:
     void UpdateInventory();
     void UpdateStash();
+    void UpdateEquipment();
 };
 
 #endif /* defined(__GameClientMobile__UILayer__) */

@@ -122,7 +122,7 @@ public:
     virtual void AnimateFire();
     virtual void AnimateDead();
 
-    virtual void ChangeEquipment(flownet::EquipmentSlot equipmentSlot, flownet::ItemType itemType);
+    virtual void Reload();
 
     flownet::ActorID GetActorID();
     flownet::Actor* GetActorInfo();
@@ -139,6 +139,7 @@ public:
 private:
     void StopCharacterAnimate();
     
+    virtual void ChangeEquipment(flownet::EquipmentSlot equipmentSlot, flownet::ItemType itemType);
     virtual void ChangeWand(flownet::ItemType itemType);
     virtual void ChangeHat(flownet::ItemType itemType);
     virtual void ChangeRobe(flownet::ItemType itemType);

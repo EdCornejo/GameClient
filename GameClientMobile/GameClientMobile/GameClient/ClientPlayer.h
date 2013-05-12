@@ -37,6 +37,9 @@ public:
 public:
     virtual void OnAttacked(FLOAT damageAmount);
     
+    virtual BOOL UseItem(Stage* stage, const ItemID itemID) override;
+    virtual BOOL EquipItem(Stage* stage, const EquipmentSlot equipmentSlot, const ItemID itemID) override;
+    virtual ItemID UnEquipItem(Stage* stage, const EquipmentSlot equipmentSlot) override;
 public:
 //    void    RequestFireSpell(const ActorID targetID);
 };
