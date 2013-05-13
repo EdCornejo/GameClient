@@ -9,14 +9,18 @@
 #ifndef __GameClientMobile__ActorLayer__
 #define __GameClientMobile__ActorLayer__
 
+typedef Map<flownet::SpellAbility, SpellEffectNode*>::type SpellEffectNodeMap;
+
 struct ActorNodeSet {
     ActorNode* m_ActorNode;
     HUDNode* m_HUDNode;
     ShadowNode* m_ShadowNode;
     HighlightNode* m_HighlightNode;
     GuideLineNode* m_GuideLineNode;
+    SpellEffectNodeMap m_SpellEffectNodeMap;
+
     
-    ActorNodeSet(flownet::ActorID actorID): m_ActorNode(nullptr), m_HUDNode(nullptr), m_ShadowNode(nullptr), m_HighlightNode(nullptr), m_GuideLineNode(nullptr)
+    ActorNodeSet(flownet::ActorID actorID): m_ActorNode(nullptr), m_HUDNode(nullptr), m_ShadowNode(nullptr), m_HighlightNode(nullptr), m_GuideLineNode(nullptr) //m_SpellEffectNodeMap()
     {
         if(flownet::IsPlayerID(actorID))
         {
@@ -42,6 +46,12 @@ struct ActorNodeSet {
         if(this->m_ShadowNode) this->m_ShadowNode->release();
         if(this->m_HighlightNode) this->m_HighlightNode->release();
         if(this->m_GuideLineNode) this->m_GuideLineNode->release();
+        std::for_each(this->m_SpellEffectNodeMap.begin(), this->m_SpellEffectNodeMap.end(), [this](SpellEffectNodeMap::value_type pair){
+            pair.second->release();
+        });
+        
+        this->m_SpellEffectNodeMap.clear();
+        
         this->m_ActorNode = nullptr;
         this->m_HUDNode = nullptr;
         this->m_ShadowNode = nullptr;
@@ -54,11 +64,14 @@ struct ActorNodeSet {
         this->m_HUDNode->setZOrder(zOrder + 9);
         this->m_ShadowNode->setZOrder(zOrder - 9);
         this->m_HighlightNode->setZOrder(zOrder - 8);
+        std::for_each(this->m_SpellEffectNodeMap.begin(), this->m_SpellEffectNodeMap.end(), [this, zOrder](SpellEffectNodeMap::value_type pair){
+            pair.second->setZOrder(zOrder+1);
+        });
     }
     
     int GetZOrder(int zOrder)
     {
-
+        return this->m_ActorNode->getZOrder();
     }
 };
 
@@ -118,6 +131,9 @@ public:
 
 // spell part
     void FireSpell(flownet::ActorID playerID, flownet::POINT destination, SpellInfo spellInfo);
+    
+    void AddSpellEffect(flownet::ActorID actorID, flownet::SpellAbility spellAbility);
+    void RemoveSpellEffect(flownet::ActorID actorID, flownet::SpellAbility spellAbility);
 // end of spell part
 
     void UseItem(flownet::ActorID playerID, flownet::ItemID itemID);

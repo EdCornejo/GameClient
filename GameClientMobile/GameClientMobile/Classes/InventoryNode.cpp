@@ -50,6 +50,11 @@ InventoryNode::~InventoryNode()
         this->m_MaterialButton->release();
         this->m_MaterialButton = nullptr;
     }
+    if(this->m_DescriptionLabel)
+    {
+        this->m_DescriptionLabel->release();
+        this->m_DescriptionLabel = nullptr;
+    }
     
     std::for_each(this->m_ItemSlotNodeList.begin(), this->m_ItemSlotNodeList.end(), [](ItemSlotNode* node){
         node->release();

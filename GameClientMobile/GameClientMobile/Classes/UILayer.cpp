@@ -125,6 +125,7 @@ void UILayer::ccTouchesEnded(CCSet *touches, CCEvent *event)
 void UILayer::InitializeSpellQuickSlot()
 {
     this->m_SpellQuickSlotNode = SpellQuickSlotNode::create();
+    this->m_SpellQuickSlotNode->retain();
     this->m_SpellQuickSlotNode->setPosition(ccp(SpellQuickSlotNode::PositionX, SpellQuickSlotNode::PositionY));
     
     this->addChild(this->m_SpellQuickSlotNode);

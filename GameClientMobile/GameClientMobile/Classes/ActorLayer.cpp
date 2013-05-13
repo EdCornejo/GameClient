@@ -288,7 +288,9 @@ void ActorLayer::ChangeTarget(flownet::ActorID monsterID, flownet::ActorID targe
 void ActorLayer::MoveActor(flownet::ActorID actorID, flownet::POINT currentPosition, flownet::POINT destinationPosition)
 {
     Actor* actor = GameClient::Instance().GetClientStage()->FindActor(actorID);
+    ASSERT_DEBUG(actor);
     ActorNode* movingObject = this->FindActorNode(actorID);
+    ASSERT_DEBUG(movingObject);
     
     if( !actor->IsAlive() )
     {
@@ -497,6 +499,8 @@ void ActorLayer::ActorDead(flownet::ActorID deadActorID, bool afterDelete)
 
     deadObject->StopAnimationActions();
     CCFiniteTimeAction* animateDead = CCCallFunc::create(deadObject, callfunc_selector(ActorNode::AnimateDead));
+    CCBlink* blink = CCBlink::create(3, 6);
+    //CCFiniteTimeAction* removeSelf = CCCallFuncO::create(this, callfu, dfadf);
     CCAction* sequence = CCSequence::create(animateDead, NULL);
     sequence->setTag(ActionType_Animation);
     deadObject->runAction(sequence);
@@ -571,6 +575,34 @@ void ActorLayer::FireSpell(flownet::ActorID playerID, flownet::POINT destination
 {
     SpellNode* spellObject = SpellNode::create(spellInfo, playerID, destination);
     this->addChild(spellObject);
+}
+
+void ActorLayer::AddSpellEffect(flownet::ActorID actorID, flownet::SpellAbility spellAbility)
+{
+    ActorNodeSet* actorNodeSet = this->FindActorNodeSet(actorID);
+    ASSERT_DEBUG(actorNodeSet);
+    
+    SpellEffectNode* spellEffectNode = SpellEffectNode::create(actorID, spellAbility);
+    spellEffectNode->retain();
+    
+    this->addChild(spellEffectNode);
+    
+    actorNodeSet->m_SpellEffectNodeMap.insert(SpellEffectNodeMap::value_type(spellAbility, spellEffectNode));
+}
+
+void ActorLayer::RemoveSpellEffect(flownet::ActorID actorID, flownet::SpellAbility spellAbility)
+{
+    ActorNodeSet* actorNodeSet = this->FindActorNodeSet(actorID);
+    ASSERT_DEBUG(actorNodeSet);
+    
+    SpellEffectNodeMap::iterator iter = actorNodeSet->m_SpellEffectNodeMap.find(spellAbility);
+    ASSERT_DEBUG(iter != actorNodeSet->m_SpellEffectNodeMap.end());
+    
+    iter->second->release();
+    
+    this->removeChild(iter->second, true);
+    
+    actorNodeSet->m_SpellEffectNodeMap.erase(iter);
 }
 
 void ActorLayer::UseItem(flownet::ActorID playerID, flownet::ItemID itemID)

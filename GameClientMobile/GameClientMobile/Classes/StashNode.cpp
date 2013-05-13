@@ -192,6 +192,21 @@ StashNode::~StashNode()
         this->m_Body->release();
         this->m_Body = nullptr;
     }
+    if(this->m_EquipmentButton)
+    {
+        this->m_EquipmentButton->release();
+        this->m_EquipmentButton = nullptr;
+    }
+    if(this->m_ConsumeButton)
+    {
+        this->m_ConsumeButton->release();
+        this->m_ConsumeButton = nullptr;
+    }
+    if(this->m_MaterialButton)
+    {
+        this->m_MaterialButton->release();
+        this->m_MaterialButton = nullptr;
+    }
     
     std::for_each(this->m_ItemSlotNodeList.begin(), this->m_ItemSlotNodeList.end(), [](ItemSlotNode* node){
         node->release();

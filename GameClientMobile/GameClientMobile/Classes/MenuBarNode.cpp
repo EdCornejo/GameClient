@@ -103,16 +103,7 @@ void MenuBarNode::Slide()
 {
     if(this->m_IsOpen)
     {
-        CCLOG("slide in");
-//        CCProgressTimer *left = CCProgressTimer::create(this->m_Body);
-//        left->setType(kCCProgressTimerTypeBar);
-//        //    Setup for a bar starting from the left since the midpoint is 0 for the x
-//        left->setMidpoint(ccp(0,0));
-//        //    Setup for a horizontal bar since the bar change rate is 0 for y meaning no vertical change
-//        left->setBarChangeRate(ccp(1, 0));
-//        addChild(left);
-//        left->runAction( CCRepeatForever::create(to1));
-//    
+        CCLOG("slide in"); 
         CCPoint slidePosition = CCPoint(PositionX, PositionY);
         CCMoveTo* moveIn = CCMoveTo::create(0.3, slidePosition);
         moveIn->setTag(ActionType_UI);
@@ -122,17 +113,7 @@ void MenuBarNode::Slide()
     else{
         CCLOG("slide out");
         CCPoint slidePosition = CCPoint(PositionX - this->m_Body->getTextureRect().size.width + 10, PositionY);
-        CCMoveTo* moveOut = CCMoveTo::create(0.3, slidePosition);
-//        CCProgressTimer *moveOut = CCProgressTimer::create(this->m_Body);
-//        right->setType(kCCProgressTimerTypeBar);
-//        //    Setup for a bar starting from the left since the midpoint is 1 for the x
-//        right->setMidpoint(ccp(1, 0));
-//        //    Setup for a horizontal bar since the bar change rate is 0 for y meaning no vertical change
-//        right->setBarChangeRate(ccp(1, 0));
-//        addChild(right);
-//        right->setPosition(ccp(s.width-100, s.height/2));
-//        right->runAction( CCRepeatForever::create(to2));
-//    
+        CCMoveTo* moveOut = CCMoveTo::create(0.3, slidePosition); 
         moveOut->setTag(ActionType_UI);
         this->stopActionByTag(ActionType_UI);
         this->runAction(moveOut);
@@ -144,6 +125,7 @@ void MenuBarNode::Slide()
 
 void MenuBarNode::OnHomeButtonClicked(CCObject* sender)
 {
+    GameClient::Instance().GetClientObject().SendCSRequestExitStage(GameClient::Instance().GetClientStage()->GetStageID());
 }
 
 void MenuBarNode::OnSettingButtonClicked(CCObject* sender)
