@@ -15,7 +15,7 @@ SpellQuickSlotNode::SpellQuickSlotNode(): m_ButtonSpellMap()
 
 SpellQuickSlotNode::~SpellQuickSlotNode()
 {
-
+    this->m_ButtonSpellMap.clear();
 }
 
 bool SpellQuickSlotNode::init()
@@ -23,7 +23,7 @@ bool SpellQuickSlotNode::init()
     Player* player = GameClient::Instance().GetClientStage()->FindPlayer(GameClient::Instance().GetMyActorID());
     // TO DO : initialize with player's spell info
 
-    std::vector<SpellType> spellList = {SpellType_FireBall, SpellType_FireBurst, SpellType_IceArrow, SpellType_WaterFire, SpellType_NONE};
+    std::vector<SpellType> spellList = {SpellType_FireBall, SpellType_IceArrow, SpellType_FireBurst, SpellType_IceFog, SpellType_Crystalize};
     
     CCMenu* menu = CCMenu::create();
     
@@ -35,7 +35,6 @@ bool SpellQuickSlotNode::init()
         CCMenuItemSprite* menuItem = CCMenuItemSprite::create(spellIconImage, spellIconImage, spellIconImageDisabled, this, menu_selector(SpellQuickSlotNode::OnSkillTouched));
         
         this->m_ButtonSpellMap.insert(ButtonSpellMap::value_type(menuItem, spellType));
-        menuItem->retain();
         menu->addChild(menuItem);
     });
     

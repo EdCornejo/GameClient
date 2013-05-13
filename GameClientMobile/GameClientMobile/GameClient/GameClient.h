@@ -102,7 +102,7 @@ public:
     void SetClientStage(ClientStage* clientStage);
     void SetOTP(const OTP otp) {        m_OTP = otp; }
 
-    void EndStage();
+    void Finalize();
     
 // End of GameClient Data Part
     

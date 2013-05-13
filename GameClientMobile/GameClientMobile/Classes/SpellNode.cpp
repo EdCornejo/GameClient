@@ -8,7 +8,7 @@
 
 #include "Headers.pch"
 
-SpellNode::SpellNode() : m_SpellInfo(), m_CasterID(ActorID_None), m_Destination(), m_LastTickTime(0)
+SpellNode::SpellNode(const flownet::SpellInfo& spellInfo, flownet::ActorID actorID, flownet::POINT destination) : m_SpellInfo(spellInfo), m_CasterID(actorID), m_Destination(destination), m_LastTickTime(0)
 {
 
 }
@@ -74,12 +74,9 @@ bool SpellNode::initWithFile(const char* fileName)
     return true;
 }
 
-SpellNode* SpellNode::create(SpellInfo spellInfo, ActorID casterID, POINT destination)
+SpellNode* SpellNode::create(const SpellInfo& spellInfo, ActorID casterID, POINT destination)
 {
-    SpellNode* spellNode = new SpellNode();
-    spellNode->m_SpellInfo = spellInfo;
-    spellNode->m_CasterID = casterID;
-    spellNode->m_Destination = destination;
+    SpellNode* spellNode = new SpellNode(spellInfo, casterID, destination);
 
     if(spellNode && spellNode->initWithFile("blank.png"))
     {

@@ -333,5 +333,27 @@ void GameClientPacketHandler::OnSCNotifySendMessageToStagePlayers(StageID stageI
     ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
     this->m_GameClientRPCReceiver->OnSCNotifySendMessageToStagePlayers(stageID, playerID, message);
 }
+
+void GameClientPacketHandler::OnSCNotifyApplySpellAbility(flownet::StageID stageID, flownet::ActorID targetID, flownet::ActorID invokerID, flownet::SpellAbility spellAbility, flownet::FLOAT amount)
+{
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+    this->m_GameClientRPCReceiver->OnSCNotifyApplySpellAbility(stageID, targetID, invokerID, spellAbility, amount);
+}
+
+void GameClientPacketHandler::OnSCNotifyClearSpellAbility(flownet::StageID stageID, flownet::ActorID targetID, flownet::SpellAbility spellAbility, flownet::FLOAT amount)
+{
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+    this->m_GameClientRPCReceiver->OnSCNotifyClearSpellAbility(stageID, targetID, spellAbility, amount);
+}
+
+void GameClientPacketHandler::OnSCNotifySetFreeze(flownet::StageID stageID, flownet::ActorID targetID, flownet::BOOL isFreezed)
+{
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+    this->m_GameClientRPCReceiver->OnSCNotifySetFreeze(stageID, targetID, isFreezed);
+}
+
+
+
+
     
 } // namespace flownet

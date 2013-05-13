@@ -250,8 +250,11 @@ void AppDelegate::OnSCResponseLogOutUserAccount(flownet::UserID userID) const
     }
     else
     {
+        // NOTE : infos to be deleted = serverIP, gameServerID, stage, sessionID, userID, actorID, OTP
         CCUserDefault::sharedUserDefault()->setStringForKey("yours", "");
         CCUserDefault::sharedUserDefault()->flush();
+        
+        GameClient::Instance().Finalize();
     }
 }
 
@@ -313,10 +316,19 @@ void AppDelegate::OnSCResponseJoinRunningStage(flownet::StageID stageID, flownet
 void AppDelegate::OnSCResponseExitStage(flownet::StageID stageID, flownet::ActorID playerID) const
 {
     ClientStage* clientStage = GameClient::Instance().GetClientStage();
-    if(clientStage == nullptr || stageID != clientStage->GetStageID())
+    if(clientStage == nullptr) return;
+    if(stageID != clientStage->GetStageID()) ASSERT_DEBUG(stageID == clientStage->GetStageID());
+    
+    ASSERT_DEBUG(playerID == GameClient::Instance().GetMyActorID());
+    
+    ClientStage* emptyStage = new ClientStage(Stage());
+    
+    GameClient::Instance().SetClientStage(emptyStage);
+    
+    if( false == static_cast<ClientDirector*>(CCDirector::sharedDirector())->ChangeScene<StageScene>() )
     {
-        ASSERT_DEBUG(stageID == clientStage->GetStageID());
-        return;
+        // TO DO : handle error
+        ASSERT_DEBUG(false);
     }
 
 }
@@ -324,11 +336,11 @@ void AppDelegate::OnSCResponseExitStage(flownet::StageID stageID, flownet::Actor
 void AppDelegate::OnSCNotifyExitStage(flownet::StageID stageID, flownet::ActorID playerID) const
 {
     ClientStage* clientStage = GameClient::Instance().GetClientStage();
-    if(clientStage == nullptr || stageID != clientStage->GetStageID())
-    {
-        //ASSERT_DEBUG(clientStage != nullptr && stageID == clientStage->GetStageID());
-        return;
-    }
+    if(clientStage == nullptr) return;
+    if(stageID != clientStage->GetStageID()) ASSERT_DEBUG(stageID == clientStage->GetStageID());
+    
+    // TO DO : remove actorNodeSet from actorlayer
+    // TO DO : remove actor from stage
 }
 
 void AppDelegate::OnSCResponseRejoinCurrentStage(flownet::StageID stageID, flownet::Stage stage) const
@@ -949,4 +961,84 @@ void AppDelegate::OnSCNotifySendMessageToStagePlayers(flownet::StageID stageID, 
     
 }
 
+void AppDelegate::OnSCNotifyApplySpellAbility(flownet::StageID stageID, flownet::ActorID targetID, flownet::ActorID invokerID, flownet::SpellAbility spellAbility, flownet::FLOAT amount) const
+{
+    ClientStage* clientStage = GameClient::Instance().GetClientStage();
+    if(clientStage == nullptr) return;
+    if(stageID != clientStage->GetStageID()) ASSERT_DEBUG(stageID == clientStage->GetStageID());
+    // TO DO : show spell effects
+    
+    Actor* actor = clientStage->FindActor(targetID);
+    ASSERT_DEBUG(actor);
+    Actor* invoker = clientStage->FindActor(invokerID);
+    ASSERT_DEBUG(invoker);
+    
+    actor->ApplySpellAbilityForClient(spellAbility, amount);
+    
+    BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
+    ASSERT_DEBUG(scene);
+    
+    ActorLayer* actorLayer = scene->GetActorLayer();
+    ASSERT_DEBUG(actorLayer);
+    
+    // NOTE : check for if there is no same ability 
+    SpellAbilityDataList& activeSpellAbilityDataList = actor->GetSpellAbilityDataList();
+    bool found = false;
+    std::for_each(activeSpellAbilityDataList.begin(), activeSpellAbilityDataList.end(), [this, &found, spellAbility](SpellAbilityData& spellAbilityData){
+        if(spellAbilityData.m_SpellAbility == spellAbility){
+            found = true;
+        }
+    });
+    
+    if(found)
+    {
+        actorLayer->AddSpellEffect(targetID, spellAbility);
+    }
+}
+
+void AppDelegate::OnSCNotifyClearSpellAbility(flownet::StageID stageID, flownet::ActorID targetID, flownet::SpellAbility spellAbility, flownet::FLOAT amount) const
+{
+    ClientStage* clientStage = GameClient::Instance().GetClientStage();
+    if(clientStage == nullptr) return;
+    if(stageID != clientStage->GetStageID()) ASSERT_DEBUG(stageID == clientStage->GetStageID());
+    // TO DO : remove spell effects
+    
+    Actor* actor = clientStage->FindActor(targetID);
+    ASSERT_DEBUG(actor);
+    
+    actor->ClearSpellAbilityForClient(spellAbility);
+    
+    BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
+    ASSERT_DEBUG(scene);
+    
+    ActorLayer* actorLayer = scene->GetActorLayer();
+    ASSERT_DEBUG(actorLayer);
+    
+    // NOTE : check for same ability left
+    SpellAbilityDataList& activeSpellAbilityDataList = actor->GetSpellAbilityDataList();
+    bool found = false;
+    std::for_each(activeSpellAbilityDataList.begin(), activeSpellAbilityDataList.end(), [this, &found, spellAbility](SpellAbilityData& spellAbilityData){
+        if(spellAbilityData.m_SpellAbility == spellAbility){
+            found = true;
+        }
+    });
+    
+    if(!found)
+    {
+        actorLayer->RemoveSpellEffect(targetID, spellAbility);
+    }
+}
+
+void AppDelegate::OnSCNotifySetFreeze(flownet::StageID stageID, flownet::ActorID targetID, flownet::BOOL isFreezed) const
+{
+    ClientStage* clientStage = GameClient::Instance().GetClientStage();
+    if(clientStage == nullptr) return;
+    if(stageID != clientStage->GetStageID()) ASSERT_DEBUG(stageID == clientStage->GetStageID());
+    
+    // TO DO : change actor status
+    Actor* actor = clientStage->FindActor(targetID);
+    ASSERT_DEBUG(actor);
+    
+    actor->SetFreeze(clientStage, isFreezed);
+}
 

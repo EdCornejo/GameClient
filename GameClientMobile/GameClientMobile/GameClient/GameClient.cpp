@@ -98,6 +98,7 @@ void GameClient::InitializeClient(GameClientRPCInterface* gameClientRPCReceiver)
     ASSERT_RELEASE(m_IsStarted == false);
 
     SpellDictionary::Initialize();
+    SpellAbilityApplier::Initialize();
     ItemDataDictionary::Initialize();
     ItemAbilityApplier::Initialize();
     
@@ -187,14 +188,24 @@ void GameClient::SetMyActorID(ActorID actorID)
 
 void GameClient::SetClientStage(ClientStage *clientStage)
 {
-    ASSERT_DEBUG(this->m_ClientStage==nullptr);
+    if(this->m_ClientStage != nullptr)
+    {
+        delete this->m_ClientStage;
+        this->m_ClientStage == nullptr;
+    }
 
     this->m_ClientStage = clientStage;
 }
  
-void GameClient::EndStage()
+void GameClient::Finalize()
 {
-    delete this->m_ClientStage;
+    ClientStage* emptyClientStage = new ClientStage(Stage());
+    this->SetGameServerID(GameServerID_None);
+    this->SetClientStage(emptyClientStage);
+    this->SetSessionID(SessionID_NONE);
+    this->SetUserID(UserID_None);
+    this->SetMyActorID(ActorID_None);
+    this->SetOTP(OTP_None);
 }
     
 // End of GameClient Data Part

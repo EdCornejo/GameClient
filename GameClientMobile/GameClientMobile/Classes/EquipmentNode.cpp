@@ -205,7 +205,7 @@ void EquipmentNode::Update()
         this->m_ActorNode = PlayerNode::create(GameClient::Instance().GetMyActorID());
         this->m_ActorNode->setAnchorPoint(CharacterAnchorPoint);
         this->m_ActorNode->setPosition(this->m_Body->getContentSize().width / 2, 0);
-        
+        this->m_ActorNode->retain();
         this->m_Body->addChild(this->m_ActorNode);
     }
     
