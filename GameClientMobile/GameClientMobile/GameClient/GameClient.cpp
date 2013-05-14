@@ -23,12 +23,26 @@ GameClient::GameClient():
     m_ClientPacketHandler(&m_RenderingTaskWorkerRoutine),
     m_ClientPacketParser(&m_ClientPacketHandler),
     m_ClientObject(m_NetworkWorkerRoutine.m_IOService,&m_ClientPacketParser),
+    m_FCPacketHandler(&m_RenderingTaskWorkerRoutine),
+    m_FCPacketParser(&m_FCPacketHandler),
+    m_CFConnection(m_NetworkWorkerRoutine.m_IOService, &m_FCPacketParser),
     m_IsInitialized(false),
     m_IsStarted(false),
     m_DeviceID(DeviceID_None),
+    m_GameServerID(GameServerID_None),
     m_SessionID(SessionID_NONE),
+    m_UserID(UserID_None),
     m_MyActorID(ActorID_None),
-    m_ClientStage(nullptr)
+    m_ClientStage(nullptr),
+    m_OTP(OTP_None)
+{
+    this->InitializeDeviceID();
+    
+    m_ClientPacketHandler.LinkGameClientObject(&m_ClientObject);
+    m_FCPacketHandler.LinkCFConnection(&m_CFConnection);
+}
+
+void GameClient::InitializeDeviceID()
 {
     std::string deviceID = cocos2d::CCUserDefault::sharedUserDefault()->getStringForKey("DeviceID");
     std::stringstream deviceIDStringStream;
@@ -42,7 +56,12 @@ GameClient::GameClient():
         cocos2d::CCUserDefault::sharedUserDefault()->flush();
     }
     
-    deviceIDStringStream >> this->m_DeviceID;
+    CCLOG("Device ID is : %s", deviceIDStringStream.str().c_str());
+    
+    DeviceID thisDeviceID;
+    deviceIDStringStream >> thisDeviceID;
+    
+    this->SetDeviceID(thisDeviceID);
 }
 
 GameClient::~GameClient()
@@ -79,7 +98,9 @@ void GameClient::InitializeClient(GameClientRPCInterface* gameClientRPCReceiver)
     ASSERT_RELEASE(m_IsStarted == false);
 
     SpellDictionary::Initialize();
+    SpellAbilityApplier::Initialize();
     ItemDataDictionary::Initialize();
+    ItemAbilityApplier::Initialize();
     
     m_ThreadController.Initialize(DEFAULT_NUMBER_OF_THREADS);
     m_ThreadController.AddWorkerRoutine(&m_ScheduledTaskWorkerRoutine);
@@ -91,8 +112,9 @@ void GameClient::InitializeClient(GameClientRPCInterface* gameClientRPCReceiver)
     
     
     // connect to server
-    m_ClientObject.InitializeClient(SERVER_CONNECT_ADDRESS, SERVER_CONNECT_PORT);
+    //m_ClientObject.InitializeClient(SERVER_CONNECT_ADDRESS, SERVER_CONNECT_PORT);
     m_ClientPacketHandler.SetGameClientRPCReceiver(gameClientRPCReceiver);
+    m_FCPacketHandler.SetGameClientRPCReceiver(gameClientRPCReceiver);
     
     m_IsInitialized = true;
 }
@@ -166,14 +188,24 @@ void GameClient::SetMyActorID(ActorID actorID)
 
 void GameClient::SetClientStage(ClientStage *clientStage)
 {
-    ASSERT_DEBUG(this->m_ClientStage==nullptr);
+    if(this->m_ClientStage != nullptr)
+    {
+        delete this->m_ClientStage;
+        this->m_ClientStage == nullptr;
+    }
 
     this->m_ClientStage = clientStage;
 }
  
-void GameClient::EndStage()
+void GameClient::Finalize()
 {
-    delete this->m_ClientStage;
+    ClientStage* emptyClientStage = new ClientStage(Stage());
+    this->SetGameServerID(GameServerID_None);
+    this->SetClientStage(emptyClientStage);
+    this->SetSessionID(SessionID_NONE);
+    this->SetUserID(UserID_None);
+    this->SetMyActorID(ActorID_None);
+    this->SetOTP(OTP_None);
 }
     
 // End of GameClient Data Part
@@ -183,7 +215,7 @@ void GameClient::InitializeTestData()
 {
     // test data generation code
     ActorID ownerID = 1;
-    StageInfo* stageInfo = new StageInfo(StageType_MushroomField, 1, 200, 100, 3);
+    StageInfo* stageInfo = new StageInfo(StageType_MushroomField, 1, 26, 26, 3);
     Stage* stage = new Stage(*stageInfo, ownerID);
     
     ClientStage* clientStage = new ClientStage(*stage);

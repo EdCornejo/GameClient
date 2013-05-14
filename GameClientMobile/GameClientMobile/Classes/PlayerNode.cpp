@@ -8,16 +8,23 @@
 
 #include "Headers.pch"
 
-PlayerNode::PlayerNode(flownet::ActorID actorID) : ActorNode(actorID)
+PlayerNode::PlayerNode() {}
+
+PlayerNode::~PlayerNode() {}
+
+bool PlayerNode::init()
 {
-    // NOTE : find the player's info and make a skeleton with it
-    Player* player = GameClient::Instance().GetClientStage()->FindPlayer(actorID);
+    if(!ActorNode::init()) return false;
+    
+    Player* player = GameClient::Instance().GetClientStage()->FindPlayer(this->m_ActorID);
     
     this->m_Skeleton = CCSkeleton::create("common/character.json", "player/character.atlas");
     
+    
+    // set animtaion mixing
     this->m_Skeleton->setMix("idle", "moving", 0.2);
     this->m_Skeleton->setMix("moving", "idle", 0.2);
-
+    
     this->m_Skeleton->setAnchorPoint(CharacterAnchorPoint);
     
     if(player->GetGender() == Gender_Male)
@@ -28,33 +35,108 @@ PlayerNode::PlayerNode(flownet::ActorID actorID) : ActorNode(actorID)
     {
         this->m_Skeleton->setSkin("girl");
     }
+    
     this->m_Skeleton->setSlotsToBindPose();
     this->m_Skeleton->setAnimation("idle", true);
-
-    this->m_Skeleton->setScale(0.3);
-
-    this->addChild(this->m_Skeleton);
-}
-
-PlayerNode::PlayerNode(flownet::Actor* actor): ActorNode(actor->GetActorID())
-{
-    // NOTE : make a skeleton based on the actor's info
-    Player* player = static_cast<Player*>(actor);
     
-    this->m_Skeleton = CCSkeleton::create("common/character.json", "player/character.atlas");
-    this->m_Skeleton->setMix("idle", "moving", 0.2);
-    this->m_Skeleton->setMix("moving", "idle", 0.2);
-
-    this->m_Skeleton->setAnchorPoint(CharacterAnchorPoint);
+    this->setScale(0.1);
     
     this->addChild(this->m_Skeleton);
+    
+    return true;
 }
 
-PlayerNode::~PlayerNode()
+PlayerNode* PlayerNode::create(flownet::ActorID actorID)
 {
+    PlayerNode* newNode = new PlayerNode();
+
+    newNode->m_ActorID = actorID;
+
+    if(newNode && newNode->init())
+    {
+        newNode->autorelease();
+        return newNode;
+    }
+    else
+    {
+        delete newNode;
+        return nullptr;
+    }
 }
 
-CCSprite* PlayerNode::LoadHighLightImage()
+void PlayerNode::ChangeWand(flownet::ItemType itemType)
 {
-    return CCSprite::create("player_highlight_circle.png");
+    std::string itemImageName;
+    switch (itemType) {
+        case flownet::ItemType_OakWand:
+            itemImageName = "oakwand";
+            break;
+        default:
+            ASSERT_DEBUG(false);
+            break;
+    }
+
+    this->m_Skeleton->setAttachment("wand", itemImageName.c_str());
+}
+
+void PlayerNode::ChangeHat(flownet::ItemType itemType)
+{
+    std::string itemImageName;
+    switch (itemType) {
+        default:
+            ASSERT_DEBUG(false);
+            break;
+    }
+    this->m_Skeleton->setAttachment("hat", itemImageName.c_str());
+}
+
+void PlayerNode::ChangeRobe(flownet::ItemType itemType)
+{
+    std::string itemImageName;
+    switch (itemType) {
+        default:
+            //ASSERT_DEBUG(false);
+            break;
+    }
+    
+    this->m_Skeleton->setAttachment("right_upper_arm", "wizard_right_upper_arm");
+    this->m_Skeleton->setAttachment("right_lower_arm-copy", "wizard_right_lower_arm");
+    this->m_Skeleton->setAttachment("robe_up", "wizard_robe_up");
+    this->m_Skeleton->setAttachment("robe_down", "wizard_robe_down");
+    this->m_Skeleton->setAttachment("robe_neck", "wizard_robe_neck");
+    this->m_Skeleton->setAttachment("left_lower_arm", "wizard_left_lower_arm");
+    this->m_Skeleton->setAttachment("left_upper_arm", "wizard_left_upper_arm");
+}
+
+void PlayerNode::ChangeCloak(flownet::ItemType itemType)
+{
+    std::string itemImageName;
+    switch (itemType) {
+        default:
+            ASSERT_DEBUG(false);
+            break;
+    }
+    this->m_Skeleton->setAttachment("cloak", itemImageName.c_str());
+}
+
+void PlayerNode::ChangeShoes(flownet::ItemType itemType)
+{
+    std::string itemImageName;
+    switch (itemType) {
+        default:
+            ASSERT_DEBUG(false);
+            break;
+    }
+    this->m_Skeleton->setAttachment("shoes", itemImageName.c_str());
+}
+
+void PlayerNode::ChangeRing(flownet::ItemType itemType)
+{
+    std::string itemImageName;
+    switch (itemType) {
+        default:
+            ASSERT_DEBUG(false);
+            break;
+    }
+    this->m_Skeleton->setAttachment("ring", itemImageName.c_str());
 }

@@ -10,18 +10,12 @@
 #define __GameClientMobile__UILayer__
 
 class UILayer : public BaseLayer
-{
-private:
-    enum
-    {
-        SpellStackPositionX = 10,
-        SpellStackPositionY = 320 - 60 - 10, // windowSizeHeight - iconsize - realposition
-    };
-    
+{    
 private:
     StageType m_StageType;
     SpellQuickSlotNode* m_SpellQuickSlotNode;
     StashNode* m_StashNode;
+    EquipmentNode* m_EquipmentNode;
     InventoryNode* m_InventoryNode;
     MenuBarNode* m_MenuBarNode;
     SpellType m_SelectedSpellType;
@@ -41,18 +35,31 @@ public:
 private:
     void InitializeSpellQuickSlot();
     void InitializeInventory();
+    void InitializeStash();
+    void InitializeEquipment();
     void InitializeMenuBar();
     
 public:
     InventoryNode* GetInventoryNode();
     StashNode* GetStashNode();
+
+private:
+    bool TouchProcessSpellBegan(CCPoint touchLocation);
+    bool TouchProcessSpellEnded(CCPoint touchLocation);
+    bool TouchProcessItem(CCPoint touchLocation);
+    bool TouchProcessMove(CCPoint touchLocation);
+    void TranslateScreen();
     
 public:
     void SetSelectedSpellType(SpellType spellType);
-    void UseItem(flownet::ItemID itemID, flownet::InventorySlot inventorySlot);
     void SwapInventorySlot(flownet::InventorySlot sourceSlotNumber, flownet::InventorySlot destinationSlotNumber);
-    void DropItemToField(flownet::ItemID itemID);
-    void PickupItemFromField(flownet::ItemType itemType, flownet::ItemID itemID);
+    void ApplyCoolTime(flownet::SpellType spellType);
+    void ChangeRobe();
+    
+public:
+    void UpdateInventory();
+    void UpdateStash();
+    void UpdateEquipment();
 };
 
 #endif /* defined(__GameClientMobile__UILayer__) */

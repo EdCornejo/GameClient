@@ -43,8 +43,11 @@ public:
     */
     virtual void applicationWillEnterForeground();
     
+    void InitializeConnection();
+    
     // flownet RPC Receiver Interface
     #include "GameSCOverrideProtocolHandlerDeclaration.hpp"
+    #include "GameFCOverrideProtocolHandlerDeclaration.hpp"
 };
 
 #endif // _APP_DELEGATE_H_

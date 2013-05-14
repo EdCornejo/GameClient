@@ -12,11 +12,12 @@
 class MonsterNode : public ActorNode
 {
 public:
-    MonsterNode(flownet::ActorID actorID);
-    MonsterNode(flownet::Actor* monster);
+    MonsterNode();
     virtual ~MonsterNode();
+
+    virtual bool init();
     
-    virtual CCSprite* LoadHighLightImage();
+    static MonsterNode* create(flownet::ActorID actorID);
 };
 
 #endif /* defined(__GameClientMobile__MonsterNode__) */

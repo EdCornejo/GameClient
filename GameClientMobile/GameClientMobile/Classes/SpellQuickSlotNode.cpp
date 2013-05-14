@@ -8,102 +8,131 @@
 
 #include "Headers.pch"
 
-SpellQuickSlotItemNode::SpellQuickSlotItemNode(SpellType spellType): m_SpellType(spellType), m_IconSprite(nullptr)
-{
-    this->m_IconSprite = SpellImageLoader::GetSpellQuickSlotImage(spellType);
-    this->m_IconSprite->retain();
-    this->m_IconSprite->setAnchorPoint(CCPointZero);
-    this->addChild(this->m_IconSprite);
-}
-
-SpellQuickSlotItemNode::~SpellQuickSlotItemNode()
-{
-    if(this->m_IconSprite)
-    {
-        this->m_IconSprite->release();
-        this->m_IconSprite = nullptr;
-    }
-}
-
-CCRect SpellQuickSlotItemNode::GetRect()
-{
-    return this->m_IconSprite->getTextureRect();
-}
-
-SpellType SpellQuickSlotItemNode::GetSpellType()
-{
-    return this->m_SpellType;
-}
-
-SpellQuickSlotNode::SpellQuickSlotNode() : m_SpellQuickSlotItemList()
+SpellQuickSlotNode::SpellQuickSlotNode(): m_ButtonSpellMap()
 {
 
 }
 
 SpellQuickSlotNode::~SpellQuickSlotNode()
 {
-    std::for_each(this->m_SpellQuickSlotItemList.begin(), this->m_SpellQuickSlotItemList.end(), [](SpellQuickSlotItemNode* node){
-        delete node;
-    });
-    
-    this->m_SpellQuickSlotItemList.clear();
+    this->m_ButtonSpellMap.clear();
 }
 
-void SpellQuickSlotNode::Initialize()
+bool SpellQuickSlotNode::init()
 {
-    // NOTE : initialize with my character info
     Player* player = GameClient::Instance().GetClientStage()->FindPlayer(GameClient::Instance().GetMyActorID());
+    // TO DO : initialize with player's spell info
+
+    std::vector<SpellType> spellList = {SpellType_FireBall, SpellType_IceArrow, SpellType_FireBurst, SpellType_IceFog, SpellType_Crystalize};
     
-    int index = 0;
+    CCMenu* menu = CCMenu::create();
     
-    std::vector<SpellType> spellList = {SpellType_FireBall, SpellType_FireBurst, SpellType_IceArrow, SpellType_WaterFire};
-    
-    std::for_each(spellList.begin(), spellList.end(), [this, &index](SpellType spellType){
-        SpellQuickSlotItemNode* node = new SpellQuickSlotItemNode(spellType);
-        node->setPosition(ccp((SpellIconMargin + SpellIconSize) * index, 0));
-        this->m_SpellQuickSlotItemList.push_back(node);
-        this->addChild(node);
-        index++;
+    std::for_each(spellList.begin(), spellList.end(), [this, &menu](SpellType spellType){
+        CCSprite* spellIconImage = SpellImageLoader::GetSpellQuickSlotImage(spellType);
+        CCSprite* spellIconImageDisabled = SpellImageLoader::GetSpellQuickSlotImage(spellType);
+        spellIconImageDisabled->setColor(ccGRAY);
+        
+        CCMenuItemSprite* menuItem = CCMenuItemSprite::create(spellIconImage, spellIconImage, spellIconImageDisabled, this, menu_selector(SpellQuickSlotNode::OnSkillTouched));
+        
+        this->m_ButtonSpellMap.insert(ButtonSpellMap::value_type(menuItem, spellType));
+        menu->addChild(menuItem);
     });
     
-    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, 0, true);
+    menu->alignItemsHorizontallyWithPadding(10);
+    menu->setPosition(CCPointZero);
+
+    this->addChild(menu);
+    
+    return true;
 }
 
-
-
-bool SpellQuickSlotNode::ccTouchBegan(CCTouch* touch, CCEvent* event)
+SpellQuickSlotNode* SpellQuickSlotNode::create()
 {
-    CC_UNUSED_PARAM(event);
-    CCPoint touchLocation = touch->getLocation();
-    
-    SpellQuickSlotItemNode* selectedSpellItemNode = this->FindSpellQuickSlotItemNode(touchLocation);
-    
-    if(selectedSpellItemNode)
+    SpellQuickSlotNode* newNode = new SpellQuickSlotNode();
+    if(newNode && newNode->init())
     {
-        // spell touched !
-        UILayer* uiLayer = dynamic_cast<UILayer*>(this->getParent());
-        if(!uiLayer) ASSERT_DEBUG(uiLayer != nullptr);
-        
-        uiLayer->SetSelectedSpellType(selectedSpellItemNode->GetSpellType());
-        return true;
+        newNode->autorelease();
+        return newNode;
     }
-
-    return false;
+    else
+    {
+        delete newNode;
+        return nullptr;
+    }
 }
 
-SpellQuickSlotItemNode* SpellQuickSlotNode::FindSpellQuickSlotItemNode(cocos2d::CCPoint touchLocation)
+void SpellQuickSlotNode::OnSkillTouched(cocos2d::CCObject *sender)
 {
-    SpellQuickSlotItemNode* foundNode = nullptr;
-    std::for_each(this->m_SpellQuickSlotItemList.begin(), this->m_SpellQuickSlotItemList.end(), [this, touchLocation, &foundNode](SpellQuickSlotItemNode* node){
-        CCRect nodeRect = node->GetRect();
-        nodeRect.origin = CCPointZero;
-        CCPoint nodeLocalPoint = node->convertToNodeSpace(touchLocation);
+    ButtonSpellMap::iterator iter = this->m_ButtonSpellMap.find(static_cast<CCMenuItem*>(sender));
+    if (iter == this->m_ButtonSpellMap.end())
+    {
+        return;
+    }
     
-        if(nodeRect.containsPoint(nodeLocalPoint))
+    flownet::SpellType spellType = iter->second;
+    
+    UILayer* uiLayer = static_cast<UILayer*>(this->getParent());
+    if(!uiLayer)
+    {
+        CCLOGERROR("SpellQuickSlotNode::OnSkillTouched >> no UILayer exists");
+        ASSERT_DEBUG(uiLayer != nullptr);
+    }
+    
+    // TO DO : do nothing on empty skill slot
+    // TO DO : set selected highlight on MenuItem's position
+    uiLayer->SetSelectedSpellType(spellType);
+}
+
+void SpellQuickSlotNode::DisableButton(CCObject* object)
+{
+    CCMenuItem* menuItem = static_cast<CCMenuItem*>(object);
+    menuItem->setEnabled(false);
+}
+
+void SpellQuickSlotNode::EnableButton(CCObject* object)
+{
+    CCMenuItem* menuItem = static_cast<CCMenuItem*>(object);
+    menuItem->setEnabled(true);
+}
+
+void SpellQuickSlotNode::RemoveProgressTimer(CCObject* object)
+{
+    CCProgressTimer* timer = static_cast<CCProgressTimer*>(object);
+    this->removeChild(timer);
+}
+
+void SpellQuickSlotNode::ApplyCoolTime(flownet::SpellType spellType)
+{    
+    CCProgressTimer* timer = CCProgressTimer::create(SpellImageLoader::GetSpellQuickSlotImage(spellType));
+    
+    SpellInfo spellInfo = SpellDictionary::Instance().FindSpellInfoBySpellType(spellType);
+    
+    std::for_each(this->m_ButtonSpellMap.begin(), this->m_ButtonSpellMap.end(), [this, spellInfo, timer](ButtonSpellMap::value_type pair){
+        if(pair.second == spellInfo.m_SpellType)
         {
-            foundNode = node;
+    
+            // progress with spell cooltime. now fixed to 5 sec
+            CCCallFuncO* disable = CCCallFuncO::create(this, callfuncO_selector(SpellQuickSlotNode::DisableButton), pair.first);
+            CCDelayTime* delay = CCDelayTime::create(5);
+            CCCallFuncO* enable = CCCallFuncO::create(this, callfuncO_selector(SpellQuickSlotNode::EnableButton), pair.first);
+            
+            CCSequence* sequence = CCSequence::create(disable, delay, enable, NULL);
+            pair.first->runAction(sequence);
+            
+            CCPoint menuPosition = pair.first->getParent()->getPosition();
+            CCPoint buttonPosition = pair.first->getPosition();
+            
+            timer->setPosition(ccpAdd(menuPosition, buttonPosition));
         }
     });
     
-    return foundNode;
+    this->addChild(timer, 1);
+    CCProgressTo* progress = CCProgressTo::create(5, 100);
+    timer->runAction(progress);
+    
+    CCDelayTime* delay = CCDelayTime::create(5);
+    CCCallFuncO* removeChild = CCCallFuncO::create(this, callfuncO_selector(SpellQuickSlotNode::RemoveProgressTimer), timer);
+    CCSequence* sequence = CCSequence::create(delay, removeChild, NULL);
+
+    this->runAction(sequence);
 }

@@ -16,6 +16,8 @@
 
 #include "GameCSProtocol.h"
 #include "GameSCProtocol.h"
+#include "GameFCProtocol.h"
+#include "GameCFProtocol.h"
 
 #include "GameClientProperties.h"
 
@@ -31,9 +33,15 @@
 
 #include "GameClientRPCInterface.h"
 
+#include "FCPacketHandler.h"
+#include "FCPacketParser.h"
+#include "CFConnection.h"
+
 #include "GameClientPacketHandler.h"
 #include "GameClientPacketParser.h"
 #include "GameClientObject.h"
+#include "GameClientObjectManager.h"
+
 #include "GameClient.h"
 
 #include "GameClientTasks.h"

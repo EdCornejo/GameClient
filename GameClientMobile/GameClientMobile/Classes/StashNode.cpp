@@ -63,15 +63,12 @@ bool ItemInfoPopupLayer::init()
 {
     if(!CCLayer::init()) return false;
     
-    const ItemData* data = ItemDataDictionary::Instance().GetItemData(this->m_ItemType);
-
     CCSize winSize = CCDirector::sharedDirector()->getWinSize();
     
     // layer background
-    CCSprite* background = CCSprite::create("ui/stash/item_info_background.png");
-    background->setPosition(ccp(winSize.width, winSize.height));
-    this->addChild(background);
-    
+    CCSprite* background = CCSprite::create("ui/inventory/item_info_background.png");
+    background->setPosition(ccp(winSize.width / 2, winSize.height / 2));
+
     
     const ItemData* itemData = ItemDataDictionary::Instance().GetItemData(this->m_ItemType);
     
@@ -87,7 +84,7 @@ bool ItemInfoPopupLayer::init()
     // item image background & item image
     // CCPoint imagePosition = somePosition;
     CCPoint imagePosition;
-    CCSprite* itemImageBackground = CCSprite::create("ui/inventory/item_slot.png");
+    CCSprite* itemImageBackground = CCSprite::create("ui/inventory/item_slot_normal.png");
     itemImageBackground->setAnchorPoint(CCPointUpperLeft);
     itemImageBackground->setPosition(imagePosition);
     CCSprite* itemImage = ItemImageLoader::GetItemInventoryImage(this->m_ItemType);
@@ -118,18 +115,23 @@ bool ItemInfoPopupLayer::init()
     CCPoint useItemMenuPosition;
     CCMenuItemImage* useItemButton = CCMenuItemImage::create("ui/inventory/use_item_normal.png", "ui/inventory/use_item_active.png", this, menu_selector(ItemInfoPopupLayer::OnUseItemButtonClicked));
     this->m_UseItemMenu = CCMenu::create(useItemButton, NULL);
+    this->m_UseItemMenu->retain();
     this->m_UseItemMenu->setPosition(useItemMenuPosition);
     background->addChild(this->m_UseItemMenu);
-
+    this->m_UseItemMenu->setTouchPriority(kCCMenuHandlerPriority - 1);
 
     // close button
-    CCPoint closeMenuPosition;
+    CCPoint closeMenuPosition = ccp(60, 40);
     CCMenuItemImage* closeButton = CCMenuItemImage::create("ui/inventory/close_normal.png", "ui/inventory/close_active.png", this, menu_selector(ItemInfoPopupLayer::OnCloseButtonClicked));
     this->m_CloseMenu = CCMenu::create(closeButton, NULL);
+    this->m_CloseMenu->retain();
     this->m_CloseMenu->setPosition(closeMenuPosition);
     background->addChild(this->m_CloseMenu);
+    this->m_CloseMenu->setTouchPriority(kCCMenuHandlerPriority - 1);
     
-    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, 0, true);
+    this->addChild(background);
+    
+    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, kCCMenuHandlerPriority - 1, true);
     
     return true;
 }
@@ -156,38 +158,29 @@ ItemInfoPopupLayer* ItemInfoPopupLayer::create(flownet::ItemType itemType, flown
 
 void ItemInfoPopupLayer::OnUseItemButtonClicked()
 {
+    CCLOG("use");
     // send request for item use
-    CCDirector::sharedDirector()->getTouchDispatcher()->removeDelegate(this);
+    GameClient::Instance().GetClientObject().SendCSRequestUseItem(GameClient::Instance().GetClientStage()->GetStageID(), GameClient::Instance().GetMyActorID(), this->m_ItemID);
     
-    GameClient::Instance().GetClientObject().SendCSRequestUseItem(GameClient::Instance().GetClientStage()->GetStageID(), GameClient::Instance().GetMyActorID(), this->m_ItemID, InventorySlot_None);
+    this->getParent()->removeChild(this, true);
+    CCDirector::sharedDirector()->getTouchDispatcher()->removeDelegate(this);
 }
 
 void ItemInfoPopupLayer::OnCloseButtonClicked()
 {
+    CCLOG("close");
+
     // remove this layer right away
+    this->getParent()->removeChild(this, true);
     CCDirector::sharedDirector()->getTouchDispatcher()->removeDelegate(this);
-    
-    CCScene* scene = CCDirector::sharedDirector()->getRunningScene();
-    scene->removeChild(this);
 }
 
 bool ItemInfoPopupLayer::ccTouchBegan(CCTouch* touch, CCEvent* event)
 {
-    this->m_UseItemMenu->ccTouchBegan(touch, event);
-    this->m_CloseMenu->ccTouchEnded(touch, event);
-    
     return true;
 }
 
-void ItemInfoPopupLayer::ccTouchEnded(cocos2d::CCTouch *touch, cocos2d::CCEvent *event)
-{
-    this->m_UseItemMenu->ccTouchEnded(touch, event);
-    this->m_CloseMenu->ccTouchEnded(touch, event);
-}
-
-
-
-StashNode::StashNode(): m_CurrentTab(), m_Body(nullptr), m_EquipmentButton(nullptr), m_ConsumeButton(nullptr), m_MaterialButton(nullptr), m_ItemSlotNodeList(), m_ItemInfoPopup(nullptr), m_TrackingItemSlotNode(nullptr), m_IsTrackingItemSlotMoving(false), m_TrackingItemSlotTouchedTime(0)
+StashNode::StashNode(): m_Body(nullptr), m_CurrentItemGroup(ItemGroup_None), m_CurrentPage(0), m_EquipmentButton(nullptr), m_ConsumeButton(nullptr), m_MaterialButton(nullptr), m_ItemSlotNodeList(), m_ItemInfoPopup(nullptr), m_TrackingItemSlotNode(nullptr), m_IsTrackingItemSlotMoving(false), m_TrackingItemSlotTouchedTime(0)
 {
 
 }
@@ -199,10 +192,32 @@ StashNode::~StashNode()
         this->m_Body->release();
         this->m_Body = nullptr;
     }
+    if(this->m_EquipmentButton)
+    {
+        this->m_EquipmentButton->release();
+        this->m_EquipmentButton = nullptr;
+    }
+    if(this->m_ConsumeButton)
+    {
+        this->m_ConsumeButton->release();
+        this->m_ConsumeButton = nullptr;
+    }
+    if(this->m_MaterialButton)
+    {
+        this->m_MaterialButton->release();
+        this->m_MaterialButton = nullptr;
+    }
+    
+    std::for_each(this->m_ItemSlotNodeList.begin(), this->m_ItemSlotNodeList.end(), [](ItemSlotNode* node){
+        node->release();
+    });
+    
+    this->m_ItemSlotNodeList.clear();
 }
 
 bool StashNode::init()
 {
+    // TO DO : make this stash can be initialized different by stage type.
     // add background (body)
     this->m_Body = CCSprite::create("ui/stash/body.png");
     this->m_Body->retain();
@@ -236,7 +251,7 @@ bool StashNode::init()
     this->m_MaterialButton->retain();
     this->m_MaterialButton->setAnchorPoint(CCPointLowerMid);
     
-    this->m_CurrentTab = "equipment";
+    this->m_CurrentItemGroup = ItemGroup_Equipment;
     this->m_EquipmentButton->setSelectedIndex(1);
     
     CCMenu* tabMenu = CCMenu::create(this->m_EquipmentButton, this->m_ConsumeButton, this->m_MaterialButton, NULL);
@@ -251,8 +266,6 @@ bool StashNode::init()
     // insert item slots
     Actor* actor = GameClient::Instance().GetClientStage()->FindActor(GameClient::Instance().GetMyActorID());
     
-    const int perPage = 15;
-    const int perRow = 2;
     const int SlotInitialPositionX = 10;
     const int SlotInitialPositionY = bodyRect.size.height - 10;
     
@@ -276,17 +289,19 @@ bool StashNode::init()
 //        i++;
 //    });
 
-    ItemDataDictionary::Initialize();
-
-    for(int i = 0; i < 25; i++)
+    for(int i = 0; i < PerPage; i++)
     {
-        Item* item = nullptr;
-        if( i % 2 == 0) item = ItemFactory::Instance().CreateItem(ItemType_BluePotion9, i);    else item = ItemFactory::Instance().CreateItem(ItemType_RedPotion9, i);
+        ItemData* itemData = new ItemData(ItemGroup_None, ItemType_None, EquipmentSlot_None);
+        Item* item = new Item(ItemGroup_None, ItemType_None, static_cast<ItemID>(i), itemData);
+        // if( i % 2 == 0) item = ItemFactory::Instance().CreateItem(ItemType_BluePotion9, i);    else item = ItemFactory::Instance().CreateItem(ItemType_RedPotion9, i);
         
         ItemSlotNode* node = ItemSlotNode::create(item->GetItemType(), item->GetItemID(), static_cast<InventorySlot>(i));
+        node->retain();
         node->setAnchorPoint(CCPointUpperLeft);
-        CCPoint position = ccp(SlotInitialPositionX + ((ItemSlotMargin + ItemSlotSizeX) * (i % perRow)), SlotInitialPositionY - ((ItemSlotMargin + ItemSlotSizeY) * (i / perRow)));
+        CCPoint position = ccp(SlotInitialPositionX + ((ItemSlotMargin + ItemSlotSizeX) * (i % PerRow)), SlotInitialPositionY - ((ItemSlotMargin + ItemSlotSizeY) * (i / PerRow)));
         node->setPosition(position);
+        
+        this->m_ItemSlotNodeList.push_back(node);
         
         this->m_Body->addChild(node);
     }
@@ -302,6 +317,7 @@ bool StashNode::ccTouchBegan(cocos2d::CCTouch *touch, cocos2d::CCEvent *event)
     if(selectedItemSlot)
     {
         this->m_TrackingItemSlotNode = selectedItemSlot;
+        this->m_TrackingItemSlotTouchedTime = GameClient::Instance().GetClientTimer().Check();
         return true;
     }
     
@@ -330,14 +346,18 @@ void StashNode::ccTouchEnded(cocos2d::CCTouch *touch, cocos2d::CCEvent *event)
         
         if(selectedStashItemSlot == this->m_TrackingItemSlotNode)
         {
+            ItemInfoPopupLayer* popupLayer = ItemInfoPopupLayer::create(selectedStashItemSlot->GetItemType(), selectedStashItemSlot->GetItemID());
             
-            // TO DO : display popup window
+            BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
+            UILayer* uiLayer = scene->GetUILayer();
+            
+            ASSERT_DEBUG(uiLayer);
+            
+            uiLayer->addChild(popupLayer);
         }
         else if(selectedInventoryItemSlot)
         {
-            client.GetClientObject().SendCSRequestRegisterStashItemToInventory(client.GetClientStage()->GetStageID(), client.GetMyActorID(), this->m_TrackingItemSlotNode->GetItemID(), selectedInventoryItemSlot->GetSlotNumber());
-
-            // TO DO : register stash item to inventory
+            client.GetClientObject().SendCSRequestRegisterStashItemToInventory(client.GetClientStage()->GetStageID(), client.GetMyActorID(), this->m_TrackingItemSlotNode->GetItemID(), this->m_CurrentItemGroup, selectedInventoryItemSlot->GetInventorySlot());
         }
         
         this->m_IsTrackingItemSlotMoving = false;
@@ -362,37 +382,31 @@ ItemSlotNode* StashNode::FindSelectedItemSlotNode(cocos2d::CCPoint touchLocation
     return selectedItemSlot;
 }
 
-void StashNode::AddItem(flownet::ItemType itemType, flownet::ItemID itemID)
+void StashNode::Update()
 {
-    for(int i = 0; i < this->m_ItemSlotNodeList.size(); ++i)
-    {
-        ItemSlotNode* itemSlot = this->m_ItemSlotNodeList[i];
-        if(itemSlot->GetItemType() == ItemType_None && itemSlot->GetItemID() == ItemID_None)
-        {
-            itemSlot->ChangeItemTypeAndItemID(itemType, itemID);
-            break;
-        }
-    }
-}
+    Actor* actor = GameClient::Instance().GetClientStage()->FindActor(GameClient::Instance().GetMyActorID());
+    
+    // TO DO : add finditem(group, index)
 
-void StashNode::EraseItem(flownet::ItemID itemID)
-{
+    int indexOffset = this->m_CurrentPage * PerPage;
+    
     for(int i = 0; i < this->m_ItemSlotNodeList.size(); ++i)
     {
-        ItemSlotNode* itemSlot = this->m_ItemSlotNodeList[i];
-        
-        if(itemID == itemSlot->GetItemID())
-        {
-            itemSlot->Empty();
-            break;
-        }
+        // TO DO : fix here !
+//        if(item)
+//        const Item* item = actor->GetStash().FindItem(this->m_CurrentItemGroup, i + indexOffset); // this is calling by itemgroup, itemid fix it!
+//        this->m_ItemSlotNodeList[i + indexOffset]->ChangeItemTypeAndItemID(item->GetItemType(), item->GetItemID());
+//        else
+//        {
+//            this->m_ItemSlotNodeList[i + indexOffset]->ChangeItemTypeAndItemID(ItemType_None, ItemID_None);
+//        }
     }
 }
 
 
 void StashNode::OnEquipmentButtonClicked(CCObject* sender)
 {
-    if(this->m_CurrentTab.compare("equipment") == 0)
+    if(this->m_CurrentItemGroup == ItemGroup_Equipment)
     {
         this->m_EquipmentButton->setSelectedIndex(1);
         return;
@@ -400,12 +414,14 @@ void StashNode::OnEquipmentButtonClicked(CCObject* sender)
     
     this->m_ConsumeButton->setSelectedIndex(0);
     this->m_MaterialButton->setSelectedIndex(0);
-    this->m_CurrentTab = "equipment";
+    this->m_CurrentItemGroup = ItemGroup_Equipment;
+    
+    this->Update();
 }
 
 void StashNode::OnConsumeButtonClicked(CCObject* sender)
 {
-    if(this->m_CurrentTab.compare("consume") == 0)
+    if(this->m_CurrentItemGroup == ItemGroup_Consume)
     {
         this->m_ConsumeButton->setSelectedIndex(1);
         return;
@@ -413,12 +429,14 @@ void StashNode::OnConsumeButtonClicked(CCObject* sender)
     
     this->m_EquipmentButton->setSelectedIndex(0);
     this->m_MaterialButton->setSelectedIndex(0);
-    this->m_CurrentTab = "consume";
+    this->m_CurrentItemGroup = ItemGroup_Consume;
+    
+    this->Update();
 }
 
 void StashNode::OnMaterialButtonClicked(CCObject* sender)
 {
-    if(this->m_CurrentTab.compare("material") == 0)
+    if(this->m_CurrentItemGroup == ItemGroup_Material)
     {
         this->m_MaterialButton->setSelectedIndex(1);
         return;
@@ -426,7 +444,9 @@ void StashNode::OnMaterialButtonClicked(CCObject* sender)
     
     this->m_EquipmentButton->setSelectedIndex(0);
     this->m_ConsumeButton->setSelectedIndex(0);
-    this->m_CurrentTab = "material";
+    this->m_CurrentItemGroup = ItemGroup_Material;
+    
+    this->Update();
 }
 
 void StashNode::ShowItemInfoPopup(flownet::ItemType itemType, flownet::ItemID itemID)

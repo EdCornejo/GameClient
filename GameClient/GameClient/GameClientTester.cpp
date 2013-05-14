@@ -90,7 +90,7 @@ void GameClientTester::InitializeClient(GameClientRPCInterface* gameClientRPCRec
     
     
     // connect to server
-    m_CFConnectionManager.Initialize(500);
+    m_CFConnectionManager.Initialize(4000);
 //    m_GameClientObjectManager.Initialize(1);
 //    m_GameClientObjectManager.Initialize(500);
 

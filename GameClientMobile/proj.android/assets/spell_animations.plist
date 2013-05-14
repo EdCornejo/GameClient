@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>animations</key>
+	<dict>
+		<key>spell_fireball</key>
+		<dict>
+			<key>delay</key>
+			<real>0.04</real>
+			<key>frames</key>
+			<array>
+				<string>spell_fireball_0.png</string>
+				<string>spell_fireball_1.png</string>
+				<string>spell_fireball_2.png</string>
+				<string>spell_fireball_3.png</string>
+				<string>spell_fireball_4.png</string>
+				<string>spell_fireball_5.png</string>
+				<string>spell_fireball_6.png</string>
+				<string>spell_fireball_7.png</string>
+				<string>spell_fireball_8.png</string>
+				<string>spell_fireball_9.png</string>
+				<string>spell_fireball_10.png</string>
+				<string>spell_fireball_11.png</string>
+				<string>spell_fireball_12.png</string>
+				<string>spell_fireball_13.png</string>
+				<string>spell_fireball_14.png</string>
+				<string>spell_fireball_15.png</string>
+				<string>spell_fireball_16.png</string>
+				<string>spell_fireball_17.png</string>
+				<string>spell_fireball_18.png</string>
+				<string>spell_fireball_19.png</string>
+				<string>spell_fireball_20.png</string>
+				<string>spell_fireball_21.png</string>
+				<string>spell_fireball_22.png</string>
+				<string>spell_fireball_23.png</string>
+				<string>spell_fireball_24.png</string>
+				<string>spell_fireball_25.png</string>
+				<string>spell_fireball_26.png</string>
+				<string>spell_fireball_27.png</string>
+				<string>spell_fireball_28.png</string>
+			</array>
+		</dict>
+	</dict>
+</dict>
+</plist>

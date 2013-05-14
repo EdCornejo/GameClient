@@ -11,7 +11,9 @@
 namespace flownet
 {
 
-GameClientPacketHandler::GameClientPacketHandler(RenderingTaskWorkerRoutine* renderingTaskWorkerRoutine):PacketHandler(),m_RenderingTaskWorkerRoutine(renderingTaskWorkerRoutine),m_GameClientRPCReceiver(nullptr)
+GameClientPacketHandler::PacketHandlerFunction* GameClientPacketHandler::m_HandlerMap = nullptr;
+
+GameClientPacketHandler::GameClientPacketHandler(RenderingTaskWorkerRoutine* renderingTaskWorkerRoutine):PacketHandler(),m_GameClientObject(nullptr),m_RenderingTaskWorkerRoutine(renderingTaskWorkerRoutine),m_GameClientRPCReceiver(nullptr)
 {
     InitializeHandlerMap();
 }
@@ -23,6 +25,12 @@ GameClientPacketHandler::~GameClientPacketHandler()
         delete []m_HandlerMap;
         m_HandlerMap = nullptr;
     }
+}
+
+void GameClientPacketHandler::LinkGameClientObject(GameClientObject* gameClientObject)
+{
+    ASSERT_DEBUG(m_GameClientObject==nullptr);
+    m_GameClientObject = gameClientObject;
 }
 
 void GameClientPacketHandler::BindHandlerFunction(INT protocolNumber, const PacketHandlerFunction& packetHandlerFunction)
@@ -76,18 +84,15 @@ void GameClientPacketHandler::OnSCResponseConnect(ConnectionID connectionID)
     ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr );
     
     // Do Handle Game Jobs
-    GameClientObject& gameClientObject = GameClient::Instance().GetClientObject();
-    gameClientObject.SetConnectionID(connectionID);
-    
-    gameClientObject.StartHeartbeat();
+    m_GameClientObject->SetConnectionID(connectionID);
+    m_GameClientObject->StartHeartbeat();
 
     this->m_GameClientRPCReceiver->OnSCResponseConnect(connectionID);
 }
 
 void GameClientPacketHandler::OnSCResponseSession(UserID userID, ActorID myPlayerID, SessionID sessionID)
 {
-    GameClientObject& gameClientObject = GameClient::Instance().GetClientObject();
-    gameClientObject.SetSessionID(sessionID);
+    GameClient::Instance().SetSessionID(sessionID);
     
     ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr );
     this->m_GameClientRPCReceiver->OnSCResponseSession(userID, myPlayerID, sessionID);
@@ -117,22 +122,34 @@ void GameClientPacketHandler::OnSCResponseHeartbeat(INT64 heartbeatCountAck)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   
-void GameClientPacketHandler::OnSCResponseCreateUserAccount(UserID userID)
-{
-    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
-    this->m_GameClientRPCReceiver->OnSCResponseCreateUserAccount(userID);
-}
-    
-void GameClientPacketHandler::OnSCResponseLogInUserAccount(UserID userID, ActorID playerID, SessionID sessionID)
-{
-    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
-    this->m_GameClientRPCReceiver->OnSCResponseLogInUserAccount(userID, playerID, sessionID);
+//void GameClientPacketHandler::OnSCResponseCreateUserAccount(UserID userID)
+//{
+//    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+//    this->m_GameClientRPCReceiver->OnSCResponseCreateUserAccount(userID);
+//}
+//    
+//void GameClientPacketHandler::OnSCResponseLogInUserAccount(UserID userID, ActorID playerID, SessionID sessionID)
+//{
+//    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+//    this->m_GameClientRPCReceiver->OnSCResponseLogInUserAccount(userID, playerID, sessionID);
+//}
+//
+//void GameClientPacketHandler::OnSCResponseLogOutUserAccount(UserID userID)
+//{
+//    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+//    this->m_GameClientRPCReceiver->OnSCResponseLogOutUserAccount(userID);
+//}
+
+void GameClientPacketHandler::OnSCResponseLogInWithOTP(UserID userID, ActorID playerID, SessionID sessionID)
+{   
+    ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
+    m_GameClientRPCReceiver->OnSCResponseLogInWithOTP(userID, playerID, sessionID);
 }
 
 void GameClientPacketHandler::OnSCResponseLogOutUserAccount(UserID userID)
 {
-    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
-    this->m_GameClientRPCReceiver->OnSCResponseLogOutUserAccount(userID);
+    ASSERT_DEBUG(m_GameClientRPCReceiver!=nullptr);
+    m_GameClientRPCReceiver->OnSCResponseLogOutUserAccount(userID);
 }
 
 // stage
@@ -202,6 +219,12 @@ void GameClientPacketHandler::OnSCNotifyActorAttributeChanged(StageID stageID, A
     m_GameClientRPCReceiver->OnSCNotifyActorAttributeChanged(stageID, actorID, actorAttribute, amount);
 }
 
+void GameClientPacketHandler::OnSCNotifyResetActorAttributeAmplifier(StageID stageID, ActorID actorID)
+{
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+    this->m_GameClientRPCReceiver->OnSCNotifyResetActorAttributeAmplifier(stageID, actorID);
+}
+
 void GameClientPacketHandler::OnSCNotifyActorAttack(StageID stageID, ActorID actorID, ActorID targetPlayerID, AttackType attackType)
 {
     ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
@@ -269,35 +292,68 @@ void GameClientPacketHandler::OnSCNotifyRemoveItemFromStash(flownet::StageID sta
     m_GameClientRPCReceiver->OnSCNotifyRemoveItemFromStash(stageID, playerID, itemID);
 }
 
-void GameClientPacketHandler::OnSCResponseRegisterStashItemToInventory(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID, flownet::InventorySlot slotNumber)
+void GameClientPacketHandler::OnSCResponseRegisterStashItemToInventory(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID, flownet::ItemGroup itemGroup, flownet::InventorySlot slotNumber)
 {
     ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
-    m_GameClientRPCReceiver->OnSCResponseRegisterStashItemToInventory(stageID, playerID, itemID, slotNumber);
+    m_GameClientRPCReceiver->OnSCResponseRegisterStashItemToInventory(stageID, playerID, itemID, itemGroup, slotNumber);
 }
 
-void GameClientPacketHandler::OnSCResponseUnRegisterStashItemFromInventory(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID, flownet::InventorySlot slotNumber)
+void GameClientPacketHandler::OnSCResponseUnRegisterStashItemFromInventory(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID, flownet::ItemGroup itemGroup, flownet::InventorySlot slotNumber)
 {
     ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
-    m_GameClientRPCReceiver->OnSCResponseUnRegisterStashItemFromInventory(stageID, playerID, itemID, slotNumber);
+    m_GameClientRPCReceiver->OnSCResponseUnRegisterStashItemFromInventory(stageID, playerID, itemID, itemGroup, slotNumber);
 }
 
-void GameClientPacketHandler::OnSCResponseSwapInventorySlot(flownet::StageID stageID, flownet::ActorID playerID, flownet::InventorySlot sourceSlotNumber, flownet::InventorySlot destinationSlotNumber)
+void GameClientPacketHandler::OnSCResponseSwapInventorySlot(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemGroup itemGroup, flownet::InventorySlot sourceSlotNumber, flownet::InventorySlot destinationSlotNumber)
 {
     ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
-    m_GameClientRPCReceiver->OnSCResponseSwapInventorySlot(stageID, playerID, sourceSlotNumber, destinationSlotNumber);
+    m_GameClientRPCReceiver->OnSCResponseSwapInventorySlot(stageID, playerID, itemGroup, sourceSlotNumber, destinationSlotNumber);
 }
 
-void GameClientPacketHandler::OnSCNotifyUseItem(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID, flownet::InventorySlot inventorySlot)
+void GameClientPacketHandler::OnSCNotifyUseItem(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID)
 {
-    ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
-    m_GameClientRPCReceiver->OnSCNotifyUseItem(stageID, playerID, itemID, inventorySlot);
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+    this->m_GameClientRPCReceiver->OnSCNotifyUseItem(stageID, playerID, itemID);
 }
 
-void GameClientPacketHandler::OnSCNotifyUnEquip(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID, flownet::InventorySlot inventorySlot)
+void GameClientPacketHandler::OnSCNotifyEquipItem(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID, flownet::EquipmentSlot equipedSlot)
 {
-    ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
-    m_GameClientRPCReceiver->OnSCNotifyUnEquip(stageID, playerID, itemID, inventorySlot);
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+    this->m_GameClientRPCReceiver->OnSCNotifyEquipItem(stageID, playerID, itemID, equipedSlot);
 }
+
+void GameClientPacketHandler::OnSCNotifyUnEquipItem(StageID stageID, ActorID playerID, EquipmentSlot unequipedSlot)
+{
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+    this->m_GameClientRPCReceiver->OnSCNotifyUnEquipItem(stageID, playerID, unequipedSlot);
+}
+
+void GameClientPacketHandler::OnSCNotifySendMessageToStagePlayers(StageID stageID, ActorID playerID, STRING message)
+{
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+    this->m_GameClientRPCReceiver->OnSCNotifySendMessageToStagePlayers(stageID, playerID, message);
+}
+
+void GameClientPacketHandler::OnSCNotifyApplySpellAbility(flownet::StageID stageID, flownet::ActorID targetID, flownet::ActorID invokerID, flownet::SpellAbility spellAbility, flownet::FLOAT amount)
+{
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+    this->m_GameClientRPCReceiver->OnSCNotifyApplySpellAbility(stageID, targetID, invokerID, spellAbility, amount);
+}
+
+void GameClientPacketHandler::OnSCNotifyClearSpellAbility(flownet::StageID stageID, flownet::ActorID targetID, flownet::SpellAbility spellAbility, flownet::FLOAT amount)
+{
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+    this->m_GameClientRPCReceiver->OnSCNotifyClearSpellAbility(stageID, targetID, spellAbility, amount);
+}
+
+void GameClientPacketHandler::OnSCNotifySetFreeze(flownet::StageID stageID, flownet::ActorID targetID, flownet::BOOL isFreezed)
+{
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+    this->m_GameClientRPCReceiver->OnSCNotifySetFreeze(stageID, targetID, isFreezed);
+}
+
+
+
 
     
 } // namespace flownet

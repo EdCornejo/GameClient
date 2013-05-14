@@ -8,17 +8,17 @@
 
 #include "Headers.pch"
 
-BackgroundLayer::BackgroundLayer() : m_BackgroundImage(nullptr)
+BackgroundLayer::BackgroundLayer() : m_BackgroundParallaxNode(nullptr)
 {
     
 }
 
 BackgroundLayer::~BackgroundLayer()
 {
-    if(m_BackgroundImage)
+    if(this->m_BackgroundParallaxNode)
     {
-        m_BackgroundImage->release();
-        m_BackgroundImage = nullptr;
+        this->m_BackgroundParallaxNode->release();
+        this->m_BackgroundParallaxNode = nullptr;
     }
 }
 
@@ -36,8 +36,14 @@ bool BackgroundLayer::initWithStageType(StageType stageType)
         return false;
     }
     CCSprite* backgroundImage = BackgroundImageLoader::GetBackgroundImage(stageType);
+    backgroundImage->setAnchorPoint(CCPointZero);
     
-    this->AttachBackgroundImage(backgroundImage);
+    this->m_BackgroundParallaxNode = CCParallaxNode::create();
+    
+    this->m_BackgroundParallaxNode->addChild(backgroundImage, 0, ccp(1, 1), CCPointZero);
+    this->m_BackgroundParallaxNode->retain();
+    
+    this->addChild(this->m_BackgroundParallaxNode);
    
     return true;
 }
@@ -80,15 +86,9 @@ void BackgroundLayer::update(float deltaTime)
 
 void BackgroundLayer::AttachBackgroundImage(CCSprite* backgroundImage)
 {
-    if(this->m_BackgroundImage)
-    {
-        this->removeChild(this->m_BackgroundImage);
-        this->m_BackgroundImage->release();
-        this->m_BackgroundImage = nullptr;
-    }
-    this->m_BackgroundImage = backgroundImage;
-    this->m_BackgroundImage->retain();
-    this->m_BackgroundImage->setPosition(CCPointMid);
-    
-    this->addChild(this->m_BackgroundImage);
+}
+
+void BackgroundLayer::setPosition(CCPoint newPoint)
+{
+    this->m_BackgroundParallaxNode->setPosition(newPoint);
 }

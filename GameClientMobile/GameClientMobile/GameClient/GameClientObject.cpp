@@ -11,7 +11,7 @@
 namespace flownet
 {
 
-GameClientObject::GameClientObject(BoostIOService& ioService, PacketParser* packetParser):ClientObject(ioService, packetParser),m_SessionID(SessionID_NONE),m_HeartbeatGenerator(this)
+GameClientObject::GameClientObject(BoostIOService& ioService, PacketParser* packetParser):ClientObject(ioService, packetParser),m_HeartbeatGenerator(this)
 {
 
 }
@@ -26,6 +26,11 @@ void GameClientObject::InitializeClient(const CHAR* connectAddress, const INT co
     ClientObject::InitializeClient(connectAddress, connectPort);    // connect to server
     
     // and do some initialize
+}
+
+BOOL GameClientObject::InitializeClientWithBlocking(const CHAR *connectAddress, const INT connectPort)
+{
+    return ClientObject::InitializeClientWithBlocking(connectAddress, connectPort);
 }
     
 void GameClientObject::StartHeartbeat()
@@ -69,6 +74,8 @@ void GameClientObject::OnConnect(const BoostErrorCode& error, BoostTCPSocket* co
     std::cout << "connect completed clientObject" << std::endl;
     
     RecvStart();
+    
+//    this->SendCSRequestLogInWithOTP(GameClient::Instance().GetDeviceID(), GameClient::Instance().GetUserID(), GameClient::Instance().GetOTP());
     // To Do : Make deviceID Generating Code for Mobile
 //    GameConnectionType connectionType = GCT_Mobile;
 //    INT64 deviceID = 19881988;

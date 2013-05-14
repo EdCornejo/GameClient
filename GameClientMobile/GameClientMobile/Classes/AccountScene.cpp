@@ -114,14 +114,6 @@ bool AccountLayer::init()
             this->addChild(loginButtonMenu);
             // TO DO : popup login window
         }
-        else
-        {
-            // TO DO : goto character window or stage window
-            CCDelayTime* delay = CCDelayTime::create(0.5f);
-            CCCallFunc* callfunc = CCCallFunc::create(this, callfunc_selector(AccountLayer::SendRejoinRequest));
-            CCSequence* sequence = CCSequence::create(delay, callfunc, NULL);
-            this->runAction(sequence);
-        }
     }
 
     this->setTouchEnabled(true);
@@ -211,7 +203,7 @@ void AccountLayer::OnGenderFemaleButtonPressed(cocos2d::CCObject *sender)
 void AccountLayer::OnLoginButtonPressed(cocos2d::CCObject *sender)
 {
     // TO DO : check form
-    GameClient::Instance().GetClientObject().SendCSRequestLogInUserAccount(GameClient::Instance().GetDeviceID(), this->m_EmailTextField->getString() , this->m_PasswordTextField->getString());
+    GameClient::Instance().GetCFConnection().SendCFRequestLogInUserAccount(GameClient::Instance().GetDeviceID(), this->m_EmailTextField->getString() , this->m_PasswordTextField->getString());
 }
 
 void AccountLayer::OnRegisterButtonPressed(cocos2d::CCObject* sender)
@@ -227,7 +219,7 @@ void AccountLayer::OnRegisterButtonPressed(cocos2d::CCObject* sender)
         selectedGender = Gender_Female;
     }
 
-    GameClient::Instance().GetClientObject().SendCSRequestCreateUserAccount(GameClient::Instance().GetDeviceID(), this->m_EmailTextField->getString(), this->m_PasswordTextField->getString(), selectedGender, this->m_NameTextField->getString());
+    GameClient::Instance().GetCFConnection().SendCFRequestCreateUserAccount(GameClient::Instance().GetDeviceID(), this->m_EmailTextField->getString(), this->m_PasswordTextField->getString());
 }
 
 AccountScene::AccountScene(): m_AccountLayer(nullptr)

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>stages</key>
+	<array>
+		<dict>
+			<key>name_kr</key>
+			<string>버섯밭</string>
+			<key>recommended_level</key>
+			<integer>1</integer>
+			<key>preview_image</key>
+			<string>mushroom_field.png</string>
+			<key>stage_type</key>
+			<integer>2</integer>
+			<key>description_kr</key>
+			<string>상아탑으로 가는 길. 버섯밭에는 버섯들이 많죠</string>
+		</dict>
+	</array>
+</dict>
+</plist>

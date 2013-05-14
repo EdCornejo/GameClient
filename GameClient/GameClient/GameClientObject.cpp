@@ -68,7 +68,8 @@ void GameClientObject::OnHeartbeatTimeOver()
 {
     // TO Do : Self Disconnect or ReConnect
     #ifndef GAMECLIENTTESTER
-    std::cout << "OnHeartbeatTimeOver" << std::endl;
+    LogSystem::Instance() << "OnHeartbeatTimeOver";
+    LogSystem::Instance().Commit();
     #endif
 #ifndef HEARTBEAT_ALLOW_DEBUG
     Disconnect();
@@ -83,7 +84,8 @@ void GameClientObject::OnConnect(const BoostErrorCode& error, BoostTCPSocket* co
     if( !error )
     {
         #ifndef GAMECLIENTTESTER
-        std::cout << "connect completed clientObject" << std::endl;
+        LogSystem::Instance() << "connect completed clientObject";
+        LogSystem::Instance().Commit();
         #endif
         RecvStart();
         

@@ -19,7 +19,7 @@ private:
     CCNode* m_MovingPart;
     CCNode* m_PinnedPart;
     
-    std::string m_CurrentTab;
+    flownet::ItemGroup m_CurrentItemGroup;
     CCMenuItem* m_ScrollButton;
     CCMenuItem* m_SlideButton;
     CCSprite* m_Body;
@@ -67,11 +67,12 @@ public:
 
 public:
     ItemSlotNode* FindSelectedItemSlotNode(CCPoint touchLocation);
+    void Update();
 
 public:
     void SwapInventorySlot(flownet::InventorySlot source, flownet::InventorySlot destination);
-    void AddItem(flownet::ItemType itemType, flownet::ItemID itemID);
-    void EraseItem(flownet::ItemID itemID);
+    //void AddItem(flownet::ItemType itemType, flownet::ItemID itemID);
+    //void EraseItem(flownet::ItemID itemID);
     
 private:
     void OnScrollButtonClicked();
@@ -83,6 +84,7 @@ private:
     
 private:
     void SwapInventorySlot(ItemSlotNode* lhs, ItemSlotNode* rhs);
+    
 };
 
 #endif /* defined(__GameClientMobile__InventoryNode__) */

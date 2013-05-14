@@ -12,17 +12,17 @@
 class SpellNode : public CCSprite
 {
 private:
-    flownet::SpellInfo m_SpellInfo;
+    const flownet::SpellInfo m_SpellInfo;
     flownet::ActorID m_CasterID;
     flownet::POINT m_Destination;
     float m_LastTickTime;
 
 public:
-    SpellNode();
+    SpellNode(const flownet::SpellInfo& spellInfo, flownet::ActorID casterID, flownet::POINT destination);
     virtual ~SpellNode();
     
     virtual bool initWithFile(const char* fileName);
-    static SpellNode* create(flownet::SpellInfo spellInfo, flownet::ActorID casterID, flownet::POINT destination);
+    static SpellNode* create(const flownet::SpellInfo& spellInfo, flownet::ActorID casterID, flownet::POINT destination);
     
     virtual void update(float deltaTime);
     

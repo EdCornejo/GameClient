@@ -30,9 +30,7 @@
 		6B17A72D1716A83E00231353 /* Slot.c in Sources */ = {isa = PBXBuildFile; fileRef = 6B17A7121716A83E00231353 /* Slot.c */; };
 		6B17A72E1716A83E00231353 /* SlotData.c in Sources */ = {isa = PBXBuildFile; fileRef = 6B17A7131716A83E00231353 /* SlotData.c */; };
 		6B17A72F1716A83E00231353 /* spine-cocos2dx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B17A7171716A83E00231353 /* spine-cocos2dx.cpp */; };
-		6B1E84B11728E8BD00D71FDD /* libflownetMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B1E84AF1728E8BD00D71FDD /* libflownetMobile.a */; };
-		6B1E84B21728E8BD00D71FDD /* libGameSharedMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B1E84B01728E8BD00D71FDD /* libGameSharedMobile.a */; };
-		6B1E84B41728E8D000D71FDD /* boost.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B1E84B31728E8D000D71FDD /* boost.framework */; };
+		6B1BA0E61739446B000338AC /* boost.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B1BA0E51739446B000338AC /* boost.framework */; };
 		6B2A9EF716F83FF600DEB7C3 /* ClientPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B2A9EF516F83FF600DEB7C3 /* ClientPlayer.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		6B2A9EFA16F8482000DEB7C3 /* ClientMonster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B2A9EF816F8482000DEB7C3 /* ClientMonster.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		6B2A9EFC16F854D700DEB7C3 /* ClientStage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B2A9EFB16F854D700DEB7C3 /* ClientStage.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -53,6 +51,7 @@
 		6B2AA40C16FE8C1800DEB7C3 /* StageCreateScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B2AA40A16FE8C1500DEB7C3 /* StageCreateScene.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		6B30CE75171C12C400316D9F /* SplashScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B30CE73171C12C400316D9F /* SplashScene.cpp */; };
 		6B30CE79171D491300316D9F /* common in Resources */ = {isa = PBXBuildFile; fileRef = 6B30CE78171D491300316D9F /* common */; };
+		6B369641173B93CC007F2985 /* EquipmentNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B36963F173B93CC007F2985 /* EquipmentNode.cpp */; };
 		6B3C0FB116E862190089F2C8 /* ActorNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B3C0FAF16E862180089F2C8 /* ActorNode.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		6B3C0FB516E862BB0089F2C8 /* PlayerNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B3C0FB316E862BB0089F2C8 /* PlayerNode.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		6B3C0FB816E862C60089F2C8 /* MonsterNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B3C0FB616E862C50089F2C8 /* MonsterNode.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -60,6 +59,7 @@
 		6B3C0FEA16EDB58A0089F2C8 /* BattleScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B3C0FE816EDB58A0089F2C8 /* BattleScene.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		6B3C0FED16EDBA1F0089F2C8 /* StageScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B3C0FEB16EDBA1F0089F2C8 /* StageScene.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		6B3C0FF116EE34CA0089F2C8 /* BackgroundImageLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B3C0FEF16EE34CA0089F2C8 /* BackgroundImageLoader.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		6B4A5719174109CB00601A3A /* SpellEffectNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B4A5717174109CB00601A3A /* SpellEffectNode.cpp */; };
 		6B532B2E1712E0F4009127B2 /* CCAction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B53293E1712E0F4009127B2 /* CCAction.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		6B532B2F1712E0F4009127B2 /* CCActionCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B5329401712E0F4009127B2 /* CCActionCamera.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		6B532B301712E0F4009127B2 /* CCActionCatmullRom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B5329421712E0F4009127B2 /* CCActionCatmullRom.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -264,14 +264,18 @@
 		6BAA3A8C16E655FD00BB233E /* BackgroundLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BAA3A8A16E655FB00BB233E /* BackgroundLayer.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		6BAA3A9C16E705C900BB233E /* HeartbeatLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BAA3A9A16E705C500BB233E /* HeartbeatLayer.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		6BB6C02E1702DB4E003CD4B4 /* DelayChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BB6C02C1702DB4E003CD4B4 /* DelayChecker.cpp */; };
+		6BBE641917391F6300BE88FE /* libCocosDenshion.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B532BF11712E0F4009127B2 /* libCocosDenshion.a */; };
+		6BBE641C17391F6300BE88FE /* libflownetMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBE641A17391F6300BE88FE /* libflownetMobile.a */; };
+		6BBE641D17391F6300BE88FE /* libGameSharedMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBE641B17391F6300BE88FE /* libGameSharedMobile.a */; };
 		6BC6C3D917226C6600B439F9 /* MenuBarNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BC6C3D717226C6600B439F9 /* MenuBarNode.cpp */; };
 		6BC6C3DF172284B100B439F9 /* InventoryNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BC6C3DD172284B100B439F9 /* InventoryNode.cpp */; };
 		6BC6C3E217229E7E00B439F9 /* ItemSlotNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BC6C3E017229E7D00B439F9 /* ItemSlotNode.cpp */; };
 		6BC6C3EA17251FED00B439F9 /* ItemImageLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BC6C3E817251FEC00B439F9 /* ItemImageLoader.cpp */; };
 		6BC6C3F11725AA1600B439F9 /* ItemNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BC6C3EF1725AA1400B439F9 /* ItemNode.cpp */; };
 		6BC6C3F6172600DD00B439F9 /* StashNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BC6C3F4172600DB00B439F9 /* StashNode.cpp */; };
-		6BE420F016F2E1E3008D82BA /* monster_highlight_circle.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BE420EE16F2E1E3008D82BA /* monster_highlight_circle.png */; };
-		6BE420F116F2E1E3008D82BA /* player_highlight_circle.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BE420EF16F2E1E3008D82BA /* player_highlight_circle.png */; };
+		6BF045FB1738FC7700EE0E53 /* CFConnection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BF045F51738FC7700EE0E53 /* CFConnection.cpp */; };
+		6BF045FC1738FC7700EE0E53 /* FCPacketHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BF045F71738FC7700EE0E53 /* FCPacketHandler.cpp */; };
+		6BF045FD1738FC7700EE0E53 /* FCPacketParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BF045F91738FC7700EE0E53 /* FCPacketParser.cpp */; };
 		6BFA0EB3171542BE00E4F079 /* AccountScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BFA0EB1171542BE00E4F079 /* AccountScene.cpp */; };
 		6BFA0EBA1715DCCF00E4F079 /* SpellImageLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BFA0EB81715DCCF00E4F079 /* SpellImageLoader.cpp */; };
 		94F29CB316DDD6FB005DFDE4 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94F29CB216DDD6FB005DFDE4 /* QuartzCore.framework */; };
@@ -357,9 +361,7 @@
 		6B17A7131716A83E00231353 /* SlotData.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = SlotData.c; sourceTree = "<group>"; };
 		6B17A7171716A83E00231353 /* spine-cocos2dx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "spine-cocos2dx.cpp"; sourceTree = "<group>"; };
 		6B17A7181716A83E00231353 /* spine-cocos2dx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "spine-cocos2dx.h"; sourceTree = "<group>"; };
-		6B1E84AF1728E8BD00D71FDD /* libflownetMobile.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = libflownetMobile.a; path = "../../flownet/flownet/build/Release-iphoneos/libflownetMobile.a"; sourceTree = "<group>"; };
-		6B1E84B01728E8BD00D71FDD /* libGameSharedMobile.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = libGameSharedMobile.a; path = "../../GameShared/GameShared/build/Release-iphoneos/libGameSharedMobile.a"; sourceTree = "<group>"; };
-		6B1E84B31728E8D000D71FDD /* boost.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = boost.framework; path = ../../../flownet/BoostMobile/ios/framework/boost.framework; sourceTree = "<group>"; };
+		6B1BA0E51739446B000338AC /* boost.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = boost.framework; path = ../../flownet/Boost/osx/framework/boost.framework; sourceTree = "<group>"; };
 		6B2A9EF516F83FF600DEB7C3 /* ClientPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ClientPlayer.cpp; sourceTree = "<group>"; };
 		6B2A9EF616F83FF600DEB7C3 /* ClientPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientPlayer.h; sourceTree = "<group>"; };
 		6B2A9EF816F8482000DEB7C3 /* ClientMonster.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ClientMonster.cpp; sourceTree = "<group>"; };
@@ -389,6 +391,8 @@
 		6B30CE73171C12C400316D9F /* SplashScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SplashScene.cpp; path = Classes/SplashScene.cpp; sourceTree = "<group>"; };
 		6B30CE74171C12C400316D9F /* SplashScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SplashScene.h; path = Classes/SplashScene.h; sourceTree = "<group>"; };
 		6B30CE78171D491300316D9F /* common */ = {isa = PBXFileReference; lastKnownFileType = folder; name = common; path = Resources/common; sourceTree = "<group>"; };
+		6B36963F173B93CC007F2985 /* EquipmentNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EquipmentNode.cpp; path = Classes/EquipmentNode.cpp; sourceTree = "<group>"; };
+		6B369640173B93CC007F2985 /* EquipmentNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EquipmentNode.h; path = Classes/EquipmentNode.h; sourceTree = "<group>"; };
 		6B3C0FAD16E858D00089F2C8 /* AppProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppProperties.h; path = Classes/AppProperties.h; sourceTree = "<group>"; };
 		6B3C0FAF16E862180089F2C8 /* ActorNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = ActorNode.cpp; path = Classes/ActorNode.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		6B3C0FB016E862180089F2C8 /* ActorNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = ActorNode.h; path = Classes/ActorNode.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -404,6 +408,8 @@
 		6B3C0FEC16EDBA1F0089F2C8 /* StageScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StageScene.h; path = Classes/StageScene.h; sourceTree = "<group>"; };
 		6B3C0FEF16EE34CA0089F2C8 /* BackgroundImageLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BackgroundImageLoader.cpp; path = Classes/BackgroundImageLoader.cpp; sourceTree = "<group>"; };
 		6B3C0FF016EE34CA0089F2C8 /* BackgroundImageLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BackgroundImageLoader.h; path = Classes/BackgroundImageLoader.h; sourceTree = "<group>"; };
+		6B4A5717174109CB00601A3A /* SpellEffectNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SpellEffectNode.cpp; path = Classes/SpellEffectNode.cpp; sourceTree = "<group>"; };
+		6B4A5718174109CB00601A3A /* SpellEffectNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SpellEffectNode.h; path = Classes/SpellEffectNode.h; sourceTree = "<group>"; };
 		6B53293E1712E0F4009127B2 /* CCAction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCAction.cpp; sourceTree = "<group>"; };
 		6B53293F1712E0F4009127B2 /* CCAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAction.h; sourceTree = "<group>"; };
 		6B5329401712E0F4009127B2 /* CCActionCamera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCActionCamera.cpp; sourceTree = "<group>"; };
@@ -871,6 +877,8 @@
 		6BAA3A9B16E705C700BB233E /* HeartbeatLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HeartbeatLayer.h; path = Classes/HeartbeatLayer.h; sourceTree = "<group>"; };
 		6BB6C02C1702DB4E003CD4B4 /* DelayChecker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DelayChecker.cpp; sourceTree = "<group>"; };
 		6BB6C02D1702DB4E003CD4B4 /* DelayChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DelayChecker.h; sourceTree = "<group>"; };
+		6BBE641A17391F6300BE88FE /* libflownetMobile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libflownetMobile.a; path = "../../flownet/flownet/build/Release-iphoneos/libflownetMobile.a"; sourceTree = "<group>"; };
+		6BBE641B17391F6300BE88FE /* libGameSharedMobile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGameSharedMobile.a; path = "../../GameShared/GameShared/build/Release-iphoneos/libGameSharedMobile.a"; sourceTree = "<group>"; };
 		6BC6C3D717226C6600B439F9 /* MenuBarNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MenuBarNode.cpp; path = Classes/MenuBarNode.cpp; sourceTree = "<group>"; };
 		6BC6C3D817226C6600B439F9 /* MenuBarNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MenuBarNode.h; path = Classes/MenuBarNode.h; sourceTree = "<group>"; };
 		6BC6C3DD172284B100B439F9 /* InventoryNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = InventoryNode.cpp; path = Classes/InventoryNode.cpp; sourceTree = "<group>"; };
@@ -883,8 +891,12 @@
 		6BC6C3F01725AA1500B439F9 /* ItemNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ItemNode.h; path = Classes/ItemNode.h; sourceTree = "<group>"; };
 		6BC6C3F4172600DB00B439F9 /* StashNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StashNode.cpp; path = Classes/StashNode.cpp; sourceTree = "<group>"; };
 		6BC6C3F5172600DC00B439F9 /* StashNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StashNode.h; path = Classes/StashNode.h; sourceTree = "<group>"; };
-		6BE420EE16F2E1E3008D82BA /* monster_highlight_circle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = monster_highlight_circle.png; path = Resources/monster_highlight_circle.png; sourceTree = "<group>"; };
-		6BE420EF16F2E1E3008D82BA /* player_highlight_circle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = player_highlight_circle.png; path = Resources/player_highlight_circle.png; sourceTree = "<group>"; };
+		6BF045F51738FC7700EE0E53 /* CFConnection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CFConnection.cpp; sourceTree = "<group>"; };
+		6BF045F61738FC7700EE0E53 /* CFConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CFConnection.h; sourceTree = "<group>"; };
+		6BF045F71738FC7700EE0E53 /* FCPacketHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FCPacketHandler.cpp; sourceTree = "<group>"; };
+		6BF045F81738FC7700EE0E53 /* FCPacketHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCPacketHandler.h; sourceTree = "<group>"; };
+		6BF045F91738FC7700EE0E53 /* FCPacketParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FCPacketParser.cpp; sourceTree = "<group>"; };
+		6BF045FA1738FC7700EE0E53 /* FCPacketParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCPacketParser.h; sourceTree = "<group>"; };
 		6BFA0EB1171542BE00E4F079 /* AccountScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AccountScene.cpp; path = Classes/AccountScene.cpp; sourceTree = "<group>"; };
 		6BFA0EB2171542BE00E4F079 /* AccountScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AccountScene.h; path = Classes/AccountScene.h; sourceTree = "<group>"; };
 		6BFA0EB81715DCCF00E4F079 /* SpellImageLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SpellImageLoader.cpp; path = Classes/SpellImageLoader.cpp; sourceTree = "<group>"; };
@@ -939,9 +951,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6B1E84B41728E8D000D71FDD /* boost.framework in Frameworks */,
-				6B1E84B11728E8BD00D71FDD /* libflownetMobile.a in Frameworks */,
-				6B1E84B21728E8BD00D71FDD /* libGameSharedMobile.a in Frameworks */,
+				6B1BA0E61739446B000338AC /* boost.framework in Frameworks */,
+				6BBE641C17391F6300BE88FE /* libflownetMobile.a in Frameworks */,
+				6BBE641D17391F6300BE88FE /* libGameSharedMobile.a in Frameworks */,
+				6BBE641917391F6300BE88FE /* libCocosDenshion.a in Frameworks */,
 				94F29CB316DDD6FB005DFDE4 /* QuartzCore.framework in Frameworks */,
 				94F29CB516DDD6FB005DFDE4 /* OpenGLES.framework in Frameworks */,
 				94F29CB716DDD6FB005DFDE4 /* OpenAL.framework in Frameworks */,
@@ -1077,6 +1090,8 @@
 			isa = PBXGroup;
 			children = (
 				6BC6C3DC1722849000B439F9 /* UINodes */,
+				6B4A5717174109CB00601A3A /* SpellEffectNode.cpp */,
+				6B4A5718174109CB00601A3A /* SpellEffectNode.h */,
 				6B3C0FAF16E862180089F2C8 /* ActorNode.cpp */,
 				6B3C0FB016E862180089F2C8 /* ActorNode.h */,
 				6B3C0FB316E862BB0089F2C8 /* PlayerNode.cpp */,
@@ -2078,25 +2093,37 @@
 				6BC6C3E117229E7E00B439F9 /* ItemSlotNode.h */,
 				6BC6C3F4172600DB00B439F9 /* StashNode.cpp */,
 				6BC6C3F5172600DC00B439F9 /* StashNode.h */,
+				6B36963F173B93CC007F2985 /* EquipmentNode.cpp */,
+				6B369640173B93CC007F2985 /* EquipmentNode.h */,
 			);
 			name = UINodes;
 			sourceTree = "<group>";
 		};
-		6BE420ED16F2E1CC008D82BA /* Effects */ = {
+		6BF045EA1738F29700EE0E53 /* RPC */ = {
 			isa = PBXGroup;
 			children = (
-				6BE420EE16F2E1E3008D82BA /* monster_highlight_circle.png */,
-				6BE420EF16F2E1E3008D82BA /* player_highlight_circle.png */,
+				6BF045F51738FC7700EE0E53 /* CFConnection.cpp */,
+				6BF045F61738FC7700EE0E53 /* CFConnection.h */,
+				6BF045F71738FC7700EE0E53 /* FCPacketHandler.cpp */,
+				6BF045F81738FC7700EE0E53 /* FCPacketHandler.h */,
+				6BF045F91738FC7700EE0E53 /* FCPacketParser.cpp */,
+				6BF045FA1738FC7700EE0E53 /* FCPacketParser.h */,
+				94F29F7C16DDD738005DFDE4 /* GameClientObject.cpp */,
+				94F29F7D16DDD738005DFDE4 /* GameClientObject.h */,
+				94F29F7E16DDD738005DFDE4 /* GameClientPacketHandler.cpp */,
+				94F29F7F16DDD738005DFDE4 /* GameClientPacketHandler.h */,
+				94F29F8016DDD738005DFDE4 /* GameClientPacketParser.cpp */,
+				94F29F8116DDD738005DFDE4 /* GameClientPacketParser.h */,
 			);
-			name = Effects;
+			name = RPC;
 			sourceTree = "<group>";
 		};
 		94F29CA316DDD6FA005DFDE4 = {
 			isa = PBXGroup;
 			children = (
-				6B1E84B31728E8D000D71FDD /* boost.framework */,
-				6B1E84AF1728E8BD00D71FDD /* libflownetMobile.a */,
-				6B1E84B01728E8BD00D71FDD /* libGameSharedMobile.a */,
+				6B1BA0E51739446B000338AC /* boost.framework */,
+				6BBE641A17391F6300BE88FE /* libflownetMobile.a */,
+				6BBE641B17391F6300BE88FE /* libGameSharedMobile.a */,
 				94F29FFE16DE3DE2005DFDE4 /* Default-568h@2x.png */,
 				94F29F7816DDD738005DFDE4 /* GameClient */,
 				94F29F8916DDD738005DFDE4 /* GameClientProperties.h */,
@@ -2154,7 +2181,6 @@
 				6B2AA3F416FB449D00DEB7C3 /* iphone */,
 				6B2AA3F616FB44AF00DEB7C3 /* iphonehd */,
 				6B30CE78171D491300316D9F /* common */,
-				6BE420ED16F2E1CC008D82BA /* Effects */,
 				6B7477B316F0CBC00014C286 /* loading_background.png */,
 				94F29CC816DDD6FB005DFDE4 /* Default.png */,
 				94F29CCC16DDD6FB005DFDE4 /* Icon-72.png */,
@@ -2219,17 +2245,12 @@
 		94F29F7816DDD738005DFDE4 /* GameClient */ = {
 			isa = PBXGroup;
 			children = (
+				6BF045EA1738F29700EE0E53 /* RPC */,
 				6B7477B516F0E6930014C286 /* ThreadManagement */,
 				6BAA3A9516E6EF9C00BB233E /* GameClientObject */,
 				6B9E9A1716EE6C7E007A2BAC /* GameClient.cpp */,
 				94F29F7A16DDD738005DFDE4 /* GameClient.h */,
 				94F29F7B16DDD738005DFDE4 /* GameClientHeaders.pch */,
-				94F29F7C16DDD738005DFDE4 /* GameClientObject.cpp */,
-				94F29F7D16DDD738005DFDE4 /* GameClientObject.h */,
-				94F29F7E16DDD738005DFDE4 /* GameClientPacketHandler.cpp */,
-				94F29F7F16DDD738005DFDE4 /* GameClientPacketHandler.h */,
-				94F29F8016DDD738005DFDE4 /* GameClientPacketParser.cpp */,
-				94F29F8116DDD738005DFDE4 /* GameClientPacketParser.h */,
 				94F29F8216DDD738005DFDE4 /* GameClientScheduledTasks.cpp */,
 				94F29F8316DDD738005DFDE4 /* GameClientScheduledTasks.h */,
 				94F29F8416DDD738005DFDE4 /* GameClientTasks.cpp */,
@@ -2320,8 +2341,6 @@
 				94F29CD916DDD6FB005DFDE4 /* iTunesArtwork in Resources */,
 				94F29FFF16DE3DE2005DFDE4 /* Default-568h@2x.png in Resources */,
 				6B7477B416F0CBC00014C286 /* loading_background.png in Resources */,
-				6BE420F016F2E1E3008D82BA /* monster_highlight_circle.png in Resources */,
-				6BE420F116F2E1E3008D82BA /* player_highlight_circle.png in Resources */,
 				6B2AA02316F9D12400DEB7C3 /* player_animations.plist in Resources */,
 				6B2AA34016FA2ECB00DEB7C3 /* blank.png in Resources */,
 				6B2AA38B16FAD27700DEB7C3 /* test_dot.png in Resources */,
@@ -2601,6 +2620,11 @@
 				6BC6C3EA17251FED00B439F9 /* ItemImageLoader.cpp in Sources */,
 				6BC6C3F11725AA1600B439F9 /* ItemNode.cpp in Sources */,
 				6BC6C3F6172600DD00B439F9 /* StashNode.cpp in Sources */,
+				6BF045FB1738FC7700EE0E53 /* CFConnection.cpp in Sources */,
+				6BF045FC1738FC7700EE0E53 /* FCPacketHandler.cpp in Sources */,
+				6BF045FD1738FC7700EE0E53 /* FCPacketParser.cpp in Sources */,
+				6B369641173B93CC007F2985 /* EquipmentNode.cpp in Sources */,
+				6B4A5719174109CB00601A3A /* SpellEffectNode.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2680,8 +2704,7 @@
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../flownet/BoostMobile/ios/framework\"",
-					"\"$(SRCROOT)/../../../flownet/BoostMobile/ios/framework\"",
+					"\"$(SRCROOT)/../../flownet/Boost/osx/framework\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -2708,6 +2731,7 @@
 					"\"$(PROJECT_NAME)/libs/spine-c/include\"",
 				);
 				INFOPLIST_FILE = GameClientMobile/Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/GameClientMobile/libs/cocos2dx/platform/third_party/ios/libraries\"",
@@ -2717,8 +2741,9 @@
 					"-lz",
 					"-lsqlite3",
 				);
-				PRELINK_LIBS = "libboost_regex.a libboost_system.a";
+				PRELINK_LIBS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "../../GameShared/GameShared ../../flownet/flownet";
 				WRAPPER_EXTENSION = app;
 			};
@@ -2733,8 +2758,7 @@
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../flownet/BoostMobile/ios/framework\"",
-					"\"$(SRCROOT)/../../../flownet/BoostMobile/ios/framework\"",
+					"\"$(SRCROOT)/../../flownet/Boost/osx/framework\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = GameClientMobile/Prefix.pch;
@@ -2758,6 +2782,7 @@
 					"\"$(PROJECT_NAME)/libs/spine-c/include\"",
 				);
 				INFOPLIST_FILE = GameClientMobile/Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/GameClientMobile/libs/cocos2dx/platform/third_party/ios/libraries\"",
@@ -2767,8 +2792,9 @@
 					"-lz",
 					"-lsqlite3",
 				);
-				PRELINK_LIBS = "libboost_regex.a libboost_system.a";
+				PRELINK_LIBS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "../../GameShared/GameShared ../../flownet/flownet";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;

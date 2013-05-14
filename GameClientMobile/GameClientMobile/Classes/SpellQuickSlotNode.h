@@ -9,45 +9,53 @@
 #ifndef __GameClientMobile__SpellQuickSlotNode__
 #define __GameClientMobile__SpellQuickSlotNode__
 
-class SpellQuickSlotItemNode : public CCNode
-{
-public:
-    SpellQuickSlotItemNode(flownet::SpellType spellType);
-    SpellQuickSlotItemNode(flownet::SpellInfo spellInfo);
-    virtual ~SpellQuickSlotItemNode();
-    
-private:
-    flownet::SpellType m_SpellType;
-    CCSprite* m_IconSprite;
-    
-public:
-    CCRect GetRect();
-    flownet::SpellType GetSpellType();
-};
+//class SpellQuickSlotItemNode : public CCNode
+//{
+//public:
+//    SpellQuickSlotItemNode(flownet::SpellType spellType);
+//    SpellQuickSlotItemNode(flownet::SpellInfo spellInfo);
+//    virtual ~SpellQuickSlotItemNode();
+//    
+//private:
+//    flownet::SpellType m_SpellType;
+//    CCSprite* m_IconSprite;
+//    
+//public:
+//    CCRect GetRect();
+//    flownet::SpellType GetSpellType();
+//};
+//
 
 class SpellQuickSlotNode : public CCNode, public CCTargetedTouchDelegate
 {
-    typedef std::vector<SpellQuickSlotItemNode*> SpellQuickSlotItemList;
-private:
-    enum {
-        SpellIconMargin = 10,
-        SpellIconSize = 60,
+    typedef flownet::Map<CCMenuItem*, flownet::SpellType>::type ButtonSpellMap;
+public:
+    enum
+    {
+        PositionX = 140,
+        PositionY = 320 - 40, // windowSizeHeight - iconsize/2
     };
-    
-private:
-    SpellQuickSlotItemList m_SpellQuickSlotItemList;
 
+private:
+    ButtonSpellMap m_ButtonSpellMap;
+    
 public:
     SpellQuickSlotNode();
     virtual ~SpellQuickSlotNode();
     
-    void Initialize();
+    virtual bool init();
+    
+    static SpellQuickSlotNode* create();
+
+private:
+    void OnSkillTouched(CCObject* sender);
+    
+    void DisableButton(CCObject* menuItem);
+    void EnableButton(CCObject* menuItem);
+    void RemoveProgressTimer(CCObject* timer);
     
 public:
-    virtual bool ccTouchBegan(CCTouch* touch, CCEvent* event);
-    
-private:
-    SpellQuickSlotItemNode* FindSpellQuickSlotItemNode(CCPoint touchLocation);
+    void ApplyCoolTime(flownet::SpellType spellType);
 };
 
 #endif /* defined(__GameClientMobile__SpellQuickSlotNode__) */

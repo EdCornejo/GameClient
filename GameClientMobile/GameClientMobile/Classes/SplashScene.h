@@ -13,6 +13,7 @@ class SplashScene : public BaseScene
 {
 private:
     bool m_HasRequestSession;
+    bool m_HasRequestConnect;
 public:
     SplashScene();
     virtual ~SplashScene();

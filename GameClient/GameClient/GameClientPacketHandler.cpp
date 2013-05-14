@@ -56,7 +56,10 @@ void GameClientPacketHandler::HandlePacket(BasePacket* packet)
 #endif
 
     GameSCProtocol protocol = static_cast<GameSCProtocol>(packet->GetProtocol());
-    LOG_STDOUT( std::cout << "handled Protocol" << protocol << std::endl; );
+    #ifdef GAMEPROTOCOL_DEBUGGING
+    LogSystem::Instance() << "handled Protocol" << protocol;
+    LogSystem::Instance().Commit();
+    #endif // GAMEPROTOCOL_DEBUGGING
     
     (this->*m_HandlerMap[protocol])(static_cast<GamePacket*>(packet));
 
@@ -74,7 +77,8 @@ void GameClientPacketHandler::OnSCProtocolError()
 {
     ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr );
     
-    LOG_STDOUT( std::cout << "Wrong Protocol. Error occured " << std::endl; );
+    LogSystem::Instance() << "Wrong Protocol. Error occured ";
+    LogSystem::Instance().Commit();
     
     this->m_GameClientRPCReceiver->OnSCProtocolError();
 }
@@ -107,7 +111,8 @@ void GameClientPacketHandler::OnSCResponseHeartbeat(INT64 heartbeatCountAck)
 
     if( heartbeatCountAck%50 == 0)
     {
-        std::cout << "fSCResponseHeartbeat : heartbeatCountAck" << heartbeatCountAck << std::endl;
+        LogSystem::Instance() << "fSCResponseHeartbeat : heartbeatCountAck" << heartbeatCountAck;
+        LogSystem::Instance().Commit();
     }
 
     

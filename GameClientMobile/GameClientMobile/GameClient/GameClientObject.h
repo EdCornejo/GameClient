@@ -19,17 +19,14 @@ friend class TaskCheckHeartbeatTimeOver;
 friend class HeartbeatGenerator;
 
 private:
-    SessionID           m_SessionID;
     HeartbeatGenerator  m_HeartbeatGenerator;
 
 public:
     GameClientObject(BoostIOService& ioService, PacketParser* packetParser);
     virtual ~GameClientObject();
     virtual void        InitializeClient(const CHAR* connectAddress, const INT connectPort) override;
-    
-    void        SetSessionID(const SessionID sessionID)  {   m_SessionID = sessionID; }
-    SessionID   GetSessionID()                          {return m_SessionID;}
-    
+    virtual BOOL        InitializeClientWithBlocking(const CHAR* connectAddress, const INT connectPort) override;
+        
 private:
     void        ConfigureDefaultInfoToPacket(GamePacket* packet);
     
@@ -57,6 +54,8 @@ protected:
 public:
     #include "GameCSProtocolSenderDeclaration.hpp"
 };
+typedef Vector<GameClientObject*>::type GameClientObjectList;
+
 } // namespace flownet
 
 #endif /* defined(__GameClient__GameClientObject__) */

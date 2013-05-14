@@ -31,6 +31,7 @@
 #include "PointConverter.h"
 
 //  Nodes
+#include "SpellEffectNode.h"
 #include "ActorNode.h"
 #include "PlayerNode.h"
 #include "MonsterNode.h"
@@ -42,6 +43,7 @@
 #include "MenuBarNode.h"
 #include "InventoryNode.h"
 #include "StashNode.h"
+#include "EquipmentNode.h"
 
 //  Layers
 #include "BaseLayer.h"
