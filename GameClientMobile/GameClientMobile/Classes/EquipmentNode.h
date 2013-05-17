@@ -30,8 +30,8 @@ private:
 private:
     enum {
         ItemSlotMargin = 2,
-        ItemSlotPositionX = 60,
-        ItemSlotPositionY = 82,
+        ItemSlotPositionX = 50,
+        ItemSlotPositionY = 30,
     };
 
 public:

@@ -219,34 +219,35 @@ bool StashNode::init()
 {
     // TO DO : make this stash can be initialized different by stage type.
     // add background (body)
-    this->m_Body = CCSprite::create("ui/stash/body.png");
+    CCNode* bodyNode = CCNode::create();
+    this->m_Body = CCSprite::create("ui/inventory/stash_background.png");
     this->m_Body->retain();
     this->m_Body->setAnchorPoint(CCPointLowerRight);
     this->m_Body->setPosition(CCPointZero);
 
-    this->addChild(this->m_Body);
+    bodyNode->addChild(this->m_Body);
     
     // add tab menu 
     this->m_EquipmentButton = CCMenuItemToggle::createWithTarget(this,
                 menu_selector(StashNode::OnEquipmentButtonClicked),
-                CCMenuItemImage::create("ui/stash/tab_button_normal.png", "ui/stash/tab_button_normal.png"),
-                CCMenuItemImage::create("ui/stash/tab_button_active.png", "ui/stash/tab_button_active.png"),
+                CCMenuItemImage::create("ui/inventory/stash_equipment_button_normal.png", "ui/inventory/stash_equipment_button_normal.png"),
+                CCMenuItemImage::create("ui/inventory/stash_equipment_button_active.png", "ui/inventory/stash_equipment_button_active.png"),
                 NULL);
     this->m_EquipmentButton->retain();
     this->m_EquipmentButton->setAnchorPoint(CCPointLowerMid);
     
     this->m_ConsumeButton = CCMenuItemToggle::createWithTarget(this,
                 menu_selector(StashNode::OnConsumeButtonClicked),
-                CCMenuItemImage::create("ui/stash/tab_button_normal.png", "ui/stash/tab_button_normal.png"),
-                CCMenuItemImage::create("ui/stash/tab_button_active.png", "ui/stash/tab_button_active.png"),
+                CCMenuItemImage::create("ui/inventory/stash_consume_button_normal.png", "ui/inventory/stash_consume_button_normal.png"),
+                CCMenuItemImage::create("ui/inventory/stash_consume_button_active.png", "ui/inventory/stash_consume_button_active.png"),
                 NULL);
     this->m_ConsumeButton->retain();
     this->m_ConsumeButton->setAnchorPoint(CCPointLowerMid);
     
     this->m_MaterialButton = CCMenuItemToggle::createWithTarget(this,
                 menu_selector(StashNode::OnMaterialButtonClicked),
-                CCMenuItemImage::create("ui/stash/tab_button_normal.png", "ui/stash/tab_button_normal.png"),
-                CCMenuItemImage::create("ui/stash/tab_button_active.png", "ui/stash/tab_button_active.png"),
+                CCMenuItemImage::create("ui/inventory/stash_material_button_normal.png", "ui/inventory/stash_material_button_normal.png"),
+                CCMenuItemImage::create("ui/inventory/stash_material_button_active.png", "ui/inventory/stash_material_button_active.png"),
                 NULL);
     this->m_MaterialButton->retain();
     this->m_MaterialButton->setAnchorPoint(CCPointLowerMid);
@@ -259,15 +260,13 @@ bool StashNode::init()
 
     CCRect bodyRect = this->m_Body->getTextureRect();
     
-    tabMenu->setPosition(ccp(bodyRect.size.width / 2, bodyRect.size.height));
+    tabMenu->setPosition(ccp(-bodyRect.size.width / 2, bodyRect.size.height - 4));
     
-    this->m_Body->addChild(tabMenu);
+    bodyNode->addChild(tabMenu, -1);
     
     // insert item slots
-    Actor* actor = GameClient::Instance().GetClientStage()->FindActor(GameClient::Instance().GetMyActorID());
-    
-    const int SlotInitialPositionX = 10;
-    const int SlotInitialPositionY = bodyRect.size.height - 10;
+    const int SlotInitialPositionX = 42;
+    const int SlotInitialPositionY = bodyRect.size.height - 80;
     
     ItemSlotNode* slotForSize = ItemSlotNode::create(ItemType_None, ItemID_None, InventorySlot_None);
     CCRect slotRect = GetRect(slotForSize);
@@ -293,18 +292,19 @@ bool StashNode::init()
     {
         ItemData* itemData = new ItemData(ItemGroup_None, ItemType_None, EquipmentSlot_None);
         Item* item = new Item(ItemGroup_None, ItemType_None, static_cast<ItemID>(i), itemData);
-        // if( i % 2 == 0) item = ItemFactory::Instance().CreateItem(ItemType_BluePotion9, i);    else item = ItemFactory::Instance().CreateItem(ItemType_RedPotion9, i);
         
         ItemSlotNode* node = ItemSlotNode::create(item->GetItemType(), item->GetItemID(), static_cast<InventorySlot>(i));
         node->retain();
         node->setAnchorPoint(CCPointUpperLeft);
-        CCPoint position = ccp(SlotInitialPositionX + ((ItemSlotMargin + ItemSlotSizeX) * (i % PerRow)), SlotInitialPositionY - ((ItemSlotMargin + ItemSlotSizeY) * (i / PerRow)));
+        CCPoint position = ccp(SlotInitialPositionX + ((ItemSlotMarginX + ItemSlotSizeX) * (i % PerRow)), SlotInitialPositionY - ((ItemSlotMarginY + ItemSlotSizeY) * (i / PerRow)));
         node->setPosition(position);
         
         this->m_ItemSlotNodeList.push_back(node);
         
         this->m_Body->addChild(node);
     }
+    
+    this->addChild(bodyNode);
     
     CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, 0, true);
     

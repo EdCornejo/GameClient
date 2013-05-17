@@ -121,7 +121,7 @@ void AppDelegate::InitializeConnection()
     serverIP = CCUserDefault::sharedUserDefault()->getStringForKey("yours", "");
     
     GameClient::Instance().GetCFConnection().InitializeClient("61.43.139.149", 1990);
-    GameClient::Instance().GetClientObject().InitializeClient(serverIP.c_str(), SERVER_CONNECT_PORT);
+    GameClient::Instance().GetClientObject().InitializeClient("61.43.139.149", SERVER_CONNECT_PORT);
 }
 
 void AppDelegate::OnSCProtocolError() const
@@ -144,6 +144,7 @@ void AppDelegate::OnSCResponseSession(flownet::UserID userID, flownet::ActorID m
     GameClient::Instance().SetMyActorID(myPlayerID);
     GameClient::Instance().SetSessionID(sessionID);
     
+    // SessionID 가 없는 경우에는 로그인이 안되어있는 상태이기때문에 로그인을 해야한다.
     if(sessionID == SessionID_NONE)
     {
 //        GameClient::Instance().GetClientObject().Disconnect();
@@ -159,6 +160,20 @@ void AppDelegate::OnSCResponseSession(flownet::UserID userID, flownet::ActorID m
             ASSERT_DEBUG(false);
         }
 
+        return;
+    }
+    
+    // SessionID가 있고, UserID가 있는 경우에는 로그인이 제대로 된것 (보통의 경우에 세션이 있으면 UserID는 당연히 있다) 조건검사 그래서 안한다.
+    
+    // SessionID가 있고, UserID가 있고, ActorID가 없는 경우에는 케릭터를 생성해야 한다. 케릭터 생성창으로 보내야 함.
+    if(sessionID != SessionID_NONE && myPlayerID == ActorID_None)
+    {
+        if( false == static_cast<ClientDirector*>(CCDirector::sharedDirector())->ChangeScene<CharacterCreateScene>() )
+        {
+            // TO DO : handle error
+            ASSERT_DEBUG(false);
+        }
+        
         return;
     }
     
@@ -255,6 +270,12 @@ void AppDelegate::OnSCResponseLogOutUserAccount(flownet::UserID userID) const
         CCUserDefault::sharedUserDefault()->flush();
         
         GameClient::Instance().Finalize();
+        
+        if( false == static_cast<ClientDirector*>(CCDirector::sharedDirector())->ChangeScene<AccountScene>() )
+    {
+        // TO DO : handle error
+        ASSERT_DEBUG(false);
+    }
     }
 }
 
@@ -333,14 +354,29 @@ void AppDelegate::OnSCResponseExitStage(flownet::StageID stageID, flownet::Actor
 
 }
 
-void AppDelegate::OnSCNotifyExitStage(flownet::StageID stageID, flownet::ActorID playerID) const
+void AppDelegate::OnSCNotifyExitStage(flownet::StageID stageID, flownet::ActorID actorID) const
 {
     ClientStage* clientStage = GameClient::Instance().GetClientStage();
     if(clientStage == nullptr) return;
     if(stageID != clientStage->GetStageID()) ASSERT_DEBUG(stageID == clientStage->GetStageID());
     
-    // TO DO : remove actorNodeSet from actorlayer
-    // TO DO : remove actor from stage
+    BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
+    ASSERT_DEBUG(scene);
+    
+    ActorLayer* actorLayer = scene->GetActorLayer();
+    ASSERT_DEBUG(actorLayer);
+    
+//    actorLayer->DeleteActor(actorID);
+//
+//    if(IsPlayerID(actorID))
+//    {
+//        clientStage->RemovePlayer(actorID);
+//    }
+//    else
+//    {
+//        clientStage->RemoveMonster(actorID);
+//    }
+//    // TO DO : make merge delete functions
 }
 
 void AppDelegate::OnSCResponseRejoinCurrentStage(flownet::StageID stageID, flownet::Stage stage) const
@@ -428,6 +464,9 @@ void AppDelegate::OnSCNotifyMoveActor(flownet::StageID stageID, flownet::ActorID
     }
     
     CCLOG("destination %f, %f", destinationPosition.x, destinationPosition.y);
+    // NOTE : setting desination to actor is moved to ActorLayer for reason of making adjustment in moving actor
+    // Actor* actor = GameClient::Instance().GetClientStage()->FindActor(actorID);
+    // actor->MoveTo(clientStage, currentPosition, destinationPosition);
 
     BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
     ActorLayer* actorLayer = scene->GetActorLayer();

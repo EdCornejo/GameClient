@@ -552,7 +552,7 @@ void ActorNode::AnimateRepeatCasting()
     this->StopCharacterAnimate();
     this->m_Skeleton->skeleton->flipX = flipX;
      // NOTE : check for same animation
-    if(this->m_Skeleton->state->animation != nullptr && strcmp(this->m_Skeleton->state->animation->name, "casting") == 0) return;
+    if(this->m_Skeleton->state->animation != nullptr && strcmp(this->m_Skeleton->state->animation->name, "repeat_casting") == 0) return;
 
     this->m_Skeleton->setAnimation("repeat_casting", true);
 }

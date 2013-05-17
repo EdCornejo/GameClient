@@ -50,8 +50,8 @@ typedef flownet::Vector<ItemSlotNode*>::type ItemSlotNodeList;
 
 private:
     enum {
-        PerPage = 16,
-        PerRow = 2,
+        PerPage = 12,
+        PerRow = 3,
     };
 
 private:
@@ -73,7 +73,8 @@ public:
     enum {
         PositionX = 480,
         PositionY = 0,
-        ItemSlotMargin = 2,
+        ItemSlotMarginX = 10,
+        ItemSlotMarginY = 6,
         
         TimeToBeganMove = 1000,
     };

@@ -11,7 +11,8 @@
 
 typedef Map<flownet::SpellAbility, SpellEffectNode*>::type SpellEffectNodeMap;
 
-struct ActorNodeSet {
+struct ActorNodeSet : public CCObject {
+    ActorID m_ActorID;
     ActorNode* m_ActorNode;
     HUDNode* m_HUDNode;
     ShadowNode* m_ShadowNode;
@@ -20,7 +21,7 @@ struct ActorNodeSet {
     SpellEffectNodeMap m_SpellEffectNodeMap;
 
     
-    ActorNodeSet(flownet::ActorID actorID): m_ActorNode(nullptr), m_HUDNode(nullptr), m_ShadowNode(nullptr), m_HighlightNode(nullptr), m_GuideLineNode(nullptr) //m_SpellEffectNodeMap()
+    ActorNodeSet(flownet::ActorID actorID): m_ActorID(actorID), m_ActorNode(nullptr), m_HUDNode(nullptr), m_ShadowNode(nullptr), m_HighlightNode(nullptr), m_GuideLineNode(nullptr), m_SpellEffectNodeMap()
     {
         if(flownet::IsPlayerID(actorID))
         {
@@ -46,7 +47,7 @@ struct ActorNodeSet {
         if(this->m_ShadowNode) this->m_ShadowNode->release();
         if(this->m_HighlightNode) this->m_HighlightNode->release();
         if(this->m_GuideLineNode) this->m_GuideLineNode->release();
-        std::for_each(this->m_SpellEffectNodeMap.begin(), this->m_SpellEffectNodeMap.end(), [this](SpellEffectNodeMap::value_type pair){
+        std::for_each(this->m_SpellEffectNodeMap.begin(), this->m_SpellEffectNodeMap.end(), [this](SpellEffectNodeMap::value_type pair){            
             pair.second->release();
         });
         
@@ -56,6 +57,7 @@ struct ActorNodeSet {
         this->m_HUDNode = nullptr;
         this->m_ShadowNode = nullptr;
         this->m_HighlightNode = nullptr;
+        this->m_GuideLineNode = nullptr;
     }
     
     void SetZOrder(int zOrder)
@@ -96,15 +98,16 @@ public:
     virtual void update(float deltaTime) override;
 
 public:
-    void DeletePlayer(ActorID playerID);
+    void DeleteActor(ActorID playerID);
     PlayerNode* FindPlayerNode(ActorID playerID);
     
-    void DeleteMonster(ActorID monsterID);
     MonsterNode* FindMonsterNode(ActorID monsterID);
     
     ActorNode* FindActorNode(ActorID actorID);
     ActorNodeSet* FindActorNodeSet(ActorID actorID);
     ItemNode* FindItemNode(ItemID itemID);
+    
+    void DeleteActorNode(CCObject* actorNodeSet);
     
     void SortNodes();
 

@@ -8,7 +8,7 @@
 
 #include "Headers.pch"
 
-InventoryNode::InventoryNode(): m_IsOpen(false), m_MovingPart(nullptr), m_PinnedPart(nullptr), m_CurrentItemGroup(ItemGroup_None), m_ScrollButton(nullptr), m_SlideButton(nullptr), m_Body(nullptr), m_GoldLabel(nullptr), m_DescriptionLabel(nullptr), m_EquipmentButton(nullptr), m_ConsumeButton(nullptr), m_MaterialButton(nullptr), m_ItemSlotNodeList(), m_TrackingItemSlotNode(nullptr), m_HighlightedItemSlotNode(nullptr), m_IsTrackingItemSlotMoving(false), m_TrackingItemSlotTouchedTime(0)
+InventoryNode::InventoryNode(): m_IsOpen(false), m_MovingPart(nullptr), m_PinnedPart(nullptr), m_CurrentItemGroup(ItemGroup_None), m_ScrollButton(nullptr), m_SlideButton(nullptr), m_Body(nullptr), m_GoldLabel(nullptr), m_DescriptionLabel(nullptr), m_EquipmentButton(nullptr), m_ConsumeButton(nullptr), m_MaterialButton(nullptr), m_TabMenu(nullptr), m_ItemSlotNodeList(), m_TrackingItemSlotNode(nullptr), m_HighlightedItemSlotNode(nullptr), m_IsTrackingItemSlotMoving(false), m_TrackingItemSlotTouchedTime(0)
 {
 
 }
@@ -50,6 +50,11 @@ InventoryNode::~InventoryNode()
         this->m_MaterialButton->release();
         this->m_MaterialButton = nullptr;
     }
+    if(this->m_TabMenu)
+    {
+        this->m_TabMenu->release();
+        this->m_TabMenu = nullptr;
+    }
     if(this->m_DescriptionLabel)
     {
         this->m_DescriptionLabel->release();
@@ -77,7 +82,7 @@ bool InventoryNode::init()
     this->m_SlideButton->retain();
     this->m_SlideButton->setAnchorPoint(CCPointLowerLeft);
     CCMenu* menu = CCMenu::create(this->m_SlideButton, NULL);
-    menu->setPosition(ccp(-10, 50));
+    menu->setPosition(ccp(-30, 50));
     this->m_MovingPart->addChild(menu);
     
     this->m_Body = CCSprite::create("ui/inventory/inventory_background.png");
@@ -111,15 +116,16 @@ bool InventoryNode::init()
     
 
     
-    CCMenu* tabMenu = CCMenu::create(this->m_EquipmentButton, this->m_ConsumeButton, this->m_MaterialButton, NULL);
-    tabMenu->alignItemsHorizontallyWithPadding(0);
-    tabMenu->setPosition(ccp(bodyRect.size.width / 2, bodyRect.size.height));
+    this->m_TabMenu = CCMenu::create(this->m_EquipmentButton, this->m_ConsumeButton, this->m_MaterialButton, NULL);
+    this->m_TabMenu->alignItemsHorizontallyWithPadding(0);
+    this->m_TabMenu->setPosition(ccp(bodyRect.size.width / 2, bodyRect.size.height));
+    this->m_TabMenu->setVisible(false);
     
     // NOTE : default tab is consume tab
     this->m_CurrentItemGroup = ItemGroup_Consume;
     this->m_ConsumeButton->setSelectedIndex(1);
 
-    bodyNode->addChild(tabMenu);
+    bodyNode->addChild(this->m_TabMenu);
     bodyNode->addChild(this->m_Body);
     // for changing order of render
     
@@ -147,8 +153,8 @@ bool InventoryNode::init()
         ItemSlotNode* slotNode = ItemSlotNode::create(ItemType_None, ItemID_None, static_cast<InventorySlot>(i));
         slotNode->setAnchorPoint(CCPointUpperLeft);
         CCPoint slotPosition;
-        slotPosition.x = ItemSlotPositionX + ((ItemSlotMargin + ItemSlotSizeX) * (i % perRow));
-        slotPosition.y = ItemSlotPositionY - ((ItemSlotMargin + ItemSlotSizeY) * (i / perRow));
+        slotPosition.x = ItemSlotPositionX + ((ItemSlotMarginX + ItemSlotSizeX) * (i % perRow));
+        slotPosition.y = ItemSlotPositionY - ((ItemSlotMarginY + ItemSlotSizeY) * (i / perRow));
         
         slotNode->setPosition(slotPosition);
         this->m_ItemSlotNodeList.push_back(slotNode);
@@ -161,9 +167,9 @@ bool InventoryNode::init()
     
     this->m_ScrollButton = CCMenuItemImage::create("ui/inventory/inventory_scroll_button.png", "ui/inventory/inventory_scroll_button.png", this, menu_selector(InventoryNode::OnScrollButtonClicked));
     this->m_ScrollButton->setAnchorPoint(CCPointLowerLeft);
-    CCMenu* scroll_menu = CCMenu::create(this->m_ScrollButton, NULL);
-    scroll_menu->setPosition(ccp(-5, -5));
-    this->m_PinnedPart->addChild(scroll_menu);
+    CCMenu* scrollMenu = CCMenu::create(this->m_ScrollButton, NULL);
+    scrollMenu->setPosition(ccp(0, -5));
+    this->m_PinnedPart->addChild(scrollMenu);
     
     this->addChild(m_MovingPart);
     this->addChild(m_PinnedPart);
@@ -364,6 +370,8 @@ void InventoryNode::Slide()
         moveIn->setTag(ActionType_UI);
         this->m_MovingPart->stopActionByTag(ActionType_UI);
         this->m_MovingPart->runAction(moveIn);
+        this->stopActionByTag(ActionType_UI);
+        this->m_TabMenu->setVisible(false);
     }
     else{
         CCLOG("slide out");
@@ -372,10 +380,21 @@ void InventoryNode::Slide()
         moveOut->setTag(ActionType_UI);
         this->m_MovingPart->stopActionByTag(ActionType_UI);
         this->m_MovingPart->runAction(moveOut);
-        // TO DO : slide out
+        
+        CCDelayTime* delay = CCDelayTime::create(0.2);
+        CCCallFunc* show = CCCallFunc::create(this, callfunc_selector(InventoryNode::ShowTabMenu));
+        CCSequence* sequence = CCSequence::create(delay, show, NULL);
+        sequence->setTag(ActionType_UI);
+        this->stopActionByTag(ActionType_UI);
+        this->runAction(sequence);
     }
     
     this->m_IsOpen = !this->m_IsOpen;
+}
+
+void InventoryNode::ShowTabMenu()
+{
+    this->m_TabMenu->setVisible(true);
 }
 
 void InventoryNode::OnEquipmentButtonClicked(CCObject* sender)

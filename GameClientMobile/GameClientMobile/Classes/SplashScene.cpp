@@ -19,7 +19,7 @@ bool SplashScene::init()
     this->m_BackgroundLayer->retain();
     
     this->addChild(this->m_BackgroundLayer);
- 
+
     scheduleUpdate();
     
     return true;

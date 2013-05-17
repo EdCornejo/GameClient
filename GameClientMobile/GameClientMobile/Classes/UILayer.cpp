@@ -50,7 +50,7 @@ bool UILayer::init()
         default:
             this->InitializeSpellQuickSlot();
             this->InitializeInventory();
-            this->InitializeStash();
+            //this->InitializeStash();
             this->InitializeEquipment();
             this->InitializeMenuBar();
             break;

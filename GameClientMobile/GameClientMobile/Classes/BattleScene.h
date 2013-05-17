@@ -11,8 +11,9 @@
 
 class BattleScene : public BaseScene
 {
-    
 public:
+    BattleScene();
+    virtual ~BattleScene();
     virtual bool init();
     CREATE_FUNC(BattleScene);
     

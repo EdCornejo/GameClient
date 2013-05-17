@@ -10,6 +10,12 @@
 
 using namespace flownet;
 
+BattleScene::BattleScene(){}
+BattleScene::~BattleScene()
+{
+
+}
+
 bool BattleScene::init()
 {
     if(!BaseScene::init())

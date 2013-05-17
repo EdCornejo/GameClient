@@ -254,6 +254,7 @@
 		6B7477B216F0C7AD0014C286 /* LoadingScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B7477B016F0C7AD0014C286 /* LoadingScene.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		6B7477B416F0CBC00014C286 /* loading_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B7477B316F0CBC00014C286 /* loading_background.png */; };
 		6B7477B816F0E6C20014C286 /* RenderingTaskWorkerRoutine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B7477B616F0E6C20014C286 /* RenderingTaskWorkerRoutine.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		6B7CB3361743914D00D40476 /* CharacterCreateScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B7CB3341743914D00D40476 /* CharacterCreateScene.cpp */; };
 		6B9E9A1816EE6C7E007A2BAC /* GameClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B9E9A1716EE6C7E007A2BAC /* GameClient.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		6B9E9A2F16F0492A007A2BAC /* PointConverter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B9E9A2D16F04929007A2BAC /* PointConverter.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		6BAA3A7616E61F4A00BB233E /* BaseScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BAA3A7416E61F4A00BB233E /* BaseScene.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -857,6 +858,8 @@
 		6B7477B316F0CBC00014C286 /* loading_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = loading_background.png; path = Resources/loading_background.png; sourceTree = "<group>"; };
 		6B7477B616F0E6C20014C286 /* RenderingTaskWorkerRoutine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderingTaskWorkerRoutine.cpp; sourceTree = "<group>"; };
 		6B7477B716F0E6C20014C286 /* RenderingTaskWorkerRoutine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderingTaskWorkerRoutine.h; sourceTree = "<group>"; };
+		6B7CB3341743914D00D40476 /* CharacterCreateScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CharacterCreateScene.cpp; path = Classes/CharacterCreateScene.cpp; sourceTree = "<group>"; };
+		6B7CB3351743914D00D40476 /* CharacterCreateScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CharacterCreateScene.h; path = Classes/CharacterCreateScene.h; sourceTree = "<group>"; };
 		6B9E9A1716EE6C7E007A2BAC /* GameClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameClient.cpp; sourceTree = "<group>"; };
 		6B9E9A2D16F04929007A2BAC /* PointConverter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PointConverter.cpp; path = Classes/PointConverter.cpp; sourceTree = "<group>"; };
 		6B9E9A2E16F04929007A2BAC /* PointConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PointConverter.h; path = Classes/PointConverter.h; sourceTree = "<group>"; };
@@ -2053,6 +2056,8 @@
 				6BFA0EB2171542BE00E4F079 /* AccountScene.h */,
 				6B30CE73171C12C400316D9F /* SplashScene.cpp */,
 				6B30CE74171C12C400316D9F /* SplashScene.h */,
+				6B7CB3341743914D00D40476 /* CharacterCreateScene.cpp */,
+				6B7CB3351743914D00D40476 /* CharacterCreateScene.h */,
 			);
 			name = Scenes;
 			sourceTree = "<group>";
@@ -2625,6 +2630,7 @@
 				6BF045FD1738FC7700EE0E53 /* FCPacketParser.cpp in Sources */,
 				6B369641173B93CC007F2985 /* EquipmentNode.cpp in Sources */,
 				6B4A5719174109CB00601A3A /* SpellEffectNode.cpp in Sources */,
+				6B7CB3361743914D00D40476 /* CharacterCreateScene.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

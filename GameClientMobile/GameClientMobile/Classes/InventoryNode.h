@@ -28,6 +28,7 @@ private:
     CCMenuItemToggle* m_EquipmentButton;
     CCMenuItemToggle* m_ConsumeButton;
     CCMenuItemToggle* m_MaterialButton;
+    CCMenu* m_TabMenu;
     ItemSlotNodeList m_ItemSlotNodeList;
     
     ItemSlotNode* m_TrackingItemSlotNode;
@@ -40,8 +41,9 @@ private:
     enum {
         GoldLabelMarginX = 10,
         GoldLabelMarginY = -10,
-        ItemSlotMargin = 2,
-        ItemSlotPositionX = 60,
+        ItemSlotMarginX = 5,
+        ItemSlotMarginY = 2,
+        ItemSlotPositionX = 46,
         ItemSlotPositionY = 82,
         
         TimeToBeganMove = 1000, // 1000 millisec
@@ -77,6 +79,7 @@ public:
 private:
     void OnScrollButtonClicked();
     void Slide();
+    void ShowTabMenu();
     
     void OnEquipmentButtonClicked(CCObject* sender);
     void OnConsumeButtonClicked(CCObject* sender);

@@ -134,7 +134,7 @@ void ActorLayer::update(float deltaTime)
 
 }
 
-void ActorLayer::DeletePlayer(ActorID playerID)
+void ActorLayer::DeleteActor(ActorID playerID)
 {
     ActorNodeSetMap::iterator iter = this->m_ActorNodeSetMap.find(playerID);
     
@@ -146,6 +146,9 @@ void ActorLayer::DeletePlayer(ActorID playerID)
     if(actorNodeSet->m_HUDNode) this->removeChild(actorNodeSet->m_HUDNode, true);
     if(actorNodeSet->m_ShadowNode) this->removeChild(actorNodeSet->m_ShadowNode, true);
     if(actorNodeSet->m_HighlightNode) this->removeChild(actorNodeSet->m_HighlightNode, true);
+    std::for_each(actorNodeSet->m_SpellEffectNodeMap.begin(), actorNodeSet->m_SpellEffectNodeMap.end(), [this](SpellEffectNodeMap::value_type pair){
+        this->removeChild(pair.second, true);
+    });
 
     delete actorNodeSet;
     
@@ -185,6 +188,12 @@ ItemNode* ActorLayer::FindItemNode(ItemID itemID)
     if(iter == this->m_ItemNodeMap.end()) return nullptr;
 
     return iter->second;
+}
+
+void ActorLayer::DeleteActorNode(CCObject* object)
+{
+    ActorNodeSet* actorNodeSet = static_cast<ActorNodeSet*>(object);
+    this->DeleteActor(actorNodeSet->m_ActorID);
 }
 
 void ActorLayer::UpdateActorLookingDirection(flownet::Actor *actor, cocos2d::CCPoint actorPoint, cocos2d::CCPoint lookingPoint)
@@ -297,13 +306,26 @@ void ActorLayer::MoveActor(flownet::ActorID actorID, flownet::POINT currentPosit
         CCLOG("ActorLayer::MoveActor >> ignore actor move request. actor is dead");
         return;
     }
-
-    float distance = destinationPosition.DistanceTo(currentPosition);
-    ASSERT_DEBUG(actor->GetMovingSpeed() != 0);
-    float duration = distance / actor->GetMovingSpeed() ;
     
-    CCLOG("moving speed %f", actor->GetMovingSpeed());
-
+    if(IsPlayerID(actorID)) CCLOG("moving speed is %f", actor->GetMovingSpeed());
+    
+    const float MovementAdjustDistance = 0.7;
+    
+    POINT objectCurrentPoint = PointConverter::Convert(movingObject->getPosition());
+    bool isDestinationSame = actor->GetDestinationPosition() == destinationPosition;
+    
+    actor->SetDestinationPositionForClient(destinationPosition);
+    
+    if(isDestinationSame && objectCurrentPoint.DistanceTo(currentPosition) < MovementAdjustDistance)
+    {
+        return;
+    }
+    
+    float distance = destinationPosition.DistanceTo(currentPosition); // NOTE : using cocos2d object point because of distance is a bit diffence with server's
+    
+    ASSERT_DEBUG(actor->GetMovingSpeed() != 0);
+    float duration = distance / actor->GetMovingSpeed();
+    
     this->UpdateActorLookingDirection(actor, movingObject->getPosition(), PointConverter::Convert(destinationPosition));
     movingObject->StopAnimationActions();
     
@@ -485,7 +507,8 @@ void ActorLayer::ActorAttacked(flownet::ActorID attackedActorID, flownet::ActorI
 void ActorLayer::ActorDead(flownet::ActorID deadActorID, bool afterDelete)
 {
     Actor* actor = GameClient::Instance().GetClientStage()->FindActor(deadActorID);
-    MonsterNode* deadObject = this->FindMonsterNode(deadActorID);
+    ActorNodeSet* actorNodeSet = this->FindActorNodeSet(deadActorID);
+    ActorNode* deadObject = actorNodeSet->m_ActorNode;
     
     if(IsMonsterID(deadActorID))
     {
@@ -498,10 +521,18 @@ void ActorLayer::ActorDead(flownet::ActorID deadActorID, bool afterDelete)
     }
 
     deadObject->StopAnimationActions();
+    CCAction* sequence = nullptr;
     CCFiniteTimeAction* animateDead = CCCallFunc::create(deadObject, callfunc_selector(ActorNode::AnimateDead));
     CCBlink* blink = CCBlink::create(3, 6);
-    //CCFiniteTimeAction* removeSelf = CCCallFuncO::create(this, callfu, dfadf);
-    CCAction* sequence = CCSequence::create(animateDead, NULL);
+    if(afterDelete)
+    {
+        CCFiniteTimeAction* removeSelf = CCCallFuncO::create(this, callfuncO_selector(ActorLayer::DeleteActorNode), actorNodeSet);
+        sequence = CCSequence::create(animateDead, blink, removeSelf, NULL);
+    }
+    else
+    {
+        sequence = CCSequence::create(animateDead, blink, NULL);
+    }
     sequence->setTag(ActionType_Animation);
     deadObject->runAction(sequence);
 
