@@ -8,138 +8,77 @@
 
 #include "Headers.pch"
 
-AccountLayer::AccountLayer(): m_EmailTextField(nullptr), m_PasswordTextField(nullptr), m_NameTextField(nullptr), m_GenderMaleButton(nullptr), m_GenderFemaleButton(nullptr)
-{}
+AccountLayer::AccountLayer(): m_Delegate(nullptr), m_BackgroundImage(nullptr), m_EmailField(nullptr), m_PasswordField(nullptr), m_PasswordConfirmField(nullptr), m_KeyboardAttachedTextField(nullptr) {}
+
 AccountLayer::~AccountLayer()
 {
-    if(this->m_EmailTextField)
+    if(this->m_Delegate)
     {
-        this->m_EmailTextField->release();
-        this->m_EmailTextField = nullptr;
+        this->m_Delegate->release();
+        this->m_Delegate = nullptr;
     }
-    if(this->m_PasswordTextField)
+    if(this->m_BackgroundImage)
     {
-        this->m_PasswordTextField->release();
-        this->m_PasswordTextField = nullptr;
+        this->m_BackgroundImage->release();
+        this->m_BackgroundImage = nullptr;
     }
-    if(this->m_NameTextField)
+    if(this->m_EmailField)
     {
-        this->m_NameTextField->release();
-        this->m_NameTextField = nullptr;
+        this->m_EmailField->release();
+        this->m_EmailField = nullptr;
     }
-    if(this->m_GenderMaleButton)
+    if(this->m_PasswordField)
     {
-        this->m_GenderMaleButton->release();
-        this->m_GenderMaleButton = nullptr;
+        this->m_PasswordField->release();
+        this->m_PasswordField = nullptr;
     }
-    if(this->m_GenderFemaleButton)
+    if(this->m_PasswordConfirmField)
     {
-        this->m_GenderFemaleButton->release();
-        this->m_GenderFemaleButton = nullptr;
+        this->m_PasswordConfirmField->release();
+        this->m_PasswordConfirmField = nullptr;
     }
 }
 
 bool AccountLayer::init()
 {
-    if(!BaseLayer::init()) return false;
+    if(!CCLayerColor::initWithColor(ccc4(43, 39, 36, 255))) return false;
+    
+    this->m_Delegate = AccountSceneTextFieldDelegate::create();
+    this->m_Delegate->retain();
     
     if(this->IsFirstBoot())
     {
-        this->m_EmailTextField = CCTextFieldTTF::textFieldWithPlaceHolder("Email", "Thonburi", 20);
-        this->m_EmailTextField->setPosition(ccp(240, 240));
-        this->m_EmailTextField->setDelegate(this);
-        this->m_EmailTextField->retain();
-        
-        this->m_PasswordTextField = CCTextFieldTTF::textFieldWithPlaceHolder("Password", "Thonburi", 20);
-        this->m_PasswordTextField->setPosition(ccp(240, 200));
-        this->m_PasswordTextField->setDelegate(this);
-        this->m_PasswordTextField->retain();
-        
-        this->m_NameTextField = CCTextFieldTTF::textFieldWithPlaceHolder("Character Name", "Thonburi", 20);
-        this->m_NameTextField->setPosition(ccp(240, 160));
-        this->m_NameTextField->setDelegate(this);
-        this->m_NameTextField->retain();
-        
-        this->addChild(this->m_EmailTextField);
-        this->addChild(this->m_PasswordTextField);
-        this->addChild(this->m_NameTextField);
-        
-        this->m_GenderMaleButton = CCMenuItemToggle::createWithTarget(this,
-                menu_selector(AccountLayer::OnGenderMaleButtonPressed),
-                CCMenuItemImage::create("ui/gender_male_button_normal.png", "ui/gender_male_button_normal.png"),
-                CCMenuItemImage::create("ui/gender_male_button_selected.png", "ui/gender_male_button_selected.png"),
-                NULL);
-        this->m_GenderMaleButton->retain();
-        this->m_GenderFemaleButton = CCMenuItemToggle::createWithTarget(this,
-                menu_selector(AccountLayer::OnGenderFemaleButtonPressed),
-                CCMenuItemImage::create("ui/gender_female_button_normal.png", "ui/gender_female_button_normal.png"),
-                CCMenuItemImage::create("ui/gender_female_button_selected.png", "ui/gender_female_button_selected.png"),
-                NULL);
-        this->m_GenderFemaleButton->retain();
-        
-        CCMenu* genderMenu = CCMenu::create(this->m_GenderMaleButton, this->m_GenderFemaleButton, NULL);
-        genderMenu->alignItemsHorizontally();
-        genderMenu->setPosition(ccp(240, 100));
-            
-        this->addChild(genderMenu);
-        
-        CCMenuItemImage* registerButton = CCMenuItemImage::create("ui/register_button_normal.png", "ui/register_button_selected.png", this, menu_selector(AccountLayer::OnRegisterButtonPressed));
-        CCMenu* registerMenu = CCMenu::create(registerButton, NULL);
-        registerMenu->setPosition(ccp(240, 40));
-
-        this->addChild(registerMenu);
+        this->InitializeWithCreateAccount();
     }
     else
     {
-        if(!IsLoggedIn())
-        {
-            this->m_EmailTextField = CCTextFieldTTF::textFieldWithPlaceHolder("Email", "Thonburi", 20);
-            this->m_EmailTextField->setPosition(ccp(240, 200));
-            this->m_EmailTextField->setDelegate(this);
-            this->m_EmailTextField->retain();
-            
-            this->m_PasswordTextField = CCTextFieldTTF::textFieldWithPlaceHolder("Password", "Thonburi", 20);
-            this->m_PasswordTextField->setPosition(ccp(240,160));
-            this->m_PasswordTextField->setDelegate(this);
-            this->m_PasswordTextField->retain();
-            
-            this->addChild(this->m_EmailTextField);
-            this->addChild(this->m_PasswordTextField);
-            
-                       
-            CCMenuItemImage* loginButton = CCMenuItemImage::create("ui/login_button_normal.png", "ui/login_button_selected.png", this, menu_selector(AccountLayer::OnLoginButtonPressed));
-            CCMenu* loginButtonMenu = CCMenu::create(loginButton, NULL);
-            loginButtonMenu->setPosition(ccp(240, 40));
-
-            this->addChild(loginButtonMenu);
-            // TO DO : popup login window
-        }
+        this->InitializeWithLoginWindow();
     }
-
-    this->setTouchEnabled(true);
+    
+    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, 0, true);
+    
+    scheduleUpdate();
     
     return true;
-}
 
-void AccountLayer::registerWithTouchDispatcher()
-{
-    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, 0, true);
 }
 
 bool AccountLayer::ccTouchBegan(CCTouch* touch, CCEvent* event)
 {
     CC_UNUSED_PARAM(event);
-    if(this->m_pChildren && this->m_pChildren->count() > 0)
+    if(this->m_BackgroundImage->getChildren() && this->m_BackgroundImage->getChildren()->count() > 0)
     {
         CCObject* object;
-        CCARRAY_FOREACH(this->m_pChildren, object)
+        CCARRAY_FOREACH(this->m_BackgroundImage->getChildren(), object)
         {
             CCTextFieldTTF* textfield = dynamic_cast<CCTextFieldTTF*>(object);
             if(textfield){
                 CCRect rect = GetRect(textfield);
+                rect.origin = this->m_BackgroundImage->convertToWorldSpace(rect.origin);
                 if(rect.containsPoint(touch->getLocation()))
                 {
                     textfield->attachWithIME();
+                    this->m_KeyboardAttachedTextField = textfield;
                     return true;
                 }
             }
@@ -149,9 +88,26 @@ bool AccountLayer::ccTouchBegan(CCTouch* touch, CCEvent* event)
     return false;
 }
 
-bool AccountLayer::IsLoggedIn()
+void AccountLayer::OnBackButtonTouch(cocos2d::CCObject *sender)
 {
-    return GameClient::Instance().GetSessionID() != SessionID_NONE;
+    this->InitializeWithLoginWindow();
+}
+
+void AccountLayer::OnCreateButtonTouch(cocos2d::CCObject *sender)
+{
+    CCLOG("create button touched");
+}
+
+void AccountLayer::OnNewButtonTouch(cocos2d::CCObject *sender)
+{
+    this->InitializeWithCreateAccount();
+}
+
+void AccountLayer::OnLoginButtonTouch(cocos2d::CCObject *sender)
+{
+    CCLOG("login button touch");
+    // TO DO : check form
+    GameClient::Instance().GetCFConnection().SendCFRequestLogInUserAccount(GameClient::Instance().GetDeviceID(), this->m_EmailField->getString() , this->m_PasswordField->getString());
 }
 
 bool AccountLayer::IsFirstBoot()
@@ -165,91 +121,126 @@ bool AccountLayer::IsFirstBoot()
     return isFirstBoot;
 }
 
-void AccountLayer::SendRejoinRequest()
+void AccountLayer::InitializeWithLoginWindow()
 {
-    GameClient::Instance().GetClientObject().SendCSRequestRejoinCurrentStage();
+    this->Reset();
+
+    CCSize winSize = CCDirector::sharedDirector()->getWinSize();
+    
+    this->m_BackgroundImage = CCSprite::create("ui/account_scene/login_background.png");
+    this->m_BackgroundImage->retain();
+    this->m_BackgroundImage->setPosition(ccp(winSize.width / 2, winSize.height / 2));
+    this->addChild(this->m_BackgroundImage);
+    
+    this->m_EmailField = CCTextFieldTTF::textFieldWithPlaceHolder("ID", "thonburi", 20);
+    this->m_EmailField->retain();
+    this->m_EmailField->setPosition(ccp(174, 114));
+    this->m_EmailField->setDelegate(this->m_Delegate);
+    this->m_BackgroundImage->addChild(this->m_EmailField);
+    
+    this->m_PasswordField = CCTextFieldTTF::textFieldWithPlaceHolder("Password", "thonburi", 20);
+    this->m_PasswordField->retain();
+    this->m_PasswordField->setPosition(ccp(174, 76));
+    this->m_PasswordField->setDelegate(this->m_Delegate);
+    this->m_BackgroundImage->addChild(this->m_PasswordField);
+    
+    CCMenuItemImage* newButton = CCMenuItemImage::create("ui/account_scene/new_button_normal.png", "ui/account_scene/new_button_active.png", this, menu_selector(AccountLayer::OnNewButtonTouch));
+    CCMenuItemImage* loginButton = CCMenuItemImage::create("ui/account_scene/login_button_normal.png", "ui/account_scene/login_button_active.png", this, menu_selector(AccountLayer::OnLoginButtonTouch));
+    
+    CCMenu* menu = CCMenu::create(newButton, loginButton, NULL);
+    menu->setPosition(ccp(174, 34));
+    menu->alignItemsHorizontallyWithPadding(20);
+    this->m_BackgroundImage->addChild(menu);
 }
 
-CCTextFieldTTF* AccountLayer::GetEmailTextField()
+void AccountLayer::InitializeWithCreateAccount()
 {
-    return this->m_EmailTextField;
+    this->Reset();
+    
+    CCSize winSize = CCDirector::sharedDirector()->getWinSize();
+    
+    this->m_BackgroundImage = CCSprite::create("ui/account_scene/new_background.png");
+    this->m_BackgroundImage->retain();
+    this->m_BackgroundImage->setPosition(ccp(winSize.width / 2, winSize.height / 2));
+    this->addChild(this->m_BackgroundImage);
+    
+    this->m_EmailField = CCTextFieldTTF::textFieldWithPlaceHolder("ID", "thonburi", 20);
+    this->m_EmailField->retain();
+    this->m_EmailField->setPosition(ccp(260, 170));
+    this->m_EmailField->setDelegate(this->m_Delegate);
+    this->m_BackgroundImage->addChild(this->m_EmailField);
+    
+    this->m_PasswordField = CCTextFieldTTF::textFieldWithPlaceHolder("Password", "thonburi", 20);
+    this->m_PasswordField->retain();
+    this->m_PasswordField->setPosition(ccp(260, 130));
+    this->m_PasswordField->setDelegate(this->m_Delegate);
+    this->m_BackgroundImage->addChild(this->m_PasswordField);
+    
+    this->m_PasswordConfirmField = CCTextFieldTTF::textFieldWithPlaceHolder("Confirm", "thonburi", 20);
+    this->m_PasswordConfirmField->retain();
+    this->m_PasswordConfirmField->setPosition(ccp(260, 106));
+    this->m_PasswordConfirmField->setDelegate(this->m_Delegate);
+    this->m_BackgroundImage->addChild(this->m_PasswordConfirmField);
+    
+    CCMenuItemImage* backButton = CCMenuItemImage::create("ui/account_scene/back_button_normal.png", "ui/account_scene/back_button_active.png", this, menu_selector(AccountLayer::OnBackButtonTouch));
+    CCMenuItemImage* createButton = CCMenuItemImage::create("ui/account_scene/create_button_normal.png", "ui/account_scene/create_button_normal.png", this, menu_selector(AccountLayer::OnCreateButtonTouch));
+    
+    CCMenu* menu = CCMenu::create(backButton, createButton, NULL);
+    menu->setPosition(ccp(260, 40));
+    menu->alignItemsHorizontallyWithPadding(20);
+    this->m_BackgroundImage->addChild(menu);
+
 }
 
-CCTextFieldTTF* AccountLayer::GetPasswordTextField()
+void AccountLayer::Reset()
 {
-    return this->m_PasswordTextField;
-}
-
-void AccountLayer::OnGenderMaleButtonPressed(cocos2d::CCObject *sender)
-{
-    CCMenuItemToggle* button = dynamic_cast<CCMenuItemToggle*>(sender);
-    if(button)
+    if(this->m_BackgroundImage)
     {
-        button->setSelectedIndex(true);
-        this->m_GenderFemaleButton->setSelectedIndex(false);
+        this->removeChild(this->m_BackgroundImage);
+        this->m_BackgroundImage->release();
+        this->m_BackgroundImage = nullptr;
+    }
+    if(this->m_EmailField)
+    {
+        this->m_EmailField->release();
+        this->m_EmailField = nullptr;
+    }
+    if(this->m_PasswordField)
+    {
+        this->m_PasswordField->release();
+        this->m_PasswordField = nullptr;
+    }
+    if(this->m_PasswordConfirmField)
+    {
+        this->m_PasswordConfirmField->release();
+        this->m_PasswordConfirmField = nullptr;
     }
 }
 
-void AccountLayer::OnGenderFemaleButtonPressed(cocos2d::CCObject *sender)
+bool AccountSceneTextFieldDelegate::init()
 {
-    CCMenuItemToggle* button = dynamic_cast<CCMenuItemToggle*>(sender);
-    if(button)
-    {
-        button->setSelectedIndex(true);
-        this->m_GenderMaleButton->setSelectedIndex(false);
-    }
+    return true;
 }
 
-void AccountLayer::OnLoginButtonPressed(cocos2d::CCObject *sender)
-{
-    // TO DO : check form
-    GameClient::Instance().GetCFConnection().SendCFRequestLogInUserAccount(GameClient::Instance().GetDeviceID(), this->m_EmailTextField->getString() , this->m_PasswordTextField->getString());
-}
 
-void AccountLayer::OnRegisterButtonPressed(cocos2d::CCObject* sender)
-{
-    // TO DO : check form
-    Gender selectedGender = Gender_Max;
-    if(this->m_GenderMaleButton->getSelectedIndex() == 1)
-    {
-        selectedGender = Gender_Male;
-    }
-    if(this->m_GenderFemaleButton->getSelectedIndex() == 1)
-    {
-        selectedGender = Gender_Female;
-    }
+AccountScene::AccountScene(){}
 
-    GameClient::Instance().GetCFConnection().SendCFRequestCreateUserAccount(GameClient::Instance().GetDeviceID(), this->m_EmailTextField->getString(), this->m_PasswordTextField->getString());
-}
-
-AccountScene::AccountScene(): m_AccountLayer(nullptr)
-{}
-AccountScene::~AccountScene() {}
+AccountScene::~AccountScene(){}
 
 bool AccountScene::init()
 {
     if(!BaseScene::init()) return false;
     
-    this->m_BackgroundLayer = BackgroundLayer::create("background/default.png");
-    this->m_BackgroundLayer->retain();
-    this->addChild(this->m_BackgroundLayer);
+    AccountLayer* layer = AccountLayer::create();
     
-    this->m_AccountLayer = AccountLayer::create();
-    this->addChild(this->m_AccountLayer);
+    this->addChild(layer);
     
     scheduleUpdate();
     
     return true;
 }
 
-
 void AccountScene::update(float deltaTime)
 {
     BaseScene::update(deltaTime);
 }
-
-AccountLayer* AccountScene::GetAccountLayer()
-{
-    return this->m_AccountLayer;
-}
-

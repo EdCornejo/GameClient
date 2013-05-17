@@ -46,6 +46,36 @@ bool PlayerNode::init()
     return true;
 }
 
+bool PlayerNode::initWithGender(flownet::Gender gender)
+{
+    if(!ActorNode::init()) return false;
+    
+    this->m_Skeleton = CCSkeleton::create("common/character.json", "player/character.atlas");
+    
+    this->m_Skeleton->setMix("idle", "moving", 0.2);
+    this->m_Skeleton->setMix("moving", "idle", 0.2);
+    
+    this->m_Skeleton->setAnchorPoint(CharacterAnchorPoint);
+    
+    if(gender == Gender_Male)
+    {
+        this->m_Skeleton->setSkin("boy");
+    }
+    else
+    {
+        this->m_Skeleton->setSkin("girl");
+    }
+    
+    this->m_Skeleton->setSlotsToBindPose();
+    this->m_Skeleton->setAnimation("idle", true);
+    
+    this->setScale(0.1);
+    
+    this->addChild(this->m_Skeleton);
+    
+    return true;
+}
+
 PlayerNode* PlayerNode::create(flownet::ActorID actorID)
 {
     PlayerNode* newNode = new PlayerNode();
@@ -53,6 +83,22 @@ PlayerNode* PlayerNode::create(flownet::ActorID actorID)
     newNode->m_ActorID = actorID;
 
     if(newNode && newNode->init())
+    {
+        newNode->autorelease();
+        return newNode;
+    }
+    else
+    {
+        delete newNode;
+        return nullptr;
+    }
+}
+
+PlayerNode* PlayerNode::create(flownet::Gender gender)
+{
+    PlayerNode* newNode = new PlayerNode();
+    
+    if(newNode && newNode->initWithGender(gender))
     {
         newNode->autorelease();
         return newNode;
@@ -99,13 +145,13 @@ void PlayerNode::ChangeRobe(flownet::ItemType itemType)
             break;
     }
     
-    this->m_Skeleton->setAttachment("right_upper_arm", "wizard_right_upper_arm");
-    this->m_Skeleton->setAttachment("right_lower_arm-copy", "wizard_right_lower_arm");
-    this->m_Skeleton->setAttachment("robe_up", "wizard_robe_up");
-    this->m_Skeleton->setAttachment("robe_down", "wizard_robe_down");
-    this->m_Skeleton->setAttachment("robe_neck", "wizard_robe_neck");
-    this->m_Skeleton->setAttachment("left_lower_arm", "wizard_left_lower_arm");
-    this->m_Skeleton->setAttachment("left_upper_arm", "wizard_left_upper_arm");
+    this->m_Skeleton->setAttachment("right_upper_arm", "wizard");
+    this->m_Skeleton->setAttachment("right_lower_arm-copy", "wizard");
+    this->m_Skeleton->setAttachment("robe_up", "wizard");
+    this->m_Skeleton->setAttachment("robe_down", "wizard");
+    this->m_Skeleton->setAttachment("robe_neck", "wizard");
+    this->m_Skeleton->setAttachment("left_lower_arm", "wizard");
+    this->m_Skeleton->setAttachment("left_upper_arm", "wizard");
 }
 
 void PlayerNode::ChangeCloak(flownet::ItemType itemType)
@@ -139,4 +185,19 @@ void PlayerNode::ChangeRing(flownet::ItemType itemType)
             break;
     }
     this->m_Skeleton->setAttachment("ring", itemImageName.c_str());
+}
+
+void PlayerNode::ChangeGender(flownet::Gender gender)
+{
+    if(gender == Gender_Male)
+    {
+        this->m_Skeleton->setSkin("boy");
+    }
+    else
+    {
+        this->m_Skeleton->setSkin("girl");
+    }
+    
+    this->m_Skeleton->setSlotsToBindPose();
+    this->m_Skeleton->setAnimation("idle", true);
 }

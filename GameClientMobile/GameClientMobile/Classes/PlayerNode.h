@@ -16,8 +16,10 @@ public:
     virtual ~PlayerNode();
     
     virtual bool init();
+    virtual bool initWithGender(flownet::Gender gender);
 
     static PlayerNode* create(flownet::ActorID);
+    static PlayerNode* create(flownet::Gender gender);
 
     virtual void ChangeWand(flownet::ItemType itemType);
     virtual void ChangeHat(flownet::ItemType itemType);
@@ -25,6 +27,8 @@ public:
     virtual void ChangeCloak(flownet::ItemType itemType);
     virtual void ChangeShoes(flownet::ItemType itemType);
     virtual void ChangeRing(flownet::ItemType itemType);
+    
+    void ChangeGender(flownet::Gender gender);
 };
 
 #endif /* defined(__GameClientMobile__PlayerNode__) */

@@ -42,7 +42,9 @@ SpellEffectNode* SpellEffectNode::create(flownet::ActorID actorID, flownet::Spel
 void SpellEffectNode::update(float deltaTime)
 {
     BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
+    ASSERT_DEBUG(scene);
     ActorLayer* actorLayer = scene->GetActorLayer();
+    ASSERT_DEBUG(actorLayer);
 
     if(!actorLayer) ASSERT_DEBUG(false);
     

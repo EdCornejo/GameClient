@@ -63,6 +63,7 @@
 #include "StageScene.h"
 #include "StageCreateScene.h"
 #include "LoadingScene.h"
+#include "CharacterCreateScene.h"
 
 
 #endif

@@ -38,14 +38,14 @@ EquipmentNode::~EquipmentNode()
 
 bool EquipmentNode::init()
 {
-    this->m_SlideButton = CCMenuItemImage::create("ui/inventory/equipment_tag_button.png", "ui/inventory/equipment_tag_button.png", this, menu_selector(EquipmentNode::Slide));
+    this->m_SlideButton = CCMenuItemImage::create("ui/inventory/equipment_slide_button.png", "ui/inventory/equipment_slide_button.png", this, menu_selector(EquipmentNode::Slide));
     this->m_SlideButton->retain();
     this->m_Body = CCSprite::create("ui/inventory/equipment_background.png");
     this->m_Body->retain();
 
-    this->m_SlideButton->setAnchorPoint(CCPointUpperLeft);
+    this->m_SlideButton->setAnchorPoint(CCPointMidLeft);
     CCMenu* menu = CCMenu::create(this->m_SlideButton, NULL);
-    menu->setPosition(ccp(-5, -this->m_Body->getContentSize().height / 2)); // set position of slide button here
+    menu->setPosition(ccp(-1, -this->m_Body->getContentSize().height / 2)); // set position of slide button here
 
     this->addChild(menu);
     
@@ -70,10 +70,10 @@ bool EquipmentNode::init()
     {
         ItemSlotNode* slotNode = ItemSlotNode::create(ItemType_None, ItemID_None, static_cast<EquipmentSlot>(i));
        
-        slotNode->setAnchorPoint(CCPointUpperLeft);
+        slotNode->setAnchorPoint(CCAnchorPointMid);
         CCPoint slotPosition;
-        slotPosition.x = ItemSlotPositionX + ((ItemSlotMargin + this->m_Body->getContentSize().width * 2/ 3) * (i % perRow));
-        slotPosition.y = ItemSlotPositionY - ((ItemSlotMargin + ItemSlotSizeY) * (i / perRow));
+        slotPosition.x = ItemSlotPositionX + (148 * (i % perRow));
+        slotPosition.y = ItemSlotPositionY + ((ItemSlotMargin + ItemSlotSizeY) * (i / perRow));
         
         slotNode->setPosition(slotPosition);
         if(i % perRow == 0)
@@ -127,7 +127,7 @@ bool EquipmentNode::ccTouchBegan(CCTouch* touch, CCEvent* event)
     }
     
     CCRect bodyRect = GetRect(this->m_Body);
-    bodyRect.origin = this->convertToWorldSpace(bodyRect.origin);
+    bodyRect.origin = this->convertToNodeSpace(bodyRect.origin);
     if(bodyRect.containsPoint(touch->getLocation()))
     {
         return true;
@@ -204,7 +204,7 @@ void EquipmentNode::Update()
     {
         this->m_ActorNode = PlayerNode::create(GameClient::Instance().GetMyActorID());
         this->m_ActorNode->setAnchorPoint(CharacterAnchorPoint);
-        this->m_ActorNode->setPosition(this->m_Body->getContentSize().width / 2, 0);
+        this->m_ActorNode->setPosition(this->m_Body->getContentSize().width / 2, 30);
         this->m_ActorNode->retain();
         this->m_Body->addChild(this->m_ActorNode);
     }

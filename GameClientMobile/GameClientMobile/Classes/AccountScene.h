@@ -9,14 +9,22 @@
 #ifndef __GameClientMobile__AccountScene__
 #define __GameClientMobile__AccountScene__
 
-class AccountLayer : public BaseLayer, public CCTextFieldDelegate
+class AccountSceneTextFieldDelegate : public CCObject, public CCTextFieldDelegate
+{
+public:
+    virtual bool init();
+    CREATE_FUNC(AccountSceneTextFieldDelegate);
+};
+
+class AccountLayer : public CCLayerColor
 {
 private:
-    CCTextFieldTTF* m_EmailTextField;
-    CCTextFieldTTF* m_PasswordTextField;
-    CCTextFieldTTF* m_NameTextField;
-    CCMenuItemToggle* m_GenderMaleButton;
-    CCMenuItemToggle* m_GenderFemaleButton;
+    AccountSceneTextFieldDelegate* m_Delegate;
+    CCSprite* m_BackgroundImage;
+    CCTextFieldTTF* m_EmailField;
+    CCTextFieldTTF* m_PasswordField;
+    CCTextFieldTTF* m_PasswordConfirmField;
+    CCTextFieldTTF* m_KeyboardAttachedTextField;
     
 public:
     AccountLayer();
@@ -24,32 +32,26 @@ public:
     
     virtual bool init();
     CREATE_FUNC(AccountLayer);
-
-    virtual void registerWithTouchDispatcher();
-
+    
     virtual bool ccTouchBegan(CCTouch* touch, CCEvent* event);
     
 private:
-    void OnGenderMaleButtonPressed(CCObject* sender);
-    void OnGenderFemaleButtonPressed(CCObject* sender);
-    void OnLoginButtonPressed(CCObject* sender);
-    void OnRegisterButtonPressed(CCObject* sender);
+    void OnBackButtonTouch(CCObject* sender);
+    void OnCreateButtonTouch(CCObject* sender);
+    void OnNewButtonTouch(CCObject* sender);
+    void OnLoginButtonTouch(CCObject* sender);
     
-private:
-    bool IsLoggedIn();
     bool IsFirstBoot();
-    void SendRejoinRequest();
     
-public:
-    CCTextFieldTTF* GetEmailTextField();
-    CCTextFieldTTF* GetPasswordTextField();
+    void InitializeWithCreateAccount();
+    void InitializeWithLoginWindow();
+    
+    void Reset();
 };
+
 
 class AccountScene : public BaseScene
 {
-private:
-    AccountLayer* m_AccountLayer;
-    
 public:
     AccountScene();
     virtual ~AccountScene();
@@ -58,8 +60,6 @@ public:
     CREATE_FUNC(AccountScene);
     
     virtual void update(float deltaTime) override;
-    
-    AccountLayer* GetAccountLayer();
 };
 
 #endif /* defined(__GameClientMobile__AccountScene__) */

@@ -65,7 +65,7 @@ void StageScene::OnCreateButtonClick(cocos2d::CCObject *sender)
 {
     GameClientObject& clientObject = GameClient::Instance().GetClientObject();
     
-    clientObject.SendCSRequestCreateStage(StageType_MushroomField);
+    clientObject.SendCSRequestCreateStage(StageType_WolfForest);
 }
 
 void StageScene::OnJoinButtonClick(cocos2d::CCObject *sender)
