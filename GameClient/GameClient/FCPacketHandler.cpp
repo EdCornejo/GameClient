@@ -114,8 +114,6 @@ void FCPacketHandler::OnFCResponseLogInUserAccount(flownet::UserID userID, flown
 
     m_GameClientRPCReceiver->OnFCResponseLogInUserAccount(userID, gameServerID, gameServerIP, otp);
 }
-
-
     
     
 } // namespace flownet

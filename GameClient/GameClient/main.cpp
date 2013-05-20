@@ -64,11 +64,10 @@ namespace flownet
 
 int main(int argc, const char * argv[])
 {
-    
-    TesterRPCReceiver testerRPCReceiver;
-    
     LogTerminal::Initialize();
     LogSystem::Initialize("GameClientSystemLog");
+
+    TesterRPCReceiver testerRPCReceiver;
     
     GameClientTester::Instance().InitializeClient(&testerRPCReceiver);
     GameClientTester::Instance().StartClient();

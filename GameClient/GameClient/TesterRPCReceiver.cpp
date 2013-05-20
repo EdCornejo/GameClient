@@ -132,15 +132,15 @@ void TesterRPCReceiver::OnSCNotifyRemoveItemFromStash(flownet::StageID stageID, 
 {
 }
 
-void TesterRPCReceiver::OnSCResponseRegisterStashItemToInventory(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID, flownet::InventorySlot inventorySlot) const 
+void TesterRPCReceiver::OnSCResponseRegisterStashItemToInventory(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID, ItemGroup itemGroup, flownet::InventorySlot inventorySlot) const
 {
 }
 
-void TesterRPCReceiver::OnSCResponseUnRegisterStashItemFromInventory(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID, flownet::InventorySlot inventorySlot) const 
+void TesterRPCReceiver::OnSCResponseUnRegisterStashItemFromInventory(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID, ItemGroup itemGroup, flownet::InventorySlot inventorySlot) const
 {
 }
 
-void TesterRPCReceiver::OnSCResponseSwapInventorySlot(flownet::StageID stageID, flownet::ActorID playerID, flownet::InventorySlot sourceSlot, flownet::InventorySlot destinationSlot) const 
+void TesterRPCReceiver::OnSCResponseSwapInventorySlot(flownet::StageID stageID, flownet::ActorID playerID, ItemGroup itemGroup, flownet::InventorySlot sourceSlot, flownet::InventorySlot destinationSlot) const
 {
 }
 
@@ -148,9 +148,22 @@ void TesterRPCReceiver::OnSCNotifyUseItem(flownet::StageID stageID, flownet::Act
 {
 }
 
-void TesterRPCReceiver::OnSCNotifyUnEquip(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID) const 
+void TesterRPCReceiver::OnSCNotifyUnEquipItem(flownet::StageID stageID, flownet::ActorID playerID, flownet::EquipmentSlot equipmentSlot) const
 {
 }
+
+void TesterRPCReceiver::OnSCNotifyEquipItem(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID, flownet::EquipmentSlot equipedSlot) const
+{
+}
+
+void TesterRPCReceiver::OnSCNotifySendMessageToStagePlayers(flownet::StageID stageID, flownet::ActorID playerID, flownet::STRING message) const
+{
+}
+
+void TesterRPCReceiver::OnSCNotifyResetActorAttributeAmplifier(flownet::StageID stageID, flownet::ActorID actorID) const
+{
+}
+
 
 ////////////////////////////////////////
 
@@ -170,6 +183,5 @@ void TesterRPCReceiver::OnFCResponseLogInUserAccount(flownet::UserID userID, flo
 {
     // Implemented on FCPacketHandler
 }
-
 
 } // namespace flownet

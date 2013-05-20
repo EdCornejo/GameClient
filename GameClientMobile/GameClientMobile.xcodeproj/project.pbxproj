@@ -30,7 +30,6 @@
 		6B17A72D1716A83E00231353 /* Slot.c in Sources */ = {isa = PBXBuildFile; fileRef = 6B17A7121716A83E00231353 /* Slot.c */; };
 		6B17A72E1716A83E00231353 /* SlotData.c in Sources */ = {isa = PBXBuildFile; fileRef = 6B17A7131716A83E00231353 /* SlotData.c */; };
 		6B17A72F1716A83E00231353 /* spine-cocos2dx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B17A7171716A83E00231353 /* spine-cocos2dx.cpp */; };
-		6B1BA0E61739446B000338AC /* boost.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B1BA0E51739446B000338AC /* boost.framework */; };
 		6B2A9EF716F83FF600DEB7C3 /* ClientPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B2A9EF516F83FF600DEB7C3 /* ClientPlayer.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		6B2A9EFA16F8482000DEB7C3 /* ClientMonster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B2A9EF816F8482000DEB7C3 /* ClientMonster.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		6B2A9EFC16F854D700DEB7C3 /* ClientStage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B2A9EFB16F854D700DEB7C3 /* ClientStage.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -266,8 +265,6 @@
 		6BAA3A9C16E705C900BB233E /* HeartbeatLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BAA3A9A16E705C500BB233E /* HeartbeatLayer.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		6BB6C02E1702DB4E003CD4B4 /* DelayChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BB6C02C1702DB4E003CD4B4 /* DelayChecker.cpp */; };
 		6BBE641917391F6300BE88FE /* libCocosDenshion.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B532BF11712E0F4009127B2 /* libCocosDenshion.a */; };
-		6BBE641C17391F6300BE88FE /* libflownetMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBE641A17391F6300BE88FE /* libflownetMobile.a */; };
-		6BBE641D17391F6300BE88FE /* libGameSharedMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBE641B17391F6300BE88FE /* libGameSharedMobile.a */; };
 		6BC6C3D917226C6600B439F9 /* MenuBarNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BC6C3D717226C6600B439F9 /* MenuBarNode.cpp */; };
 		6BC6C3DF172284B100B439F9 /* InventoryNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BC6C3DD172284B100B439F9 /* InventoryNode.cpp */; };
 		6BC6C3E217229E7E00B439F9 /* ItemSlotNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BC6C3E017229E7D00B439F9 /* ItemSlotNode.cpp */; };
@@ -279,6 +276,9 @@
 		6BF045FD1738FC7700EE0E53 /* FCPacketParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BF045F91738FC7700EE0E53 /* FCPacketParser.cpp */; };
 		6BFA0EB3171542BE00E4F079 /* AccountScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BFA0EB1171542BE00E4F079 /* AccountScene.cpp */; };
 		6BFA0EBA1715DCCF00E4F079 /* SpellImageLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BFA0EB81715DCCF00E4F079 /* SpellImageLoader.cpp */; };
+		945D872317422BE200C03494 /* libflownetMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 945D872117422BE200C03494 /* libflownetMobile.a */; };
+		945D872417422BE200C03494 /* libGameSharedMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 945D872217422BE200C03494 /* libGameSharedMobile.a */; };
+		945D872617422BF300C03494 /* boost.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 945D872517422BF300C03494 /* boost.framework */; };
 		94F29CB316DDD6FB005DFDE4 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94F29CB216DDD6FB005DFDE4 /* QuartzCore.framework */; };
 		94F29CB516DDD6FB005DFDE4 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94F29CB416DDD6FB005DFDE4 /* OpenGLES.framework */; };
 		94F29CB716DDD6FB005DFDE4 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94F29CB616DDD6FB005DFDE4 /* OpenAL.framework */; };
@@ -362,7 +362,6 @@
 		6B17A7131716A83E00231353 /* SlotData.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = SlotData.c; sourceTree = "<group>"; };
 		6B17A7171716A83E00231353 /* spine-cocos2dx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "spine-cocos2dx.cpp"; sourceTree = "<group>"; };
 		6B17A7181716A83E00231353 /* spine-cocos2dx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "spine-cocos2dx.h"; sourceTree = "<group>"; };
-		6B1BA0E51739446B000338AC /* boost.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = boost.framework; path = ../../flownet/Boost/osx/framework/boost.framework; sourceTree = "<group>"; };
 		6B2A9EF516F83FF600DEB7C3 /* ClientPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ClientPlayer.cpp; sourceTree = "<group>"; };
 		6B2A9EF616F83FF600DEB7C3 /* ClientPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientPlayer.h; sourceTree = "<group>"; };
 		6B2A9EF816F8482000DEB7C3 /* ClientMonster.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ClientMonster.cpp; sourceTree = "<group>"; };
@@ -880,8 +879,6 @@
 		6BAA3A9B16E705C700BB233E /* HeartbeatLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HeartbeatLayer.h; path = Classes/HeartbeatLayer.h; sourceTree = "<group>"; };
 		6BB6C02C1702DB4E003CD4B4 /* DelayChecker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DelayChecker.cpp; sourceTree = "<group>"; };
 		6BB6C02D1702DB4E003CD4B4 /* DelayChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DelayChecker.h; sourceTree = "<group>"; };
-		6BBE641A17391F6300BE88FE /* libflownetMobile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libflownetMobile.a; path = "../../flownet/flownet/build/Release-iphoneos/libflownetMobile.a"; sourceTree = "<group>"; };
-		6BBE641B17391F6300BE88FE /* libGameSharedMobile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGameSharedMobile.a; path = "../../GameShared/GameShared/build/Release-iphoneos/libGameSharedMobile.a"; sourceTree = "<group>"; };
 		6BC6C3D717226C6600B439F9 /* MenuBarNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MenuBarNode.cpp; path = Classes/MenuBarNode.cpp; sourceTree = "<group>"; };
 		6BC6C3D817226C6600B439F9 /* MenuBarNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MenuBarNode.h; path = Classes/MenuBarNode.h; sourceTree = "<group>"; };
 		6BC6C3DD172284B100B439F9 /* InventoryNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = InventoryNode.cpp; path = Classes/InventoryNode.cpp; sourceTree = "<group>"; };
@@ -904,6 +901,9 @@
 		6BFA0EB2171542BE00E4F079 /* AccountScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AccountScene.h; path = Classes/AccountScene.h; sourceTree = "<group>"; };
 		6BFA0EB81715DCCF00E4F079 /* SpellImageLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SpellImageLoader.cpp; path = Classes/SpellImageLoader.cpp; sourceTree = "<group>"; };
 		6BFA0EB91715DCCF00E4F079 /* SpellImageLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SpellImageLoader.h; path = Classes/SpellImageLoader.h; sourceTree = "<group>"; };
+		945D872117422BE200C03494 /* libflownetMobile.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = libflownetMobile.a; path = "../../flownet/flownet/build/Release-iphoneos/libflownetMobile.a"; sourceTree = "<group>"; };
+		945D872217422BE200C03494 /* libGameSharedMobile.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = libGameSharedMobile.a; path = "../../GameShared/GameShared/build/Release-iphoneos/libGameSharedMobile.a"; sourceTree = "<group>"; };
+		945D872517422BF300C03494 /* boost.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = boost.framework; path = ../../flownet/BoostMobile/ios/framework/boost.framework; sourceTree = "<group>"; };
 		94D3D74D16DF45D80030A458 /* GameClientRPCInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameClientRPCInterface.h; sourceTree = "<group>"; };
 		94F29CAE16DDD6FB005DFDE4 /* GameClientMobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GameClientMobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		94F29CB216DDD6FB005DFDE4 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -954,9 +954,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6B1BA0E61739446B000338AC /* boost.framework in Frameworks */,
-				6BBE641C17391F6300BE88FE /* libflownetMobile.a in Frameworks */,
-				6BBE641D17391F6300BE88FE /* libGameSharedMobile.a in Frameworks */,
+				945D872617422BF300C03494 /* boost.framework in Frameworks */,
+				945D872317422BE200C03494 /* libflownetMobile.a in Frameworks */,
+				945D872417422BE200C03494 /* libGameSharedMobile.a in Frameworks */,
 				6BBE641917391F6300BE88FE /* libCocosDenshion.a in Frameworks */,
 				94F29CB316DDD6FB005DFDE4 /* QuartzCore.framework in Frameworks */,
 				94F29CB516DDD6FB005DFDE4 /* OpenGLES.framework in Frameworks */,
@@ -2126,9 +2126,9 @@
 		94F29CA316DDD6FA005DFDE4 = {
 			isa = PBXGroup;
 			children = (
-				6B1BA0E51739446B000338AC /* boost.framework */,
-				6BBE641A17391F6300BE88FE /* libflownetMobile.a */,
-				6BBE641B17391F6300BE88FE /* libGameSharedMobile.a */,
+				945D872517422BF300C03494 /* boost.framework */,
+				945D872117422BE200C03494 /* libflownetMobile.a */,
+				945D872217422BE200C03494 /* libGameSharedMobile.a */,
 				94F29FFE16DE3DE2005DFDE4 /* Default-568h@2x.png */,
 				94F29F7816DDD738005DFDE4 /* GameClient */,
 				94F29F8916DDD738005DFDE4 /* GameClientProperties.h */,
@@ -2710,7 +2710,7 @@
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../flownet/Boost/osx/framework\"",
+					"\"$(SRCROOT)/../../flownet/BoostMobile/ios/framework\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -2749,6 +2749,7 @@
 				);
 				PRELINK_LIBS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos6.1;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "../../GameShared/GameShared ../../flownet/flownet";
 				WRAPPER_EXTENSION = app;
@@ -2764,7 +2765,7 @@
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../flownet/Boost/osx/framework\"",
+					"\"$(SRCROOT)/../../flownet/BoostMobile/ios/framework\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = GameClientMobile/Prefix.pch;
@@ -2800,6 +2801,7 @@
 				);
 				PRELINK_LIBS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos6.1;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "../../GameShared/GameShared ../../flownet/flownet";
 				VALIDATE_PRODUCT = YES;
