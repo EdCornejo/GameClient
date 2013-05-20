@@ -180,6 +180,11 @@ void AppDelegate::OnSCResponseSession(flownet::UserID userID, flownet::ActorID m
     GameClient::Instance().GetClientObject().SendCSRequestRejoinCurrentStage();
 }
 
+void AppDelegate::OnSCNotifySCErrorMessage(flownet::SCErrorMessage scErrorMessage, flownet::STRING errorMessage) const
+{
+    CCLOGERROR("SCErrorMessageCode : %d >> %s", scErrorMessage, errorMessage.c_str());
+}
+
 void AppDelegate::OnSCResponseHeartbeat(flownet::INT64 heartbeatCountAck) const
 {
     // NOTE : the scene must be type of BaseScene
@@ -189,9 +194,15 @@ void AppDelegate::OnSCResponseHeartbeat(flownet::INT64 heartbeatCountAck) const
     
     heartbeatLayer->changeHeartbeatText(heartbeatCountAck);
 }
+
 void AppDelegate::OnFCResponseConnect(flownet::ConnectionID feConnectionID) const
 {
 
+}
+
+void AppDelegate::OnFCNotifyFCErrorMessage(flownet::FCErrorMessage fcErrorMessage, flownet::STRING errorMessage) const
+{
+    CCLOGERROR("FCErrorMessageCode : %d >> %s", fcErrorMessage, errorMessage.c_str());
 }
 
 void AppDelegate::OnFCResponseCreateUserAccount(flownet::UserID userID) const
@@ -199,7 +210,12 @@ void AppDelegate::OnFCResponseCreateUserAccount(flownet::UserID userID) const
     if(userID != UserID_None)
     {
         CCLOG("AppDelegate::OnFCResponseCreateUserAccount >> User Account Created");
-    // TO DO :
+        // TO DO : go back to the account scene
+        if( false == static_cast<ClientDirector*>(CCDirector::sharedDirector())->ChangeScene<AccountScene>() )
+        {
+            // TO DO : handle error
+            ASSERT_DEBUG(false);
+        }
     }
     else
     {
@@ -366,17 +382,19 @@ void AppDelegate::OnSCNotifyExitStage(flownet::StageID stageID, flownet::ActorID
     ActorLayer* actorLayer = scene->GetActorLayer();
     ASSERT_DEBUG(actorLayer);
     
-//    actorLayer->DeleteActor(actorID);
-//
-//    if(IsPlayerID(actorID))
-//    {
-//        clientStage->RemovePlayer(actorID);
-//    }
-//    else
-//    {
-//        clientStage->RemoveMonster(actorID);
-//    }
-//    // TO DO : make merge delete functions
+    // TO DO : fix auto release bug here
+    
+    actorLayer->DeleteActor(actorID);
+
+    if(IsPlayerID(actorID))
+    {
+        clientStage->RemovePlayer(actorID);
+    }
+    else
+    {
+        clientStage->RemoveMonster(actorID);
+    }
+    // TO DO : make merge delete functions
 }
 
 void AppDelegate::OnSCResponseRejoinCurrentStage(flownet::StageID stageID, flownet::Stage stage) const
@@ -462,11 +480,6 @@ void AppDelegate::OnSCNotifyMoveActor(flownet::StageID stageID, flownet::ActorID
         //ASSERT_DEBUG(clientStage != nullptr && stageID == clientStage->GetStageID());
         return;
     }
-    
-    CCLOG("destination %f, %f", destinationPosition.x, destinationPosition.y);
-    // NOTE : setting desination to actor is moved to ActorLayer for reason of making adjustment in moving actor
-    // Actor* actor = GameClient::Instance().GetClientStage()->FindActor(actorID);
-    // actor->MoveTo(clientStage, currentPosition, destinationPosition);
 
     BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
     ActorLayer* actorLayer = scene->GetActorLayer();
@@ -562,33 +575,6 @@ void AppDelegate::OnSCNotifyActorAttacked(flownet::StageID stageID, flownet::Act
     
     actorLayer->ActorAttacked(actorID, attackerActorID);
 }
-
-//void AppDelegate::OnSCNotifyActorTakeDamage(flownet::StageID stageID, ActorID actorID, FLOAT damageAmount) const
-//{
-//    ClientStage* clientStage = GameClient::Instance().GetClientStage();
-//    if(clientStage == nullptr || stageID != clientStage->GetStageID())
-//    {
-//        std::cout << "Error clientStage==nullptr" << std::endl;
-//        return;
-//    }
-//
-//    BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
-//    ActorLayer* actorLayer = scene->GetActorLayer();
-//    
-//    if(actorLayer == nullptr) return;
-//    
-//    if(IsPlayerID(actorID))
-//    {
-//        static_cast<ClientPlayer*>(GameClient::Instance().GetClientStage()->FindPlayer(actorID))->OnAttacked(damageAmount);
-//    }
-//    if(IsMonsterID(actorID))
-//    {
-//        static_cast<ClientMonster*>(GameClient::Instance().GetClientStage()->FindMonster(actorID))->OnAttacked(damageAmount);
-//    }
-//    
-//    // TO DO : display hp bar over the character
-//    actorLayer->ActorTakeDamage(actorID);
-//}
 
 void AppDelegate::OnSCNotifyActorDead(flownet::StageID stageID, flownet::ActorID actorID) const
 {
@@ -692,24 +678,6 @@ void AppDelegate::OnSCNotifyEndCast(flownet::StageID stageID, flownet::ActorID a
     }
 }
 
-//void AppDelegate::OnSCNotifyFireSpell(flownet::StageID stageID, flownet::ActorID invokerID, flownet::SpellType spellType, flownet::POINT destination) const
-//{
-//    ClientStage* clientStage = GameClient::Instance().GetClientStage();
-//    if(stageID != clientStage->GetStageID())
-//    {
-//        ASSERT_DEBUG(stageID == clientStage->GetStageID());
-//        return;
-//    }
-//
-//    BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
-//    ActorLayer* actorLayer = scene->GetActorLayer();
-//    
-//    if(actorLayer == nullptr) return;
-//
-//    actorLayer->ActorFireSpell(invokerID, spellType, destination);
-//}
-//
-
 void AppDelegate::OnSCResponseDropItemToField(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID) const
 {
     ClientStage* clientStage = GameClient::Instance().GetClientStage();
@@ -776,7 +744,6 @@ void AppDelegate::OnSCNotifyPickUpItemFromField(flownet::StageID stageID, flowne
         scene->GetUILayer()->UpdateStash();
         scene->GetUILayer()->UpdateInventory();
     }
-    // ui + data
 }
 
 void AppDelegate::OnSCNotifyAddItemToStash(flownet::StageID stageID, flownet::ActorID playerID, flownet::Item item) const

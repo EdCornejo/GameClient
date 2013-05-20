@@ -88,8 +88,6 @@ bool EquipmentNode::init()
     // Initialize with actor's inventory
     this->Update();
     
-    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, 0, true);
-    
     return true;
 }
 
@@ -126,8 +124,9 @@ bool EquipmentNode::ccTouchBegan(CCTouch* touch, CCEvent* event)
         return true;
     }
     
-    CCRect bodyRect = GetRect(this->m_Body);
-    bodyRect.origin = this->convertToNodeSpace(bodyRect.origin);
+    CCRect bodyRect = GetRectForAnchorUpperRight(this->m_Body);
+    // TO DO : change here ! or change anchor points
+    bodyRect.origin = this->m_Body->getParent()->convertToWorldSpace(bodyRect.origin);
     if(bodyRect.containsPoint(touch->getLocation()))
     {
         return true;

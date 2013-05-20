@@ -123,15 +123,6 @@ bool GuideLineNode::init()
     // NOTE : our screen is landscape
     double rotateDegree = -atan2(this->m_Destination.y - this->m_Source.y, this->m_Destination.x - this->m_Source.x) * 180 / M_PI;
     
-    if(this->m_SpellGuideLine){
-        this->removeChild(this->m_SpellGuideLine);
-        this->m_SpellGuideLine->release();
-    }
-    if(this->m_SpellGuideIcon){
-        this->removeChild(this->m_SpellGuideIcon);
-        this->m_SpellGuideIcon->release();
-    }
-    
     this->m_SpellGuideLine = CCSprite::create("ui/spell/spell_guide_line.png");
     this->m_SpellGuideLine->retain();
     this->m_SpellGuideLine->setAnchorPoint(CCPointZero);

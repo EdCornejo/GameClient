@@ -306,8 +306,6 @@ bool StashNode::init()
     
     this->addChild(bodyNode);
     
-    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, 0, true);
-    
     return true;
 }
 

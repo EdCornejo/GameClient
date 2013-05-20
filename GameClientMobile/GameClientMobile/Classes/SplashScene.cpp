@@ -40,7 +40,6 @@ void SplashScene::update(float deltaTime)
     else if(serverIP.empty() && !this->m_HasRequestSession)
     //if(GameClient::Instance().GetCFConnection().GetConnectionID() != ConnectionID_NONE && !this->m_HasRequestSession)
     {
-        // TO DO : change to account scene
         ClientDirector* director = static_cast<ClientDirector*>(CCDirector::sharedDirector());
         director->ChangeScene<AccountScene>();
         this->m_HasRequestSession = true;

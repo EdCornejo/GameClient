@@ -36,6 +36,7 @@ MenuBarNode::~MenuBarNode()
 
 bool MenuBarNode::init()
 {
+    // TO DO : change scroll button to menuitem
     this->m_SlideButton = CCSprite::create("ui/system_menu/scroll_button.png");
     this->m_SlideButton->retain();
     this->m_SlideButton->setAnchorPoint(CCPointLowerRight);
@@ -59,8 +60,6 @@ bool MenuBarNode::init()
 
     this->addChild(this->m_Body);
     this->addChild(this->m_SlideButton);
-    
-    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, 0, true);
     
     return true;
 }
@@ -93,6 +92,12 @@ bool MenuBarNode::ccTouchBegan(CCTouch* touch, CCEvent* event)
     {
         this->Slide();
         
+        return true;
+    }
+    CCRect bodyRect = GetRectForAnchorLowerLeft(this->m_Body);
+    bodyRect.origin = this->convertToWorldSpace(bodyRect.origin);
+    if(bodyRect.containsPoint(touchLocation))
+    {
         return true;
     }
     
