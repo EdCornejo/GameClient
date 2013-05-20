@@ -107,6 +107,12 @@ void AccountLayer::OnLoginButtonTouch(cocos2d::CCObject *sender)
 {
     CCLOG("login button touch");
     // TO DO : check form
+    if( GameClient::Instance().GetCFConnection().IsConnected() == false )
+    {
+        CCMessageBox("GameServer is not ready. Wait for a minute.", "LogIn Error");
+        return;
+    }
+    
     GameClient::Instance().GetCFConnection().SendCFRequestLogInUserAccount(GameClient::Instance().GetDeviceID(), this->m_EmailField->getString() , this->m_PasswordField->getString());
 }
 

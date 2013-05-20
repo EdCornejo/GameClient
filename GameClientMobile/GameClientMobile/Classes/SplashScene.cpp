@@ -34,8 +34,11 @@ void SplashScene::update(float deltaTime)
     if(!serverIP.empty() && !this->m_HasRequestSession)
     //if(GameClient::Instance().GetClientObject().GetConnectionID() != ConnectionID_NONE && !this->m_HasRequestSession)
     {
-        GameClient::Instance().GetClientObject().SendCSRequestSession(GameClient::Instance().GetDeviceID(), GameClient::Instance().GetClientObject().GetConnectionID(), GameClient::Instance().GetSessionID());
-        this->m_HasRequestSession = true;
+        if( GameClient::Instance().GetClientObject().IsConnected() == true )
+        {
+            GameClient::Instance().GetClientObject().SendCSRequestSession(GameClient::Instance().GetDeviceID(), GameClient::Instance().GetClientObject().GetConnectionID(), GameClient::Instance().GetSessionID());
+            this->m_HasRequestSession = true;
+        }
     }
     else if(serverIP.empty() && !this->m_HasRequestSession)
     //if(GameClient::Instance().GetCFConnection().GetConnectionID() != ConnectionID_NONE && !this->m_HasRequestSession)
@@ -44,5 +47,10 @@ void SplashScene::update(float deltaTime)
         ClientDirector* director = static_cast<ClientDirector*>(CCDirector::sharedDirector());
         director->ChangeScene<AccountScene>();
         this->m_HasRequestSession = true;
+    }
+    else
+    {
+        // TO Do : handle this condition
+        ASSERT_DEBUG(false);
     }
 }

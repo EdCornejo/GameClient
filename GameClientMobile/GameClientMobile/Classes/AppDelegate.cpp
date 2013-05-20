@@ -80,7 +80,6 @@ bool AppDelegate::applicationDidFinishLaunching()
     LogSystem::Initialize("GameClientSystemLog");
     // Initialize GameClient
     flownet::GameClient::Instance().InitializeClient(this);
-    
     flownet::GameClient::Instance().StartClient();
     this->InitializeConnection();    
 
@@ -105,8 +104,8 @@ void AppDelegate::applicationWillEnterForeground()
 {
     // Re start GameClient
     flownet::GameClient::Instance().InitializeClient(this);
-    this->InitializeConnection();
     flownet::GameClient::Instance().StartClient();
+    this->InitializeConnection();
     
 
 
@@ -117,11 +116,18 @@ void AppDelegate::applicationWillEnterForeground()
 
 void AppDelegate::InitializeConnection()
 {
-    std::string serverIP;
-    serverIP = CCUserDefault::sharedUserDefault()->getStringForKey("yours", "");
+    std::string serverIP = CCUserDefault::sharedUserDefault()->getStringForKey("yours", "");
     
-    GameClient::Instance().GetCFConnection().InitializeClient("61.43.139.149", 1990);
-    GameClient::Instance().GetClientObject().InitializeClient("61.43.139.149", SERVER_CONNECT_PORT);
+    if( serverIP.empty() || serverIP.length()==0 )
+    {
+        GameClient::Instance().GetCFConnection().InitializeClient(FESERVER_CF_CONNECT_ADDRESS, FESERVER_CF_CONNECT_PORT);
+    }
+    else
+    {
+        GameClient::Instance().GetClientObject().InitializeClient(serverIP.c_str(), SERVER_CONNECT_PORT);
+    }
+//    GameClient::Instance().GetCFConnection().InitializeClient(FESERVER_CF_CONNECT_ADDRESS, FESERVER_CF_CONNECT_PORT);
+//    GameClient::Instance().GetClientObject().InitializeClient("61.43.139.149", SERVER_CONNECT_PORT);
 }
 
 void AppDelegate::OnSCProtocolError() const
