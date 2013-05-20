@@ -41,7 +41,17 @@ AccountLayer::~AccountLayer()
 
 bool AccountLayer::init()
 {
-    if(!CCLayerColor::initWithColor(ccc4(43, 39, 36, 255))) return false;
+    if(!CCLayerColor::initWithColor(ccc4(43, 39, 36, 255)))
+    {
+        ASSERT_DEBUG(false);
+        return false;
+    }
+    
+    if( GameClient::Instance().GetClientObject().IsConnected() == true )
+    {
+        GameClient::Instance().GetClientObject().Disconnect();
+    }
+    GameClient::Instance().GetCFConnection().InitializeClient(FESERVER_CF_CONNECT_ADDRESS, FESERVER_CF_CONNECT_PORT);
     
     this->m_Delegate = AccountSceneTextFieldDelegate::create();
     this->m_Delegate->retain();

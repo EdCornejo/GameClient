@@ -71,6 +71,8 @@ void GameClientObject::OnHeartbeatTimeOver()
     
 void GameClientObject::OnConnect(const BoostErrorCode& error, BoostTCPSocket* connectedSocket)
 {
+    ClientObject::OnConnect(error, connectedSocket);
+    
     std::cout << "connect completed clientObject" << std::endl;
     
     RecvStart();

@@ -81,7 +81,8 @@ bool AppDelegate::applicationDidFinishLaunching()
     // Initialize GameClient
     flownet::GameClient::Instance().InitializeClient(this);
     flownet::GameClient::Instance().StartClient();
-    this->InitializeConnection();    
+        
+    this->InitializeConnection();
 
     return true;
 }
@@ -105,8 +106,8 @@ void AppDelegate::applicationWillEnterForeground()
     // Re start GameClient
     flownet::GameClient::Instance().InitializeClient(this);
     flownet::GameClient::Instance().StartClient();
+
     this->InitializeConnection();
-    
 
 
     CCDirector::sharedDirector()->startAnimation();
@@ -249,6 +250,9 @@ void AppDelegate::OnFCResponseLogInUserAccount(flownet::UserID userID, flownet::
         // save ServerIP
         CCUserDefault::sharedUserDefault()->setStringForKey("yours", gameServerIP.c_str());
         CCUserDefault::sharedUserDefault()->flush();
+        
+        GameClient::Instance().GetClientObject().ConnectWithBlockingNotTestedVersion(gameServerIP.c_str(), SERVER_CONNECT_PORT);
+        GameClient::Instance().GetClientObject().RecvStart();
         
         GameClient::Instance().GetClientObject().SendCSRequestLogInWithOTP(GameClient::Instance().GetDeviceID(), userID, otp);
         

@@ -47,9 +47,4 @@ void SplashScene::update(float deltaTime)
         director->ChangeScene<AccountScene>();
         this->m_HasRequestSession = true;
     }
-    else
-    {
-        // TO Do : handle this condition
-        ASSERT_DEBUG(false);
-    }
 }
