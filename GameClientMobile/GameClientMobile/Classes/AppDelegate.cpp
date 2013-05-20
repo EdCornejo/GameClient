@@ -80,9 +80,9 @@ bool AppDelegate::applicationDidFinishLaunching()
     LogSystem::Initialize("GameClientSystemLog");
     // Initialize GameClient
     flownet::GameClient::Instance().InitializeClient(this);
-    this->InitializeConnection();
-    flownet::GameClient::Instance().StartClient();
     
+    flownet::GameClient::Instance().StartClient();
+    this->InitializeConnection();    
 
     return true;
 }
