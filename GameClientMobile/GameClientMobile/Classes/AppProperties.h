@@ -51,6 +51,47 @@ static Resource largeResource  =  { cocos2d::CCSizeMake(2048, 1536), "iphonehd"/
 static cocos2d::CCSize designResolutionSize = cocos2d::CCSizeMake(480, 320);
 
 
+// TO DO : make more static functions for various AnchorPoint
+static CCRect GetRectForAnchorLowerLeft(CCNode* node)
+{
+    CCRect rc;
+    rc.origin = node->getPosition();
+    rc.size = node->getContentSize();
+    return rc;
+}
+
+static CCRect GetRectForAnchorLowerRight(CCNode* node)
+{
+    CCRect rc;
+    rc.origin = node->getPosition();
+    rc.size = node->getContentSize();
+    rc.origin.x -= rc.size.width;
+    
+    return rc;
+}
+
+static CCRect GetRectForAnchorUpperLeft(CCNode* node)
+{
+    CCRect rc;
+    rc.origin = node->getPosition();
+    rc.size = node->getContentSize();
+    rc.origin.y -= rc.size.height;
+    
+    return rc;
+}
+
+static CCRect GetRectForAnchorUpperRight(CCNode* node)
+{
+    CCRect rc;
+    rc.origin = node->getPosition();
+    rc.size = node->getContentSize();
+    rc.origin.x -= rc.size.width;
+    rc.origin.y -= rc.size.height;
+    
+    return rc;
+}
+
+// this GetRect function is for AnchorPoint mid
 static CCRect GetRect(CCNode* node)
 {
     CCRect rc;

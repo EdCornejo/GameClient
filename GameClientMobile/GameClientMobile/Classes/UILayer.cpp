@@ -15,6 +15,7 @@ UILayer::UILayer() : m_StageType(flownet::StageType_NONE), m_SpellQuickSlotNode(
 
 UILayer::~UILayer()
 {
+    CCTouchDispatcher* touchDispatcher = CCDirector::sharedDirector()->getTouchDispatcher();
     if(this->m_SpellQuickSlotNode)
     {
         this->m_SpellQuickSlotNode->release();
@@ -22,16 +23,19 @@ UILayer::~UILayer()
     }
     if(this->m_StashNode)
     {
+        touchDispatcher->removeDelegate(this->m_StashNode);
         this->m_StashNode->release();
         this->m_StashNode = nullptr;
     }
     if(this->m_EquipmentNode)
     {
+        touchDispatcher->removeDelegate(this->m_EquipmentNode);
         this->m_EquipmentNode->release();
         this->m_EquipmentNode = nullptr;
     }
     if(this->m_InventoryNode)
     {
+        touchDispatcher->removeDelegate(this->m_InventoryNode);
         this->m_InventoryNode->release();
         this->m_InventoryNode = nullptr;
     }
@@ -136,7 +140,9 @@ void UILayer::InitializeInventory()
     this->m_InventoryNode = InventoryNode::create();
     this->m_InventoryNode->retain();
     this->m_InventoryNode->setPosition(ccp(InventoryNode::PositionX, InventoryNode::PositionY));
-    
+
+    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this->m_InventoryNode, 0, true);
+
     this->addChild(this->m_InventoryNode);
 }
 
@@ -145,6 +151,8 @@ void UILayer::InitializeStash()
     this->m_StashNode = StashNode::create();
     this->m_StashNode->retain();
     this->m_StashNode->setPosition(ccp(StashNode::PositionX, StashNode::PositionY));
+    
+    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this->m_StashNode, 0, true);
     
     this->addChild(this->m_StashNode);
 }
@@ -155,6 +163,8 @@ void UILayer::InitializeEquipment()
     this->m_EquipmentNode->retain();
     this->m_EquipmentNode->setPosition(ccp(EquipmentNode::PositionX, EquipmentNode::PositionY));
     
+    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this->m_EquipmentNode, 0, true);
+    
     this->addChild(this->m_EquipmentNode);
 }
 
@@ -163,6 +173,8 @@ void UILayer::InitializeMenuBar()
     this->m_MenuBarNode = MenuBarNode::create();
     this->m_MenuBarNode->retain();
     this->m_MenuBarNode->setPosition(ccp(MenuBarNode::PositionX, MenuBarNode::PositionY));
+    
+    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this->m_MenuBarNode, 0, true);
     
     this->addChild(this->m_MenuBarNode);
 }
@@ -219,6 +231,7 @@ bool UILayer::TouchProcessItem(CCPoint touchLocation)
     ActorLayer* actorLayer = scene->GetActorLayer();
     if(!actorLayer) return false;
     
+    touchLocation = actorLayer->convertToNodeSpace(touchLocation);
     ItemNode* itemNode = actorLayer->FindSelectedItemNode(touchLocation);
     if(!itemNode) return false;
     

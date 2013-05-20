@@ -1,3 +1,4 @@
+    
 //
 //  InventoryNode.cpp
 //  GameClientMobile
@@ -117,6 +118,7 @@ bool InventoryNode::init()
 
     
     this->m_TabMenu = CCMenu::create(this->m_EquipmentButton, this->m_ConsumeButton, this->m_MaterialButton, NULL);
+    this->m_TabMenu->retain();
     this->m_TabMenu->alignItemsHorizontallyWithPadding(0);
     this->m_TabMenu->setPosition(ccp(bodyRect.size.width / 2, bodyRect.size.height));
     this->m_TabMenu->setVisible(false);
@@ -177,8 +179,6 @@ bool InventoryNode::init()
     // Initialize with actor's inventory
     this->Update();
     
-    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, 0, true);
-    
     return true;
 }
 
@@ -212,6 +212,12 @@ bool InventoryNode::ccTouchBegan(CCTouch* touch, CCEvent* event)
     {
         this->m_TrackingItemSlotTouchedTime = GameClient::Instance().GetClientTimer().Check();
         this->m_TrackingItemSlotNode = selectedItemSlot;
+        return true;
+    }
+    CCRect bodyRect = GetRectForAnchorLowerLeft(this->m_Body);
+    bodyRect.origin = this->m_Body->getParent()->convertToWorldSpace(bodyRect.origin);
+    if(bodyRect.containsPoint(touch->getLocation()))
+    {
         return true;
     }
     

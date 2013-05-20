@@ -57,6 +57,8 @@ bool AccountLayer::init()
     
     CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, 0, true);
     
+    this->setTouchEnabled(true);
+    
     scheduleUpdate();
     
     return true;
@@ -95,7 +97,8 @@ void AccountLayer::OnBackButtonTouch(cocos2d::CCObject *sender)
 
 void AccountLayer::OnCreateButtonTouch(cocos2d::CCObject *sender)
 {
-    CCLOG("create button touched");
+    // TO DO : check form
+    GameClient::Instance().GetCFConnection().SendCFRequestCreateUserAccount(GameClient::Instance().GetDeviceID(), this->m_EmailField->getString(), this->m_PasswordField->getString());
 }
 
 void AccountLayer::OnNewButtonTouch(cocos2d::CCObject *sender)
@@ -138,15 +141,15 @@ void AccountLayer::InitializeWithLoginWindow()
     this->m_BackgroundImage->setPosition(ccp(winSize.width / 2, winSize.height / 2));
     this->addChild(this->m_BackgroundImage);
     
-    this->m_EmailField = CCTextFieldTTF::textFieldWithPlaceHolder("ID", "thonburi", 20);
+    this->m_EmailField = CCTextFieldTTF::textFieldWithPlaceHolder("ID", CCSize(160, 24), kCCTextAlignmentLeft, "thonburi", 20);
     this->m_EmailField->retain();
-    this->m_EmailField->setPosition(ccp(174, 114));
+    this->m_EmailField->setPosition(ccp(180, 114));
     this->m_EmailField->setDelegate(this->m_Delegate);
     this->m_BackgroundImage->addChild(this->m_EmailField);
     
-    this->m_PasswordField = CCTextFieldTTF::textFieldWithPlaceHolder("Password", "thonburi", 20);
+    this->m_PasswordField = CCTextFieldTTF::textFieldWithPlaceHolder("Password", CCSize(160, 24), kCCTextAlignmentLeft, "thonburi", 20);
     this->m_PasswordField->retain();
-    this->m_PasswordField->setPosition(ccp(174, 76));
+    this->m_PasswordField->setPosition(ccp(180, 76));
     this->m_PasswordField->setDelegate(this->m_Delegate);
     this->m_BackgroundImage->addChild(this->m_PasswordField);
     
@@ -170,26 +173,26 @@ void AccountLayer::InitializeWithCreateAccount()
     this->m_BackgroundImage->setPosition(ccp(winSize.width / 2, winSize.height / 2));
     this->addChild(this->m_BackgroundImage);
     
-    this->m_EmailField = CCTextFieldTTF::textFieldWithPlaceHolder("ID", "thonburi", 20);
+    this->m_EmailField = CCTextFieldTTF::textFieldWithPlaceHolder("ID", CCSize(170, 24), kCCTextAlignmentLeft, "thonburi", 20);
     this->m_EmailField->retain();
     this->m_EmailField->setPosition(ccp(260, 170));
     this->m_EmailField->setDelegate(this->m_Delegate);
     this->m_BackgroundImage->addChild(this->m_EmailField);
     
-    this->m_PasswordField = CCTextFieldTTF::textFieldWithPlaceHolder("Password", "thonburi", 20);
+    this->m_PasswordField = CCTextFieldTTF::textFieldWithPlaceHolder("Password", CCSize(170, 24), kCCTextAlignmentLeft, "thonburi", 20);
     this->m_PasswordField->retain();
     this->m_PasswordField->setPosition(ccp(260, 130));
     this->m_PasswordField->setDelegate(this->m_Delegate);
     this->m_BackgroundImage->addChild(this->m_PasswordField);
     
-    this->m_PasswordConfirmField = CCTextFieldTTF::textFieldWithPlaceHolder("Confirm", "thonburi", 20);
+    this->m_PasswordConfirmField = CCTextFieldTTF::textFieldWithPlaceHolder("Confirm", CCSize(170, 24), kCCTextAlignmentLeft, "thonburi", 20);
     this->m_PasswordConfirmField->retain();
-    this->m_PasswordConfirmField->setPosition(ccp(260, 106));
+    this->m_PasswordConfirmField->setPosition(ccp(260, 103));
     this->m_PasswordConfirmField->setDelegate(this->m_Delegate);
     this->m_BackgroundImage->addChild(this->m_PasswordConfirmField);
     
     CCMenuItemImage* backButton = CCMenuItemImage::create("ui/account_scene/back_button_normal.png", "ui/account_scene/back_button_active.png", this, menu_selector(AccountLayer::OnBackButtonTouch));
-    CCMenuItemImage* createButton = CCMenuItemImage::create("ui/account_scene/create_button_normal.png", "ui/account_scene/create_button_normal.png", this, menu_selector(AccountLayer::OnCreateButtonTouch));
+    CCMenuItemImage* createButton = CCMenuItemImage::create("ui/account_scene/create_button_normal.png", "ui/account_scene/create_button_active.png", this, menu_selector(AccountLayer::OnCreateButtonTouch));
     
     CCMenu* menu = CCMenu::create(backButton, createButton, NULL);
     menu->setPosition(ccp(260, 40));

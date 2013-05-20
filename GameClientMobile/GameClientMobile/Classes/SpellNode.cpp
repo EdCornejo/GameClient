@@ -145,7 +145,11 @@ void SpellNode::StartSpellAnimation()
     animate->setTag(ActionType_Spell);
     this->runAction(animate);
     
-    schedule(schedule_selector(SpellNode::Destroy), 0, 0, delay);
+    CCDelayTime* delayTime = CCDelayTime::create(delay);
+    CCCallFunc* destroy = CCCallFunc::create(this, callfunc_selector(SpellNode::Destroy));
+    CCSequence* sequence = CCSequence::create(delayTime, destroy, NULL);
+    sequence->setTag(ActionType_UI);
+    this->runAction(sequence);
 }
 
 void SpellNode::Destroy()

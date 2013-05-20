@@ -70,6 +70,12 @@ void FCPacketHandler::OnFCProtocolError()
     m_GameClientRPCReceiver->OnFCProtocolError();
 }
 
+void FCPacketHandler::OnFCNotifyFCErrorMessage(FCErrorMessage fcErrorMessage, STRING errorMessage)
+{
+    ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
+    m_GameClientRPCReceiver->OnFCNotifyFCErrorMessage(fcErrorMessage, errorMessage);
+}
+
 void FCPacketHandler::OnFCResponseConnect(ConnectionID feConnectionID)
 {
     m_CFConnection->SetConnectionID(feConnectionID);

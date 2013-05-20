@@ -90,6 +90,12 @@ void GameClientPacketHandler::OnSCResponseConnect(ConnectionID connectionID)
     this->m_GameClientRPCReceiver->OnSCResponseConnect(connectionID);
 }
 
+void GameClientPacketHandler::OnSCNotifySCErrorMessage(SCErrorMessage scErrorMessage, STRING errorMessage)
+{
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+    this->m_GameClientRPCReceiver->OnSCNotifySCErrorMessage(scErrorMessage, errorMessage);
+}
+
 void GameClientPacketHandler::OnSCResponseSession(UserID userID, ActorID myPlayerID, SessionID sessionID)
 {
     GameClient::Instance().SetSessionID(sessionID);
