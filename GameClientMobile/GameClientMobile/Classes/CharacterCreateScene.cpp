@@ -189,4 +189,5 @@ void CharacterCreateScene::OnCreateButtonTouch(cocos2d::CCObject *sender)
 {
     // NOTE : send create request
     CCLOG("create button touch");
+    GameClient::Instance().GetClientObject().SendCSRequestCreatePlayer(GameClient::Instance().GetDeviceID(), GameClient::Instance().GetUserID(), this->m_SelectedGender, this->m_NameField->getString());
 }

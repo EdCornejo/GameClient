@@ -104,6 +104,12 @@ void GameClientPacketHandler::OnSCResponseSession(UserID userID, ActorID myPlaye
     this->m_GameClientRPCReceiver->OnSCResponseSession(userID, myPlayerID, sessionID);
 }
 
+void GameClientPacketHandler::OnSCResponseCreatePlayer(UserID userID, ActorID playerID, SessionID sessionID)
+{
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+    this->m_GameClientRPCReceiver->OnSCResponseCreatePlayer(userID, playerID, sessionID);
+}
+
 void GameClientPacketHandler::OnSCResponseHeartbeat(INT64 heartbeatCountAck)
 {
     // Delay checking

@@ -264,6 +264,8 @@
 		6BAA3A8C16E655FD00BB233E /* BackgroundLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BAA3A8A16E655FB00BB233E /* BackgroundLayer.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		6BAA3A9C16E705C900BB233E /* HeartbeatLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BAA3A9A16E705C500BB233E /* HeartbeatLayer.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		6BB6C02E1702DB4E003CD4B4 /* DelayChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BB6C02C1702DB4E003CD4B4 /* DelayChecker.cpp */; };
+		6BB8AD62174B2DAD00D82DE8 /* StageSelectScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BB8AD60174B2DAC00D82DE8 /* StageSelectScene.cpp */; };
+		6BB8AD68174B5FB000D82DE8 /* ChattingNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BB8AD66174B5FAF00D82DE8 /* ChattingNode.cpp */; };
 		6BBE641917391F6300BE88FE /* libCocosDenshion.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B532BF11712E0F4009127B2 /* libCocosDenshion.a */; };
 		6BC6C3D917226C6600B439F9 /* MenuBarNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BC6C3D717226C6600B439F9 /* MenuBarNode.cpp */; };
 		6BC6C3DF172284B100B439F9 /* InventoryNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BC6C3DD172284B100B439F9 /* InventoryNode.cpp */; };
@@ -879,6 +881,10 @@
 		6BAA3A9B16E705C700BB233E /* HeartbeatLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HeartbeatLayer.h; path = Classes/HeartbeatLayer.h; sourceTree = "<group>"; };
 		6BB6C02C1702DB4E003CD4B4 /* DelayChecker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DelayChecker.cpp; sourceTree = "<group>"; };
 		6BB6C02D1702DB4E003CD4B4 /* DelayChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DelayChecker.h; sourceTree = "<group>"; };
+		6BB8AD60174B2DAC00D82DE8 /* StageSelectScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StageSelectScene.cpp; path = Classes/StageSelectScene.cpp; sourceTree = "<group>"; };
+		6BB8AD61174B2DAC00D82DE8 /* StageSelectScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StageSelectScene.h; path = Classes/StageSelectScene.h; sourceTree = "<group>"; };
+		6BB8AD66174B5FAF00D82DE8 /* ChattingNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ChattingNode.cpp; path = Classes/ChattingNode.cpp; sourceTree = "<group>"; };
+		6BB8AD67174B5FAF00D82DE8 /* ChattingNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChattingNode.h; path = Classes/ChattingNode.h; sourceTree = "<group>"; };
 		6BC6C3D717226C6600B439F9 /* MenuBarNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MenuBarNode.cpp; path = Classes/MenuBarNode.cpp; sourceTree = "<group>"; };
 		6BC6C3D817226C6600B439F9 /* MenuBarNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MenuBarNode.h; path = Classes/MenuBarNode.h; sourceTree = "<group>"; };
 		6BC6C3DD172284B100B439F9 /* InventoryNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = InventoryNode.cpp; path = Classes/InventoryNode.cpp; sourceTree = "<group>"; };
@@ -901,8 +907,8 @@
 		6BFA0EB2171542BE00E4F079 /* AccountScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AccountScene.h; path = Classes/AccountScene.h; sourceTree = "<group>"; };
 		6BFA0EB81715DCCF00E4F079 /* SpellImageLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SpellImageLoader.cpp; path = Classes/SpellImageLoader.cpp; sourceTree = "<group>"; };
 		6BFA0EB91715DCCF00E4F079 /* SpellImageLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SpellImageLoader.h; path = Classes/SpellImageLoader.h; sourceTree = "<group>"; };
-		945D872117422BE200C03494 /* libflownetMobile.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = libflownetMobile.a; path = "../../flownet/flownet/build/Release-iphoneos/libflownetMobile.a"; sourceTree = "<group>"; };
-		945D872217422BE200C03494 /* libGameSharedMobile.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = libGameSharedMobile.a; path = "../../GameShared/GameShared/build/Release-iphoneos/libGameSharedMobile.a"; sourceTree = "<group>"; };
+		945D872117422BE200C03494 /* libflownetMobile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libflownetMobile.a; path = "../../flownet/flownet/build/Release-iphoneos/libflownetMobile.a"; sourceTree = "<group>"; };
+		945D872217422BE200C03494 /* libGameSharedMobile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGameSharedMobile.a; path = "../../GameShared/GameShared/build/Release-iphoneos/libGameSharedMobile.a"; sourceTree = "<group>"; };
 		945D872517422BF300C03494 /* boost.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = boost.framework; path = ../../flownet/BoostMobile/ios/framework/boost.framework; sourceTree = "<group>"; };
 		94D3D74D16DF45D80030A458 /* GameClientRPCInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameClientRPCInterface.h; sourceTree = "<group>"; };
 		94F29CAE16DDD6FB005DFDE4 /* GameClientMobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GameClientMobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2050,6 +2056,8 @@
 				6B3C0FEC16EDBA1F0089F2C8 /* StageScene.h */,
 				6B2AA40A16FE8C1500DEB7C3 /* StageCreateScene.cpp */,
 				6B2AA40B16FE8C1600DEB7C3 /* StageCreateScene.h */,
+				6BB8AD60174B2DAC00D82DE8 /* StageSelectScene.cpp */,
+				6BB8AD61174B2DAC00D82DE8 /* StageSelectScene.h */,
 				6B7477B016F0C7AD0014C286 /* LoadingScene.cpp */,
 				6B7477B116F0C7AD0014C286 /* LoadingScene.h */,
 				6BFA0EB1171542BE00E4F079 /* AccountScene.cpp */,
@@ -2100,6 +2108,8 @@
 				6BC6C3F5172600DC00B439F9 /* StashNode.h */,
 				6B36963F173B93CC007F2985 /* EquipmentNode.cpp */,
 				6B369640173B93CC007F2985 /* EquipmentNode.h */,
+				6BB8AD66174B5FAF00D82DE8 /* ChattingNode.cpp */,
+				6BB8AD67174B5FAF00D82DE8 /* ChattingNode.h */,
 			);
 			name = UINodes;
 			sourceTree = "<group>";
@@ -2631,6 +2641,8 @@
 				6B369641173B93CC007F2985 /* EquipmentNode.cpp in Sources */,
 				6B4A5719174109CB00601A3A /* SpellEffectNode.cpp in Sources */,
 				6B7CB3361743914D00D40476 /* CharacterCreateScene.cpp in Sources */,
+				6BB8AD62174B2DAD00D82DE8 /* StageSelectScene.cpp in Sources */,
+				6BB8AD68174B5FB000D82DE8 /* ChattingNode.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

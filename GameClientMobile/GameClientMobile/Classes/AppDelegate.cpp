@@ -185,6 +185,36 @@ void AppDelegate::OnSCResponseSession(flownet::UserID userID, flownet::ActorID m
     GameClient::Instance().GetClientObject().SendCSRequestRejoinCurrentStage();
 }
 
+void AppDelegate::OnSCResponseCreatePlayer(flownet::UserID userID, flownet::ActorID playerID, flownet::SessionID sessionID) const
+{
+    CCLOG("AppDelegate::OnSCResponseCreatePlayer >> session responsed with %d", sessionID);
+    GameClient::Instance().SetMyActorID(playerID);
+    GameClient::Instance().SetSessionID(sessionID);
+    
+    if(sessionID == SessionID_NONE)
+    {
+        if( false == static_cast<ClientDirector*>(CCDirector::sharedDirector())->ChangeScene<AccountScene>() )
+        {
+            // TO DO : handle error
+            ASSERT_DEBUG(false);
+        }
+
+        return;
+    }
+    
+    if(sessionID != SessionID_NONE && playerID == ActorID_None)
+    {
+        if( false == static_cast<ClientDirector*>(CCDirector::sharedDirector())->ChangeScene<CharacterCreateScene>() )
+        {
+            // TO DO : handle error
+            ASSERT_DEBUG(false);
+        }
+        return;
+    }
+    
+    GameClient::Instance().GetClientObject().SendCSRequestRejoinCurrentStage();
+}
+
 void AppDelegate::OnSCNotifySCErrorMessage(flownet::SCErrorMessage scErrorMessage, flownet::STRING errorMessage) const
 {
     CCLOGERROR("SCErrorMessageCode : %d >> %s", scErrorMessage, errorMessage.c_str());
@@ -272,7 +302,12 @@ void AppDelegate::OnSCResponseLogInWithOTP(flownet::UserID userID, flownet::Acto
     
     if( playerID == ActorID_None )
     {
-        // To Do : have to create new player
+        if( false == static_cast<ClientDirector*>(CCDirector::sharedDirector())->ChangeScene<CharacterCreateScene>() )
+        {
+            // TO DO : handle error
+            ASSERT_DEBUG(false);
+        }
+
         return;
     }
     

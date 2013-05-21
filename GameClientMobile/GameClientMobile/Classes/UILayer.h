@@ -38,6 +38,7 @@ private:
     void InitializeStash();
     void InitializeEquipment();
     void InitializeMenuBar();
+    void InitializeChattng();
     
 public:
     InventoryNode* GetInventoryNode();

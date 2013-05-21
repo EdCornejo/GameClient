@@ -179,6 +179,11 @@ void UILayer::InitializeMenuBar()
     this->addChild(this->m_MenuBarNode);
 }
 
+void UILayer::InitializeChattng()
+{
+    
+}
+
 InventoryNode* UILayer::GetInventoryNode()
 {
     return this->m_InventoryNode;
