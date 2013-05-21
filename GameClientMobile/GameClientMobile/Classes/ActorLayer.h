@@ -12,6 +12,7 @@
 typedef Map<flownet::SpellAbility, SpellEffectNode*>::type SpellEffectNodeMap;
 
 struct ActorNodeSet : public CCObject {
+    int m_ZOrder;
     ActorID m_ActorID;
     ActorNode* m_ActorNode;
     HUDNode* m_HUDNode;
@@ -21,47 +22,30 @@ struct ActorNodeSet : public CCObject {
     SpellEffectNodeMap m_SpellEffectNodeMap;
 
     
-    ActorNodeSet(flownet::ActorID actorID): m_ActorID(actorID), m_ActorNode(nullptr), m_HUDNode(nullptr), m_ShadowNode(nullptr), m_HighlightNode(nullptr), m_GuideLineNode(nullptr), m_SpellEffectNodeMap()
+    ActorNodeSet(flownet::ActorID actorID): m_ZOrder(0), m_ActorID(actorID), m_ActorNode(nullptr), m_HUDNode(nullptr), m_ShadowNode(nullptr), m_HighlightNode(nullptr), m_GuideLineNode(nullptr), m_SpellEffectNodeMap()
     {
-        if(flownet::IsPlayerID(actorID))
-        {
-            this->m_ActorNode = PlayerNode::create(actorID);
-        }
-        else
-        {
-            this->m_ActorNode = MonsterNode::create(actorID);
-        }
-        this->m_ActorNode->retain();
-        
-        this->m_HUDNode = HUDNode::create(actorID);
-        this->m_HUDNode->retain();
-        
-        this->m_ShadowNode = ShadowNode::create(actorID);
-        this->m_ShadowNode->retain();
+        this->AddActorNode(actorID);
+        this->AddHUDNode(actorID);
+        this->AddShadowNode(actorID);
     }
     
     ~ActorNodeSet()
     {
-        if(this->m_ActorNode) this->m_ActorNode->release();
-        if(this->m_HUDNode) this->m_HUDNode->release();
-        if(this->m_ShadowNode) this->m_ShadowNode->release();
-        if(this->m_HighlightNode) this->m_HighlightNode->release();
-        if(this->m_GuideLineNode) this->m_GuideLineNode->release();
-        std::for_each(this->m_SpellEffectNodeMap.begin(), this->m_SpellEffectNodeMap.end(), [this](SpellEffectNodeMap::value_type pair){            
-            pair.second->release();
-        });
-        
-        this->m_SpellEffectNodeMap.clear();
-        
-        this->m_ActorNode = nullptr;
-        this->m_HUDNode = nullptr;
-        this->m_ShadowNode = nullptr;
-        this->m_HighlightNode = nullptr;
-        this->m_GuideLineNode = nullptr;
+        this->RemoveActorNode();
+        this->RemoveHUDNode();
+        this->RemoveShadowNode();
+        this->RemoveHighlightNode();
+        this->RemoveGuideLineNode();
+
+//        std::for_each(this->m_SpellEffectNodeMap.begin(), this->m_SpellEffectNodeMap.end(), [this](SpellEffectNodeMap::value_type pair){
+//            pair.second->release();
+//        });
+//        this->m_SpellEffectNodeMap.clear();
     }
     
     void SetZOrder(int zOrder)
     {
+        this->m_ZOrder = zOrder;
         this->m_ActorNode->setZOrder(zOrder);
         this->m_HUDNode->setZOrder(zOrder + 9);
         this->m_ShadowNode->setZOrder(zOrder - 9);
@@ -71,9 +55,115 @@ struct ActorNodeSet : public CCObject {
         });
     }
     
-    int GetZOrder(int zOrder)
+    int GetZOrder()
     {
-        return this->m_ActorNode->getZOrder();
+        return this->m_ZOrder;
+    }
+    
+    void AddActorNode(flownet::ActorID actorID)
+    {
+        this->RemoveActorNode();
+        this->m_ActorNode = IsPlayerID(actorID) ? static_cast<ActorNode*>(PlayerNode::create(actorID)) : static_cast<ActorNode*>(MonsterNode::create(actorID));
+        this->m_ActorNode->retain();
+    }
+    
+    void RemoveActorNode()
+    {
+        if(this->m_ActorNode)
+        {
+            this->m_ActorNode->release();
+            this->m_ActorNode = nullptr;
+        }
+    }
+    
+    void AddHUDNode(flownet::ActorID actorID)
+    {
+        this->RemoveHUDNode();
+        this->m_HUDNode = HUDNode::create(actorID);
+        this->m_HUDNode->retain();
+    }
+    
+    void RemoveHUDNode()
+    {
+        if(this->m_HUDNode)
+        {
+            this->m_HUDNode->release();
+            this->m_HUDNode = nullptr;
+        }
+    }
+
+    void AddShadowNode(flownet::ActorID actorID)
+    {
+        this->RemoveShadowNode();
+        this->m_ShadowNode = ShadowNode::create(actorID);
+        this->m_ShadowNode->retain();
+    }
+    
+    void RemoveShadowNode()
+    {
+        if(this->m_ShadowNode)
+        {
+            this->m_ShadowNode->release();
+            this->m_ShadowNode = nullptr;
+        }
+    }
+
+    void AddHighlightNode(flownet::ActorID actorID)
+    {
+        this->RemoveHighlightNode();
+        this->m_HighlightNode = HighlightNode::create(actorID);
+        this->m_HighlightNode->retain();
+    }
+    
+    void RemoveHighlightNode()
+    {
+        if(this->m_HighlightNode)
+        {
+            this->m_HighlightNode->release();
+            this->m_HighlightNode = nullptr;
+        }
+    }
+
+    void AddGuideLineNode(flownet::SpellType spellType, CCPoint destination)
+    {
+        this->RemoveGuideLineNode();
+        int zOrder = this->GetZOrder();
+        CCPoint source = this->m_ActorNode->getPosition();
+        this->m_GuideLineNode = GuideLineNode::create(spellType, source, destination);
+        this->m_GuideLineNode->retain();
+        this->m_GuideLineNode->setZOrder(zOrder + 1); // TO DO : change here
+    }
+    
+    void RemoveGuideLineNode()
+    {
+        if(this->m_GuideLineNode)
+        {
+            this->m_GuideLineNode->release();
+            this->m_GuideLineNode = nullptr;
+        }
+    }
+    
+    // NOTE : return value of this function used for adding to parent
+    SpellEffectNode* AddSpellEffectNode(flownet::ActorID actorID, flownet::SpellAbility spellAbility)
+    {
+        SpellEffectNode* spellEffectNode = SpellEffectNode::create(actorID, spellAbility);
+        spellEffectNode->retain();
+    
+        this->m_SpellEffectNodeMap.insert(SpellEffectNodeMap::value_type(spellAbility, spellEffectNode));
+        
+        return spellEffectNode;
+    }
+    
+    // NOTE : return value of this function used for removing from parent
+    SpellEffectNode* RemoveSpellEffectNode(flownet::SpellAbility spellAbility)
+    {
+        SpellEffectNodeMap::iterator iter = this->m_SpellEffectNodeMap.find(spellAbility);
+        ASSERT_DEBUG(iter != this->m_SpellEffectNodeMap.end());
+        this->m_SpellEffectNodeMap.erase(iter);
+
+        iter->second->release();
+        
+        return iter->second;
     }
 };
 
@@ -143,6 +233,10 @@ public:
     void AddNewItem(flownet::Item item, flownet::POINT spawnPosition);
     void RemoveItem(CCObject* itemNode);
     void PickupItemFromField(flownet::ActorID playerID, flownet::ItemID itemID);
+    
+private:
+    void AddSpellGuideLine(flownet::ActorID actorID, flownet::SpellType spellType, flownet::POINT destination);
+    void RemoveSpellGuideLine(flownet::ActorID actorID);
 };
 
 

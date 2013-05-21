@@ -979,15 +979,6 @@ void AppDelegate::OnSCNotifyApplySpellAbility(flownet::StageID stageID, flownet:
     Actor* invoker = clientStage->FindActor(invokerID);
     ASSERT_DEBUG(invoker);
     
-    actor->ApplySpellAbilityForClient(spellAbility, amount);
-    
-    BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
-    ASSERT_DEBUG(scene);
-    
-    ActorLayer* actorLayer = scene->GetActorLayer();
-    ASSERT_DEBUG(actorLayer);
-    
-    // NOTE : check for if there is no same ability 
     SpellAbilityDataList& activeSpellAbilityDataList = actor->GetSpellAbilityDataList();
     bool found = false;
     std::for_each(activeSpellAbilityDataList.begin(), activeSpellAbilityDataList.end(), [this, &found, spellAbility](SpellAbilityData& spellAbilityData){
@@ -996,7 +987,15 @@ void AppDelegate::OnSCNotifyApplySpellAbility(flownet::StageID stageID, flownet:
         }
     });
     
-    if(found)
+    actor->ApplySpellAbilityForClient(spellAbility, amount);
+    
+    BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
+    ASSERT_DEBUG(scene);
+    
+    ActorLayer* actorLayer = scene->GetActorLayer();
+    ASSERT_DEBUG(actorLayer);
+            
+    if(!found)
     {
         actorLayer->AddSpellEffect(targetID, spellAbility);
     }

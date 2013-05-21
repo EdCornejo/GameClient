@@ -199,7 +199,7 @@ void AccountLayer::Reset()
 {
     if(this->m_BackgroundImage)
     {
-        this->removeChild(this->m_BackgroundImage);
+        this->removeChild(this->m_BackgroundImage, true);
         this->m_BackgroundImage->release();
         this->m_BackgroundImage = nullptr;
     }

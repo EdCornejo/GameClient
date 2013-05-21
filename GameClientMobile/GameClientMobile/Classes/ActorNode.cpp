@@ -271,7 +271,7 @@ void HUDNode::ChangeHealthPointBar(float scaleFactor)
     {
         if(this->m_GreenBar != this->m_RemainHealthPointBar)
         {
-            this->removeChild(this->m_RemainHealthPointBar);
+            this->removeChild(this->m_RemainHealthPointBar, true);
             this->m_RemainHealthPointBar->release();
             this->m_RemainHealthPointBar = this->m_GreenBar;
             this->addChild(this->m_RemainHealthPointBar);
@@ -282,7 +282,7 @@ void HUDNode::ChangeHealthPointBar(float scaleFactor)
     {
         if(this->m_RemainHealthPointBar != this->m_YellowBar)
         {
-            this->removeChild(this->m_RemainHealthPointBar);
+            this->removeChild(this->m_RemainHealthPointBar, true);
             this->m_RemainHealthPointBar->release();
             this->m_RemainHealthPointBar = this->m_YellowBar;
             this->addChild(this->m_RemainHealthPointBar);
@@ -293,7 +293,7 @@ void HUDNode::ChangeHealthPointBar(float scaleFactor)
     {
         if(this->m_RemainHealthPointBar != this->m_RedBar)
         {
-            this->removeChild(this->m_RemainHealthPointBar);
+            this->removeChild(this->m_RemainHealthPointBar, true);
             this->m_RemainHealthPointBar->release();
             this->m_RemainHealthPointBar = this->m_RedBar;
             this->addChild(this->m_RemainHealthPointBar);

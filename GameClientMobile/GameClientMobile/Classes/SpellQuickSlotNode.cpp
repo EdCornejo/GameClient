@@ -98,7 +98,7 @@ void SpellQuickSlotNode::EnableButton(CCObject* object)
 void SpellQuickSlotNode::RemoveProgressTimer(CCObject* object)
 {
     CCProgressTimer* timer = static_cast<CCProgressTimer*>(object);
-    this->removeChild(timer);
+    this->removeChild(timer, true);
 }
 
 void SpellQuickSlotNode::ApplyCoolTime(flownet::SpellType spellType)

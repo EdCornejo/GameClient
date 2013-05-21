@@ -19,6 +19,7 @@ bool PlayerNode::init()
     Player* player = GameClient::Instance().GetClientStage()->FindPlayer(this->m_ActorID);
     
     this->m_Skeleton = CCSkeleton::create("common/character.json", "player/character.atlas");
+    this->m_Skeleton->retain();
     
     
     // set animtaion mixing
@@ -51,7 +52,7 @@ bool PlayerNode::initWithGender(flownet::Gender gender)
     if(!ActorNode::init()) return false;
     
     this->m_Skeleton = CCSkeleton::create("common/character.json", "player/character.atlas");
-    
+    this->m_Skeleton->retain();
     this->m_Skeleton->setMix("idle", "moving", 0.2);
     this->m_Skeleton->setMix("moving", "idle", 0.2);
     

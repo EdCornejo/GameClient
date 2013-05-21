@@ -1,3 +1,4 @@
+
 //
 //  ActorLayer.cpp
 //  GameClientMobile
@@ -21,34 +22,36 @@ ActorLayer::~ActorLayer()
         if(actorNodeSet->m_ActorNode)
         {
             this->removeChild(actorNodeSet->m_ActorNode, true);
-            actorNodeSet->m_ActorNode->release();
         }
         if(actorNodeSet->m_HUDNode)
         {
             this->removeChild(actorNodeSet->m_HUDNode, true);
-            actorNodeSet->m_HUDNode->release();
         }
         if(actorNodeSet->m_ShadowNode)
         {
             this->removeChild(actorNodeSet->m_ShadowNode, true);
-            actorNodeSet->m_ShadowNode->release();
         }
         if(actorNodeSet->m_HighlightNode)
         {
             this->removeChild(actorNodeSet->m_HighlightNode, true);
-            actorNodeSet->m_HighlightNode->release();
         }
         
-        delete actorNodeSet;
+        std::for_each(actorNodeSet->m_SpellEffectNodeMap.begin(), actorNodeSet->m_SpellEffectNodeMap.end(), [this](SpellEffectNodeMap::value_type pair){
+            SpellEffectNode* node = pair.second;
+            this->removeChild(node, true);
+        });
         
+        delete actorNodeSet;
+
         pair.second = nullptr;
     });
     
     this->m_ActorNodeSetMap.clear();
     
+    // TO DO : check this code
     std::for_each(this->m_ItemNodeMap.begin(), this->m_ItemNodeMap.end(), [this](ItemNodeMap::value_type pair){
         ItemNode* node = pair.second;
-        this->removeChild(node);
+        this->removeChild(node, true);
         delete node;
     });
     this->m_ItemNodeMap.clear();
@@ -60,7 +63,6 @@ bool ActorLayer::init()
     {
         return false;
     }
-    CCLOG("actor layer created");
     
     // NOTE : initialize players
     PlayerMap& playerMap = GameClient::Instance().GetPlayerMap();
@@ -77,8 +79,7 @@ bool ActorLayer::init()
         
         if(playerID == GameClient::Instance().GetMyActorID())
         {
-            actorNodeSet->m_HighlightNode = HighlightNode::create(playerID);
-            actorNodeSet->m_HighlightNode->retain();
+            actorNodeSet->AddHighlightNode(playerID);
         }
         
         if(actorNodeSet->m_ActorNode) this->addChild(actorNodeSet->m_ActorNode);
@@ -119,6 +120,7 @@ ActorLayer* ActorLayer::create(StageType stageType)
    
     if(actorLayer && actorLayer->init())
     {
+        actorLayer->autorelease();
         return actorLayer;
     }
     else
@@ -136,6 +138,7 @@ void ActorLayer::update(float deltaTime)
 
 void ActorLayer::DeleteActor(ActorID playerID)
 {
+    // TO DO : release bug fix
     ActorNodeSetMap::iterator iter = this->m_ActorNodeSetMap.find(playerID);
     
     ASSERT_DEBUG(iter != this->m_ActorNodeSetMap.end());
@@ -147,6 +150,7 @@ void ActorLayer::DeleteActor(ActorID playerID)
     if(actorNodeSet->m_ShadowNode) this->removeChild(actorNodeSet->m_ShadowNode, true);
     if(actorNodeSet->m_HighlightNode) this->removeChild(actorNodeSet->m_HighlightNode, true);
     std::for_each(actorNodeSet->m_SpellEffectNodeMap.begin(), actorNodeSet->m_SpellEffectNodeMap.end(), [this](SpellEffectNodeMap::value_type pair){
+        pair.second->release();
         this->removeChild(pair.second, true);
     });
 
@@ -164,7 +168,6 @@ MonsterNode* ActorLayer::FindMonsterNode(ActorID monsterID)
 {
     return static_cast<MonsterNode*>(this->FindActorNode(monsterID));
 }
-
 
 ActorNode* ActorLayer::FindActorNode(ActorID actorID)
 {
@@ -404,7 +407,7 @@ void ActorLayer::ActorAttack(flownet::ActorID attackerActorID, flownet::ActorID 
 void ActorLayer::ActorBeginCast(flownet::ActorID casterActorID, flownet::SpellType spellType, flownet::POINT destination)
 {
     Actor* actor = GameClient::Instance().GetClientStage()->FindActor(casterActorID);
-    ActorNode* castingObject = this->FindPlayerNode(casterActorID);
+    ActorNode* castingObject = this->FindActorNode(casterActorID);
 
     if( !actor->IsAlive() )
     {
@@ -434,8 +437,7 @@ void ActorLayer::ActorBeginCast(flownet::ActorID casterActorID, flownet::SpellTy
     castingObject->runAction(sequence);
     
     // TO DO : show spell guide line and marker
-    // MUSTTODO
-    // castingObject->ShowSpellGuide(spellType, PointConverter::Convert(destination));
+    this->AddSpellGuideLine(casterActorID, spellType, destination);
 }
 
 void ActorLayer::ActorEndCast(flownet::ActorID invokerActorID, flownet::SpellType spellType, flownet::POINT destination)
@@ -475,9 +477,7 @@ void ActorLayer::ActorEndCast(flownet::ActorID invokerActorID, flownet::SpellTyp
     invokerObject->runAction(sequence);
     
     
-    // MUSTTODO
-    //invokerObject->HideSpellGuide();
-    
+    this->RemoveSpellGuideLine(invokerActorID);
     this->FireSpell(invokerActorID, destination, spellInfo);
 }
 
@@ -524,15 +524,7 @@ void ActorLayer::ActorDead(flownet::ActorID deadActorID, bool afterDelete)
     CCAction* sequence = nullptr;
     CCFiniteTimeAction* animateDead = CCCallFunc::create(deadObject, callfunc_selector(ActorNode::AnimateDead));
     CCBlink* blink = CCBlink::create(3, 6);
-    if(afterDelete)
-    {
-        CCFiniteTimeAction* removeSelf = CCCallFuncO::create(this, callfuncO_selector(ActorLayer::DeleteActorNode), actorNodeSet);
-        sequence = CCSequence::create(animateDead, blink, removeSelf, NULL);
-    }
-    else
-    {
-        sequence = CCSequence::create(animateDead, blink, NULL);
-    }
+    sequence = CCSequence::create(animateDead, blink, NULL);
     sequence->setTag(ActionType_Animation);
     deadObject->runAction(sequence);
 
@@ -613,27 +605,19 @@ void ActorLayer::AddSpellEffect(flownet::ActorID actorID, flownet::SpellAbility 
     ActorNodeSet* actorNodeSet = this->FindActorNodeSet(actorID);
     ASSERT_DEBUG(actorNodeSet);
     
-    SpellEffectNode* spellEffectNode = SpellEffectNode::create(actorID, spellAbility);
-    spellEffectNode->retain();
+    SpellEffectNode* node = actorNodeSet->AddSpellEffectNode(actorID, spellAbility);
     
-    this->addChild(spellEffectNode);
-    
-    actorNodeSet->m_SpellEffectNodeMap.insert(SpellEffectNodeMap::value_type(spellAbility, spellEffectNode));
+    this->addChild(node);
 }
 
 void ActorLayer::RemoveSpellEffect(flownet::ActorID actorID, flownet::SpellAbility spellAbility)
 {
     ActorNodeSet* actorNodeSet = this->FindActorNodeSet(actorID);
     ASSERT_DEBUG(actorNodeSet);
+
+    SpellEffectNode* node = actorNodeSet->RemoveSpellEffectNode(spellAbility);
     
-    SpellEffectNodeMap::iterator iter = actorNodeSet->m_SpellEffectNodeMap.find(spellAbility);
-    ASSERT_DEBUG(iter != actorNodeSet->m_SpellEffectNodeMap.end());
-    
-    iter->second->release();
-    
-    this->removeChild(iter->second, true);
-    
-    actorNodeSet->m_SpellEffectNodeMap.erase(iter);
+    this->removeChild(node, true);
 }
 
 void ActorLayer::UseItem(flownet::ActorID playerID, flownet::ItemID itemID)
@@ -676,4 +660,18 @@ void ActorLayer::PickupItemFromField(flownet::ActorID playerID, flownet::ItemID 
     sequence->setTag(ActionType_Animation);
     item->runAction(sequence);
     // TO DO : display effect for acquiring item
+}
+
+void ActorLayer::AddSpellGuideLine(flownet::ActorID actorID, flownet::SpellType spellType, flownet::POINT destination)
+{
+    ActorNodeSet* actorNodeSet = this->FindActorNodeSet(actorID);
+    actorNodeSet->AddGuideLineNode(spellType, PointConverter::Convert(destination));
+    this->addChild(actorNodeSet->m_GuideLineNode);
+}
+
+void ActorLayer::RemoveSpellGuideLine(flownet::ActorID actorID)
+{
+    ActorNodeSet* actorNodeSet = this->FindActorNodeSet(actorID);
+    this->removeChild(actorNodeSet->m_GuideLineNode, true);
+    actorNodeSet->RemoveGuideLineNode();
 }

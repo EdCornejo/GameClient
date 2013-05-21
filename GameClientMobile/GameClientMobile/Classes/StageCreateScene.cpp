@@ -263,7 +263,7 @@ void StageCreateScene::OnStageDetailCloseButtonClick(cocos2d::CCObject *sender)
         CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(menu, kCCMenuHandlerPriority, true);
     });
     
-    scene->removeChild(this->m_StageDetailInfoLayer);
+    scene->removeChild(this->m_StageDetailInfoLayer, true);
     scene->m_StageDetailInfoLayer->release();
     scene->m_StageDetailInfoLayer = nullptr;
 }

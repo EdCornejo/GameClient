@@ -29,6 +29,7 @@ bool MonsterNode::init()
         case flownet::MonsterType_KingSpider:
         default:
             this->m_Skeleton = CCSkeleton::create("monster/goblins.json", "monster/goblin.atlas");
+            this->m_Skeleton->retain();
             this->m_Skeleton->setSkin("goblingirl");
             this->m_Skeleton->setSlotsToBindPose();
             this->m_Skeleton->setScale(0.3);
