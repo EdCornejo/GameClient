@@ -2762,7 +2762,7 @@
 				PRELINK_LIBS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos6.1;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "../../GameShared/GameShared ../../flownet/flownet";
 				WRAPPER_EXTENSION = app;
 			};
@@ -2814,7 +2814,7 @@
 				PRELINK_LIBS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos6.1;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "../../GameShared/GameShared ../../flownet/flownet";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;

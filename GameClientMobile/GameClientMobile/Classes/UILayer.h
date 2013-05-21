@@ -55,7 +55,6 @@ public:
     void SetSelectedSpellType(SpellType spellType);
     void SwapInventorySlot(flownet::InventorySlot sourceSlotNumber, flownet::InventorySlot destinationSlotNumber);
     void ApplyCoolTime(flownet::SpellType spellType);
-    void ChangeRobe();
     
 public:
     void UpdateInventory();

@@ -13,10 +13,9 @@ bool CharacterCreateSceneTextFieldDelegate::init()
     return true;
 }
 
+CharacterCreateLayer::CharacterCreateLayer(): m_SelectedGender(Gender_None), m_BackgroundImage(nullptr), m_PlayerNode(nullptr), m_NameField(nullptr), m_TextFieldDelegate(nullptr), m_MaleButton(nullptr), m_FemaleButton(nullptr) {}
 
-CharacterCreateScene::CharacterCreateScene(): m_SelectedGender(Gender_None), m_BackgroundImage(nullptr), m_PlayerNode(nullptr), m_NameField(nullptr), m_TextFieldDelegate(nullptr), m_MaleButton(nullptr), m_FemaleButton(nullptr) {}
-
-CharacterCreateScene::~CharacterCreateScene()
+CharacterCreateLayer::~CharacterCreateLayer()
 {
     if(this->m_BackgroundImage)
     {
@@ -48,20 +47,18 @@ CharacterCreateScene::~CharacterCreateScene()
         this->m_FemaleButton->release();
         this->m_FemaleButton = nullptr;
     }
-
-    CCDirector::sharedDirector()->getTouchDispatcher()->removeDelegate(this);
 }
 
-bool CharacterCreateScene::init() {
-    if(!BaseScene::init()) return false;
+bool CharacterCreateLayer::init()
+{
+    if(!CCLayerColor::initWithColor(ccc4(43, 39, 36, 255))) return false;
     
-    CCLayerColor* layer = CCLayerColor::create(ccc4(43, 39, 36, 255));
     
     this->m_BackgroundImage = CCSprite::create("ui/character_create_scene/background.png");
     this->m_BackgroundImage->retain();
     CCSize winSize = CCDirector::sharedDirector()->getWinSize();
     this->m_BackgroundImage->setPosition(ccp(winSize.width / 2, winSize.height / 2));
-    layer->addChild(this->m_BackgroundImage);
+    this->addChild(this->m_BackgroundImage);
     CCSize backgroundSize = this->m_BackgroundImage->getTextureRect().size;
     
     this->m_TextFieldDelegate = CharacterCreateSceneTextFieldDelegate::create();
@@ -74,14 +71,14 @@ bool CharacterCreateScene::init() {
     this->m_BackgroundImage->addChild(this->m_NameField);
     
     this->m_MaleButton = CCMenuItemToggle::createWithTarget(this,
-                                                            menu_selector(CharacterCreateScene::OnMaleButtonTouch),
+                                                            menu_selector(CharacterCreateLayer::OnMaleButtonTouch),
                                                             CCMenuItemImage::create("ui/character_create_scene/male_button_normal.png", "ui/character_create_scene/male_button_normal.png"),
                                                             CCMenuItemImage::create("ui/character_create_scene/male_button_active.png", "ui/character_create_scene/male_button_active.png"),
                                                             NULL);
     this->m_MaleButton->retain();
     
     this->m_FemaleButton = CCMenuItemToggle::createWithTarget(this,
-                                                            menu_selector(CharacterCreateScene::OnFemaleButtonTouch),
+                                                            menu_selector(CharacterCreateLayer::OnFemaleButtonTouch),
                                                             CCMenuItemImage::create("ui/character_create_scene/female_button_normal.png", "ui/character_create_scene/female_button_normal.png"),
                                                             CCMenuItemImage::create("ui/character_create_scene/female_button_active.png", "ui/character_create_scene/female_button_active.png"),
                                                             NULL);
@@ -92,29 +89,22 @@ bool CharacterCreateScene::init() {
     genderMenu->setPosition(ccp(backgroundSize.width * 2 / 3, 120));
     this->m_BackgroundImage->addChild(genderMenu);
     
-    CCMenuItemImage* backButton = CCMenuItemImage::create("ui/character_create_scene/back_button_normal.png", "ui/character_create_scene/back_button_active.png", this, menu_selector(CharacterCreateScene::OnBackButtonTouch));
-    CCMenuItemImage* createButton = CCMenuItemImage::create("ui/character_create_scene/create_button_normal.png", "ui/character_create_scene/create_button_active.png", this, menu_selector(CharacterCreateScene::OnCreateButtonTouch));
+    CCMenuItemImage* backButton = CCMenuItemImage::create("ui/character_create_scene/back_button_normal.png", "ui/character_create_scene/back_button_active.png", this, menu_selector(CharacterCreateLayer::OnBackButtonTouch));
+    CCMenuItemImage* createButton = CCMenuItemImage::create("ui/character_create_scene/create_button_normal.png", "ui/character_create_scene/create_button_active.png", this, menu_selector(CharacterCreateLayer::OnCreateButtonTouch));
     CCMenu* buttonMenu = CCMenu::create(backButton, createButton, NULL);
     
     buttonMenu->setPosition(ccp(backgroundSize.width * 2 / 3, 40));
     buttonMenu->alignItemsHorizontallyWithPadding(20);
     this->m_BackgroundImage->addChild(buttonMenu);
     
-    this->addChild(layer);
-    
     CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, 0, true);
     
-    scheduleUpdate();
+    this->setTouchEnabled(true);
     
     return true;
 }
 
-void CharacterCreateScene::update(float deltaTime)
-{
-    BaseScene::update(deltaTime);
-}
-
-bool CharacterCreateScene::ccTouchBegan(CCTouch* touch, CCEvent* event)
+bool CharacterCreateLayer::ccTouchBegan(CCTouch* touch, CCEvent* event)
 {
     CC_UNUSED_PARAM(event);
     if(this->m_BackgroundImage->getChildren() && this->m_BackgroundImage->getChildren()->count() > 0)
@@ -139,7 +129,7 @@ bool CharacterCreateScene::ccTouchBegan(CCTouch* touch, CCEvent* event)
     return false;
 }
 
-void CharacterCreateScene::OnMaleButtonTouch(cocos2d::CCObject *sender)
+void CharacterCreateLayer::OnMaleButtonTouch(cocos2d::CCObject *sender)
 {
     if(!this->m_PlayerNode)
     {
@@ -159,14 +149,14 @@ void CharacterCreateScene::OnMaleButtonTouch(cocos2d::CCObject *sender)
     this->m_SelectedGender = Gender_Male;
 }
 
-void CharacterCreateScene::OnFemaleButtonTouch(cocos2d::CCObject *sender)
+void CharacterCreateLayer::OnFemaleButtonTouch(cocos2d::CCObject *sender)
 {
     if(!this->m_PlayerNode)
     {
         this->m_PlayerNode = PlayerNode::create(Gender_Female);
         this->m_PlayerNode->setScale(0.13);
         this->m_PlayerNode->retain();
-        this->m_PlayerNode->setPosition(ccp(60, 60));
+        this->m_PlayerNode->setPosition(ccp(105, 80));
         this->m_BackgroundImage->addChild(this->m_PlayerNode);
     }
     this->m_PlayerNode->ChangeGender(Gender_Female);
@@ -179,15 +169,39 @@ void CharacterCreateScene::OnFemaleButtonTouch(cocos2d::CCObject *sender)
     this->m_SelectedGender = Gender_Female;
 }
 
-void CharacterCreateScene::OnBackButtonTouch(cocos2d::CCObject *sender)
+void CharacterCreateLayer::OnBackButtonTouch(cocos2d::CCObject *sender)
 {
     // NOTE : there might be no back button, ask with teammates
     CCLOG("back button touch");
 }
 
-void CharacterCreateScene::OnCreateButtonTouch(cocos2d::CCObject *sender)
+void CharacterCreateLayer::OnCreateButtonTouch(cocos2d::CCObject *sender)
 {
     // NOTE : send create request
     CCLOG("create button touch");
     GameClient::Instance().GetClientObject().SendCSRequestCreatePlayer(GameClient::Instance().GetDeviceID(), GameClient::Instance().GetUserID(), this->m_SelectedGender, this->m_NameField->getString());
 }
+
+
+CharacterCreateScene::CharacterCreateScene() {}
+
+CharacterCreateScene::~CharacterCreateScene() {}
+
+bool CharacterCreateScene::init() {
+    if(!BaseScene::init()) return false;
+    
+    CharacterCreateLayer* layer = CharacterCreateLayer::create();
+    
+    this->addChild(layer);
+    
+    scheduleUpdate();
+    
+    return true;
+}
+
+void CharacterCreateScene::update(float deltaTime)
+{
+    BaseScene::update(deltaTime);
+}
+
+

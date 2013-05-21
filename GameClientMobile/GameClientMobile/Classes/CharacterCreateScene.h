@@ -16,8 +16,7 @@ public :
     CREATE_FUNC(CharacterCreateSceneTextFieldDelegate);
 };
 
-
-class CharacterCreateScene : public BaseScene, public CCTouchDelegate
+class CharacterCreateLayer : public CCLayerColor
 {
 private:
     flownet::Gender m_SelectedGender;
@@ -29,6 +28,26 @@ private:
     CCMenuItemToggle* m_FemaleButton;
 
 public :
+    CharacterCreateLayer();
+    virtual ~CharacterCreateLayer();
+    
+    virtual bool init();
+    
+    CREATE_FUNC(CharacterCreateLayer);
+    
+    virtual bool ccTouchBegan(CCTouch* touch, CCEvent* event) override;
+    
+private :
+    void OnMaleButtonTouch(CCObject* sender);
+    void OnFemaleButtonTouch(CCObject* sender);
+    void OnBackButtonTouch(CCObject* sender);
+    void OnCreateButtonTouch(CCObject* sender);
+};
+
+
+class CharacterCreateScene : public BaseScene, public CCTouchDelegate
+{
+public :
     CharacterCreateScene();
     virtual ~CharacterCreateScene();
     
@@ -37,15 +56,6 @@ public :
     virtual void update(float deltaTime);
     
     CREATE_FUNC(CharacterCreateScene);
-    
-    virtual bool ccTouchBegan(CCTouch* touch, CCEvent* event) override;
-    
-private:
-    void OnMaleButtonTouch(CCObject* sender);
-    void OnFemaleButtonTouch(CCObject* sender);
-
-    void OnBackButtonTouch(CCObject* sender);
-    void OnCreateButtonTouch(CCObject* sender);
 };
 
 #endif /* defined(__GameClientMobile__CharacterCreateScene__) */

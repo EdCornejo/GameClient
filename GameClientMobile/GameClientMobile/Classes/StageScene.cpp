@@ -64,8 +64,9 @@ void StageScene::AddStageInfo(StageInfo* stageInfo)
 void StageScene::OnCreateButtonClick(cocos2d::CCObject *sender)
 {
     GameClientObject& clientObject = GameClient::Instance().GetClientObject();
+    GPSPoint gps = GPSPoint(34, 53, 0);
     
-    clientObject.SendCSRequestCreateStage(StageType_WolfForest);
+    clientObject.SendCSRequestCreateStage(StageType_WolfForest, gps);
 }
 
 void StageScene::OnJoinButtonClick(cocos2d::CCObject *sender)

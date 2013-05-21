@@ -251,7 +251,8 @@ void StageCreateScene::OnStageCreateButtonClick(cocos2d::CCObject *sender)
 {
     CCMenuItemImage* createButton = static_cast<CCMenuItemImage*>(sender);
     GameClientObject& clientObject = GameClient::Instance().GetClientObject();
-    clientObject.SendCSRequestCreateStage(static_cast<StageType>(createButton->getTag()));
+    GPSPoint gps = GPSPoint(34, 54, 0);
+    clientObject.SendCSRequestCreateStage(static_cast<StageType>(createButton->getTag()), gps);
     
     static_cast<ClientDirector*>(CCDirector::sharedDirector())->ChangeScene<StageCreateScene, LoadingScene>();
 }

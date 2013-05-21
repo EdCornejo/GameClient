@@ -60,25 +60,11 @@ bool UILayer::init()
             break;
     }
     
-    
-    CCMenuItemFont* changeCloth = CCMenuItemFont::create("change", this, menu_selector(UILayer::ChangeRobe));
-    CCMenu* menu = CCMenu::create(changeCloth, NULL);
-    
-    this->addChild(menu);
-    
     this->setTouchEnabled(true);
     
     scheduleUpdate();
     
     return true;
-}
-
-void UILayer::ChangeRobe()
-{
-    CCLOG("change robe");
-    BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
-    PlayerNode* player = scene->GetActorLayer()->FindPlayerNode(GameClient::Instance().GetMyActorID());
-    player->ChangeRobe(ItemType_None);
 }
 
 UILayer* UILayer::create(StageType stageType)
