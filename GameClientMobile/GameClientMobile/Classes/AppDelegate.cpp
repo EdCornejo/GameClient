@@ -369,6 +369,7 @@ void AppDelegate::OnSCResponseExitStage(flownet::StageID stageID, flownet::Actor
     ClientStage* emptyStage = new ClientStage(Stage());
     
     GameClient::Instance().SetClientStage(emptyStage);
+    delete clientStage;
     
     if( false == static_cast<ClientDirector*>(CCDirector::sharedDirector())->ChangeScene<StageScene>() )
     {
@@ -394,6 +395,12 @@ void AppDelegate::OnSCNotifyExitStage(flownet::StageID stageID, flownet::ActorID
     
     actorLayer->DeleteActor(actorID);
 
+    Actor* theActor = clientStage->FindActor(actorID);
+    if( theActor == nullptr )
+    {
+        ASSERT_DEBUG(theActor!=nullptr);
+    }
+
     if(IsPlayerID(actorID))
     {
         clientStage->RemovePlayer(actorID);
@@ -402,6 +409,8 @@ void AppDelegate::OnSCNotifyExitStage(flownet::StageID stageID, flownet::ActorID
     {
         clientStage->RemoveMonster(actorID);
     }
+    
+    delete theActor;
     // TO DO : make merge delete functions
 }
 
