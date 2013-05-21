@@ -51,7 +51,10 @@ bool AccountLayer::init()
     {
         GameClient::Instance().GetClientObject().Disconnect();
     }
-    GameClient::Instance().GetCFConnection().InitializeClient(FESERVER_CF_CONNECT_ADDRESS, FESERVER_CF_CONNECT_PORT);
+    if( GameClient::Instance().GetCFConnection().IsConnected() == false )
+    {
+        GameClient::Instance().GetCFConnection().InitializeClient(FESERVER_CF_CONNECT_ADDRESS, FESERVER_CF_CONNECT_PORT);
+    }
     
     this->m_Delegate = AccountSceneTextFieldDelegate::create();
     this->m_Delegate->retain();
