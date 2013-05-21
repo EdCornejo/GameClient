@@ -82,7 +82,6 @@ bool AppDelegate::applicationDidFinishLaunching()
     flownet::GameClient::Instance().InitializeClient(this);
     this->InitializeConnection();
     flownet::GameClient::Instance().StartClient();
-    
 
     return true;
 }
@@ -107,7 +106,6 @@ void AppDelegate::applicationWillEnterForeground()
     flownet::GameClient::Instance().InitializeClient(this);
     this->InitializeConnection();
     flownet::GameClient::Instance().StartClient();
-    
 
 
     CCDirector::sharedDirector()->startAnimation();
@@ -117,11 +115,18 @@ void AppDelegate::applicationWillEnterForeground()
 
 void AppDelegate::InitializeConnection()
 {
-    std::string serverIP;
-    serverIP = CCUserDefault::sharedUserDefault()->getStringForKey("yours", "");
+    std::string serverIP = CCUserDefault::sharedUserDefault()->getStringForKey("yours", "");
     
-    GameClient::Instance().GetCFConnection().InitializeClient("61.43.139.149", 1990);
-    GameClient::Instance().GetClientObject().InitializeClient("61.43.139.149", SERVER_CONNECT_PORT);
+    if( serverIP.empty() || serverIP.length()==0 )
+    {
+        GameClient::Instance().GetCFConnection().InitializeClient(FESERVER_CF_CONNECT_ADDRESS, FESERVER_CF_CONNECT_PORT);
+        //GameClient::Instance().GetCFConnection().RecvStart();
+    }
+    else
+    {
+        GameClient::Instance().GetClientObject().InitializeClient(serverIP.c_str(), SERVER_CONNECT_PORT);
+        //GameClient::Instance().GetClientObject().RecvStart();
+    }
 }
 
 void AppDelegate::OnSCProtocolError() const
@@ -244,6 +249,9 @@ void AppDelegate::OnFCResponseLogInUserAccount(flownet::UserID userID, flownet::
         CCUserDefault::sharedUserDefault()->setStringForKey("yours", gameServerIP.c_str());
         CCUserDefault::sharedUserDefault()->flush();
         
+        GameClient::Instance().GetClientObject().ConnectWithBlockingNotTestedVersion(gameServerIP.c_str(), SERVER_CONNECT_PORT);
+        GameClient::Instance().GetClientObject().RecvStart();
+        
         GameClient::Instance().GetClientObject().SendCSRequestLogInWithOTP(GameClient::Instance().GetDeviceID(), userID, otp);
         
 //        GameClient::Instance().GetClientObject().InitializeClient(gameServerIP.c_str(), SERVER_CONNECT_PORT);
@@ -361,6 +369,7 @@ void AppDelegate::OnSCResponseExitStage(flownet::StageID stageID, flownet::Actor
     ClientStage* emptyStage = new ClientStage(Stage());
     
     GameClient::Instance().SetClientStage(emptyStage);
+    delete clientStage;
     
     if( false == static_cast<ClientDirector*>(CCDirector::sharedDirector())->ChangeScene<StageScene>() )
     {
@@ -386,6 +395,12 @@ void AppDelegate::OnSCNotifyExitStage(flownet::StageID stageID, flownet::ActorID
     
     actorLayer->DeleteActor(actorID);
 
+    Actor* theActor = clientStage->FindActor(actorID);
+    if( theActor == nullptr )
+    {
+        ASSERT_DEBUG(theActor!=nullptr);
+    }
+
     if(IsPlayerID(actorID))
     {
         clientStage->RemovePlayer(actorID);
@@ -394,6 +409,8 @@ void AppDelegate::OnSCNotifyExitStage(flownet::StageID stageID, flownet::ActorID
     {
         clientStage->RemoveMonster(actorID);
     }
+    
+    delete theActor;
     // TO DO : make merge delete functions
 }
 

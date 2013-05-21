@@ -48,7 +48,16 @@ ClientStage::ClientStage(const Stage& stage,const STRING gameObjectName):Stage(s
 
 ClientStage::~ClientStage()
 {
-
+    std::for_each(m_PlayerMap.begin(), m_PlayerMap.end(), [](PlayerMap::value_type& valuePair)
+    {
+        delete valuePair.second;
+    });
+    m_PlayerMap.clear();
+    std::for_each(m_MonsterMap.begin(), m_MonsterMap.end(), [](MonsterMap::value_type& valuePair)
+    {
+        delete valuePair.second;
+    });
+    m_MonsterMap.clear();
 }
 
 } // namespace flownet

@@ -41,7 +41,20 @@ AccountLayer::~AccountLayer()
 
 bool AccountLayer::init()
 {
-    if(!CCLayerColor::initWithColor(ccc4(43, 39, 36, 255))) return false;
+    if(!CCLayerColor::initWithColor(ccc4(43, 39, 36, 255)))
+    {
+        ASSERT_DEBUG(false);
+        return false;
+    }
+    
+    if( GameClient::Instance().GetClientObject().IsConnected() == true )
+    {
+        GameClient::Instance().GetClientObject().Disconnect();
+    }
+    if( GameClient::Instance().GetCFConnection().IsConnected() == false )
+    {
+        GameClient::Instance().GetCFConnection().InitializeClient(FESERVER_CF_CONNECT_ADDRESS, FESERVER_CF_CONNECT_PORT);
+    }
     
     this->m_Delegate = AccountSceneTextFieldDelegate::create();
     this->m_Delegate->retain();
@@ -110,6 +123,12 @@ void AccountLayer::OnLoginButtonTouch(cocos2d::CCObject *sender)
 {
     CCLOG("login button touch");
     // TO DO : check form
+    if( GameClient::Instance().GetCFConnection().IsConnected() == false )
+    {
+        CCMessageBox("GameServer is not ready. Wait for a minute.", "LogIn Error");
+        return;
+    }
+    
     GameClient::Instance().GetCFConnection().SendCFRequestLogInUserAccount(GameClient::Instance().GetDeviceID(), this->m_EmailField->getString() , this->m_PasswordField->getString());
 }
 

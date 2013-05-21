@@ -11,7 +11,7 @@
 namespace flownet
 {
 
-GameClient* GameClient::_SingletonInstance = 0;
+GameClient* GameClient::_SingletonInstance = nullptr;
 
 GameClient::GameClient():
     m_ClientTimer(),
