@@ -18,6 +18,7 @@ private:
     EquipmentNode* m_EquipmentNode;
     InventoryNode* m_InventoryNode;
     MenuBarNode* m_MenuBarNode;
+    ChattingNode* m_ChattingNode;
     SpellType m_SelectedSpellType;
     CCPoint m_SpellDestinationPoint;
     
@@ -38,7 +39,7 @@ private:
     void InitializeStash();
     void InitializeEquipment();
     void InitializeMenuBar();
-    void InitializeChattng();
+    void InitializeChatting();
     
 public:
     InventoryNode* GetInventoryNode();
@@ -55,6 +56,7 @@ public:
     void SetSelectedSpellType(SpellType spellType);
     void SwapInventorySlot(flownet::InventorySlot sourceSlotNumber, flownet::InventorySlot destinationSlotNumber);
     void ApplyCoolTime(flownet::SpellType spellType);
+    void MessageReceived(flownet::ActorID senderID, flownet::STRING senderName, flownet::STRING message);
     
 public:
     void UpdateInventory();

@@ -8,7 +8,7 @@
 
 #include "Headers.pch"
 
-UILayer::UILayer() : m_StageType(flownet::StageType_NONE), m_SpellQuickSlotNode(nullptr), m_StashNode(nullptr), m_EquipmentNode(nullptr), m_InventoryNode(nullptr), m_SelectedSpellType(SpellType_NONE), m_SpellDestinationPoint()
+UILayer::UILayer() : m_StageType(flownet::StageType_NONE), m_SpellQuickSlotNode(nullptr), m_StashNode(nullptr), m_EquipmentNode(nullptr), m_InventoryNode(nullptr), m_MenuBarNode(nullptr), m_ChattingNode(nullptr), m_SelectedSpellType(SpellType_NONE), m_SpellDestinationPoint()
 {
     
 }
@@ -39,6 +39,18 @@ UILayer::~UILayer()
         this->m_InventoryNode->release();
         this->m_InventoryNode = nullptr;
     }
+    if(this->m_MenuBarNode)
+    {
+        touchDispatcher->removeDelegate(this->m_MenuBarNode);
+        this->m_MenuBarNode->release();
+        this->m_MenuBarNode = nullptr;
+    }
+    if(this->m_ChattingNode)
+    {
+        touchDispatcher->removeDelegate(this->m_ChattingNode);
+        this->m_ChattingNode->release();
+        this->m_ChattingNode = nullptr;
+    }
 }
 
 bool UILayer::init()
@@ -57,6 +69,7 @@ bool UILayer::init()
             //this->InitializeStash();
             this->InitializeEquipment();
             this->InitializeMenuBar();
+            this->InitializeChatting();
             break;
     }
     
@@ -165,9 +178,14 @@ void UILayer::InitializeMenuBar()
     this->addChild(this->m_MenuBarNode);
 }
 
-void UILayer::InitializeChattng()
+void UILayer::InitializeChatting()
 {
+    this->m_ChattingNode = ChattingNode::create();
+    this->m_ChattingNode->retain();
     
+    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this->m_ChattingNode, 0, true);
+
+    this->addChild(this->m_ChattingNode);
 }
 
 InventoryNode* UILayer::GetInventoryNode()
@@ -350,6 +368,14 @@ void UILayer::ApplyCoolTime(flownet::SpellType spellType)
     if(this->m_SpellQuickSlotNode)
     {
         this->m_SpellQuickSlotNode->ApplyCoolTime(spellType);
+    }
+}
+
+void UILayer::MessageReceived(flownet::ActorID senderID, flownet::STRING senderName, flownet::STRING message)
+{
+    if(this->m_ChattingNode)
+    {
+        this->m_ChattingNode->MessageReceived(senderName, message);
     }
 }
 
