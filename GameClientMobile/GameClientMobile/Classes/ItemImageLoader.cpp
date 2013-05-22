@@ -21,6 +21,15 @@ std::string ItemImageLoader::GetImageFileName(flownet::ItemType itemType)
         case ItemType_OakWand:
             imageName = "oak_wand";
             break;
+        case ItemType_WizardHat :
+            imageName = "wizard_hat";
+            break;
+        case ItemType_WizardRobe :
+            imageName = "wizard_robe";
+            break;
+        case ItemType_WizardStaff :
+            imageName = "wizard_staff";
+            break;
         default:
             imageName = "item_none";
     }

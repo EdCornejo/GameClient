@@ -46,7 +46,6 @@
 		6B2AA40116FC72F100DEB7C3 /* spell_animations.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B2AA40016FC72F100DEB7C3 /* spell_animations.plist */; };
 		6B2AA40516FE73E800DEB7C3 /* CaptionLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B2AA40316FE73E100DEB7C3 /* CaptionLayer.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		6B2AA40916FE89E700DEB7C3 /* script in Resources */ = {isa = PBXBuildFile; fileRef = 6B2AA40816FE89E700DEB7C3 /* script */; };
-		6B2AA40C16FE8C1800DEB7C3 /* StageCreateScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B2AA40A16FE8C1500DEB7C3 /* StageCreateScene.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		6B30CE75171C12C400316D9F /* SplashScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B30CE73171C12C400316D9F /* SplashScene.cpp */; };
 		6B30CE79171D491300316D9F /* common in Resources */ = {isa = PBXBuildFile; fileRef = 6B30CE78171D491300316D9F /* common */; };
 		6B369641173B93CC007F2985 /* EquipmentNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B36963F173B93CC007F2985 /* EquipmentNode.cpp */; };
@@ -55,7 +54,6 @@
 		6B3C0FB816E862C60089F2C8 /* MonsterNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B3C0FB616E862C50089F2C8 /* MonsterNode.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		6B3C0FE716EC4B620089F2C8 /* BaseLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B3C0FE516EC4B610089F2C8 /* BaseLayer.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		6B3C0FEA16EDB58A0089F2C8 /* BattleScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B3C0FE816EDB58A0089F2C8 /* BattleScene.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
-		6B3C0FED16EDBA1F0089F2C8 /* StageScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B3C0FEB16EDBA1F0089F2C8 /* StageScene.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		6B3C0FF116EE34CA0089F2C8 /* BackgroundImageLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B3C0FEF16EE34CA0089F2C8 /* BackgroundImageLoader.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		6B4A5719174109CB00601A3A /* SpellEffectNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B4A5717174109CB00601A3A /* SpellEffectNode.cpp */; };
 		6B532B2E1712E0F4009127B2 /* CCAction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B53293E1712E0F4009127B2 /* CCAction.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -390,8 +388,6 @@
 		6B2AA40316FE73E100DEB7C3 /* CaptionLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CaptionLayer.cpp; path = Classes/CaptionLayer.cpp; sourceTree = "<group>"; };
 		6B2AA40416FE73E400DEB7C3 /* CaptionLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CaptionLayer.h; path = Classes/CaptionLayer.h; sourceTree = "<group>"; };
 		6B2AA40816FE89E700DEB7C3 /* script */ = {isa = PBXFileReference; lastKnownFileType = folder; name = script; path = Resources/script; sourceTree = "<group>"; };
-		6B2AA40A16FE8C1500DEB7C3 /* StageCreateScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StageCreateScene.cpp; path = Classes/StageCreateScene.cpp; sourceTree = "<group>"; };
-		6B2AA40B16FE8C1600DEB7C3 /* StageCreateScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StageCreateScene.h; path = Classes/StageCreateScene.h; sourceTree = "<group>"; };
 		6B30CE73171C12C400316D9F /* SplashScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SplashScene.cpp; path = Classes/SplashScene.cpp; sourceTree = "<group>"; };
 		6B30CE74171C12C400316D9F /* SplashScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SplashScene.h; path = Classes/SplashScene.h; sourceTree = "<group>"; };
 		6B30CE78171D491300316D9F /* common */ = {isa = PBXFileReference; lastKnownFileType = folder; name = common; path = Resources/common; sourceTree = "<group>"; };
@@ -408,8 +404,6 @@
 		6B3C0FE616EC4B610089F2C8 /* BaseLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseLayer.h; path = Classes/BaseLayer.h; sourceTree = "<group>"; };
 		6B3C0FE816EDB58A0089F2C8 /* BattleScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BattleScene.cpp; path = Classes/BattleScene.cpp; sourceTree = "<group>"; };
 		6B3C0FE916EDB58A0089F2C8 /* BattleScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BattleScene.h; path = Classes/BattleScene.h; sourceTree = "<group>"; };
-		6B3C0FEB16EDBA1F0089F2C8 /* StageScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StageScene.cpp; path = Classes/StageScene.cpp; sourceTree = "<group>"; };
-		6B3C0FEC16EDBA1F0089F2C8 /* StageScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StageScene.h; path = Classes/StageScene.h; sourceTree = "<group>"; };
 		6B3C0FEF16EE34CA0089F2C8 /* BackgroundImageLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BackgroundImageLoader.cpp; path = Classes/BackgroundImageLoader.cpp; sourceTree = "<group>"; };
 		6B3C0FF016EE34CA0089F2C8 /* BackgroundImageLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BackgroundImageLoader.h; path = Classes/BackgroundImageLoader.h; sourceTree = "<group>"; };
 		6B4A5717174109CB00601A3A /* SpellEffectNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SpellEffectNode.cpp; path = Classes/SpellEffectNode.cpp; sourceTree = "<group>"; };
@@ -2067,10 +2061,6 @@
 				6BAA3A7516E61F4A00BB233E /* BaseScene.h */,
 				6B3C0FE816EDB58A0089F2C8 /* BattleScene.cpp */,
 				6B3C0FE916EDB58A0089F2C8 /* BattleScene.h */,
-				6B3C0FEB16EDBA1F0089F2C8 /* StageScene.cpp */,
-				6B3C0FEC16EDBA1F0089F2C8 /* StageScene.h */,
-				6B2AA40A16FE8C1500DEB7C3 /* StageCreateScene.cpp */,
-				6B2AA40B16FE8C1600DEB7C3 /* StageCreateScene.h */,
 				6BB8AD60174B2DAC00D82DE8 /* StageSelectScene.cpp */,
 				6BB8AD61174B2DAC00D82DE8 /* StageSelectScene.h */,
 				6B7477B016F0C7AD0014C286 /* LoadingScene.cpp */,
@@ -2420,7 +2410,6 @@
 				6B3C0FB816E862C60089F2C8 /* MonsterNode.cpp in Sources */,
 				6B3C0FE716EC4B620089F2C8 /* BaseLayer.cpp in Sources */,
 				6B3C0FEA16EDB58A0089F2C8 /* BattleScene.cpp in Sources */,
-				6B3C0FED16EDBA1F0089F2C8 /* StageScene.cpp in Sources */,
 				6B3C0FF116EE34CA0089F2C8 /* BackgroundImageLoader.cpp in Sources */,
 				6B9E9A1816EE6C7E007A2BAC /* GameClient.cpp in Sources */,
 				6B9E9A2F16F0492A007A2BAC /* PointConverter.cpp in Sources */,
@@ -2434,7 +2423,6 @@
 				6B2AA3FA16FC56EF00DEB7C3 /* SpellAnimationLoader.cpp in Sources */,
 				6B2AA3FD16FC6A6700DEB7C3 /* SpellNode.cpp in Sources */,
 				6B2AA40516FE73E800DEB7C3 /* CaptionLayer.cpp in Sources */,
-				6B2AA40C16FE8C1800DEB7C3 /* StageCreateScene.cpp in Sources */,
 				6B6EC65D1700785C001E273F /* ClientDirector.cpp in Sources */,
 				6BB6C02E1702DB4E003CD4B4 /* DelayChecker.cpp in Sources */,
 				6B532B2E1712E0F4009127B2 /* CCAction.cpp in Sources */,

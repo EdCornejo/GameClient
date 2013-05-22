@@ -118,8 +118,11 @@ void PlayerNode::ChangeWand(flownet::ItemType itemType)
         case flownet::ItemType_OakWand:
             itemImageName = "oakwand";
             break;
+        case flownet::ItemType_WizardStaff:
+            itemImageName = "wizard";
+            break;
         default:
-            ASSERT_DEBUG(false);
+            itemImageName = "default";
             break;
     }
 
@@ -130,29 +133,36 @@ void PlayerNode::ChangeHat(flownet::ItemType itemType)
 {
     std::string itemImageName;
     switch (itemType) {
+        case flownet::ItemType_WizardHat:
+            itemImageName = "wizard";
+            break;
         default:
-            ASSERT_DEBUG(false);
+            itemImageName = "default";
             break;
     }
-    this->m_Skeleton->setAttachment("hat", itemImageName.c_str());
+    this->m_Skeleton->setAttachment("hat_front", itemImageName.c_str());
+    this->m_Skeleton->setAttachment("hat_rear", itemImageName.c_str());
 }
 
 void PlayerNode::ChangeRobe(flownet::ItemType itemType)
 {
     std::string itemImageName;
     switch (itemType) {
+        case flownet::ItemType_WizardRobe:
+            itemImageName = "wizard";
+            break;
         default:
-            //ASSERT_DEBUG(false);
+            itemImageName = "default";
             break;
     }
     
-    this->m_Skeleton->setAttachment("right_upper_arm", "wizard");
-    this->m_Skeleton->setAttachment("right_lower_arm-copy", "wizard");
-    this->m_Skeleton->setAttachment("robe_up", "wizard");
-    this->m_Skeleton->setAttachment("robe_down", "wizard");
-    this->m_Skeleton->setAttachment("robe_neck", "wizard");
-    this->m_Skeleton->setAttachment("left_lower_arm", "wizard");
-    this->m_Skeleton->setAttachment("left_upper_arm", "wizard");
+    this->m_Skeleton->setAttachment("right_upper_arm", itemImageName.c_str());
+    this->m_Skeleton->setAttachment("right_lower_arm-copy", itemImageName.c_str());
+    this->m_Skeleton->setAttachment("robe_up", itemImageName.c_str());
+    this->m_Skeleton->setAttachment("robe_down", itemImageName.c_str());
+    this->m_Skeleton->setAttachment("robe_neck", itemImageName.c_str());
+    this->m_Skeleton->setAttachment("left_lower_arm", itemImageName.c_str());
+    this->m_Skeleton->setAttachment("left_upper_arm", itemImageName.c_str());
 }
 
 void PlayerNode::ChangeCloak(flownet::ItemType itemType)
@@ -160,7 +170,7 @@ void PlayerNode::ChangeCloak(flownet::ItemType itemType)
     std::string itemImageName;
     switch (itemType) {
         default:
-            ASSERT_DEBUG(false);
+            itemImageName = "default";
             break;
     }
     this->m_Skeleton->setAttachment("cloak", itemImageName.c_str());
@@ -171,7 +181,7 @@ void PlayerNode::ChangeShoes(flownet::ItemType itemType)
     std::string itemImageName;
     switch (itemType) {
         default:
-            ASSERT_DEBUG(false);
+            itemImageName = "default";
             break;
     }
     this->m_Skeleton->setAttachment("shoes", itemImageName.c_str());
@@ -182,7 +192,7 @@ void PlayerNode::ChangeRing(flownet::ItemType itemType)
     std::string itemImageName;
     switch (itemType) {
         default:
-            ASSERT_DEBUG(false);
+            itemImageName = "default";
             break;
     }
     this->m_Skeleton->setAttachment("ring", itemImageName.c_str());

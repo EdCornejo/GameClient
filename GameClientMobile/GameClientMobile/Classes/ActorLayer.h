@@ -71,6 +71,7 @@ struct ActorNodeSet : public CCObject {
     {
         if(this->m_ActorNode)
         {
+            this->m_ActorNode->removeFromParentAndCleanup(true);
             this->m_ActorNode->release();
             this->m_ActorNode = nullptr;
         }
@@ -87,6 +88,7 @@ struct ActorNodeSet : public CCObject {
     {
         if(this->m_HUDNode)
         {
+            this->m_HUDNode->removeFromParentAndCleanup(true);
             this->m_HUDNode->release();
             this->m_HUDNode = nullptr;
         }
@@ -103,6 +105,7 @@ struct ActorNodeSet : public CCObject {
     {
         if(this->m_ShadowNode)
         {
+            this->m_ShadowNode->removeFromParentAndCleanup(true);
             this->m_ShadowNode->release();
             this->m_ShadowNode = nullptr;
         }
@@ -119,6 +122,7 @@ struct ActorNodeSet : public CCObject {
     {
         if(this->m_HighlightNode)
         {
+            this->m_HighlightNode->removeFromParentAndCleanup(true);
             this->m_HighlightNode->release();
             this->m_HighlightNode = nullptr;
         }
@@ -138,6 +142,7 @@ struct ActorNodeSet : public CCObject {
     {
         if(this->m_GuideLineNode)
         {
+            this->m_GuideLineNode->removeFromParentAndCleanup(true);
             this->m_GuideLineNode->release();
             this->m_GuideLineNode = nullptr;
         }

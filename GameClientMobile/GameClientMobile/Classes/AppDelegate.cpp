@@ -129,6 +129,34 @@ void AppDelegate::InitializeConnection()
     }
 }
 
+void AppDelegate::DisconnectCFAndConnectCSConnection() const
+{
+    if(GameClient::Instance().GetCFConnection().IsConnected())
+    {
+        GameClient::Instance().GetCFConnection().Disconnect();
+    }
+    if(!GameClient::Instance().GetClientObject().IsConnected())
+    {
+        std::string serverIP = CCUserDefault::sharedUserDefault()->getStringForKey("yours", "");
+        if(serverIP.empty()) ASSERT_DEBUG(!serverIP.empty());
+        GameClient::Instance().GetClientObject().InitializeClientWithBlocking(serverIP.c_str(), SERVER_CONNECT_PORT);
+        GameClient::Instance().GetClientObject().RecvStart();
+    }
+}
+
+void AppDelegate::DisconnectCSAndConnectCFConnection() const
+{
+    if(GameClient::Instance().GetClientObject().IsConnected())
+    {
+        GameClient::Instance().GetClientObject().Disconnect();
+    }
+    if(!GameClient::Instance().GetCFConnection().IsConnected())
+    {
+        GameClient::Instance().GetCFConnection().InitializeClientWithBlocking(FESERVER_CF_CONNECT_ADDRESS, FESERVER_CF_CONNECT_PORT);
+        GameClient::Instance().GetCFConnection().RecvStart();
+    }
+}
+
 void AppDelegate::OnSCProtocolError() const
 {
 
@@ -152,12 +180,7 @@ void AppDelegate::OnSCResponseSession(flownet::UserID userID, flownet::ActorID m
     // SessionID 가 없는 경우에는 로그인이 안되어있는 상태이기때문에 로그인을 해야한다.
     if(sessionID == SessionID_NONE)
     {
-//        GameClient::Instance().GetClientObject().Disconnect();
-        
-//        if(!GameClient::Instance().GetCFConnection().InitializeClientWithBlocking(FESERVER_CF_CONNECT_ADDRESS, FESERVER_CF_CONNECT_PORT))
-//        {
-//            ASSERT_DEBUG( false );
-//        }
+        this->DisconnectCSAndConnectCFConnection();
         
         if( false == static_cast<ClientDirector*>(CCDirector::sharedDirector())->ChangeScene<AccountScene>() )
         {
@@ -269,8 +292,6 @@ void AppDelegate::OnFCResponseLogInUserAccount(flownet::UserID userID, flownet::
     }
     else
     {
-//        GameClient::Instance().GetCFConnection().Disconnect();
-        
         GameClient::Instance().SetUserID(userID);
         GameClient::Instance().SetGameServerID(gameServerID);
         GameClient::Instance().SetOTP(otp);
@@ -279,12 +300,9 @@ void AppDelegate::OnFCResponseLogInUserAccount(flownet::UserID userID, flownet::
         CCUserDefault::sharedUserDefault()->setStringForKey("yours", gameServerIP.c_str());
         CCUserDefault::sharedUserDefault()->flush();
         
-        GameClient::Instance().GetClientObject().ConnectWithBlockingNotTestedVersion(gameServerIP.c_str(), SERVER_CONNECT_PORT);
-        GameClient::Instance().GetClientObject().RecvStart();
+        this->DisconnectCFAndConnectCSConnection();
         
         GameClient::Instance().GetClientObject().SendCSRequestLogInWithOTP(GameClient::Instance().GetDeviceID(), userID, otp);
-        
-//        GameClient::Instance().GetClientObject().InitializeClient(gameServerIP.c_str(), SERVER_CONNECT_PORT);
     }
 }
 
@@ -296,7 +314,15 @@ void AppDelegate::OnSCResponseLogInWithOTP(flownet::UserID userID, flownet::Acto
 
     if( userID == UserID_None)
     {
-        CCLOG("LogInWithOTP FAILED");
+        CCLOGERROR("AppDelegate::OnSCResponseLogInWithOTP >> login with OTP failed");
+        this->DisconnectCSAndConnectCFConnection();
+        
+        if( false == static_cast<ClientDirector*>(CCDirector::sharedDirector())->ChangeScene<AccountScene>() )
+        {
+            // TO DO : handle error
+            ASSERT_DEBUG(false);
+        }
+
         return;
     }
     
@@ -331,6 +357,8 @@ void AppDelegate::OnSCResponseLogOutUserAccount(flownet::UserID userID) const
         
         GameClient::Instance().Finalize();
         
+        this->DisconnectCSAndConnectCFConnection();
+        
         if( false == static_cast<ClientDirector*>(CCDirector::sharedDirector())->ChangeScene<AccountScene>() )
         {
             // TO DO : handle error
@@ -359,14 +387,19 @@ void AppDelegate::OnSCResponseCreateStage(flownet::StageID stageID, flownet::Sta
     }
 }
 
-void AppDelegate::OnSCResponseRunningStages(flownet::StageInfoList stageInfoList) const
+void AppDelegate::OnSCResponseGetStagePlayInfoList(flownet::StagePlayInfoList stageInfoList) const
 {
     // TO DO : display running stages
+    StageSelectScene* scene = dynamic_cast<StageSelectScene*>(CCDirector::sharedDirector()->getRunningScene());
+    if(!scene)
+    {
+        CCLOG("AppDelegate::OnSCResponeRunningStages >> response ignored. requested but not in stage select scene");
+        return;
+    }
+    
     if(!stageInfoList.empty())
     {
-        StageInfo& stage = stageInfoList[0];
-        GameClientObject& gameClientObject = GameClient::Instance().GetClientObject();
-        gameClientObject.SendCSRequestJoinRunningStage(stage.m_StageID);
+        scene->DisplayRunningStages(stageInfoList);
     }
 }
 
@@ -406,7 +439,7 @@ void AppDelegate::OnSCResponseExitStage(flownet::StageID stageID, flownet::Actor
     
     GameClient::Instance().SetClientStage(emptyStage);
     
-    if( false == static_cast<ClientDirector*>(CCDirector::sharedDirector())->ChangeScene<StageScene>() )
+    if( false == static_cast<ClientDirector*>(CCDirector::sharedDirector())->ChangeScene<StageSelectScene>() )
     {
         // TO DO : handle error
         ASSERT_DEBUG(false);
@@ -454,7 +487,7 @@ void AppDelegate::OnSCResponseRejoinCurrentStage(flownet::StageID stageID, flown
     if(stageID == StageID_None)
     {
         // TO DO : go to main menu
-        if( false == static_cast<ClientDirector*>(CCDirector::sharedDirector())->ChangeScene<StageScene>() )
+        if( false == static_cast<ClientDirector*>(CCDirector::sharedDirector())->ChangeScene<StageSelectScene>() )
         {
             // TO DO : handle error
             ASSERT_DEBUG(false);
@@ -1016,7 +1049,17 @@ void AppDelegate::OnSCNotifySendMessageToStagePlayers(flownet::StageID stageID, 
     if(clientStage == nullptr) return;
     if(stageID != clientStage->GetStageID()) ASSERT_DEBUG(stageID == clientStage->GetStageID());
     
+    Player* player = GameClient::Instance().GetClientStage()->FindPlayer(playerID);
     
+    GameClient::Instance().AddChatMessageLog(playerID, player->GetPlayerName(), message);
+    
+    BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
+    ASSERT_DEBUG(scene);
+    
+    UILayer* uiLayer = scene->GetUILayer();
+    ASSERT_DEBUG(uiLayer);
+    
+    uiLayer->MessageReceived(playerID, player->GetPlayerName(), message);
 }
 
 void AppDelegate::OnSCNotifyApplySpellAbility(flownet::StageID stageID, flownet::ActorID targetID, flownet::ActorID invokerID, flownet::SpellAbility spellAbility, flownet::FLOAT amount) const

@@ -28,6 +28,8 @@
 #include "SpellAnimationLoader.h"
 #include "SpellImageLoader.h"
 #include "ItemImageLoader.h"
+#include "StageImageLoader.h"
+#include "StagePreviewInfoDictionary.h"
 #include "PointConverter.h"
 
 //  Nodes
@@ -61,8 +63,7 @@
 #include "SplashScene.h"
 #include "AccountScene.h"
 #include "BattleScene.h"
-#include "StageScene.h"
-#include "StageCreateScene.h"
+#include "StageSelectScene.h"
 #include "LoadingScene.h"
 #include "CharacterCreateScene.h"
 

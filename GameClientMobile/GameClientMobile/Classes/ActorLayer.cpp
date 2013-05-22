@@ -672,6 +672,5 @@ void ActorLayer::AddSpellGuideLine(flownet::ActorID actorID, flownet::SpellType 
 void ActorLayer::RemoveSpellGuideLine(flownet::ActorID actorID)
 {
     ActorNodeSet* actorNodeSet = this->FindActorNodeSet(actorID);
-    this->removeChild(actorNodeSet->m_GuideLineNode, true);
     actorNodeSet->RemoveGuideLineNode();
 }
