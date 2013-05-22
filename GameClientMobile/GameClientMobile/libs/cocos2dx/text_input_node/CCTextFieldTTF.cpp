@@ -170,6 +170,44 @@ bool CCTextFieldTTF::canDetachWithIME()
 
 void CCTextFieldTTF::insertText(const char * text, int len)
 {
+    // NOTE : changed for korean input
+//    std::string sInsert(text, len);
+//
+//    // insert \n means input end
+//    int nPos = sInsert.find('\n');
+//    if ((int)sInsert.npos != nPos)
+//    {
+//        len = nPos;
+//        sInsert.erase(nPos);
+//    }
+//    
+//    if (len > 0)
+//    {
+//        if (m_pDelegate && m_pDelegate->onTextFieldInsertText(this, sInsert.c_str(), len))
+//        {
+//            // delegate doesn't want to insert text
+//            return;
+//        }
+//        
+//        m_nCharCount += _calcCharCount(sInsert.c_str());
+//        std::string sText(*m_pInputText);
+//        sText.append(sInsert);
+//        setString(sText.c_str());
+//    }
+//
+//    if ((int)sInsert.npos == nPos) {
+//        return;
+//    }
+//    
+//    // '\n' inserted, let delegate process first
+//    if (m_pDelegate && m_pDelegate->onTextFieldInsertText(this, "\n", 1))
+//    {
+//        return;
+//    }
+//    
+//    // if delegate hasn't processed, detach from IME by default
+//    detachWithIME();
+    CCLog("insertText->%s",text);
     std::string sInsert(text, len);
 
     // insert \n means input end
@@ -179,32 +217,44 @@ void CCTextFieldTTF::insertText(const char * text, int len)
         len = nPos;
         sInsert.erase(nPos);
     }
-    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)        
+    if (m_pDelegate && m_pDelegate->onTextFieldInsertText(this, sInsert.c_str(), len))
+    {
+        // delegate doesn't want insert text
+        return;
+    }
+
+    m_nCharCount += _calcCharCount(sInsert.c_str());
+    std::string sText(*m_pInputText);
+    sText.swap(sInsert);
+    setString(sText.c_str());
+#else
     if (len > 0)
     {
         if (m_pDelegate && m_pDelegate->onTextFieldInsertText(this, sInsert.c_str(), len))
         {
-            // delegate doesn't want to insert text
+            // delegate doesn't want insert text
             return;
         }
-        
+
         m_nCharCount += _calcCharCount(sInsert.c_str());
         std::string sText(*m_pInputText);
         sText.append(sInsert);
         setString(sText.c_str());
-    }
+    }    
+#endif
 
     if ((int)sInsert.npos == nPos) {
         return;
     }
-    
-    // '\n' inserted, let delegate process first
+
+    // '\n' has inserted,  let delegate process first
     if (m_pDelegate && m_pDelegate->onTextFieldInsertText(this, "\n", 1))
     {
         return;
     }
-    
-    // if delegate hasn't processed, detach from IME by default
+
+    // if delegate hasn't process, detach with ime as default
     detachWithIME();
 }
 

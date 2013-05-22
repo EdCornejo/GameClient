@@ -217,7 +217,9 @@ void CCIMEDispatcher::dispatchInsertText(const char * pText, int nLen)
 {
     do 
     {
-        CC_BREAK_IF(! m_pImpl || ! pText || nLen <= 0);
+        // NOTE : changed for korean input
+        // CC_BREAK_IF(! m_pImpl || ! pText || nLen <= 0);
+        CC_BREAK_IF(!m_pImpl || !pText);
 
         // there is no delegate attached to IME
         CC_BREAK_IF(! m_pImpl->m_DelegateWithIme);

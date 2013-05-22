@@ -26,6 +26,7 @@
 #include "ClientPlayer.h"
 #include "ClientMonster.h"
 #include "ClientStage.h"
+#include "ChatMessage.h"
 
 #include "DelayChecker.h"
 

@@ -27,6 +27,7 @@ THE SOFTWARE.
 #include "CCAutoreleasePool.h"
 #include "ccMacros.h"
 #include "script_support/CCScriptSupport.h"
+#include "Headers.pch"
 
 NS_CC_BEGIN
 
@@ -83,6 +84,12 @@ void CCObject::release(void)
 
     if (m_uReference == 0)
     {
+        SpellEffectNode* node = dynamic_cast<SpellEffectNode*>(this);
+        if(node)
+        {
+            int i = 0;
+        }
+        CCLOG("%d, %d, %s", this, this->m_uID, typeid(*this).name());
         delete this;
     }
 }

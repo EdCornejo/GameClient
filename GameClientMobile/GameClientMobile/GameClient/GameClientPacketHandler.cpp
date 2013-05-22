@@ -171,10 +171,10 @@ void GameClientPacketHandler::OnSCResponseCreateStage(StageID stageID, Stage sta
     m_GameClientRPCReceiver->OnSCResponseCreateStage(stageID, stage);
 }
 
-void GameClientPacketHandler::OnSCResponseRunningStages(StageInfoList stageInfoList)
+void GameClientPacketHandler::OnSCResponseGetStagePlayInfoList(StagePlayInfoList stageInfoList)
 {
     ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
-    this->m_GameClientRPCReceiver->OnSCResponseRunningStages(stageInfoList);
+    this->m_GameClientRPCReceiver->OnSCResponseGetStagePlayInfoList(stageInfoList);
 }
 
 void GameClientPacketHandler::OnSCResponseJoinRunningStage(StageID stageID, Stage stage, ErrorType errorType)

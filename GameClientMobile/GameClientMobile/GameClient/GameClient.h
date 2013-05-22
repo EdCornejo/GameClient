@@ -62,7 +62,7 @@ public:
     
 public:
     inline SystemTimer&                 GetClientTimer()                {   return m_ClientTimer;   }
-    inline ScheduledTaskWorkerRoutine&  GetScheduledTaskWorkerRoutine() { return m_ScheduledTaskWorkerRoutine;    }
+    inline ScheduledTaskWorkerRoutine&  GetScheduledTaskWorkerRoutine() {   return m_ScheduledTaskWorkerRoutine;    }
     inline TaskWorkerRoutine&           GetGameTaskWorkerRoutine()      {   return m_GameTaskWorkerRoutine; }
     inline RenderingTaskWorkerRoutine&  GetRenderingTaskWorkerRoutine() {   return m_RenderingTaskWorkerRoutine; }
     inline NetworkWorkerRoutine&        GetNeworkWorkerRoutine()        {   return m_NetworkWorkerRoutine; }
@@ -83,26 +83,32 @@ private:
     ClientStage*    m_ClientStage;
     OTP             m_OTP;
     
+    ChatMessageDeque m_ChatMessageLog;
+    
 public:
     DeviceID        GetDeviceID();
     GameServerID    GetGameServerID();
     SessionID       GetSessionID();
-    UserID          GetUserID()         {   return m_UserID; }
+    UserID          GetUserID()         { return m_UserID; }
     ActorID         GetMyActorID();
     ClientStage*    GetClientStage();
-    OTP             GetOTP()        {return m_OTP; }
+    OTP             GetOTP()            { return m_OTP; }
+    ChatMessageDeque& GetChatMessageLog() { return m_ChatMessageLog; }
+    
     PlayerMap&      GetPlayerMap();
     MonsterMap&     GetMonsterMap();
     
     void SetDeviceID(DeviceID deviceID);
-    void SetGameServerID(const GameServerID gameServerID){ m_GameServerID = gameServerID; }
+    void SetGameServerID(const GameServerID gameServerID)   { m_GameServerID = gameServerID; }
     void SetSessionID(SessionID sessionID);
-    void SetUserID(const UserID userID) { m_UserID = userID;}
+    void SetUserID(const UserID userID)                     { m_UserID = userID;}
     void SetMyActorID(ActorID myActorID);
     void SetClientStage(ClientStage* clientStage);
-    void SetOTP(const OTP otp) {        m_OTP = otp; }
+    void SetOTP(const OTP otp)                              { m_OTP = otp; }
 
     void Finalize();
+    
+    void AddChatMessageLog(flownet::ActorID senderID, flownet::STRING senderName, flownet::STRING message);
     
 // End of GameClient Data Part
     

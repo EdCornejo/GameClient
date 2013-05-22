@@ -11,10 +11,10 @@
 
 #define THREAD_SCHEDULING_TIMESLICE     30                  //milliseconds
 
-#define FESERVER_CF_CONNECT_ADDRESS     "61.43.139.149"
+//#define FESERVER_CF_CONNECT_ADDRESS     "61.43.139.149"
 #define FESERVER_CF_CONNECT_PORT        1990
 
-//#define SERVER_CONNECT_ADDRESS "192.168.0.13"
+#define FESERVER_CF_CONNECT_ADDRESS "192.168.0.13"
 //#define SERVER_CONNECT_ADDRESS          "61.43.139.149"         //loop back for test server
 //#define SERVER_CONNECT_ADDRESS          "127.0.0.1"         //loop back for test server
 #define SERVER_CONNECT_PORT             1988

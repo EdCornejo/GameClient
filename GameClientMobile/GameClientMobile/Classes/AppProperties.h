@@ -9,8 +9,8 @@
 #ifndef GameClientMobile_AppProperties_h
 #define GameClientMobile_AppProperties_h
 
-#define HEARTBEAT_DEBUG_SCREEN_ON  // ON and OFF
-#define COCOS_FPS_SCREEN_ON // ON and OFF
+//#define HEARTBEAT_DEBUG_SCREEN_ON  // ON and OFF
+//#define COCOS_FPS_SCREEN_ON // ON and OFF
 
 #include "cocos2d.h"
 

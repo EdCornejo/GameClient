@@ -325,16 +325,17 @@ void AppDelegate::OnSCResponseLogOutUserAccount(flownet::UserID userID) const
     else
     {
         // NOTE : infos to be deleted = serverIP, gameServerID, stage, sessionID, userID, actorID, OTP
+        // NOTE : reconnect to FE server
         CCUserDefault::sharedUserDefault()->setStringForKey("yours", "");
         CCUserDefault::sharedUserDefault()->flush();
         
         GameClient::Instance().Finalize();
         
         if( false == static_cast<ClientDirector*>(CCDirector::sharedDirector())->ChangeScene<AccountScene>() )
-    {
-        // TO DO : handle error
-        ASSERT_DEBUG(false);
-    }
+        {
+            // TO DO : handle error
+            ASSERT_DEBUG(false);
+        }
     }
 }
 
@@ -404,7 +405,6 @@ void AppDelegate::OnSCResponseExitStage(flownet::StageID stageID, flownet::Actor
     ClientStage* emptyStage = new ClientStage(Stage());
     
     GameClient::Instance().SetClientStage(emptyStage);
-    delete clientStage;
     
     if( false == static_cast<ClientDirector*>(CCDirector::sharedDirector())->ChangeScene<StageScene>() )
     {
