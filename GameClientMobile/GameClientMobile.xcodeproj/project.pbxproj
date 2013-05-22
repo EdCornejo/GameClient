@@ -45,7 +45,6 @@
 		6B2AA3FF16FC72DD00DEB7C3 /* monster_animations.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B2AA3FE16FC72DC00DEB7C3 /* monster_animations.plist */; };
 		6B2AA40116FC72F100DEB7C3 /* spell_animations.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B2AA40016FC72F100DEB7C3 /* spell_animations.plist */; };
 		6B2AA40516FE73E800DEB7C3 /* CaptionLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B2AA40316FE73E100DEB7C3 /* CaptionLayer.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
-		6B2AA40716FE89DE00DEB7C3 /* stageinfo in Resources */ = {isa = PBXBuildFile; fileRef = 6B2AA40616FE89DD00DEB7C3 /* stageinfo */; };
 		6B2AA40916FE89E700DEB7C3 /* script in Resources */ = {isa = PBXBuildFile; fileRef = 6B2AA40816FE89E700DEB7C3 /* script */; };
 		6B2AA40C16FE8C1800DEB7C3 /* StageCreateScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B2AA40A16FE8C1500DEB7C3 /* StageCreateScene.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		6B30CE75171C12C400316D9F /* SplashScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B30CE73171C12C400316D9F /* SplashScene.cpp */; };
@@ -257,6 +256,10 @@
 		6B7CB3361743914D00D40476 /* CharacterCreateScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B7CB3341743914D00D40476 /* CharacterCreateScene.cpp */; };
 		6B9E9A1816EE6C7E007A2BAC /* GameClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B9E9A1716EE6C7E007A2BAC /* GameClient.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		6B9E9A2F16F0492A007A2BAC /* PointConverter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B9E9A2D16F04929007A2BAC /* PointConverter.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		6BA1184F174C89610085E43B /* ChatMessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BA1184D174C89610085E43B /* ChatMessage.cpp */; };
+		6BA11852174CB8040085E43B /* StageImageLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BA11850174CB8040085E43B /* StageImageLoader.cpp */; };
+		6BA11855174CBE600085E43B /* StagePreviewInfoDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BA11853174CBE600085E43B /* StagePreviewInfoDictionary.cpp */; };
+		6BA11857174CD5BE0085E43B /* stageinfos.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6BA11856174CD5BE0085E43B /* stageinfos.plist */; };
 		6BAA3A7616E61F4A00BB233E /* BaseScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BAA3A7416E61F4A00BB233E /* BaseScene.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		6BAA3A7F16E652F600BB233E /* EffectLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BAA3A7D16E652F500BB233E /* EffectLayer.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		6BAA3A8516E6537C00BB233E /* ObjectLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BAA3A8316E6537C00BB233E /* ObjectLayer.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -386,7 +389,6 @@
 		6B2AA40016FC72F100DEB7C3 /* spell_animations.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = spell_animations.plist; path = Resources/spell_animations.plist; sourceTree = "<group>"; };
 		6B2AA40316FE73E100DEB7C3 /* CaptionLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CaptionLayer.cpp; path = Classes/CaptionLayer.cpp; sourceTree = "<group>"; };
 		6B2AA40416FE73E400DEB7C3 /* CaptionLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CaptionLayer.h; path = Classes/CaptionLayer.h; sourceTree = "<group>"; };
-		6B2AA40616FE89DD00DEB7C3 /* stageinfo */ = {isa = PBXFileReference; lastKnownFileType = folder; name = stageinfo; path = Resources/stageinfo; sourceTree = "<group>"; };
 		6B2AA40816FE89E700DEB7C3 /* script */ = {isa = PBXFileReference; lastKnownFileType = folder; name = script; path = Resources/script; sourceTree = "<group>"; };
 		6B2AA40A16FE8C1500DEB7C3 /* StageCreateScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StageCreateScene.cpp; path = Classes/StageCreateScene.cpp; sourceTree = "<group>"; };
 		6B2AA40B16FE8C1600DEB7C3 /* StageCreateScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StageCreateScene.h; path = Classes/StageCreateScene.h; sourceTree = "<group>"; };
@@ -865,6 +867,13 @@
 		6B9E9A1716EE6C7E007A2BAC /* GameClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameClient.cpp; sourceTree = "<group>"; };
 		6B9E9A2D16F04929007A2BAC /* PointConverter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PointConverter.cpp; path = Classes/PointConverter.cpp; sourceTree = "<group>"; };
 		6B9E9A2E16F04929007A2BAC /* PointConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PointConverter.h; path = Classes/PointConverter.h; sourceTree = "<group>"; };
+		6BA1184D174C89610085E43B /* ChatMessage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChatMessage.cpp; sourceTree = "<group>"; };
+		6BA1184E174C89610085E43B /* ChatMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatMessage.h; sourceTree = "<group>"; };
+		6BA11850174CB8040085E43B /* StageImageLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StageImageLoader.cpp; path = Classes/StageImageLoader.cpp; sourceTree = "<group>"; };
+		6BA11851174CB8040085E43B /* StageImageLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StageImageLoader.h; path = Classes/StageImageLoader.h; sourceTree = "<group>"; };
+		6BA11853174CBE600085E43B /* StagePreviewInfoDictionary.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StagePreviewInfoDictionary.cpp; path = Classes/StagePreviewInfoDictionary.cpp; sourceTree = "<group>"; };
+		6BA11854174CBE600085E43B /* StagePreviewInfoDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StagePreviewInfoDictionary.h; path = Classes/StagePreviewInfoDictionary.h; sourceTree = "<group>"; };
+		6BA11856174CD5BE0085E43B /* stageinfos.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = stageinfos.plist; path = Resources/stageinfos.plist; sourceTree = "<group>"; };
 		6BAA3A7416E61F4A00BB233E /* BaseScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BaseScene.cpp; path = Classes/BaseScene.cpp; sourceTree = "<group>"; };
 		6BAA3A7516E61F4A00BB233E /* BaseScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseScene.h; path = Classes/BaseScene.h; sourceTree = "<group>"; };
 		6BAA3A7D16E652F500BB233E /* EffectLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EffectLayer.cpp; path = Classes/EffectLayer.cpp; sourceTree = "<group>"; };
@@ -1130,6 +1139,10 @@
 				6BFA0EB91715DCCF00E4F079 /* SpellImageLoader.h */,
 				6BC6C3E817251FEC00B439F9 /* ItemImageLoader.cpp */,
 				6BC6C3E917251FEC00B439F9 /* ItemImageLoader.h */,
+				6BA11850174CB8040085E43B /* StageImageLoader.cpp */,
+				6BA11851174CB8040085E43B /* StageImageLoader.h */,
+				6BA11853174CBE600085E43B /* StagePreviewInfoDictionary.cpp */,
+				6BA11854174CBE600085E43B /* StagePreviewInfoDictionary.h */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -2041,6 +2054,8 @@
 				6B2A9EF616F83FF600DEB7C3 /* ClientPlayer.h */,
 				6B2A9EF816F8482000DEB7C3 /* ClientMonster.cpp */,
 				6B2A9EF916F8482000DEB7C3 /* ClientMonster.h */,
+				6BA1184D174C89610085E43B /* ChatMessage.cpp */,
+				6BA1184E174C89610085E43B /* ChatMessage.h */,
 			);
 			name = GameClientObject;
 			sourceTree = "<group>";
@@ -2190,9 +2205,9 @@
 				6B2AA3FE16FC72DC00DEB7C3 /* monster_animations.plist */,
 				6B2AA40016FC72F100DEB7C3 /* spell_animations.plist */,
 				6B2AA33F16FA2ECA00DEB7C3 /* blank.png */,
+				6BA11856174CD5BE0085E43B /* stageinfos.plist */,
 				6B2AA38A16FAD27700DEB7C3 /* test_dot.png */,
 				6B2AA40816FE89E700DEB7C3 /* script */,
-				6B2AA40616FE89DD00DEB7C3 /* stageinfo */,
 				6B2AA3F416FB449D00DEB7C3 /* iphone */,
 				6B2AA3F616FB44AF00DEB7C3 /* iphonehd */,
 				6B30CE78171D491300316D9F /* common */,
@@ -2363,7 +2378,6 @@
 				6B2AA3F716FB44AF00DEB7C3 /* iphonehd in Resources */,
 				6B2AA3FF16FC72DD00DEB7C3 /* monster_animations.plist in Resources */,
 				6B2AA40116FC72F100DEB7C3 /* spell_animations.plist in Resources */,
-				6B2AA40716FE89DE00DEB7C3 /* stageinfo in Resources */,
 				6B2AA40916FE89E700DEB7C3 /* script in Resources */,
 				6B532B521712E0F4009127B2 /* ChangeLog in Resources */,
 				6B532B531712E0F4009127B2 /* CMakeLists.txt in Resources */,
@@ -2374,6 +2388,7 @@
 				6B17A71B1716A83E00231353 /* org.eclipse.cdt.codan.core.prefs in Resources */,
 				6B17A71C1716A83E00231353 /* org.eclipse.cdt.managedbuilder.core.prefs in Resources */,
 				6B30CE79171D491300316D9F /* common in Resources */,
+				6BA11857174CD5BE0085E43B /* stageinfos.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2643,6 +2658,9 @@
 				6B7CB3361743914D00D40476 /* CharacterCreateScene.cpp in Sources */,
 				6BB8AD62174B2DAD00D82DE8 /* StageSelectScene.cpp in Sources */,
 				6BB8AD68174B5FB000D82DE8 /* ChattingNode.cpp in Sources */,
+				6BA1184F174C89610085E43B /* ChatMessage.cpp in Sources */,
+				6BA11852174CB8040085E43B /* StageImageLoader.cpp in Sources */,
+				6BA11855174CBE600085E43B /* StagePreviewInfoDictionary.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2749,7 +2767,7 @@
 					"\"$(PROJECT_NAME)/libs/spine-c/include\"",
 				);
 				INFOPLIST_FILE = GameClientMobile/Resources/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/GameClientMobile/libs/cocos2dx/platform/third_party/ios/libraries\"",
@@ -2801,7 +2819,7 @@
 					"\"$(PROJECT_NAME)/libs/spine-c/include\"",
 				);
 				INFOPLIST_FILE = GameClientMobile/Resources/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/GameClientMobile/libs/cocos2dx/platform/third_party/ios/libraries\"",
