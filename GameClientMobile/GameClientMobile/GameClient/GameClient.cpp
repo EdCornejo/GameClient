@@ -69,6 +69,12 @@ GameClient::~GameClient()
     {
         m_ThreadController.Stop();
     }
+    
+    SpellDictionary::DeleteInstance();
+    SpellAbilityApplier::DeleteInstance();
+    ItemDataDictionary::DeleteInstance();
+    ItemAbilityApplier::DeleteInstance();
+
 }
 
 GameClient& GameClient::Instance()
@@ -205,6 +211,20 @@ void GameClient::Finalize()
     this->SetUserID(UserID_None);
     this->SetMyActorID(ActorID_None);
     this->SetOTP(OTP_None);
+}
+    
+void GameClient::AddChatMessageLog(flownet::ActorID senderID, flownet::STRING senderName, flownet::STRING message)
+{
+    const int MaxLogSize = 40;
+    if(this->m_ChatMessageLog.size() > MaxLogSize)
+    {
+        ChatMessage* chatMessage = this->m_ChatMessageLog.front();
+        this->m_ChatMessageLog.pop_front();
+        
+        delete chatMessage;
+    }
+    ChatMessage* newChatMessage = new ChatMessage(senderID, senderName, message);
+    this->m_ChatMessageLog.push_back(newChatMessage);
 }
     
 // End of GameClient Data Part
