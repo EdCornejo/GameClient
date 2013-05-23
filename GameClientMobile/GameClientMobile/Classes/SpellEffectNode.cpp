@@ -13,9 +13,25 @@ SpellEffectNode::~SpellEffectNode(){}
     
 bool SpellEffectNode::init()
 {
-    CCSprite* shadowImage = CCSprite::create("actor/shadow.png");
-    this->setAnchorPoint(CharacterAnchorPoint);
-    this->addChild(shadowImage);
+    if(!CCNode::init()) return false;
+    
+    CCSprite* effectImage = SpellImageLoader::GetSpellEffectImage(this->m_SpellAbility);
+    if(!effectImage) return false;
+    
+    effectImage->setAnchorPoint(SpellEffectAnchorPoint);
+    this->addChild(effectImage);
+    
+    
+    switch(this->m_SpellAbility)
+    {
+        case flownet::SpellAbility_Freeze :
+            this->m_IsOverTheCharacter = true;
+            break;
+        case flownet::SpellAbility_Slow :
+        default:
+            this->m_IsOverTheCharacter = false;
+            break;
+    }    
     
     scheduleUpdate();
     
@@ -53,4 +69,9 @@ void SpellEffectNode::update(float deltaTime)
     if(!actor) return;
     
     this->setPosition(actor->getPosition());
+}
+
+bool SpellEffectNode::IsOverTheCharacter()
+{
+    return this->m_IsOverTheCharacter;
 }

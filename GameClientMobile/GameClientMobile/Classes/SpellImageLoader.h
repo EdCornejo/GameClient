@@ -17,6 +17,7 @@ private:
 public:
     static CCSprite* GetSpellQuickSlotImage(flownet::SpellType spellType);
     static CCSprite* GetSpellGuideImage(flownet::SpellType spellType);
+    static CCSprite* GetSpellEffectImage(flownet::SpellAbility spellAbility);
 };
 
 #endif /* defined(__GameClientMobile__SpellImageLoader__) */

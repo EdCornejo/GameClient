@@ -73,6 +73,9 @@ private:
 private:
     flownet::ActorID m_ActorID;
     
+    CCLabelTTF* m_NameLabel;
+    
+    CCNode* m_HidingPart;
     CCSprite* m_RemainHealthPointBar;
     CCSprite* m_GreenBar;
     CCSprite* m_YellowBar;

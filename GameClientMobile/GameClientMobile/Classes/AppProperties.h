@@ -27,6 +27,7 @@ enum ActionType {
 
 static CCPoint CCPointMid = ccp(240, 160);  // this must be related with design resolution size
 static CCPoint CCAnchorPointMid = ccp(0.5, 0.5);
+static CCPoint SpellEffectAnchorPoint = ccp(0.5, 0.3);
 static CCPoint CharacterAnchorPoint = ccp(0.5, 0);
 static CCPoint CCPointUpperLeft = ccp(0, 1);
 static CCPoint CCPointUpperRight = ccp(1, 1);

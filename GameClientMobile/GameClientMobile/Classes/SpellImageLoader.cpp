@@ -56,3 +56,22 @@ CCSprite* SpellImageLoader::GetSpellGuideImage(SpellType spellType)
     
     return icon;
 }
+
+CCSprite* SpellImageLoader::GetSpellEffectImage(flownet::SpellAbility spellAbility)
+{
+    std::string effectFileName = "spell/effect/";
+    
+    switch (spellAbility) {
+        case flownet::SpellAbility_Freeze :
+            effectFileName += "freeze.png";
+            break;
+        case flownet::SpellAbility_Slow :
+            effectFileName += "slow.png";
+            break;
+        default:
+            return nullptr;
+            break;
+    }
+
+    return CCSprite::create(effectFileName.c_str());
+}

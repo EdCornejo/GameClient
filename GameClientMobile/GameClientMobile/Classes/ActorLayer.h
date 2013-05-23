@@ -46,12 +46,17 @@ struct ActorNodeSet : public CCObject {
     void SetZOrder(int zOrder)
     {
         this->m_ZOrder = zOrder;
-        this->m_ActorNode->setZOrder(zOrder);
-        this->m_HUDNode->setZOrder(zOrder + 9);
-        this->m_ShadowNode->setZOrder(zOrder - 9);
-        this->m_HighlightNode->setZOrder(zOrder - 8);
+        if(this->m_ActorNode) this->m_ActorNode->setZOrder(zOrder);
+        if(this->m_HUDNode) this->m_HUDNode->setZOrder(zOrder + 9);
+        if(this->m_ShadowNode) this->m_ShadowNode->setZOrder(zOrder - 9);
+        if(this->m_HighlightNode) this->m_HighlightNode->setZOrder(zOrder - 8);
+
         std::for_each(this->m_SpellEffectNodeMap.begin(), this->m_SpellEffectNodeMap.end(), [this, zOrder](SpellEffectNodeMap::value_type pair){
-            pair.second->setZOrder(zOrder+1);
+            SpellEffectNode* node = pair.second;
+            if(node->IsOverTheCharacter())
+                node->setZOrder(zOrder+1);
+            else
+                node->setZOrder(zOrder-1);
         });
     }
     
@@ -108,7 +113,7 @@ struct ActorNodeSet : public CCObject {
             this->m_ShadowNode->removeFromParentAndCleanup(true);
             this->m_ShadowNode->release();
             this->m_ShadowNode = nullptr;
-        }
+        }   
     }
 
     void AddHighlightNode(flownet::ActorID actorID)
@@ -152,6 +157,7 @@ struct ActorNodeSet : public CCObject {
     SpellEffectNode* AddSpellEffectNode(flownet::ActorID actorID, flownet::SpellAbility spellAbility)
     {
         SpellEffectNode* spellEffectNode = SpellEffectNode::create(actorID, spellAbility);
+        if(!spellEffectNode) return nullptr;
         spellEffectNode->retain();
     
         this->m_SpellEffectNodeMap.insert(SpellEffectNodeMap::value_type(spellAbility, spellEffectNode));
@@ -163,7 +169,7 @@ struct ActorNodeSet : public CCObject {
     SpellEffectNode* RemoveSpellEffectNode(flownet::SpellAbility spellAbility)
     {
         SpellEffectNodeMap::iterator iter = this->m_SpellEffectNodeMap.find(spellAbility);
-        ASSERT_DEBUG(iter != this->m_SpellEffectNodeMap.end());
+        if(iter == this->m_SpellEffectNodeMap.end()) return nullptr;
         this->m_SpellEffectNodeMap.erase(iter);
 
         iter->second->release();

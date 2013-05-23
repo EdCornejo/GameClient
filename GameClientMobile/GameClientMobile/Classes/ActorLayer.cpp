@@ -213,30 +213,30 @@ void ActorLayer::UpdateActorLookingDirection(flownet::Actor *actor, cocos2d::CCP
 
 void ActorLayer::SortNodes()
 {
-    if(this->m_pChildren && this->m_pChildren->count() > 0)
-    {
-        Vector<ActorNode*>::type actorNodes;
-        CCObject* object;
-        CCARRAY_FOREACH(this->m_pChildren, object)
-        {
-            ActorNode* actorNode = dynamic_cast<ActorNode*>(object);
-            if(actorNode)
-            {
-                actorNodes.push_back(actorNode);
-            }
-        }
-        std::sort(actorNodes.begin(), actorNodes.end(), [](ActorNode* lhs, ActorNode* rhs)->bool{
-            return lhs->getPositionY() > rhs->getPositionY();
-        });
+    Vector<ActorNodeSet*>::type actorNodeSets;
+    
+    std::for_each(this->m_ActorNodeSetMap.begin(), this->m_ActorNodeSetMap.end(), [this, &actorNodeSets](ActorNodeSetMap::value_type pair){
+        ActorNodeSet* nodeSet = pair.second;
         
-        
-        // NOTE : character's z order starts with 20, inc with 20. between actors there are effects. magics or so
-        int zOrder = 20;
-        std::for_each(actorNodes.begin(), actorNodes.end(), [this, &zOrder](ActorNode* actorNode){
-            this->reorderChild(actorNode, zOrder);
-            zOrder += 20;
-        });
-    }
+        actorNodeSets.push_back(nodeSet);
+    });
+
+    std::sort(actorNodeSets.begin(), actorNodeSets.end(), [](ActorNodeSet* lhs, ActorNodeSet* rhs)->bool{
+        return lhs->m_ActorNode->getPositionY() > rhs->m_ActorNode->getPositionY();
+    });
+
+    // NOTE : character's z order starts with 20, inc with 20. between actors there are effects. magics or so
+    int zOrder = 20;
+    std::for_each(actorNodeSets.begin(), actorNodeSets.end(), [this, &zOrder](ActorNodeSet* actorNodeSet){
+        actorNodeSet->SetZOrder(zOrder);
+        if(actorNodeSet->m_ActorNode) this->reorderChild(actorNodeSet->m_ActorNode, actorNodeSet->m_ActorNode->getZOrder());
+        if(actorNodeSet->m_HUDNode) this->reorderChild(actorNodeSet->m_HUDNode, actorNodeSet->m_HUDNode->getZOrder());
+        if(actorNodeSet->m_ShadowNode) this->reorderChild(actorNodeSet->m_ShadowNode, actorNodeSet->m_ShadowNode->getZOrder());
+        if(actorNodeSet->m_HighlightNode) this->reorderChild(actorNodeSet->m_HighlightNode, actorNodeSet->m_HighlightNode->getZOrder());
+        if(actorNodeSet->m_GuideLineNode) this->reorderChild(actorNodeSet->m_GuideLineNode, actorNodeSet->m_GuideLineNode->getZOrder());
+        if(actorNodeSet->m_ActorNode) this->reorderChild(actorNodeSet->m_ActorNode, actorNodeSet->m_ActorNode->getZOrder());
+        zOrder += 20;
+    });
 }
 
 
@@ -607,7 +607,10 @@ void ActorLayer::AddSpellEffect(flownet::ActorID actorID, flownet::SpellAbility 
     
     SpellEffectNode* node = actorNodeSet->AddSpellEffectNode(actorID, spellAbility);
     
-    this->addChild(node);
+    if(node)
+    {
+        this->addChild(node);
+    }
 }
 
 void ActorLayer::RemoveSpellEffect(flownet::ActorID actorID, flownet::SpellAbility spellAbility)
@@ -616,8 +619,10 @@ void ActorLayer::RemoveSpellEffect(flownet::ActorID actorID, flownet::SpellAbili
     ASSERT_DEBUG(actorNodeSet);
 
     SpellEffectNode* node = actorNodeSet->RemoveSpellEffectNode(spellAbility);
-    
-    this->removeChild(node, true);
+    if(node)
+    {
+        this->removeChild(node, true);
+    }
 }
 
 void ActorLayer::UseItem(flownet::ActorID playerID, flownet::ItemID itemID)

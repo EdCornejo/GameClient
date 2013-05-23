@@ -12,6 +12,7 @@
 class SpellEffectNode : public CCNode
 {
 private:
+    bool m_IsOverTheCharacter;
     flownet::ActorID m_ActorID;
     flownet::SpellAbility m_SpellAbility;
     
@@ -23,6 +24,8 @@ public:
     static SpellEffectNode* create(flownet::ActorID actorID, flownet::SpellAbility spellAbility);
     
     virtual void update(float deltaTime);
+    
+    bool IsOverTheCharacter();
 };
 
 #endif /* defined(__GameClientMobile__SpellEffectNode__) */

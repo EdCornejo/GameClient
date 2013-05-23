@@ -162,9 +162,19 @@ GuideLineNode* GuideLineNode::create(flownet::SpellType spellType, CCPoint sourc
 }
 
 
-HUDNode::HUDNode(): m_ActorID(ActorID_None), m_RemainHealthPointBar(nullptr), m_GreenBar(nullptr), m_YellowBar(nullptr), m_RedBar(nullptr), m_DamagedHealthPointBar(nullptr){}
+HUDNode::HUDNode(): m_ActorID(ActorID_None), m_NameLabel(nullptr), m_HidingPart(nullptr), m_RemainHealthPointBar(nullptr), m_GreenBar(nullptr), m_YellowBar(nullptr), m_RedBar(nullptr), m_DamagedHealthPointBar(nullptr){}
 HUDNode::~HUDNode()
 {
+    if(this->m_NameLabel)
+    {
+        this->m_NameLabel->release();
+        this->m_NameLabel = nullptr;
+    }
+    if(this->m_HidingPart)
+    {
+        this->m_HidingPart->release();
+        this->m_HidingPart = nullptr;
+    }
     if(this->m_RemainHealthPointBar)
     {
         this->m_RemainHealthPointBar->release();
@@ -194,14 +204,30 @@ HUDNode::~HUDNode()
     
 bool HUDNode::init()
 {
-    CCSprite* background = CCSprite::create("ui/hud/background.png");
-    this->addChild(background);
+    if(IsPlayerID(this->m_ActorID))
+    {
+        Player* player = GameClient::Instance().GetClientStage()->FindPlayer(this->m_ActorID);
+        this->m_NameLabel = CCLabelTTF::create(player->GetPlayerName().c_str(), "thonburi", 12);
+        this->m_NameLabel->setPosition(ccp(0, 10));
+        this->m_NameLabel->retain();
+        this->addChild(this->m_NameLabel);
+    }
+
+
+    this->m_HidingPart = CCNode::create();
+    this->m_HidingPart->retain();
+    this->m_HidingPart->setPosition(CCPointZero);
+    
+    this->addChild(this->m_HidingPart);
+    
+    CCSprite* statusBarBackground = CCSprite::create("ui/hud/background.png");
+    this->m_HidingPart->addChild(statusBarBackground);
 
     this->m_DamagedHealthPointBar = CCSprite::create("ui/hud/health_damaged.png");
     this->m_DamagedHealthPointBar->setAnchorPoint(ccp(0, 0.5));
     this->m_DamagedHealthPointBar->setPosition(ccp(-this->m_DamagedHealthPointBar->getTextureRect().size.width / 2, 0));
     this->m_DamagedHealthPointBar->retain();
-    this->addChild(this->m_DamagedHealthPointBar);
+    this->m_HidingPart->addChild(this->m_DamagedHealthPointBar);
     
     this->m_GreenBar = CCSprite::create("ui/hud/health_remain_green.png");
     this->m_GreenBar->setAnchorPoint(ccp(0, 0.5));
@@ -220,9 +246,9 @@ bool HUDNode::init()
     
     this->m_RemainHealthPointBar = this->m_GreenBar;
     this->m_RemainHealthPointBar->retain();
-    this->addChild(this->m_RemainHealthPointBar);
+    this->m_HidingPart->addChild(this->m_RemainHealthPointBar);
     
-    this->setVisible(false);
+    this->m_HidingPart->setVisible(false);
     
     scheduleUpdate();
     
@@ -271,10 +297,10 @@ void HUDNode::ChangeHealthPointBar(float scaleFactor)
     {
         if(this->m_GreenBar != this->m_RemainHealthPointBar)
         {
-            this->removeChild(this->m_RemainHealthPointBar, true);
+            this->m_HidingPart->removeChild(this->m_RemainHealthPointBar, true);
             this->m_RemainHealthPointBar->release();
             this->m_RemainHealthPointBar = this->m_GreenBar;
-            this->addChild(this->m_RemainHealthPointBar);
+            this->m_HidingPart->addChild(this->m_RemainHealthPointBar);
             this->m_RemainHealthPointBar->retain();
         }
     }
@@ -282,10 +308,10 @@ void HUDNode::ChangeHealthPointBar(float scaleFactor)
     {
         if(this->m_RemainHealthPointBar != this->m_YellowBar)
         {
-            this->removeChild(this->m_RemainHealthPointBar, true);
+            this->m_HidingPart->removeChild(this->m_RemainHealthPointBar, true);
             this->m_RemainHealthPointBar->release();
             this->m_RemainHealthPointBar = this->m_YellowBar;
-            this->addChild(this->m_RemainHealthPointBar);
+            this->m_HidingPart->addChild(this->m_RemainHealthPointBar);
             this->m_RemainHealthPointBar->retain();
         }
     }
@@ -293,10 +319,10 @@ void HUDNode::ChangeHealthPointBar(float scaleFactor)
     {
         if(this->m_RemainHealthPointBar != this->m_RedBar)
         {
-            this->removeChild(this->m_RemainHealthPointBar, true);
+            this->m_HidingPart->removeChild(this->m_RemainHealthPointBar, true);
             this->m_RemainHealthPointBar->release();
             this->m_RemainHealthPointBar = this->m_RedBar;
-            this->addChild(this->m_RemainHealthPointBar);
+            this->m_HidingPart->addChild(this->m_RemainHealthPointBar);
             this->m_RemainHealthPointBar->retain();
         }
     }
@@ -318,12 +344,12 @@ void HUDNode::ChangeHealthPointBar(float scaleFactor)
 
 void HUDNode::ShowHUD()
 {
-    this->setVisible(true);
+    this->m_HidingPart->setVisible(true);
 }
 
 void HUDNode::HideHUD()
 {
-    this->setVisible(false);
+    this->m_HidingPart->setVisible(false);
 }
 
 
