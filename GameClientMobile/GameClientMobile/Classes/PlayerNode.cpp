@@ -18,7 +18,7 @@ bool PlayerNode::init()
     
     Player* player = GameClient::Instance().GetClientStage()->FindPlayer(this->m_ActorID);
     
-    this->m_Skeleton = CCSkeleton::create("common/character.json", "player/character.atlas");
+    this->m_Skeleton = CCSkeletonAnimation::createWithFile("common/character.json", "player/character.atlas");
     this->m_Skeleton->retain();
     
     
@@ -36,8 +36,8 @@ bool PlayerNode::init()
     {
         this->m_Skeleton->setSkin("girl");
     }
+    this->m_Skeleton->setSlotsToSetupPose();
     
-    this->m_Skeleton->setSlotsToBindPose();
     this->m_Skeleton->setAnimation("idle", true);
     
     this->setScale(0.1);
@@ -51,7 +51,7 @@ bool PlayerNode::initWithGender(flownet::Gender gender)
 {
     if(!ActorNode::init()) return false;
     
-    this->m_Skeleton = CCSkeleton::create("common/character.json", "player/character.atlas");
+    this->m_Skeleton = CCSkeletonAnimation::createWithFile("common/character.json", "player/character.atlas");
     this->m_Skeleton->retain();
     this->m_Skeleton->setMix("idle", "moving", 0.2);
     this->m_Skeleton->setMix("moving", "idle", 0.2);
@@ -67,7 +67,7 @@ bool PlayerNode::initWithGender(flownet::Gender gender)
         this->m_Skeleton->setSkin("girl");
     }
     
-    this->m_Skeleton->setSlotsToBindPose();
+    this->m_Skeleton->setSlotsToSetupPose();
     this->m_Skeleton->setAnimation("idle", true);
     
     this->setScale(0.1);
@@ -209,6 +209,6 @@ void PlayerNode::ChangeGender(flownet::Gender gender)
         this->m_Skeleton->setSkin("girl");
     }
     
-    this->m_Skeleton->setSlotsToBindPose();
+    this->m_Skeleton->setSlotsToSetupPose();
     this->m_Skeleton->setAnimation("idle", true);
 }

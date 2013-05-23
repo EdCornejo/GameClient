@@ -26,10 +26,6 @@
 #include <spine/extension.h>
 #include <stdio.h>
 
-#ifdef __cplusplus
-namespace spine {
-#endif
-
 static void* (*mallocFunc) (size_t size) = malloc;
 static void (*freeFunc) (void* ptr) = free;
 
@@ -53,6 +49,7 @@ void _setFree (void (*free) (void* ptr)) {
 }
 
 char* _readFile (const char* path, int* length) {
+	char *data;
 	FILE *file = fopen(path, "rb");
 	if (!file) return 0;
 
@@ -60,13 +57,9 @@ char* _readFile (const char* path, int* length) {
 	*length = ftell(file);
 	fseek(file, 0, SEEK_SET);
 
-	char* data = MALLOC(char, *length);
+	data = MALLOC(char, *length);
 	fread(data, 1, *length, file);
 	fclose(file);
 
 	return data;
 }
-
-#ifdef __cplusplus
-}
-#endif

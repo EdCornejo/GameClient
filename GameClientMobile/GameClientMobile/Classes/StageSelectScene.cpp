@@ -146,11 +146,10 @@ void StageInfoLayer::OnRunningStageInfoButtonTouch(cocos2d::CCObject *sender)
     this->removeFromParentAndCleanup(true);
     
     CCNode* button = static_cast<CCNode*>(sender);
-    StageType stageType = static_cast<StageType>(button->getTag());
+    StageID stageID = static_cast<StageID>(button->getTag());
     
     GPSPoint gps = GPSPoint(CCRANDOM_0_1() * 40, CCRANDOM_0_1() * 40, 0);
-    
-    GameClient::Instance().GetClientObject().SendCSRequestJoinRunningStage(stageType, gps);
+    GameClient::Instance().GetClientObject().SendCSRequestJoinRunningStage(stageID, gps);
 }
 
 void StageInfoLayer::DisplayRunningStages(flownet::StagePlayInfoList &stageInfoList)
@@ -161,7 +160,7 @@ void StageInfoLayer::DisplayRunningStages(flownet::StagePlayInfoList &stageInfoL
         std::string stageIDString;
         stageIDString += info.GetStageID();
         RunningStageInfoMenuItem* runningStageJoinButton = RunningStageInfoMenuItem::create(stageIDString, this, menu_selector(StageInfoLayer::OnRunningStageInfoButtonTouch));
-        runningStageJoinButton->setTag(info.GetStageType());
+        runningStageJoinButton->setTag(info.GetStageID());
         
         menu->addChild(runningStageJoinButton);
         menu->setTouchPriority(kCCMenuHandlerPriority - 1);

@@ -390,8 +390,8 @@ void ActorNode::AnimateIdle()
     this->StopCharacterAnimate();
     this->m_Skeleton->skeleton->flipX = flipX;
     
-    // NOTE : check for same animation 
-    if(this->m_Skeleton->state->animation != nullptr && strcmp(this->m_Skeleton->state->animation->name, "idle") == 0) return;
+    // NOTE : check for same animation
+    if(this->m_Skeleton->states[0]->animation != nullptr && strcmp(this->m_Skeleton->states[0]->animation->name, "idle") == 0) return;
     this->m_Skeleton->setAnimation("idle", true);
 }
 
@@ -423,8 +423,7 @@ void ActorNode::AnimateMoving()
     this->m_Skeleton->skeleton->flipX = flipX;
     
     // NOTE : check for same animation, flipping animation is left behind
-    if(this->m_Skeleton->state->animation != nullptr && strcmp(this->m_Skeleton->state->animation->name, "moving") == 0) return;
-    
+    if(this->m_Skeleton->states[0]->animation != nullptr && strcmp(this->m_Skeleton->states[0]->animation->name, "moving") == 0) return;
     this->m_Skeleton->setAnimation("moving", true);
 }
 
@@ -454,7 +453,7 @@ void ActorNode::AnimateAttacking()
     this->m_Skeleton->skeleton->flipX = flipX;
     // NOTE : check for same animation
     // NOTE : this->m_Skeleton->state->animation != nullptr &&  is test code
-    if(this->m_Skeleton->state->animation != nullptr && strcmp(this->m_Skeleton->state->animation->name, "attacking") == 0) return;
+    if(this->m_Skeleton->states[0]->animation != nullptr && strcmp(this->m_Skeleton->states[0]->animation->name, "attacking") == 0) return;
     this->m_Skeleton->setAnimation("attacking", false);
 }
 
@@ -484,7 +483,7 @@ void ActorNode::AnimateAttacked()
     this->m_Skeleton->skeleton->flipX = flipX;
      
     // NOTE : check for same animation
-    if(this->m_Skeleton->state->animation != nullptr && strcmp(this->m_Skeleton->state->animation->name, "attacked") == 0) return;
+    if(this->m_Skeleton->states[0]->animation != nullptr && strcmp(this->m_Skeleton->states[0]->animation->name, "attacked") == 0) return;
     this->m_Skeleton->setAnimation("attacked", false);
 }
 
@@ -513,8 +512,7 @@ void ActorNode::AnimateBeginCasting()
     this->StopCharacterAnimate();
     this->m_Skeleton->skeleton->flipX = flipX;
     // NOTE : check for same animation
-    if(this->m_Skeleton->state->animation != nullptr && strcmp(this->m_Skeleton->state->animation->name, "begin_casting") == 0) return;
-
+    if(this->m_Skeleton->states[0]->animation != nullptr && strcmp(this->m_Skeleton->states[0]->animation->name, "begin_casting") == 0) return;
     this->m_Skeleton->setAnimation("begin_casting", false);
 }
 
@@ -543,8 +541,7 @@ void ActorNode::AnimateRepeatCasting()
     this->StopCharacterAnimate();
     this->m_Skeleton->skeleton->flipX = flipX;
      // NOTE : check for same animation
-    if(this->m_Skeleton->state->animation != nullptr && strcmp(this->m_Skeleton->state->animation->name, "repeat_casting") == 0) return;
-
+    if(this->m_Skeleton->states[0]->animation != nullptr && strcmp(this->m_Skeleton->states[0]->animation->name, "repeat_casting") == 0) return;
     this->m_Skeleton->setAnimation("repeat_casting", true);
 }
 
@@ -573,8 +570,7 @@ void ActorNode::AnimateEndCasting()
     this->StopCharacterAnimate();
     this->m_Skeleton->skeleton->flipX = flipX;
     // NOTE : check for same animation
-    if(this->m_Skeleton->state->animation != nullptr && strcmp(this->m_Skeleton->state->animation->name, "end_casting") == 0) return;
-
+    if(this->m_Skeleton->states[0]->animation != nullptr && strcmp(this->m_Skeleton->states[0]->animation->name, "end_casting") == 0) return;
     this->m_Skeleton->setAnimation("end_casting", false);
 }
 
@@ -603,7 +599,7 @@ void ActorNode::AnimateFire()
     this->StopCharacterAnimate();
     this->m_Skeleton->skeleton->flipX = flipX;
      // NOTE : check for same animation
-    if(this->m_Skeleton->state->animation != nullptr && strcmp(this->m_Skeleton->state->animation->name, "fire") == 0) return;
+    if(this->m_Skeleton->states[0]->animation != nullptr && strcmp(this->m_Skeleton->states[0]->animation->name, "fire") == 0) return;
     this->m_Skeleton->setAnimation("fire", false);
 }
 
@@ -628,8 +624,7 @@ void ActorNode::AnimateDead()
     this->m_Skeleton->skeleton->flipX = flipX;
     
     // NOTE : check for same animation
-    if(this->m_Skeleton->state->animation != nullptr && strcmp(this->m_Skeleton->state->animation->name, "dead") == 0) return;
-
+    if(this->m_Skeleton->states[0]->animation != nullptr && strcmp(this->m_Skeleton->states[0]->animation->name, "dead") == 0) return;
     this->m_Skeleton->setAnimation("dead", false);
 }
 
@@ -733,8 +728,8 @@ CCPoint ActorNode::GetTopPosition()
     const Bone* bone = this->m_Skeleton->findBone("top_position");
     if(bone)
     {
-        position.x += bone->worldX;
-        position.y += bone->worldY;
+        position.x += bone->worldX * this->m_Skeleton->getScale();
+        position.y += bone->worldY * this->m_Skeleton->getScale();
     }
     return position;
 }
@@ -747,8 +742,8 @@ CCPoint ActorNode::GetMidPosition()
     const Bone* bone = this->m_Skeleton->findBone("mid_position");
     if(bone)
     {
-        position.x += bone->worldX;
-        position.y += bone->worldY;
+        position.x += bone->worldX * this->m_Skeleton->getScale();
+        position.y += bone->worldY * this->m_Skeleton->getScale();
     }
     return position;
 }

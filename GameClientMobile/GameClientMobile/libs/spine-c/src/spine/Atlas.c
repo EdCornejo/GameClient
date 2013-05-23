@@ -27,28 +27,16 @@
 #include <ctype.h>
 #include <spine/extension.h>
 
-#ifdef __cplusplus
-namespace spine {
-#endif
-
-typedef struct _AtlasPageVtable {
-	void (*dispose) (AtlasPage* self);
-} _AtlasPageVtable;
-
-void _AtlasPage_init (AtlasPage* self, const char* name, /**/
-		void (*dispose) (AtlasPage* self)) {
-	CONST_CAST(_AtlasPageVtable*, self->vtable) = NEW(_AtlasPageVtable);
-	VTABLE(AtlasPage, self) ->dispose = dispose;
+AtlasPage* AtlasPage_create (const char* name) {
+	AtlasPage* self = NEW(AtlasPage);
 	MALLOC_STR(self->name, name);
-}
-
-void _AtlasPage_deinit (AtlasPage* self) {
-	FREE(self->vtable);
-	FREE(self->name);
+	return self;
 }
 
 void AtlasPage_dispose (AtlasPage* self) {
-	VTABLE(AtlasPage, self) ->dispose(self);
+	FREE(self->name);
+	_AtlasPage_disposeTexture(self);
+	FREE(self);
 }
 
 /**/
@@ -125,10 +113,11 @@ static int readValue (const char* end, Str* str) {
 
 /* Returns the number of tuple values read (2, 4, or 0 for failure). */
 static int readTuple (const char* end, Str tuple[]) {
+	int i;
 	Str str;
 	readLine(0, end, &str);
 	if (!beginPast(&str, ':')) return 0;
-	int i = 0;
+
 	for (i = 0; i < 3; ++i) {
 		tuple[i].begin = str.begin;
 		if (!beginPast(&str, ',')) {
@@ -178,6 +167,7 @@ static const char* textureFilterNames[] = {"Nearest", "Linear", "MipMap", "MipMa
 		"MipMapNearestLinear", "MipMapLinearLinear"};
 
 Atlas* Atlas_readAtlas (const char* begin, int length, const char* dir) {
+	int count;
 	const char* end = begin + length;
 	int dirLength = strlen(dir);
 	int needsSlash = dirLength > 0 && dir[dirLength - 1] != '/' && dir[dirLength - 1] != '\\';
@@ -200,15 +190,13 @@ Atlas* Atlas_readAtlas (const char* begin, int length, const char* dir) {
 			if (needsSlash) path[dirLength] = '/';
 			strcpy(path + dirLength + needsSlash, name);
 
-			page = AtlasPage_create(name, path);
+			page = AtlasPage_create(name);
+			FREE(name);
 			if (lastPage)
 				lastPage->next = page;
 			else
 				self->pages = page;
 			lastPage = page;
-
-			FREE(name);
-			FREE(path);
 
 			if (!readValue(end, &str)) return abortAtlas(self);
 			page->format = (AtlasFormat)indexOf(formatNames, 7, &str);
@@ -222,6 +210,9 @@ Atlas* Atlas_readAtlas (const char* begin, int length, const char* dir) {
 				page->uWrap = *str.begin == 'x' ? ATLAS_REPEAT : (*str.begin == 'y' ? ATLAS_CLAMPTOEDGE : ATLAS_REPEAT);
 				page->vWrap = *str.begin == 'x' ? ATLAS_CLAMPTOEDGE : (*str.begin == 'y' ? ATLAS_REPEAT : ATLAS_REPEAT);
 			}
+
+			_AtlasPage_createTexture(page, path);
+			FREE(path);
 		} else {
 			AtlasRegion *region = AtlasRegion_create();
 			if (lastRegion)
@@ -244,7 +235,16 @@ Atlas* Atlas_readAtlas (const char* begin, int length, const char* dir) {
 			region->width = toInt(tuple);
 			region->height = toInt(tuple + 1);
 
-			int count;
+			region->u = region->x / (float)page->width;
+			region->v = region->y / (float)page->height;
+			if (region->rotate) {
+				region->u2 = (region->x + region->height) / (float)page->width;
+				region->v2 = (region->y + region->width) / (float)page->height;
+			} else {
+				region->u2 = (region->x + region->width) / (float)page->width;
+				region->v2 = (region->y + region->height) / (float)page->height;
+			}
+
 			if (!(count = readTuple(end, tuple))) return abortAtlas(self);
 			if (count == 4) { /* split is optional */
 				region->splits = MALLOC(int, 4);
@@ -269,8 +269,8 @@ Atlas* Atlas_readAtlas (const char* begin, int length, const char* dir) {
 			region->originalHeight = toInt(tuple + 1);
 
 			readTuple(end, tuple);
-			region->offsetX = (float)toInt(tuple);
-			region->offsetY = (float)toInt(tuple + 1);
+			region->offsetX = toInt(tuple);
+			region->offsetY = toInt(tuple + 1);
 
 			if (!readValue(end, &str)) return abortAtlas(self);
 			region->index = toInt(&str);
@@ -281,6 +281,11 @@ Atlas* Atlas_readAtlas (const char* begin, int length, const char* dir) {
 }
 
 Atlas* Atlas_readAtlasFile (const char* path) {
+	int dirLength;
+	char *dir;
+	int length;
+	const char* data;
+
 	Atlas* atlas = 0;
 
 	/* Get directory from atlas path. */
@@ -288,13 +293,12 @@ Atlas* Atlas_readAtlasFile (const char* path) {
 	const char* lastBackwardSlash = strrchr(path, '\\');
 	const char* lastSlash = lastForwardSlash > lastBackwardSlash ? lastForwardSlash : lastBackwardSlash;
 	if (lastSlash == path) lastSlash++; /* Never drop starting slash. */
-	int dirLength = lastSlash ? lastSlash - path : 0;
-	char* dir = MALLOC(char, dirLength + 1);
+	dirLength = lastSlash ? lastSlash - path : 0;
+	dir = MALLOC(char, dirLength + 1);
 	memcpy(dir, path, dirLength);
 	dir[dirLength] = '\0';
 
-	int length;
-	const char* data = _Util_readFile(path, &length);
+	data = _Util_readFile(path, &length);
 	if (data) atlas = Atlas_readAtlas(data, length, dir);
 
 	FREE(data);
@@ -303,6 +307,7 @@ Atlas* Atlas_readAtlasFile (const char* path) {
 }
 
 void Atlas_dispose (Atlas* self) {
+	AtlasRegion* region, *nextRegion;
 	AtlasPage* page = self->pages;
 	while (page) {
 		AtlasPage* nextPage = page->next;
@@ -310,9 +315,9 @@ void Atlas_dispose (Atlas* self) {
 		page = nextPage;
 	}
 
-	AtlasRegion* region = self->regions;
+	region = self->regions;
 	while (region) {
-		AtlasRegion* nextRegion = region->next;
+		nextRegion = region->next;
 		AtlasRegion_dispose(region);
 		region = nextRegion;
 	}
@@ -328,7 +333,3 @@ AtlasRegion* Atlas_findRegion (const Atlas* self, const char* name) {
 	}
 	return 0;
 }
-
-#ifdef __cplusplus
-}
-#endif

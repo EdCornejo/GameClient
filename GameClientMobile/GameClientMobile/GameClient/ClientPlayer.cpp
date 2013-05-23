@@ -48,25 +48,25 @@ bool ClientPlayer::IsStateIdle()
     
 void ClientPlayer::ChangeToMovingState()
 {
-    CCLOG("changed to moving state");
+//    CCLOG("changed to moving state");
     this->SetActorState(ActorState_Moving);
 }
     
 void ClientPlayer::ChangeToIdleState()
 {
-    CCLOG("changed to idle state");
+//    CCLOG("changed to idle state");
     this->SetActorState(ActorState_Idle);
 }
 
 void ClientPlayer::ChangeToCastingState()
 {
-    CCLOG("changed to casting state");
+//    CCLOG("changed to casting state");
     this->SetActorState(ActorState_Casting);
 }
 
 void ClientPlayer::ChangeToAttackingState()
 {
-    CCLOG("changed to attacking state");
+//    CCLOG("changed to attacking state");
     this->SetActorState(ActorState_Attacking);
 }
 

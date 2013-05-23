@@ -28,25 +28,36 @@
 
 #include <spine/Attachment.h>
 #include <spine/Atlas.h>
+#include <spine/Slot.h>
 
 #ifdef __cplusplus
-namespace spine {
 extern "C" {
 #endif
+
+typedef enum {
+	VERTEX_X1 = 0, VERTEX_Y1, VERTEX_X2, VERTEX_Y2, VERTEX_X3, VERTEX_Y3, VERTEX_X4, VERTEX_Y4
+} VertexIndex;
 
 typedef struct RegionAttachment RegionAttachment;
 struct RegionAttachment {
 	Attachment super;
 	float x, y, scaleX, scaleY, rotation, width, height;
+
+	void* rendererObject;
+	int regionOffsetX, regionOffsetY; /* Pixels stripped from the bottom left, unrotated. */
+	int regionWidth, regionHeight; /* Unrotated, stripped pixel size. */
+	int regionOriginalWidth, regionOriginalHeight; /* Unrotated, unstripped pixel size. */
+
 	float offset[8];
+	float uvs[8];
 };
 
-RegionAttachment* RegionAttachment_create (const char* name, AtlasRegion* region);
-
+RegionAttachment* RegionAttachment_create (const char* name);
+void RegionAttachment_setUVs (RegionAttachment* self, float u, float v, float u2, float v2, int/*bool*/rotate);
 void RegionAttachment_updateOffset (RegionAttachment* self);
+void RegionAttachment_computeVertices (RegionAttachment* self, Slot* slot, float* vertices);
 
 #ifdef __cplusplus
-}
 }
 #endif
 

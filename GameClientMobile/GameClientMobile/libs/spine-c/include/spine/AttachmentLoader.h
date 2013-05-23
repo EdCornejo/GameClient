@@ -30,7 +30,6 @@
 #include <spine/Skin.h>
 
 #ifdef __cplusplus
-namespace spine {
 extern "C" {
 #endif
 
@@ -40,6 +39,9 @@ struct AttachmentLoader {
 	const char* error2;
 
 	const void* const vtable;
+#ifdef __cplusplus
+	AttachmentLoader () : error1(0), error2(0), vtable(0) {}
+#endif
 };
 
 void AttachmentLoader_dispose (AttachmentLoader* self);
@@ -48,7 +50,6 @@ void AttachmentLoader_dispose (AttachmentLoader* self);
 Attachment* AttachmentLoader_newAttachment (AttachmentLoader* self, Skin* skin, AttachmentType type, const char* name);
 
 #ifdef __cplusplus
-}
 }
 #endif
 

@@ -47,6 +47,9 @@ CCSprite* BackgroundImageLoader::GetBackgroundImage(StageType stageType)
         case flownet::StageType_Loading:
             imageFileName = "background/loading.png";
             break;
+        case flownet::StageType_WolfForest:
+            imageFileName = "background/wolf_forest.png";
+            break;
         default:
             imageFileName = "background/default.png";
     }

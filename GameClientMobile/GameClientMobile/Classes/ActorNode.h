@@ -101,7 +101,7 @@ class ActorNode : public CCNode
 {
 protected:
     flownet::ActorID m_ActorID;
-    CCSkeleton* m_Skeleton;
+    CCSkeletonAnimation* m_Skeleton;
 
 public:
     ActorNode();

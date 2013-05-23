@@ -310,7 +310,7 @@ void ActorLayer::MoveActor(flownet::ActorID actorID, flownet::POINT currentPosit
         return;
     }
     
-    if(IsPlayerID(actorID)) CCLOG("moving speed is %f", actor->GetMovingSpeed());
+//    if(IsPlayerID(actorID)) CCLOG("moving speed is %f", actor->GetMovingSpeed());
     
     const float MovementAdjustDistance = 0.7;
     
