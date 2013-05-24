@@ -8,7 +8,15 @@
 
 #include "Headers.pch"
 
-AccountLayer::AccountLayer(): m_Delegate(nullptr), m_BackgroundImage(nullptr), m_EmailField(nullptr), m_PasswordField(nullptr), m_PasswordConfirmField(nullptr), m_KeyboardAttachedTextField(nullptr) {}
+
+bool AccountSceneTextFieldDelegate::init()
+{
+    return true;
+}
+
+/////////////////////////////////////////////
+
+AccountLayer::AccountLayer(): m_Delegate(nullptr), m_BackgroundImage(nullptr), m_EmailField(nullptr), m_PasswordField(nullptr), m_PasswordConfirmField(nullptr), m_KeyboardAttachedTextField(nullptr), m_CreateButton(nullptr), m_LoginButton(nullptr) {}
 
 AccountLayer::~AccountLayer()
 {
@@ -36,6 +44,16 @@ AccountLayer::~AccountLayer()
     {
         this->m_PasswordConfirmField->release();
         this->m_PasswordConfirmField = nullptr;
+    }
+    if(this->m_CreateButton)
+    {
+        this->m_CreateButton->release();
+        this->m_CreateButton = nullptr;
+    }
+    if(this->m_LoginButton)
+    {
+        this->m_LoginButton->release();
+        this->m_LoginButton = nullptr;
     }
 }
 
@@ -94,6 +112,21 @@ bool AccountLayer::ccTouchBegan(CCTouch* touch, CCEvent* event)
     return false;
 }
 
+void AccountLayer::OnResponse() const
+{
+    // TO DO : call this when parent class changed to BaseLayer
+    // BaseLayer::OnResponse();
+    
+    if(this->m_CreateButton)
+    {
+        this->m_CreateButton->setEnabled(true);
+    }
+    if(this->m_LoginButton)
+    {
+        this->m_LoginButton->setEnabled(true);
+    }
+}
+
 void AccountLayer::OnBackButtonTouch(cocos2d::CCObject *sender)
 {
     this->InitializeWithLoginWindow();
@@ -103,6 +136,8 @@ void AccountLayer::OnCreateButtonTouch(cocos2d::CCObject *sender)
 {
     // TO DO : check form
     GameClient::Instance().GetCFConnection().SendCFRequestCreateUserAccount(GameClient::Instance().GetDeviceID(), this->m_EmailField->getString(), this->m_PasswordField->getString());
+    // NOTE : this is enabled when response comes
+    this->m_CreateButton->setEnabled(false);
 }
 
 void AccountLayer::OnNewButtonTouch(cocos2d::CCObject *sender)
@@ -121,6 +156,7 @@ void AccountLayer::OnLoginButtonTouch(cocos2d::CCObject *sender)
     }
     
     GameClient::Instance().GetCFConnection().SendCFRequestLogInUserAccount(GameClient::Instance().GetDeviceID(), this->m_EmailField->getString() , this->m_PasswordField->getString());
+    this->m_LoginButton->setEnabled(false);
 }
 
 bool AccountLayer::IsFirstBoot()
@@ -158,9 +194,10 @@ void AccountLayer::InitializeWithLoginWindow()
     this->m_BackgroundImage->addChild(this->m_PasswordField);
     
     CCMenuItemImage* newButton = CCMenuItemImage::create("ui/account_scene/new_button_normal.png", "ui/account_scene/new_button_active.png", this, menu_selector(AccountLayer::OnNewButtonTouch));
-    CCMenuItemImage* loginButton = CCMenuItemImage::create("ui/account_scene/login_button_normal.png", "ui/account_scene/login_button_active.png", this, menu_selector(AccountLayer::OnLoginButtonTouch));
+    this->m_LoginButton = CCMenuItemImage::create("ui/account_scene/login_button_normal.png", "ui/account_scene/login_button_active.png", this, menu_selector(AccountLayer::OnLoginButtonTouch));
+    this->m_LoginButton->retain();
     
-    CCMenu* menu = CCMenu::create(newButton, loginButton, NULL);
+    CCMenu* menu = CCMenu::create(newButton, this->m_LoginButton, NULL);
     menu->setPosition(ccp(174, 34));
     menu->alignItemsHorizontallyWithPadding(20);
     this->m_BackgroundImage->addChild(menu);
@@ -196,9 +233,10 @@ void AccountLayer::InitializeWithCreateAccount()
     this->m_BackgroundImage->addChild(this->m_PasswordConfirmField);
     
     CCMenuItemImage* backButton = CCMenuItemImage::create("ui/account_scene/back_button_normal.png", "ui/account_scene/back_button_active.png", this, menu_selector(AccountLayer::OnBackButtonTouch));
-    CCMenuItemImage* createButton = CCMenuItemImage::create("ui/account_scene/create_button_normal.png", "ui/account_scene/create_button_active.png", this, menu_selector(AccountLayer::OnCreateButtonTouch));
+    this->m_CreateButton = CCMenuItemImage::create("ui/account_scene/create_button_normal.png", "ui/account_scene/create_button_active.png", this, menu_selector(AccountLayer::OnCreateButtonTouch));
+    this->m_CreateButton->retain();
     
-    CCMenu* menu = CCMenu::create(backButton, createButton, NULL);
+    CCMenu* menu = CCMenu::create(backButton, this->m_CreateButton, NULL);
     menu->setPosition(ccp(260, 40));
     menu->alignItemsHorizontallyWithPadding(20);
     this->m_BackgroundImage->addChild(menu);
@@ -228,25 +266,37 @@ void AccountLayer::Reset()
         this->m_PasswordConfirmField->release();
         this->m_PasswordConfirmField = nullptr;
     }
+    if(this->m_CreateButton)
+    {
+        this->m_CreateButton->release();
+        this->m_CreateButton = nullptr;
+    }
+    if(this->m_LoginButton)
+    {
+        this->m_LoginButton->release();
+        this->m_LoginButton = nullptr;
+    }
 }
 
-bool AccountSceneTextFieldDelegate::init()
+AccountScene::AccountScene(): m_Layer(nullptr) {}
+
+AccountScene::~AccountScene()
 {
-    return true;
+    if(this->m_Layer)
+    {
+        this->m_Layer->release();
+        this->m_Layer = nullptr;
+    }
 }
-
-
-AccountScene::AccountScene(){}
-
-AccountScene::~AccountScene(){}
 
 bool AccountScene::init()
 {
     if(!BaseScene::init()) return false;
     
-    AccountLayer* layer = AccountLayer::create();
+    this->m_Layer = AccountLayer::create();
+    this->m_Layer->retain();
     
-    this->addChild(layer);
+    this->addChild(this->m_Layer);
     
     scheduleUpdate();
     
@@ -256,4 +306,11 @@ bool AccountScene::init()
 void AccountScene::update(float deltaTime)
 {
     BaseScene::update(deltaTime);
+}
+
+void AccountScene::OnResponse() const
+{
+    BaseScene::OnResponse();
+    
+    this->m_Layer->OnResponse();
 }

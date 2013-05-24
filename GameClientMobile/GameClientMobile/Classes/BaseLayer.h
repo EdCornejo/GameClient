@@ -22,10 +22,10 @@ public:
     virtual ~BaseLayer();
     
 public:
-    virtual bool init();
+    virtual bool init() override;
     virtual bool initWithStageType(StageType stageType);
-    
-    virtual void update(float deltaTime) override;
+
+    virtual void OnResponse() const;
 };
 
 #endif /* defined(__GameClientMobile__BaseLayer__) */

@@ -40,6 +40,9 @@ public:
 //    MonsterLayer* GetMonsterLayer() const;
     UILayer* GetUILayer() const;
     HeartbeatLayer* GetHeartbeatLayer() const;
+
+    // this function is for enabling the disabled buttons when requested
+    virtual void OnResponse() const;
 };
 
 #endif /* defined(__GameClientMobile__BaseScene__) */

@@ -8,10 +8,7 @@
 
 #include "Headers.pch"
 
-BaseLayer::BaseLayer() : m_StageType(StageType_NONE)
-{
-
-}
+BaseLayer::BaseLayer() : m_StageType(StageType_NONE) {}
 
 BaseLayer::~BaseLayer(){}
 
@@ -37,7 +34,7 @@ bool BaseLayer::initWithStageType(StageType stageType)
     return true;
 }
 
-void BaseLayer::update(float deltaTime)
+void BaseLayer::OnResponse() const
 {
 
 }

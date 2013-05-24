@@ -81,17 +81,20 @@ private:
     CCSprite* m_YellowBar;
     CCSprite* m_RedBar;
     CCSprite* m_DamagedHealthPointBar;
+    CCSprite* m_RemainManaPointBar;
+    CCSprite* m_DrainedManaPointBar;
     
 public:
     HUDNode();
     virtual ~HUDNode();
     
-    virtual bool init();
+    virtual bool init() override;
     static HUDNode* create(flownet::ActorID actorID);
     
     virtual void update(float deltaTime);
     
     void ChangeHealthPointBar(float scaleFactor);
+    void ChangeManaPointBar(float scaleFactor);
     
 private:
     void ShowHUD();

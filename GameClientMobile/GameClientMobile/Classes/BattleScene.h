@@ -14,10 +14,10 @@ class BattleScene : public BaseScene
 public:
     BattleScene();
     virtual ~BattleScene();
-    virtual bool init();
+    virtual bool init() override;
     CREATE_FUNC(BattleScene);
     
-    virtual void update(float deltaTime);
+    virtual void update(float deltaTime) override;
 };
 
 #endif /* defined(__GameClientMobile__BattleScene__) */

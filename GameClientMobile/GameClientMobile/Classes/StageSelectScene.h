@@ -25,16 +25,19 @@ class StageInfoLayer : public CCLayerColor
 private:
     flownet::StageType m_StageType;
     CCSprite* m_Background;
+    CCMenuItemImage* m_CreateButton;
 
 public:
     StageInfoLayer();
     virtual ~StageInfoLayer();
 
-    virtual bool init();
+    virtual bool init() override;
     
     static StageInfoLayer* create(flownet::StageType stageType);
 
-    virtual bool ccTouchBegan(CCTouch* touch, CCEvent* event);
+    virtual bool ccTouchBegan(CCTouch* touch, CCEvent* event) override;
+    
+    void OnResponse() const;
 
 private:
     void OnCreateButtonTouch(CCObject* sender);
@@ -44,7 +47,7 @@ public:
     void DisplayRunningStages(flownet::StagePlayInfoList& stageInfoList);
 };
 
-class StageSelectLayer : public CCLayer
+class StageSelectLayer : public BaseLayer
 {
 private:
     StageInfoLayer* m_StageInfoLayer;
@@ -57,11 +60,13 @@ public :
     StageSelectLayer();
     virtual ~StageSelectLayer();
     
-    virtual bool init();
+    virtual bool init() override;
 
     CREATE_FUNC(StageSelectLayer);
     
-    virtual void ccTouchesMoved(CCSet* touches, CCEvent* event);
+    virtual void ccTouchesMoved(CCSet* touches, CCEvent* event) override;
+    
+    virtual void OnResponse() const override;
 
 private:
     void OnStageSelectObjectTouch(CCObject* sender);
@@ -79,13 +84,15 @@ public:
     StageSelectScene();
     virtual ~StageSelectScene();
     
-    virtual bool init();
+    virtual bool init() override;
     
     CREATE_FUNC(StageSelectScene);
     
-    virtual void update(float deltaTime);
+    virtual void update(float deltaTime) override;
     
     void DisplayRunningStages(flownet::StagePlayInfoList& stageInfoList);
+    
+    virtual void OnResponse() const override;
 };
 
 #endif /* defined(__GameClientMobile__StageSelectScene__) */

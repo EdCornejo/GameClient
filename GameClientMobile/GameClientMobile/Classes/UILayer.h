@@ -25,13 +25,15 @@ private:
 public:
     UILayer();
     virtual ~UILayer();
-    virtual bool init();
+    virtual bool init() override;
 
     static UILayer* create(StageType stageType);
-    virtual void update(float deltaTime);
+    virtual void update(float deltaTime) override;
     
     virtual void ccTouchesBegan(CCSet* touches, CCEvent* event) override;
     virtual void ccTouchesEnded(CCSet* touches, CCEvent* event) override;
+    
+    virtual void OnResponse() const override;
     
 private:
     void InitializeSpellQuickSlot();

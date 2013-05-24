@@ -230,6 +230,7 @@ public:
     void ActorAttacked(flownet::ActorID attackedActorID, flownet::ActorID attackerActorID);
     void ActorDead(flownet::ActorID deadActorID, bool afterDelete = false); // TO DO : when delete is default after die, change this false to true
     void ActorTakeDamage(flownet::ActorID actorID);
+    void ActorConsumedMana(flownet::ActorID actorID);
 
     void ActorNodeReload(flownet::ActorID actorID);
 

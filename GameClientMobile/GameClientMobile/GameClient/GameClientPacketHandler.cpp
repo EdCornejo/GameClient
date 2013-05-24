@@ -364,6 +364,12 @@ void GameClientPacketHandler::OnSCNotifySetFreeze(flownet::StageID stageID, flow
     this->m_GameClientRPCReceiver->OnSCNotifySetFreeze(stageID, targetID, isFreezed);
 }
 
+void GameClientPacketHandler::OnSCNotifyRunOutMovingMana(StageID stageID, ActorID actorID)
+{
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+    this->m_GameClientRPCReceiver->OnSCNotifyRunOutMovingMana(stageID, actorID);
+}
+
 
 
 

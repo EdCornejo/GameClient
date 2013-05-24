@@ -38,7 +38,7 @@ RunningStageInfoMenuItem* RunningStageInfoMenuItem::create(std::string& playerNa
 }
 
 
-StageInfoLayer::StageInfoLayer() {}
+StageInfoLayer::StageInfoLayer(): m_StageType(StageType_NONE), m_Background(nullptr), m_CreateButton(nullptr) {}
 
 StageInfoLayer::~StageInfoLayer()
 {
@@ -46,6 +46,11 @@ StageInfoLayer::~StageInfoLayer()
     {
         this->m_Background->release();
         this->m_Background = nullptr;
+    }
+    if(this->m_CreateButton)
+    {
+        this->m_CreateButton->release();
+        this->m_CreateButton = nullptr;
     }
 }
 
@@ -86,9 +91,11 @@ bool StageInfoLayer::init()
     stageDescriptionLabel->setPosition(ccp(bodySize.width - 20, bodySize.height - 20));
 //    this->m_Background->addChild(stageDescriptionLabel);
     
-    CCMenuItemImage* createButton = CCMenuItemImage::create("ui/stage_select_scene/create_button_normal.png", "ui/stage_select_scene/create_button_active.png", this, menu_selector(StageInfoLayer::OnCreateButtonTouch));
-    createButton->setAnchorPoint(CCPointLowerLeft);
-    CCMenu* menu = CCMenu::create(createButton, NULL);
+    this->m_CreateButton = CCMenuItemImage::create("ui/stage_select_scene/create_button_normal.png", "ui/stage_select_scene/create_button_active.png", this, menu_selector(StageInfoLayer::OnCreateButtonTouch));
+    this->m_CreateButton->retain();
+    
+    this->m_CreateButton->setAnchorPoint(CCPointLowerLeft);
+    CCMenu* menu = CCMenu::create(this->m_CreateButton, NULL);
     menu->setPosition(ccp(20, 50));
     menu->setTouchPriority(kCCMenuHandlerPriority - 1);
     
@@ -130,9 +137,16 @@ bool StageInfoLayer::ccTouchBegan(cocos2d::CCTouch *touch, cocos2d::CCEvent *eve
     return true;
 }
 
+void StageInfoLayer::OnResponse() const
+{
+    this->m_CreateButton->setEnabled(true);
+}
+
 void StageInfoLayer::OnCreateButtonTouch(CCObject* sender)
 {
     GPSPoint gps = GPSPoint(43, 54, 0);
+
+    this->m_CreateButton->setEnabled(false);
     
     this->removeFromParentAndCleanup(true);
     
@@ -261,6 +275,13 @@ void StageSelectLayer::ccTouchesMoved(cocos2d::CCSet *touches, cocos2d::CCEvent 
     this->m_Menu->setPosition( newPos );
 }
 
+void StageSelectLayer::OnResponse() const
+{
+    BaseLayer::OnResponse();
+
+    this->m_StageInfoLayer->OnResponse();
+}
+
 void StageSelectLayer::OnStageSelectObjectTouch(cocos2d::CCObject *sender)
 {
     CCNode* node = static_cast<CCNode*>(sender);
@@ -328,4 +349,11 @@ void StageSelectScene::DisplayRunningStages(flownet::StagePlayInfoList &stageInf
     {
         this->m_StageSelectLayer->DisplayRunningStages(stageInfoList);
     }
+}
+
+void StageSelectScene::OnResponse() const
+{
+    BaseScene::OnResponse();
+
+    this->m_StageSelectLayer->OnResponse();
 }

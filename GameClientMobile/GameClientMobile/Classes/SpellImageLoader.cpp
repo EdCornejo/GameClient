@@ -48,7 +48,7 @@ CCSprite* SpellImageLoader::GetSpellQuickSlotImage(SpellType spellType)
 
 CCSprite* SpellImageLoader::GetSpellGuideImage(SpellType spellType)
 {
-    std::string iconName = "ui/spell_guide_icon/";
+    std::string iconName = "ui/guide_line/";
     iconName += GetImageFileName(spellType);
     
     CCSprite* icon = CCSprite::create(iconName.c_str());

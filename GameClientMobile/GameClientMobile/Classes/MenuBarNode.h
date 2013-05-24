@@ -15,10 +15,9 @@ private:
     bool m_IsOpen;
     CCSprite* m_SlideButton;
     CCSprite* m_Body;
-    CCMenuItem* m_HomeMenuItem;
-    CCMenuItem* m_SettingMenuItem;
-    CCMenuItem* m_LogoutMenuItem;
-    
+    CCMenuItem* m_HomeButton;
+    CCMenuItem* m_SettingButton;
+    CCMenuItem* m_LogoutButton;
 
 public:
     enum {
@@ -29,11 +28,12 @@ public:
     MenuBarNode();
     virtual ~MenuBarNode();
 
-    virtual bool init();
+    virtual bool init() override;
     static MenuBarNode* create();
     
-public:
-    virtual bool ccTouchBegan(CCTouch* touch, CCEvent* event);
+    virtual bool ccTouchBegan(CCTouch* touch, CCEvent* event) override;
+    
+    void OnResponse() const;
     
 private:
     void Slide();

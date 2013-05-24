@@ -16,7 +16,7 @@ public:
     CREATE_FUNC(AccountSceneTextFieldDelegate);
 };
 
-class AccountLayer : public CCLayerColor
+class AccountLayer : public CCLayerColor // TO DO : change parent class to BaseLayer when background image arrives
 {
 private:
     AccountSceneTextFieldDelegate* m_Delegate;
@@ -25,15 +25,19 @@ private:
     CCTextFieldTTF* m_PasswordField;
     CCTextFieldTTF* m_PasswordConfirmField;
     CCTextFieldTTF* m_KeyboardAttachedTextField;
+    CCMenuItemImage* m_CreateButton;
+    CCMenuItemImage* m_LoginButton;
     
 public:
     AccountLayer();
     virtual ~AccountLayer();
     
-    virtual bool init();
+    virtual bool init() override;
     CREATE_FUNC(AccountLayer);
     
-    virtual bool ccTouchBegan(CCTouch* touch, CCEvent* event);
+    virtual bool ccTouchBegan(CCTouch* touch, CCEvent* event) override;
+    
+    virtual void OnResponse() const;
     
 private:
     void OnBackButtonTouch(CCObject* sender);
@@ -52,14 +56,19 @@ private:
 
 class AccountScene : public BaseScene
 {
+private:
+    AccountLayer* m_Layer;
+    
 public:
     AccountScene();
     virtual ~AccountScene();
     
-    virtual bool init();
+    virtual bool init() override;
     CREATE_FUNC(AccountScene);
     
     virtual void update(float deltaTime) override;
+    
+    virtual void OnResponse() const override;
 };
 
 #endif /* defined(__GameClientMobile__AccountScene__) */

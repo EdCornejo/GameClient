@@ -125,6 +125,16 @@ void UILayer::ccTouchesEnded(CCSet *touches, CCEvent *event)
     if(this->TouchProcessMove(touchLocation)) return;
 }
 
+void UILayer::OnResponse() const
+{
+    BaseLayer::OnResponse();
+    
+    if(this->m_MenuBarNode)
+    {
+        this->m_MenuBarNode->OnResponse();
+    }
+}
+
 void UILayer::InitializeSpellQuickSlot()
 {
     this->m_SpellQuickSlotNode = SpellQuickSlotNode::create();

@@ -89,7 +89,7 @@ void CCObject::release(void)
         {
             int i = 0;
         }
-        CCLOG("%d, %d, %s", this, this->m_uID, typeid(*this).name());
+//        CCLOG("%d, %d, %s", this, this->m_uID, typeid(*this).name());
         delete this;
     }
 }

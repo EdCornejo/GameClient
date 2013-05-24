@@ -224,6 +224,7 @@
 		6B532BEC1712E0F4009127B2 /* CCPhysicsSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B532B291712E0F4009127B2 /* CCPhysicsSprite.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		6B532BED1712E0F4009127B2 /* cocos2dx-ext.mkf in Resources */ = {isa = PBXBuildFile; fileRef = 6B532B2C1712E0F4009127B2 /* cocos2dx-ext.mkf */; };
 		6B532BEE1712E0F4009127B2 /* cocos2dx-ext_public.defines.txt in Resources */ = {isa = PBXBuildFile; fileRef = 6B532B2D1712E0F4009127B2 /* cocos2dx-ext_public.defines.txt */; };
+		6B639806174F2D15001F3D5F /* LoadingLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B639804174F2D15001F3D5F /* LoadingLayer.cpp */; };
 		6B6EC65D1700785C001E273F /* ClientDirector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B6EC65B1700785C001E273F /* ClientDirector.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		6B7477B216F0C7AD0014C286 /* LoadingScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B7477B016F0C7AD0014C286 /* LoadingScene.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		6B7477B416F0CBC00014C286 /* loading_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B7477B316F0CBC00014C286 /* loading_background.png */; };
@@ -804,6 +805,8 @@
 		6B532B2A1712E0F4009127B2 /* CCPhysicsSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCPhysicsSprite.h; sourceTree = "<group>"; };
 		6B532B2C1712E0F4009127B2 /* cocos2dx-ext.mkf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "cocos2dx-ext.mkf"; sourceTree = "<group>"; };
 		6B532B2D1712E0F4009127B2 /* cocos2dx-ext_public.defines.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "cocos2dx-ext_public.defines.txt"; sourceTree = "<group>"; };
+		6B639804174F2D15001F3D5F /* LoadingLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LoadingLayer.cpp; path = Classes/LoadingLayer.cpp; sourceTree = "<group>"; };
+		6B639805174F2D15001F3D5F /* LoadingLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoadingLayer.h; path = Classes/LoadingLayer.h; sourceTree = "<group>"; };
 		6B6EC65B1700785C001E273F /* ClientDirector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ClientDirector.cpp; path = Classes/ClientDirector.cpp; sourceTree = "<group>"; };
 		6B6EC65C1700785C001E273F /* ClientDirector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ClientDirector.h; path = Classes/ClientDirector.h; sourceTree = "<group>"; };
 		6B7477B016F0C7AD0014C286 /* LoadingScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LoadingScene.cpp; path = Classes/LoadingScene.cpp; sourceTree = "<group>"; };
@@ -2084,6 +2087,8 @@
 				6B2AA40416FE73E400DEB7C3 /* CaptionLayer.h */,
 				6BAA3A9A16E705C500BB233E /* HeartbeatLayer.cpp */,
 				6BAA3A9B16E705C700BB233E /* HeartbeatLayer.h */,
+				6B639804174F2D15001F3D5F /* LoadingLayer.cpp */,
+				6B639805174F2D15001F3D5F /* LoadingLayer.h */,
 			);
 			name = Layers;
 			sourceTree = "<group>";
@@ -2637,6 +2642,7 @@
 				6BA118B4174DE1FB0085E43B /* CCSkeleton.cpp in Sources */,
 				6BA118B5174DE1FB0085E43B /* CCSkeletonAnimation.cpp in Sources */,
 				6BA118B6174DE1FB0085E43B /* spine-cocos2dx.cpp in Sources */,
+				6B639806174F2D15001F3D5F /* LoadingLayer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

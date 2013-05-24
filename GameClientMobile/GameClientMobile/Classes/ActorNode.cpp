@@ -123,7 +123,7 @@ bool GuideLineNode::init()
     // NOTE : our screen is landscape
     double rotateDegree = -atan2(this->m_Destination.y - this->m_Source.y, this->m_Destination.x - this->m_Source.x) * 180 / M_PI;
     
-    this->m_SpellGuideLine = CCSprite::create("ui/spell/spell_guide_line.png");
+    this->m_SpellGuideLine = CCSprite::create("ui/guide_line/spell_guide_line.png");
     this->m_SpellGuideLine->retain();
     this->m_SpellGuideLine->setAnchorPoint(CCPointZero);
     this->m_SpellGuideLine->setPosition(this->m_Source);
@@ -131,8 +131,9 @@ bool GuideLineNode::init()
     this->m_SpellGuideLine->setRotation(rotateDegree);
     
     
-    this->m_SpellGuideIcon = CCSprite::create("ui/spell/spell_position_marker.png"); // SpellImageLoader::GetSpellGuideImage(this->m_SpellType);
+    this->m_SpellGuideIcon = SpellImageLoader::GetSpellGuideImage(this->m_SpellType);
     this->m_SpellGuideIcon->retain();
+    this->m_SpellGuideIcon->getCamera()->setEyeXYZ(0, -2, 1);
     this->m_SpellGuideIcon->setPosition(this->m_Destination);
     
     this->addChild(this->m_SpellGuideLine);
@@ -162,7 +163,7 @@ GuideLineNode* GuideLineNode::create(flownet::SpellType spellType, CCPoint sourc
 }
 
 
-HUDNode::HUDNode(): m_ActorID(ActorID_None), m_NameLabel(nullptr), m_HidingPart(nullptr), m_RemainHealthPointBar(nullptr), m_GreenBar(nullptr), m_YellowBar(nullptr), m_RedBar(nullptr), m_DamagedHealthPointBar(nullptr){}
+HUDNode::HUDNode(): m_ActorID(ActorID_None), m_NameLabel(nullptr), m_HidingPart(nullptr), m_RemainHealthPointBar(nullptr), m_GreenBar(nullptr), m_YellowBar(nullptr), m_RedBar(nullptr), m_DamagedHealthPointBar(nullptr), m_RemainManaPointBar(nullptr), m_DrainedManaPointBar(nullptr) {}
 HUDNode::~HUDNode()
 {
     if(this->m_NameLabel)
@@ -200,6 +201,16 @@ HUDNode::~HUDNode()
         this->m_DamagedHealthPointBar->release();
         this->m_DamagedHealthPointBar = nullptr;
     }
+    if(this->m_RemainManaPointBar)
+    {
+        this->m_RemainManaPointBar->release();
+        this->m_RemainManaPointBar = nullptr;
+    }
+    if(this->m_DrainedManaPointBar)
+    {
+        this->m_DrainedManaPointBar->release();
+        this->m_DrainedManaPointBar = nullptr;
+    }
 }
     
 bool HUDNode::init()
@@ -225,28 +236,40 @@ bool HUDNode::init()
 
     this->m_DamagedHealthPointBar = CCSprite::create("ui/hud/health_damaged.png");
     this->m_DamagedHealthPointBar->setAnchorPoint(ccp(0, 0.5));
-    this->m_DamagedHealthPointBar->setPosition(ccp(-this->m_DamagedHealthPointBar->getTextureRect().size.width / 2, 0));
+    this->m_DamagedHealthPointBar->setPosition(ccp(-this->m_DamagedHealthPointBar->getTextureRect().size.width / 2, 2));
     this->m_DamagedHealthPointBar->retain();
     this->m_HidingPart->addChild(this->m_DamagedHealthPointBar);
     
     this->m_GreenBar = CCSprite::create("ui/hud/health_remain_green.png");
     this->m_GreenBar->setAnchorPoint(ccp(0, 0.5));
-    this->m_GreenBar->setPosition(ccp(-this->m_GreenBar->getTextureRect().size.width / 2, 0));
+    this->m_GreenBar->setPosition(ccp(-this->m_GreenBar->getTextureRect().size.width / 2, 2));
     this->m_GreenBar->retain();
     
     this->m_YellowBar = CCSprite::create("ui/hud/health_remain_yellow.png");
     this->m_YellowBar->setAnchorPoint(ccp(0, 0.5));
-    this->m_YellowBar->setPosition(ccp(-this->m_YellowBar->getTextureRect().size.width / 2, 0));
+    this->m_YellowBar->setPosition(ccp(-this->m_YellowBar->getTextureRect().size.width / 2, 2));
     this->m_YellowBar->retain();
     
     this->m_RedBar = CCSprite::create("ui/hud/health_remain_red.png");
     this->m_RedBar->setAnchorPoint(ccp(0, 0.5));
-    this->m_RedBar->setPosition(ccp(-this->m_RedBar->getTextureRect().size.width / 2, 0));
+    this->m_RedBar->setPosition(ccp(-this->m_RedBar->getTextureRect().size.width / 2, 2));
     this->m_RedBar->retain();
     
     this->m_RemainHealthPointBar = this->m_GreenBar;
     this->m_RemainHealthPointBar->retain();
     this->m_HidingPart->addChild(this->m_RemainHealthPointBar);
+    
+    this->m_DrainedManaPointBar = CCSprite::create("ui/hud/mana_drained.png");
+    this->m_DrainedManaPointBar->retain();
+    this->m_DrainedManaPointBar->setPosition(ccp(-this->m_DrainedManaPointBar->getTextureRect().size.width / 2 , -2));
+    this->m_DrainedManaPointBar->setAnchorPoint(ccp(0, 0.5));
+    this->m_HidingPart->addChild(this->m_DrainedManaPointBar);
+    
+    this->m_RemainManaPointBar = CCSprite::create("ui/hud/mana_remain.png");
+    this->m_RemainManaPointBar->retain();
+    this->m_RemainManaPointBar->setPosition(ccp(-this->m_RemainManaPointBar->getTextureRect().size.width / 2, -2));
+    this->m_RemainManaPointBar->setAnchorPoint(ccp(0, 0.5));
+    this->m_HidingPart->addChild(this->m_RemainManaPointBar);
     
     this->m_HidingPart->setVisible(false);
     
@@ -332,6 +355,26 @@ void HUDNode::ChangeHealthPointBar(float scaleFactor)
     CCScaleTo* scaleTo = CCScaleTo::create(0.5, scaleFactor, 1);
     scaleTo->setTag(ActionType_UI);
     this->m_DamagedHealthPointBar->runAction(scaleTo);
+    
+    CCFiniteTimeAction* showHUD = CCCallFunc::create(this, callfunc_selector(HUDNode::ShowHUD));
+    CCDelayTime* delay = CCDelayTime::create(3);
+    CCFiniteTimeAction* hideHUD = CCCallFunc::create(this, callfunc_selector(HUDNode::HideHUD));
+    CCSequence* sequence = CCSequence::create(showHUD, delay, hideHUD, NULL);
+    sequence->setTag(ActionType_UI);
+    
+    this->runAction(sequence);
+}
+
+void HUDNode::ChangeManaPointBar(float scaleFactor)
+{
+    this->m_DrainedManaPointBar->stopActionByTag(ActionType_UI);
+    this->stopActionByTag(ActionType_UI);
+    
+    this->m_RemainManaPointBar->setScaleX(scaleFactor);
+
+    CCScaleTo* scaleTo = CCScaleTo::create(0.5, scaleFactor, 1);
+    scaleTo->setTag(ActionType_UI);
+    this->m_DrainedManaPointBar->runAction(scaleTo);
     
     CCFiniteTimeAction* showHUD = CCCallFunc::create(this, callfunc_selector(HUDNode::ShowHUD));
     CCDelayTime* delay = CCDelayTime::create(3);

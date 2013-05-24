@@ -543,6 +543,19 @@ void ActorLayer::ActorTakeDamage(flownet::ActorID actorID)
     actorNodeSet->m_HUDNode->ChangeHealthPointBar(actor->GetHealthPoint() / actor->GetMaxHealthPoint());
 }
 
+void ActorLayer::ActorConsumedMana(flownet::ActorID actorID)
+{
+    Actor* actor = GameClient::Instance().GetClientStage()->FindActor(actorID);
+    ASSERT_DEBUG(actor);
+    
+    ActorNodeSet* actorNodeSet = this->FindActorNodeSet(actorID);
+    ASSERT_DEBUG(actorNodeSet);
+    
+    ASSERT_DEBUG(actor->GetMaxManaPoint() != 0);
+    
+    actorNodeSet->m_HUDNode->ChangeManaPointBar(actor->GetManaPoint() / actor->GetMaxManaPoint());
+}
+
 void ActorLayer::ActorNodeReload(flownet::ActorID actorID)
 {
     ActorNode* actorNode = this->FindActorNode(actorID);

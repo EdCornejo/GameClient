@@ -115,6 +115,8 @@ void AppDelegate::applicationWillEnterForeground()
 
 void AppDelegate::InitializeConnection()
 {
+    CCUserDefault::sharedUserDefault()->setStringForKey("yours", "");
+    CCUserDefault::sharedUserDefault()->flush();
     std::string serverIP = CCUserDefault::sharedUserDefault()->getStringForKey("yours", "");
     
     if( serverIP.empty() || serverIP.length()==0 )
@@ -211,6 +213,10 @@ void AppDelegate::OnSCResponseSession(flownet::UserID userID, flownet::ActorID m
 void AppDelegate::OnSCResponseCreatePlayer(flownet::UserID userID, flownet::ActorID playerID, flownet::SessionID sessionID) const
 {
     CCLOG("AppDelegate::OnSCResponseCreatePlayer >> session responsed with %d", sessionID);
+    BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
+    ASSERT_DEBUG(scene);
+    scene->OnResponse();
+    
     GameClient::Instance().SetMyActorID(playerID);
     GameClient::Instance().SetSessionID(sessionID);
     
@@ -285,6 +291,10 @@ void AppDelegate::OnFCResponseCreateUserAccount(flownet::UserID userID) const
 
 void AppDelegate::OnFCResponseLogInUserAccount(flownet::UserID userID, flownet::GameServerID gameServerID, flownet::STRING gameServerIP, flownet::OTP otp) const
 {
+    BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
+    ASSERT_DEBUG(scene);
+    scene->OnResponse();
+    
     if( userID == UserID_None )
     {
         CCLOG("AppDelegate::OnFCResponseLogInUserAccount >> LogInUserAccount Failed. 1) logged-in session is exist  2) useraccount / password missmatch");
@@ -344,6 +354,10 @@ void AppDelegate::OnSCResponseLogInWithOTP(flownet::UserID userID, flownet::Acto
 
 void AppDelegate::OnSCResponseLogOutUserAccount(flownet::UserID userID) const
 {
+    BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
+    ASSERT_DEBUG(scene);
+    scene->OnResponse();
+    
     if( userID == UserID_None )
     {
         CCLOG("AppDelegate::OnSCResponseLogOutUserAccount >> LogOut Failed");
@@ -429,6 +443,10 @@ void AppDelegate::OnSCResponseJoinRunningStage(flownet::StageID stageID, flownet
 
 void AppDelegate::OnSCResponseExitStage(flownet::StageID stageID, flownet::ActorID playerID) const
 {
+    BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
+    ASSERT_DEBUG(scene);
+    scene->OnResponse();
+
     ClientStage* clientStage = GameClient::Instance().GetClientStage();
     if(clientStage == nullptr) return;
     if(stageID != clientStage->GetStageID()) ASSERT_DEBUG(stageID == clientStage->GetStageID());
@@ -595,6 +613,9 @@ void AppDelegate::OnSCNotifyActorAttributeChanged(flownet::StageID stageID, flow
     switch (actorAttribute) {
         case ActorAttribute_HealthPoint:
             actorLayer->ActorTakeDamage(actorID); // TO DO : change this function's naming
+            break;
+        case ActorAttribute_ManaPoint:
+            actorLayer->ActorConsumedMana(actorID);
             break;
         case ActorAttribute_AttackPower:
             break;
@@ -1142,3 +1163,7 @@ void AppDelegate::OnSCNotifySetFreeze(flownet::StageID stageID, flownet::ActorID
     actor->SetFreeze(clientStage, isFreezed);
 }
 
+void AppDelegate::OnSCNotifyRunOutMovingMana(StageID stageID, ActorID actorID) const
+{
+    
+}

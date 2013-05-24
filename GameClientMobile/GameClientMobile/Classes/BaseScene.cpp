@@ -121,3 +121,26 @@ HeartbeatLayer* BaseScene::GetHeartbeatLayer() const
     return this->m_HeartbeatLayer;
 }
 
+void BaseScene::OnResponse() const
+{
+    if(m_BackgroundLayer)
+    {
+        m_BackgroundLayer->OnResponse();
+    }
+    if(m_EffectLayer)
+    {
+        m_EffectLayer->OnResponse();
+    }
+    if(m_ObjectLayer)
+    {
+        m_ObjectLayer->OnResponse();
+    }
+    if(m_ActorLayer)
+    {
+        m_ActorLayer->OnResponse();
+    }
+    if(m_UILayer)
+    {
+        m_UILayer->OnResponse();
+    }
+}
