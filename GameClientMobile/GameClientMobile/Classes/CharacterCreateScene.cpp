@@ -13,7 +13,7 @@ bool CharacterCreateSceneTextFieldDelegate::init()
     return true;
 }
 
-CharacterCreateLayer::CharacterCreateLayer(): m_SelectedGender(Gender_None), m_BackgroundImage(nullptr), m_PlayerNode(nullptr), m_NameField(nullptr), m_TextFieldDelegate(nullptr), m_MaleButton(nullptr), m_FemaleButton(nullptr) {}
+CharacterCreateLayer::CharacterCreateLayer(): m_SelectedGender(Gender_None), m_BackgroundImage(nullptr), m_PlayerNode(nullptr), m_NameField(nullptr), m_TextFieldDelegate(nullptr), m_MaleButton(nullptr), m_FemaleButton(nullptr), m_CreateButton(nullptr) {}
 
 CharacterCreateLayer::~CharacterCreateLayer()
 {
@@ -46,6 +46,11 @@ CharacterCreateLayer::~CharacterCreateLayer()
     {
         this->m_FemaleButton->release();
         this->m_FemaleButton = nullptr;
+    }
+    if(this->m_CreateButton)
+    {
+        this->m_CreateButton->release();
+        this->m_CreateButton = nullptr;
     }
 }
 
@@ -90,8 +95,9 @@ bool CharacterCreateLayer::init()
     this->m_BackgroundImage->addChild(genderMenu);
     
     CCMenuItemImage* backButton = CCMenuItemImage::create("ui/character_create_scene/back_button_normal.png", "ui/character_create_scene/back_button_active.png", this, menu_selector(CharacterCreateLayer::OnBackButtonTouch));
-    CCMenuItemImage* createButton = CCMenuItemImage::create("ui/character_create_scene/create_button_normal.png", "ui/character_create_scene/create_button_active.png", this, menu_selector(CharacterCreateLayer::OnCreateButtonTouch));
-    CCMenu* buttonMenu = CCMenu::create(backButton, createButton, NULL);
+    this->m_CreateButton = CCMenuItemImage::create("ui/character_create_scene/create_button_normal.png", "ui/character_create_scene/create_button_active.png", this, menu_selector(CharacterCreateLayer::OnCreateButtonTouch));
+    this->m_CreateButton->retain();
+    CCMenu* buttonMenu = CCMenu::create(backButton, this->m_CreateButton, NULL);
     
     buttonMenu->setPosition(ccp(backgroundSize.width * 2 / 3, 40));
     buttonMenu->alignItemsHorizontallyWithPadding(20);
@@ -127,6 +133,14 @@ bool CharacterCreateLayer::ccTouchBegan(CCTouch* touch, CCEvent* event)
     }
 
     return false;
+}
+
+void CharacterCreateLayer::OnResponse() const
+{
+    if(this->m_CreateButton)
+    {
+        this->m_CreateButton->setEnabled(true);
+    }
 }
 
 void CharacterCreateLayer::OnMaleButtonTouch(cocos2d::CCObject *sender)
@@ -177,15 +191,24 @@ void CharacterCreateLayer::OnBackButtonTouch(cocos2d::CCObject *sender)
 
 void CharacterCreateLayer::OnCreateButtonTouch(cocos2d::CCObject *sender)
 {
-    // NOTE : send create request
+    // TO DO : form check
     CCLOG("create button touch");
+    
+    this->m_CreateButton->setEnabled(false);
     GameClient::Instance().GetClientObject().SendCSRequestCreatePlayer(GameClient::Instance().GetDeviceID(), GameClient::Instance().GetUserID(), this->m_SelectedGender, this->m_NameField->getString());
 }
 
 
-CharacterCreateScene::CharacterCreateScene() {}
+CharacterCreateScene::CharacterCreateScene(): m_Layer(nullptr) {}
 
-CharacterCreateScene::~CharacterCreateScene() {}
+CharacterCreateScene::~CharacterCreateScene()
+{
+    if(this->m_Layer)
+    {
+        this->m_Layer->release();
+        this->m_Layer = nullptr;
+    }
+}
 
 bool CharacterCreateScene::init() {
     if(!BaseScene::init()) return false;
@@ -204,4 +227,12 @@ void CharacterCreateScene::update(float deltaTime)
     BaseScene::update(deltaTime);
 }
 
-
+void CharacterCreateScene::OnResponse() const
+{
+    BaseScene::OnResponse();
+    
+    if(this->m_Layer)
+    {
+        this->m_Layer->OnResponse();
+    }
+}

@@ -16,6 +16,7 @@ public :
     CREATE_FUNC(CharacterCreateSceneTextFieldDelegate);
 };
 
+// TO DO : extend BaseLayer
 class CharacterCreateLayer : public CCLayerColor
 {
 private:
@@ -26,6 +27,7 @@ private:
     CharacterCreateSceneTextFieldDelegate* m_TextFieldDelegate;
     CCMenuItemToggle* m_MaleButton;
     CCMenuItemToggle* m_FemaleButton;
+    CCMenuItemImage* m_CreateButton;
 
 public :
     CharacterCreateLayer();
@@ -37,6 +39,9 @@ public :
     
     virtual bool ccTouchBegan(CCTouch* touch, CCEvent* event) override;
     
+    // TO DO : when extending layer changes, this also need to be changed
+    void OnResponse() const;
+    
 private :
     void OnMaleButtonTouch(CCObject* sender);
     void OnFemaleButtonTouch(CCObject* sender);
@@ -47,6 +52,9 @@ private :
 
 class CharacterCreateScene : public BaseScene, public CCTouchDelegate
 {
+private:
+    CharacterCreateLayer* m_Layer;
+
 public :
     CharacterCreateScene();
     virtual ~CharacterCreateScene();
@@ -56,6 +64,8 @@ public :
     virtual void update(float deltaTime);
     
     CREATE_FUNC(CharacterCreateScene);
+    
+    virtual void OnResponse() const override;
 };
 
 #endif /* defined(__GameClientMobile__CharacterCreateScene__) */
