@@ -301,6 +301,9 @@ bool AccountScene::init()
     
     this->addChild(this->m_Layer);
     
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("sound/bgm/campsite.mp3", true);
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->setBackgroundMusicVolume(0.8);
+    
     scheduleUpdate();
     
     return true;
