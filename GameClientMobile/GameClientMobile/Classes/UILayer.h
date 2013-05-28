@@ -19,6 +19,7 @@ private:
     InventoryNode* m_InventoryNode;
     MenuBarNode* m_MenuBarNode;
     ChattingNode* m_ChattingNode;
+    ExpBarNode* m_ExpBarNode;
     SpellType m_SelectedSpellType;
     CCPoint m_SpellDestinationPoint;
     
@@ -42,6 +43,7 @@ private:
     void InitializeEquipment();
     void InitializeMenuBar();
     void InitializeChatting();
+    void InitializeExpBar();
     
 public:
     InventoryNode* GetInventoryNode();
@@ -59,11 +61,16 @@ public:
     void SwapInventorySlot(flownet::InventorySlot sourceSlotNumber, flownet::InventorySlot destinationSlotNumber);
     void ApplyCoolTime(flownet::SpellType spellType);
     void MessageReceived(flownet::ActorID senderID, flownet::STRING senderName, flownet::STRING message);
+    void ShowStageClearMessage();
+    void ShowTierClearMessage();
     
-public:
     void UpdateInventory();
     void UpdateStash();
     void UpdateEquipment();
+    void UpdateExpBar();
+    
+private:
+    void RemoveChild(CCObject* object);
 };
 
 #endif /* defined(__GameClientMobile__UILayer__) */

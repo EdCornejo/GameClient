@@ -11,14 +11,15 @@
 
 class LoadingLayer : public BaseLayer
 {
+public:
     LoadingLayer();
     virtual ~LoadingLayer();
     
     virtual bool init() override;
     
-    virtual bool ccTouchBegan(CCTouch* touch, CCEvent* event) override;
-
+    CREATE_FUNC(LoadingLayer);
     
+    virtual bool ccTouchBegan(CCTouch* touch, CCEvent* event) override;
 };
 
 #endif /* defined(__GameClientMobile__LoadingLayer__) */

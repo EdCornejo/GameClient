@@ -136,9 +136,8 @@ void SpellNode::update(float deltaTime)
 void SpellNode::StartSpellAnimation()
 {
     BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
-    PlayerNode* firingObject = scene->GetActorLayer()->FindPlayerNode(this->m_CasterID);
     
-    float delay = PointConverter::Convert(firingObject->getPosition()).DistanceTo(this->m_Destination) / (this->m_SpellInfo.m_Speed - 1);
+    float delay = PointConverter::Convert(this->getPosition()).DistanceTo(this->m_Destination) / (this->m_SpellInfo.m_Speed) + 1;
     
     CCAnimation* animation = SpellAnimationLoader::Instance()->GetSpellAnimation(this->m_SpellInfo.m_SpellType);
     CCAction* animate = CCAnimate::create(animation);

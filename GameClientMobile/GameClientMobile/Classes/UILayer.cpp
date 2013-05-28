@@ -51,6 +51,7 @@ UILayer::~UILayer()
         this->m_ChattingNode->release();
         this->m_ChattingNode = nullptr;
     }
+    CC_SAFE_RELEASE(this->m_ExpBarNode);
 }
 
 bool UILayer::init()
@@ -69,7 +70,9 @@ bool UILayer::init()
             //this->InitializeStash();
             this->InitializeEquipment();
             this->InitializeMenuBar();
+            this->InitializeExpBar();
             this->InitializeChatting();
+
             break;
     }
     
@@ -196,6 +199,14 @@ void UILayer::InitializeChatting()
     CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this->m_ChattingNode, 0, true);
 
     this->addChild(this->m_ChattingNode);
+}
+
+void UILayer::InitializeExpBar()
+{
+    this->m_ExpBarNode = ExpBarNode::create();
+    this->m_ExpBarNode->retain();
+    
+    this->addChild(this->m_ExpBarNode);
 }
 
 InventoryNode* UILayer::GetInventoryNode()
@@ -389,6 +400,37 @@ void UILayer::MessageReceived(flownet::ActorID senderID, flownet::STRING senderN
     }
 }
 
+void UILayer::ShowStageClearMessage()
+{
+    CCSize winSize = CCDirector::sharedDirector()->getWinSize();
+    CCSprite* clearMessage = CCSprite::create("clear.png");
+    clearMessage->setPosition(ccp(winSize.width / 2, winSize.height / 2));
+    
+    CCBlink* blink = CCBlink::create(1, 2);
+    CCDelayTime* delay = CCDelayTime::create(1);
+    CCCallFuncO* removeChild = CCCallFuncO::create(this, callfuncO_selector(UILayer::RemoveChild), clearMessage);
+    CCSequence* sequence = CCSequence::create(blink, delay, removeChild);
+    clearMessage->runAction(sequence);
+    
+    this->addChild(clearMessage);
+}
+
+void UILayer::ShowTierClearMessage()
+{
+    CCSize winSize = CCDirector::sharedDirector()->getWinSize();
+    CCSprite* clearMessage = CCSprite::create("next.png");
+    clearMessage->setPosition(ccp(winSize.width/2, winSize.height/2));
+    
+    CCBlink* blink = CCBlink::create(1, 2);
+    CCDelayTime* delay = CCDelayTime::create(1);
+    CCCallFuncO* removeChild = CCCallFuncO::create(this, callfuncO_selector(UILayer::RemoveChild), clearMessage);
+    CCSequence* sequence = CCSequence::create(blink, delay, removeChild);
+    clearMessage->runAction(sequence);
+    
+    this->addChild(clearMessage);
+}
+
+
 void UILayer::UpdateInventory()
 {
     if(this->m_InventoryNode)
@@ -411,4 +453,18 @@ void UILayer::UpdateEquipment()
     {
         this->m_EquipmentNode->Update();
     }
+}
+
+void UILayer::UpdateExpBar()
+{
+    if(this->m_ExpBarNode)
+    {
+        this->m_ExpBarNode->Update();
+    }
+}
+
+void UILayer::RemoveChild(CCObject* object)
+{
+    CCNode* node = static_cast<CCNode*>(object);
+    this->removeChild(node);
 }
