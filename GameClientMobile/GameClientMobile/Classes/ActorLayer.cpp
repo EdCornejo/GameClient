@@ -246,6 +246,12 @@ void ActorLayer::AddNewPlayer(flownet::ClientPlayer player)
     player.ChangeToIdleState();
     
     ActorNodeSet* actorNodeSet = new ActorNodeSet(player.GetActorID());
+    actorNodeSet->m_HUDNode = HUDNode::create(player.GetActorID());
+    actorNodeSet->m_HUDNode->retain();
+    
+    actorNodeSet->m_ShadowNode = ShadowNode::create(player.GetActorID());
+    actorNodeSet->m_ShadowNode->retain();
+
 
     if(player.GetActorID() == GameClient::Instance().GetMyActorID())
     {
@@ -274,6 +280,12 @@ void ActorLayer::AddNewMonster(flownet::ClientMonster monster)
     
     ActorNodeSet* actorNodeSet = new ActorNodeSet(monster.GetActorID());
     
+    actorNodeSet->m_HUDNode = HUDNode::create(monster.GetActorID());
+    actorNodeSet->m_HUDNode->retain();
+    
+    actorNodeSet->m_ShadowNode = ShadowNode::create(monster.GetActorID());
+    actorNodeSet->m_ShadowNode->retain();
+    
     actorNodeSet->m_ActorNode->setPosition(PointConverter::Convert(monster.GetCurrentPosition()));
     
     ActorNodeSetMap::iterator iter = this->m_ActorNodeSetMap.find(monster.GetActorID());
@@ -281,6 +293,42 @@ void ActorLayer::AddNewMonster(flownet::ClientMonster monster)
     ASSERT_DEBUG(iter == this->m_ActorNodeSetMap.end());
     
     this->m_ActorNodeSetMap.insert(ActorNodeSetMap::value_type(monster.GetActorID(), actorNodeSet));
+    
+    if(actorNodeSet->m_ActorNode) this->addChild(actorNodeSet->m_ActorNode);
+    if(actorNodeSet->m_HUDNode) this->addChild(actorNodeSet->m_HUDNode);
+    if(actorNodeSet->m_ShadowNode) this->addChild(actorNodeSet->m_ShadowNode);
+    if(actorNodeSet->m_HighlightNode) this->addChild(actorNodeSet->m_HighlightNode);
+}
+
+void ActorLayer::AddNewNPC(flownet::NPC npc)
+{
+    ActorNodeSet* actorNodeSet = new ActorNodeSet(npc.GetActorID());
+    
+    actorNodeSet->m_ActorNode->setPosition(PointConverter::Convert(npc.GetCurrentPosition()));
+    
+    ActorNodeSetMap::iterator iter = this->m_ActorNodeSetMap.find(npc.GetActorID());
+    
+    ASSERT_DEBUG(iter == this->m_ActorNodeSetMap.end());
+    
+    this->m_ActorNodeSetMap.insert(ActorNodeSetMap::value_type(npc.GetActorID(), actorNodeSet));
+    
+    if(actorNodeSet->m_ActorNode) this->addChild(actorNodeSet->m_ActorNode);
+    if(actorNodeSet->m_HUDNode) this->addChild(actorNodeSet->m_HUDNode);
+    if(actorNodeSet->m_ShadowNode) this->addChild(actorNodeSet->m_ShadowNode);
+    if(actorNodeSet->m_HighlightNode) this->addChild(actorNodeSet->m_HighlightNode);
+}
+
+void ActorLayer::AddNewStageObject(flownet::StageObject stageObject)
+{
+    ActorNodeSet* actorNodeSet = new ActorNodeSet(stageObject.GetActorID());
+    
+    actorNodeSet->m_ActorNode->setPosition(PointConverter::Convert(stageObject.GetCurrentPosition()));
+    
+    ActorNodeSetMap::iterator iter = this->m_ActorNodeSetMap.find(stageObject.GetActorID());
+    
+    ASSERT_DEBUG(iter == this->m_ActorNodeSetMap.end());
+    
+    this->m_ActorNodeSetMap.insert(ActorNodeSetMap::value_type(stageObject.GetActorID(), actorNodeSet));
     
     if(actorNodeSet->m_ActorNode) this->addChild(actorNodeSet->m_ActorNode);
     if(actorNodeSet->m_HUDNode) this->addChild(actorNodeSet->m_HUDNode);
@@ -361,6 +409,25 @@ void ActorLayer::MoveActor(flownet::ActorID actorID, flownet::POINT currentPosit
     
     sequence->setTag(ActionType_Animation);
     movingObject->runAction(sequence);
+}
+
+void ActorLayer::KnockBackActor(flownet::ActorID actorID, flownet::POINT currentPosition, flownet::POINT knockbackDestination)
+{
+    Actor* actor = GameClient::Instance().GetClientStage()->FindActor(actorID);
+    ASSERT_DEBUG(actor);
+    ActorNode* knockbackObject = this->FindActorNode(actorID);
+    ASSERT_DEBUG(knockbackObject);
+
+    const float KNOCKBACK_DURATION = currentPosition.DistanceTo(knockbackDestination) / Actor_KnockBack_Speed;
+
+    knockbackObject->StopAnimationActions();
+
+    CCFiniteTimeAction* animateAttacked = CCCallFunc::create(knockbackObject, callfunc_selector(ActorNode::AnimateAttacked));
+    CCFiniteTimeAction* actionMove = CCMoveTo::create(KNOCKBACK_DURATION, PointConverter::Convert(knockbackDestination));
+    CCFiniteTimeAction* actionMoveDone = CCCallFuncN::create( knockbackObject, callfuncN_selector(ActorNode::AnimateIdle));
+    CCSequence* sequence = CCSequence::create(animateAttacked, actionMove, actionMoveDone, NULL);
+    sequence->setTag(ActionType_Animation);
+    knockbackObject->runAction(sequence);
 }
 
 void ActorLayer::ActorAttack(flownet::ActorID attackerActorID, flownet::ActorID targetActorID)
@@ -554,6 +621,19 @@ void ActorLayer::ActorConsumedMana(flownet::ActorID actorID)
     ASSERT_DEBUG(actor->GetMaxManaPoint() != 0);
     
     actorNodeSet->m_HUDNode->ChangeManaPointBar(actor->GetManaPoint() / actor->GetMaxManaPoint());
+}
+
+void ActorLayer::ActorRunOutOfMana(flownet::ActorID actorID)
+{
+    ActorNode* actorNode = this->FindActorNode(actorID);
+    ASSERT_DEBUG(actorNode);
+    
+    CCPoint currentPosition = actorNode->getPosition();
+    CCMoveTo* moveRight = CCMoveTo::create(0.01, ccp(currentPosition.x + 2, currentPosition.y));
+    CCMoveTo* moveLeft = CCMoveTo::create(0.01, ccp(currentPosition.x - 2, currentPosition.y));
+    CCSequence* sequence = CCSequence::create(moveRight, moveLeft, NULL);
+    CCRepeat* repeat = CCRepeat::create(sequence, 5);
+    actorNode->runAction(repeat);
 }
 
 void ActorLayer::ActorNodeReload(flownet::ActorID actorID)

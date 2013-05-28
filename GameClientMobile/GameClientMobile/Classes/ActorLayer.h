@@ -25,8 +25,6 @@ struct ActorNodeSet : public CCObject {
     ActorNodeSet(flownet::ActorID actorID): m_ZOrder(0), m_ActorID(actorID), m_ActorNode(nullptr), m_HUDNode(nullptr), m_ShadowNode(nullptr), m_HighlightNode(nullptr), m_GuideLineNode(nullptr), m_SpellEffectNodeMap()
     {
         this->AddActorNode(actorID);
-        this->AddHUDNode(actorID);
-        this->AddShadowNode(actorID);
     }
     
     ~ActorNodeSet()
@@ -68,7 +66,26 @@ struct ActorNodeSet : public CCObject {
     void AddActorNode(flownet::ActorID actorID)
     {
         this->RemoveActorNode();
-        this->m_ActorNode = IsPlayerID(actorID) ? static_cast<ActorNode*>(PlayerNode::create(actorID)) : static_cast<ActorNode*>(MonsterNode::create(actorID));
+        if(IsPlayerID(actorID))
+        {
+            this->m_ActorNode = PlayerNode::create(actorID);
+        }
+        else if(IsMonsterID(actorID))
+        {
+            this->m_ActorNode = MonsterNode::create(actorID);
+        }
+        else if(IsNPCID(actorID))
+        {
+            this->m_ActorNode = NPCNode::create(actorID);
+        }
+        else if(IsStageObjectID(actorID))
+        {
+            this->m_ActorNode = StageObjectNode::create(actorID);
+        }
+        else
+        {
+            ASSERT_DEBUG(false);
+        }
         this->m_ActorNode->retain();
     }
     
@@ -140,7 +157,7 @@ struct ActorNodeSet : public CCObject {
         CCPoint source = this->m_ActorNode->getPosition();
         this->m_GuideLineNode = GuideLineNode::create(spellType, source, destination);
         this->m_GuideLineNode->retain();
-        this->m_GuideLineNode->setZOrder(zOrder + 1); // TO DO : change here
+        this->m_GuideLineNode->setZOrder(zOrder - 1); // TO DO : change here
     }
     
     void RemoveGuideLineNode()
@@ -223,7 +240,10 @@ public:
     
     void AddNewPlayer(flownet::ClientPlayer player);
     void AddNewMonster(flownet::ClientMonster monster);
+    void AddNewNPC(flownet::NPC npc);
+    void AddNewStageObject(flownet::StageObject stageObject);
     void MoveActor(flownet::ActorID actorID, flownet::POINT currentPosition, flownet::POINT destinationPosition);
+    void KnockBackActor(flownet::ActorID actorID, flownet::POINT currentPosition, flownet::POINT knockbackDestination);
     void ActorAttack(flownet::ActorID attackerActorID, flownet::ActorID targetActorID);
     void ActorBeginCast(flownet::ActorID casterActorID, flownet::SpellType spellType, flownet::POINT destination);
     void ActorEndCast(flownet::ActorID invokerActorID, flownet::SpellType spellType, flownet::POINT destination);
@@ -231,6 +251,7 @@ public:
     void ActorDead(flownet::ActorID deadActorID, bool afterDelete = false); // TO DO : when delete is default after die, change this false to true
     void ActorTakeDamage(flownet::ActorID actorID);
     void ActorConsumedMana(flownet::ActorID actorID);
+    void ActorRunOutOfMana(flownet::ActorID actorID);
 
     void ActorNodeReload(flownet::ActorID actorID);
 

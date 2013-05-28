@@ -526,8 +526,22 @@ void AppDelegate::OnSCResponseRejoinCurrentStage(flownet::StageID stageID, flown
 
 void AppDelegate::OnSCNotifyClearStage(flownet::StageID stageID) const
 {
+    ClientStage* clientStage = GameClient::Instance().GetClientStage();
+    if(!clientStage) return;
+    if(stageID != clientStage->GetStageID()) ASSERT_DEBUG(stageID == clientStage->GetStageID());
+    
+    BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
+    ASSERT_DEBUG(scene);
+    
+    UILayer* uiLayer = scene->GetUILayer();
+    ASSERT_DEBUG(uiLayer);
+    
+    uiLayer->ShowStageClearMessage();
+    
     // TO DO : end the stage
     CCLOG("clear stage notify recv");
+    
+
 }
 
 void AppDelegate::OnSCNotifySpawnPlayer(flownet::StageID stageID, flownet::Player player) const
@@ -575,21 +589,63 @@ void AppDelegate::OnSCNotifySpawnMonster(flownet::StageID stageID, flownet::Mons
     scene->GetActorLayer()->AddNewMonster(monster);
 }
 
+void AppDelegate::OnSCNotifySpawnNPC(flownet::StageID stageID, flownet::NPC newNPC) const
+{
+    ClientStage* clientStage = GameClient::Instance().GetClientStage();
+    if(!clientStage) return;
+    if(stageID != clientStage->GetStageID()) ASSERT_DEBUG(stageID == clientStage->GetStageID());
+    
+    BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
+    
+    NPC* pNewNPC = new NPC(newNPC);
+    GameClient::Instance().GetClientStage()->AddNPC(pNewNPC->GetActorID(), pNewNPC);
+    ActorLayer* actorLayer = scene->GetActorLayer();
+    ASSERT_DEBUG(actorLayer);
+    actorLayer->AddNewNPC(newNPC);
+}
+
+void AppDelegate::OnSCNotifySpawnStageObject(flownet::StageID stageID, flownet::StageObject newStageObject) const
+{
+    ClientStage* clientStage = GameClient::Instance().GetClientStage();
+    if(!clientStage) return;
+    if(stageID != clientStage->GetStageID()) ASSERT_DEBUG(stageID == clientStage->GetStageID());
+    
+    BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
+    
+    StageObject* pNewStageObject = new StageObject(newStageObject);
+    GameClient::Instance().GetClientStage()->AddStageObject(pNewStageObject->GetActorID(), pNewStageObject);
+    
+    ActorLayer* actorLayer = scene->GetActorLayer();
+    ASSERT_DEBUG(actorLayer);
+    actorLayer->AddNewStageObject(newStageObject);
+}
+
 void AppDelegate::OnSCNotifyMoveActor(flownet::StageID stageID, flownet::ActorID actorID, flownet::POINT currentPosition, flownet::POINT destinationPosition) const
 {
     ClientStage* clientStage = GameClient::Instance().GetClientStage();
-    if(clientStage == nullptr || stageID != clientStage->GetStageID())
-    {
-        //ASSERT_DEBUG(clientStage != nullptr && stageID == clientStage->GetStageID());
-        return;
-    }
-
+    if(!clientStage) return;
+    if(stageID != clientStage->GetStageID()) ASSERT_DEBUG(stageID == clientStage->GetStageID());
+    
     BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
     ActorLayer* actorLayer = scene->GetActorLayer();
     
     if(actorLayer == nullptr) return;
 
     actorLayer->MoveActor(actorID, currentPosition, destinationPosition);
+}
+
+void AppDelegate::OnSCNotifyKnockBackActor(flownet::StageID stageID, flownet::ActorID playerID, flownet::POINT currentPosition, flownet::POINT knockBackDestination) const
+{
+    ClientStage* clientStage = GameClient::Instance().GetClientStage();
+    if(!clientStage) return;
+    if(stageID != clientStage->GetStageID()) ASSERT_DEBUG(stageID == clientStage->GetStageID());
+    
+    BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
+    ActorLayer* actorLayer = scene->GetActorLayer();
+    
+    if(!actorLayer) return;
+    
+    actorLayer->KnockBackActor(playerID, currentPosition, knockBackDestination);
 }
 
 void AppDelegate::OnSCNotifyActorAttributeChanged(flownet::StageID stageID, flownet::ActorID actorID, flownet::ActorAttribute actorAttribute, flownet::FLOAT amount) const
@@ -603,8 +659,8 @@ void AppDelegate::OnSCNotifyActorAttributeChanged(flownet::StageID stageID, flow
     
     BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
     ActorLayer* actorLayer = scene->GetActorLayer();
+    UILayer* uiLayer = scene->GetUILayer();
     
-    if(actorLayer == nullptr) return;
     
     Actor* actor = GameClient::Instance().GetClientStage()->FindActor(actorID);
 
@@ -612,9 +668,11 @@ void AppDelegate::OnSCNotifyActorAttributeChanged(flownet::StageID stageID, flow
     
     switch (actorAttribute) {
         case ActorAttribute_HealthPoint:
+            ASSERT_DEBUG(actorLayer);
             actorLayer->ActorTakeDamage(actorID); // TO DO : change this function's naming
             break;
         case ActorAttribute_ManaPoint:
+            ASSERT_DEBUG(actorLayer);
             actorLayer->ActorConsumedMana(actorID);
             break;
         case ActorAttribute_AttackPower:
@@ -632,6 +690,9 @@ void AppDelegate::OnSCNotifyActorAttributeChanged(flownet::StageID stageID, flow
         case ActorAttribute_CastingSpeed:
             break;
         case ActorAttribute_ExperiencePoint:
+        case ActorAttribute_Level :
+            ASSERT_DEBUG(uiLayer);
+            uiLayer->UpdateExpBar();
             break;
         default:
             break;
@@ -651,12 +712,9 @@ void AppDelegate::OnSCNotifyResetActorAttributeAmplifier(flownet::StageID stageI
 void AppDelegate::OnSCNotifyActorAttack(flownet::StageID stageID, flownet::ActorID actorID, flownet::ActorID targetActorID, flownet::AttackType attackType) const
 {
     ClientStage* clientStage = GameClient::Instance().GetClientStage();
-    if(clientStage == nullptr || stageID != clientStage->GetStageID())
-    {
-        //ASSERT_DEBUG(clientStage != nullptr && stageID == clientStage->GetStageID());
-        return;
-    }
-
+    if(!clientStage) return;
+    if(stageID != clientStage->GetStageID()) ASSERT_DEBUG(stageID == clientStage->GetStageID());
+    
     BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
     ActorLayer* actorLayer = scene->GetActorLayer();
     
@@ -1165,5 +1223,14 @@ void AppDelegate::OnSCNotifySetFreeze(flownet::StageID stageID, flownet::ActorID
 
 void AppDelegate::OnSCNotifyRunOutMovingMana(StageID stageID, ActorID actorID) const
 {
+    ClientStage* clientStage = GameClient::Instance().GetClientStage();
+    if(clientStage == nullptr) return;
+    if(stageID != clientStage->GetStageID()) ASSERT_DEBUG(stageID == clientStage->GetStageID());
     
+    BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());;
+    ASSERT_DEBUG(scene);
+    
+    ActorLayer* actorLayer = scene->GetActorLayer();
+    ASSERT_DEBUG(actorLayer);
+    actorLayer->ActorRunOutOfMana(actorID);
 }

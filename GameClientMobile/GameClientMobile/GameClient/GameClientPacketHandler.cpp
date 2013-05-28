@@ -217,12 +217,30 @@ void GameClientPacketHandler::OnSCNotifySpawnMonster(StageID stageID, Monster mo
 {
     ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
     this->m_GameClientRPCReceiver->OnSCNotifySpawnMonster(stageID, monster);
-}    
+}
+
+void GameClientPacketHandler::OnSCNotifySpawnNPC(StageID stageID, flownet::NPC newNPC)
+{
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+    this->m_GameClientRPCReceiver->OnSCNotifySpawnNPC(stageID, newNPC);
+}
+
+void GameClientPacketHandler::OnSCNotifySpawnStageObject(StageID stageID, flownet::StageObject stageObject)
+{
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+    this->m_GameClientRPCReceiver->OnSCNotifySpawnStageObject(stageID, stageObject);
+}
     
 void GameClientPacketHandler::OnSCNotifyMoveActor(StageID stageID, ActorID playerID, flownet::POINT currentPosition, flownet::POINT destinationPosition)
 {
     ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
     m_GameClientRPCReceiver->OnSCNotifyMoveActor(stageID, playerID, currentPosition, destinationPosition);
+}
+
+void GameClientPacketHandler::OnSCNotifyKnockBackActor(StageID stageID, ActorID playerID, POINT currentPosition, POINT knockBackDestination)
+{
+    ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
+    m_GameClientRPCReceiver->OnSCNotifyKnockBackActor(stageID, playerID, currentPosition, knockBackDestination);
 }
 
 void GameClientPacketHandler::OnSCNotifyActorAttributeChanged(StageID stageID, ActorID actorID, ActorAttribute actorAttribute, FLOAT amount)
