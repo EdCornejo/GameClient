@@ -135,9 +135,11 @@ void AccountLayer::OnBackButtonTouch(cocos2d::CCObject *sender)
 void AccountLayer::OnCreateButtonTouch(cocos2d::CCObject *sender)
 {
     // TO DO : check form
-    GameClient::Instance().GetCFConnection().SendCFRequestCreateUserAccount(GameClient::Instance().GetDeviceID(), this->m_EmailField->getString(), this->m_PasswordField->getString());
+    
     // NOTE : this is enabled when response comes
     this->m_CreateButton->setEnabled(false);
+    GameClient::Instance().GetCFConnection().SendCFRequestCreateUserAccount(GameClient::Instance().GetDeviceID(), this->m_EmailField->getString(), this->m_PasswordField->getString());
+
 }
 
 void AccountLayer::OnNewButtonTouch(cocos2d::CCObject *sender)
@@ -154,9 +156,10 @@ void AccountLayer::OnLoginButtonTouch(cocos2d::CCObject *sender)
         CCMessageBox("GameServer is not ready. Wait for a minute.", "LogIn Error");
         return;
     }
-    
-    GameClient::Instance().GetCFConnection().SendCFRequestLogInUserAccount(GameClient::Instance().GetDeviceID(), this->m_EmailField->getString() , this->m_PasswordField->getString());
+
     this->m_LoginButton->setEnabled(false);
+    GameClient::Instance().GetCFConnection().SendCFRequestLogInUserAccount(GameClient::Instance().GetDeviceID(), this->m_EmailField->getString() , this->m_PasswordField->getString());
+
 }
 
 bool AccountLayer::IsFirstBoot()
