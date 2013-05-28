@@ -31,12 +31,15 @@
 #include "StageImageLoader.h"
 #include "StagePreviewInfoDictionary.h"
 #include "PointConverter.h"
+#include "StageObjectImageLoader.h"
 
 //  Nodes
 #include "SpellEffectNode.h"
 #include "ActorNode.h"
 #include "PlayerNode.h"
 #include "MonsterNode.h"
+#include "NPCNode.h"
+#include "StageObjectNode.h"
 #include "SpellNode.h"
 #include "ItemNode.h"
 
@@ -47,6 +50,7 @@
 #include "StashNode.h"
 #include "EquipmentNode.h"
 #include "ChattingNode.h"
+#include "ExpBarNode.h"
 
 //  Layers
 #include "BaseLayer.h"
@@ -57,6 +61,7 @@
 #include "UILayer.h"
 #include "CaptionLayer.h"
 #include "HeartbeatLayer.h"
+#include "LoadingLayer.h"
 
 //  Scenes
 #include "BaseScene.h"

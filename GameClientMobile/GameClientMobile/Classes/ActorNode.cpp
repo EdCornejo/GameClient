@@ -97,7 +97,7 @@ void HighlightNode::update(float deltaTime)
 }
 
 
-GuideLineNode::GuideLineNode(): m_SpellGuideLine(nullptr), m_SpellGuideIcon(nullptr){}
+GuideLineNode::GuideLineNode(): m_SpellGuideLine(nullptr), m_SpellGuideIcon(nullptr), m_SpellCastingIcon(nullptr) {}
 GuideLineNode::~GuideLineNode()
 {
     if(this->m_SpellGuideLine)
@@ -109,6 +109,11 @@ GuideLineNode::~GuideLineNode()
     {
         this->m_SpellGuideIcon->release();
         this->m_SpellGuideIcon = nullptr;
+    }
+    if(this->m_SpellCastingIcon)
+    {
+        this->m_SpellCastingIcon->release();
+        this->m_SpellCastingIcon = nullptr;
     }
 }
     
@@ -130,6 +135,11 @@ bool GuideLineNode::init()
     this->m_SpellGuideLine->setScaleX(scaleFactor);
     this->m_SpellGuideLine->setRotation(rotateDegree);
     
+    this->m_SpellCastingIcon = SpellImageLoader::GetSpellGuideImage(this->m_SpellType);
+    this->m_SpellCastingIcon->retain();
+    this->m_SpellCastingIcon->getCamera()->setEyeXYZ(0, -2, 1);
+    this->m_SpellCastingIcon->setPosition(this->m_Source);
+    
     
     this->m_SpellGuideIcon = SpellImageLoader::GetSpellGuideImage(this->m_SpellType);
     this->m_SpellGuideIcon->retain();
@@ -137,6 +147,7 @@ bool GuideLineNode::init()
     this->m_SpellGuideIcon->setPosition(this->m_Destination);
     
     this->addChild(this->m_SpellGuideLine);
+    this->addChild(this->m_SpellCastingIcon);
     this->addChild(this->m_SpellGuideIcon);
     
     return true;
