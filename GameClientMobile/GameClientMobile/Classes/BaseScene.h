@@ -23,6 +23,8 @@ protected:
     UILayer* m_UILayer;
     HeartbeatLayer* m_HeartbeatLayer;
     
+    ServerTime m_LastGPSTime;
+    
 public:
     BaseScene();
     virtual ~BaseScene();
@@ -43,6 +45,11 @@ public:
 
     // this function is for enabling the disabled buttons when requested
     virtual void OnResponse() const;
+    
+    
+private:
+    void InitializeGPSInfo();
+    void UpdateGPSInfo();
 };
 
 #endif /* defined(__GameClientMobile__BaseScene__) */
