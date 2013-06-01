@@ -421,8 +421,9 @@ void AppDelegate::OnSCResponseJoinRunningStage(flownet::StageID stageID, flownet
 {
     if(stageID == StageID_None)
     {
-        ASSERT_DEBUG(stageID != StageID_None);
         CCLOGERROR("joining to empty stage!");
+        // TODO : 안내메시지로 참가할 수 없는 스테이지라고 알릴 것
+        return;
     }
     ASSERT_DEBUG(stageID == stage.GetStageID());
     
@@ -1052,7 +1053,7 @@ void AppDelegate::OnSCNotifyEquipItem(flownet::StageID stageID, flownet::ActorID
     if(clientStage == nullptr) return;
     if(stageID != clientStage->GetStageID()) ASSERT_DEBUG(stageID == clientStage->GetStageID());
 
-    Actor* actor = clientStage->FindPlayer(GameClient::Instance().GetMyActorID());
+    Actor* actor = clientStage->FindPlayer(playerID);
     if(!actor)
     {
         CCLOGERROR("AppDelegate::OnSCNotifyEquipItem >> actor %d does not exists", playerID);
@@ -1092,7 +1093,7 @@ void AppDelegate::OnSCNotifyUnEquipItem(flownet::StageID stageID, flownet::Actor
     if(stageID != clientStage->GetStageID()) ASSERT_DEBUG(stageID == clientStage->GetStageID());
     // end of prevention
     
-    Actor* actor = clientStage->FindPlayer(GameClient::Instance().GetMyActorID());
+    Actor* actor = clientStage->FindPlayer(playerID);
     if(!actor)
     {
         CCLOGERROR("AppDelegate::OnSCNotifyUnEquipItem >> actor %d does not exists", playerID);
