@@ -16,6 +16,9 @@ private:
     flownet::ActorID m_CasterID;
     flownet::POINT m_Destination;
     float m_LastTickTime;
+    unsigned int m_StartingEffectID;
+    
+    ShadowNode* m_Shadow;
 
 public:
     SpellNode(const flownet::SpellInfo& spellInfo, flownet::ActorID casterID, flownet::POINT destination);
@@ -30,6 +33,10 @@ public:
 private:
     void StartSpellAnimation();
     void Destroy();
+    
+    std::string GetFileName(flownet::SpellType spellType);
+    void PlayStartingEffect();
+    void PlayEndingEffect();
 };
 
 #endif /* defined(__GameClientMobile__SpellNode__) */

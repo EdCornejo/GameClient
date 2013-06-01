@@ -333,6 +333,8 @@ bool StageSelectScene::init()
     this->m_StageSelectLayer->retain();
     this->addChild(this->m_StageSelectLayer);
     
+    AudioEngine::Instance()->PlayBackgroundMusic("sound/bgm/campsite.mp3", true);
+    
     scheduleUpdate();
     
     return true;

@@ -109,7 +109,8 @@ class ActorNode : public CCNode
 protected:
     flownet::ActorID m_ActorID;
     CCSkeletonAnimation* m_Skeleton;
-
+    unsigned int m_StateEffectID;
+    
 public:
     ActorNode();
     virtual ~ActorNode();
@@ -128,6 +129,15 @@ public:
     virtual void AnimateEndCasting();
     virtual void AnimateFire();
     virtual void AnimateDead();
+    
+    virtual void PlayIdleEffect(bool loop);
+    virtual void PlayMovingEffect(bool loop);
+    virtual void PlayAttackingEffect(bool loop);
+    virtual void PlayAttackedEffect(bool loop);
+    virtual void PlayBeginCastingEffect(bool loop);
+    virtual void PlayRepeatCastingEffect(bool loop);
+    virtual void PlayEndCastingEffect(bool loop);
+    virtual void PlayDeadEffect(bool loop);
 
     virtual void Reload();
 

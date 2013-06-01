@@ -217,6 +217,8 @@ bool CharacterCreateScene::init() {
     
     this->addChild(layer);
     
+    AudioEngine::Instance()->PlayBackgroundMusic("sound/bgm/campsite.mp3", true);
+    
     scheduleUpdate();
     
     return true;

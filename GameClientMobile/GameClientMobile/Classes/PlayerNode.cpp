@@ -111,6 +111,49 @@ PlayerNode* PlayerNode::create(flownet::Gender gender)
     }
 }
 
+
+//void ActorNode::PlayIdleEffect(bool loop)
+//{
+//    CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("common/idle.mp3", loop);
+//}
+
+void PlayerNode::PlayMovingEffect(bool loop)
+{
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->stopEffect(this->m_StateEffectID);
+    this->m_StateEffectID = CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("player/moving.mp3", loop);
+}
+
+//void ActorNode::PlayAttackingEffect(bool loop)
+//{
+//    CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("common/attacking.mp3", loop);
+//}
+//
+//void ActorNode::PlayAttackedEffect(bool loop)
+//{
+//    CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("common/attacked.mp3", loop);
+//}
+//
+//void ActorNode::PlayBeginCastingEffect(bool loop)
+//{
+//    CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("common/begin_casting.mp3", loop);
+//}
+//
+//void ActorNode::PlayRepeatCastingEffect(bool loop)
+//{
+//    CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("common/repeat_casting.mp3", loop);
+//}
+//
+//void ActorNode::PlayEndCastingEffect(bool loop)
+//{
+//    CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("common/end_casting.mp3", loop);
+//}
+//
+//void ActorNode::PlayDeadEffect(bool loop)
+//{
+//    CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("common/dead.mp3", loop);
+//}
+
+
 void PlayerNode::ChangeWand(flownet::ItemType itemType)
 {
     std::string itemImageName;

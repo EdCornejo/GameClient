@@ -41,6 +41,8 @@ bool BattleScene::init()
     this->addChild(this->m_ActorLayer);
     this->addChild(this->m_UILayer);
 
+    AudioEngine::Instance()->PlayBackgroundMusic("sound/bgm/seal.mp3", true);
+
     scheduleUpdate();
     
     return true;

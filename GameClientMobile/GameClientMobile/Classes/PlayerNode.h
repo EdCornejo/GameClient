@@ -21,6 +21,15 @@ public:
     static PlayerNode* create(flownet::ActorID);
     static PlayerNode* create(flownet::Gender gender);
 
+//    virtual void PlayIdleEffect(bool loop) override;
+    virtual void PlayMovingEffect(bool loop) override;
+//    virtual void PlayAttackingEffect(bool loop) override;
+//    virtual void PlayAttackedEffect(bool loop) override;
+//    virtual void PlayBeginCastingEffect(bool loop) override;
+//    virtual void PlayRepeatCastingEffect(bool loop) override;
+//    virtual void PlayEndCastingEffect(bool loop) override;
+//    virtual void PlayDeadEffect(bool loop) override;
+
     virtual void ChangeWand(flownet::ItemType itemType);
     virtual void ChangeHat(flownet::ItemType itemType);
     virtual void ChangeRobe(flownet::ItemType itemType);

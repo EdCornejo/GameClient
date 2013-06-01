@@ -408,7 +408,7 @@ void HUDNode::HideHUD()
 
 
 
-ActorNode::ActorNode(): m_ActorID(ActorID_None), m_Skeleton(nullptr) {}
+ActorNode::ActorNode(): m_ActorID(ActorID_None), m_Skeleton(nullptr), m_StateEffectID(0) {}
 
 ActorNode::~ActorNode()
 {
@@ -707,6 +707,55 @@ void ActorNode::AnimateDead()
     if(this->m_Skeleton->states[0]->animation != nullptr && strcmp(this->m_Skeleton->states[0]->animation->name, "dead") == 0) return;
     this->m_Skeleton->setAnimation("dead", false);
 }
+
+void ActorNode::PlayIdleEffect(bool loop)
+{
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->stopEffect(this->m_StateEffectID);
+    this->m_StateEffectID = CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("common/idle.mp3", loop);
+}
+
+void ActorNode::PlayMovingEffect(bool loop)
+{
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->stopEffect(this->m_StateEffectID);
+    this->m_StateEffectID = CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("common/moving.mp3", loop);
+}
+
+void ActorNode::PlayAttackingEffect(bool loop)
+{
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->stopEffect(this->m_StateEffectID);
+    this->m_StateEffectID = CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("common/attacking.mp3", loop);
+}
+
+void ActorNode::PlayAttackedEffect(bool loop)
+{
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("common/attacked.mp3", loop);
+}
+
+void ActorNode::PlayBeginCastingEffect(bool loop)
+{
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->stopEffect(this->m_StateEffectID);
+    this->m_StateEffectID = CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("common/begin_casting.mp3", loop);
+}
+
+void ActorNode::PlayRepeatCastingEffect(bool loop)
+{
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->stopEffect(this->m_StateEffectID);
+    this->m_StateEffectID = CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("common/repeat_casting.mp3", loop);
+}
+
+void ActorNode::PlayEndCastingEffect(bool loop)
+{
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->stopEffect(this->m_StateEffectID);
+    this->m_StateEffectID = CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("common/end_casting.mp3", loop);
+}
+
+void ActorNode::PlayDeadEffect(bool loop)
+{
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->stopEffect(this->m_StateEffectID);
+    this->m_StateEffectID = CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("common/dead.mp3", loop);
+}
+
+
 
 void ActorNode::Reload()
 {

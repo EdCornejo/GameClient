@@ -153,6 +153,49 @@ void SpellNode::StartSpellAnimation()
 
 void SpellNode::Destroy()
 {
-    this->getParent()->removeChild(this, true);
-    delete this;
+    this->removeFromParent();
+}
+
+std::string SpellNode::GetFileName(SpellType spellType)
+{
+    std::string effectFileName = "";
+    
+    switch (this->m_SpellInfo.m_SpellType) {
+    case flownet::SpellType_FireBall:
+        effectFileName += "fire_burst";
+        break;
+    case flownet::SpellType_FireBurst:
+        effectFileName += "fire_burst";
+        break;
+    case flownet::SpellType_IceArrow:
+    {
+        int i = CCRANDOM_0_1();
+        effectFileName += "ice_arrow";
+        effectFileName.push_back('0' + i);
+        break;
+    }
+    case flownet::SpellType_IceFog:
+        effectFileName += "ice_arrow";
+        break;
+    case flownet::SpellType_Crystalize :
+        effectFileName += "ice_arrow";
+        break;
+    default:
+        ASSERT_DEBUG(false);
+        break;
+    }
+
+    return effectFileName;
+}
+
+void SpellNode::PlayStartingEffect()
+{
+    std::string effectFileName = "sound/effect/spell/" + GetFileName(this->m_SpellInfo.m_SpellType) + "_start.mp3";
+    AudioEngine::Instance()->PlayEffect(effectFileName.c_str());
+}
+
+void SpellNode::PlayEndingEffect()
+{
+    std::string effectFileName = "sound/effect/spell/" + GetFileName(this->m_SpellInfo.m_SpellType) + "_end.mp3";
+    AudioEngine::Instance()->PlayEffect(effectFileName.c_str());
 }
