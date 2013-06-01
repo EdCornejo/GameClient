@@ -283,7 +283,14 @@ void InventoryNode::ccTouchEnded(cocos2d::CCTouch *touch, cocos2d::CCEvent *even
         }
         else if(!bodyRect.containsPoint(touch->getLocation()))// drop boundary check modify
         {
-            client.GetClientObject().SendCSRequestDropItemToField(client.GetClientStage()->GetStageID(), client.GetMyActorID(), this->m_TrackingItemSlotNode->GetItemID(), PointConverter::Convert(touch->getLocation()));
+            BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
+            ASSERT_DEBUG(scene);
+            
+            ActorLayer* actorLayer = scene->GetActorLayer();
+            ASSERT_DEBUG(actorLayer);
+            
+            CCPoint itemDropPosition = actorLayer->convertToNodeSpace(touch->getLocation());
+            client.GetClientObject().SendCSRequestDropItemToField(client.GetClientStage()->GetStageID(), client.GetMyActorID(), this->m_TrackingItemSlotNode->GetItemID(), PointConverter::Convert(itemDropPosition));
             // TO DO : ask for dropping this item
         }
         else
