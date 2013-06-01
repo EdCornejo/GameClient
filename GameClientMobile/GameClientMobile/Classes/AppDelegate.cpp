@@ -59,6 +59,7 @@ bool AppDelegate::applicationDidFinishLaunching()
         pDirector->setContentScaleFactor(smallResource.size.height/designResolutionSize.height);
     }
     
+    searchPaths.push_back("");
     CCFileUtils::sharedFileUtils()->setSearchPaths(searchPaths);
 
     // display FPS setting
@@ -93,8 +94,8 @@ void AppDelegate::applicationDidEnterBackground()
     flownet::GameClient::Instance().TerminateClient();
     
     CCDirector::sharedDirector()->stopAnimation();
-    SimpleAudioEngine::sharedEngine()->pauseBackgroundMusic();
-    SimpleAudioEngine::sharedEngine()->pauseAllEffects();
+    AudioEngine::Instance()->PauseBackgroundMusic();
+    AudioEngine::Instance()->PauseAllEffects();
     
     CCUserDefault::sharedUserDefault()->flush();
 }
@@ -109,14 +110,13 @@ void AppDelegate::applicationWillEnterForeground()
 
 
     CCDirector::sharedDirector()->startAnimation();
-    SimpleAudioEngine::sharedEngine()->resumeBackgroundMusic();
-    SimpleAudioEngine::sharedEngine()->resumeAllEffects();
+    
+    AudioEngine::Instance()->ResumeBackgroundMusic();
+    AudioEngine::Instance()->ResumeAllEffects();
 }
 
 void AppDelegate::InitializeConnection()
 {
-    CCUserDefault::sharedUserDefault()->setStringForKey("yours", "");
-    CCUserDefault::sharedUserDefault()->flush();
     std::string serverIP = CCUserDefault::sharedUserDefault()->getStringForKey("yours", "");
     
     if( serverIP.empty() || serverIP.length()==0 )
