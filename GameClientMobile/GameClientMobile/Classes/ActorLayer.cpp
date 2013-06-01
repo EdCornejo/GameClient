@@ -246,19 +246,14 @@ void ActorLayer::AddNewPlayer(flownet::ClientPlayer player)
     player.ChangeToIdleState();
     
     ActorNodeSet* actorNodeSet = new ActorNodeSet(player.GetActorID());
-    actorNodeSet->m_HUDNode = HUDNode::create(player.GetActorID());
-    actorNodeSet->m_HUDNode->retain();
-    
-    actorNodeSet->m_ShadowNode = ShadowNode::create(player.GetActorID());
-    actorNodeSet->m_ShadowNode->retain();
+    actorNodeSet->AddHUDNode(player.GetActorID());
+    actorNodeSet->AddShadowNode(player.GetActorID());
 
 
     if(player.GetActorID() == GameClient::Instance().GetMyActorID())
     {
-        actorNodeSet->m_HighlightNode = HighlightNode::create(player.GetActorID());
-        actorNodeSet->m_HighlightNode->retain();
+        actorNodeSet->AddHighlightNode(player.GetActorID());
     }
-
 
     actorNodeSet->m_ActorNode->setPosition(PointConverter::Convert(player.GetCurrentPosition()));
     
@@ -269,9 +264,9 @@ void ActorLayer::AddNewPlayer(flownet::ClientPlayer player)
     this->m_ActorNodeSetMap.insert(ActorNodeSetMap::value_type(player.GetActorID(), actorNodeSet));
     
     if(actorNodeSet->m_ActorNode) this->addChild(actorNodeSet->m_ActorNode);
-    if(actorNodeSet->m_HUDNode)this->addChild(actorNodeSet->m_HUDNode);
-    if(actorNodeSet->m_ShadowNode)this->addChild(actorNodeSet->m_ShadowNode);
-    if(actorNodeSet->m_HighlightNode)this->addChild(actorNodeSet->m_HighlightNode);
+    if(actorNodeSet->m_HUDNode) this->addChild(actorNodeSet->m_HUDNode);
+    if(actorNodeSet->m_ShadowNode) this->addChild(actorNodeSet->m_ShadowNode);
+    if(actorNodeSet->m_HighlightNode) this->addChild(actorNodeSet->m_HighlightNode);
 }
 
 void ActorLayer::AddNewMonster(flownet::ClientMonster monster)
@@ -279,13 +274,9 @@ void ActorLayer::AddNewMonster(flownet::ClientMonster monster)
     monster.ChangeToIdleState();
     
     ActorNodeSet* actorNodeSet = new ActorNodeSet(monster.GetActorID());
-    
-    actorNodeSet->m_HUDNode = HUDNode::create(monster.GetActorID());
-    actorNodeSet->m_HUDNode->retain();
-    
-    actorNodeSet->m_ShadowNode = ShadowNode::create(monster.GetActorID());
-    actorNodeSet->m_ShadowNode->retain();
-    
+    actorNodeSet->AddHUDNode(monster.GetActorID());
+    actorNodeSet->AddShadowNode(monster.GetActorID());
+
     actorNodeSet->m_ActorNode->setPosition(PointConverter::Convert(monster.GetCurrentPosition()));
     
     ActorNodeSetMap::iterator iter = this->m_ActorNodeSetMap.find(monster.GetActorID());
@@ -303,6 +294,7 @@ void ActorLayer::AddNewMonster(flownet::ClientMonster monster)
 void ActorLayer::AddNewNPC(flownet::NPC npc)
 {
     ActorNodeSet* actorNodeSet = new ActorNodeSet(npc.GetActorID());
+    actorNodeSet->AddShadowNode(npc.GetActorID());
     
     actorNodeSet->m_ActorNode->setPosition(PointConverter::Convert(npc.GetCurrentPosition()));
     
@@ -321,6 +313,7 @@ void ActorLayer::AddNewNPC(flownet::NPC npc)
 void ActorLayer::AddNewStageObject(flownet::StageObject stageObject)
 {
     ActorNodeSet* actorNodeSet = new ActorNodeSet(stageObject.GetActorID());
+    actorNodeSet->AddShadowNode(stageObject.GetActorID());
     
     actorNodeSet->m_ActorNode->setPosition(PointConverter::Convert(stageObject.GetCurrentPosition()));
     
@@ -358,8 +351,6 @@ void ActorLayer::MoveActor(flownet::ActorID actorID, flownet::POINT currentPosit
         return;
     }
     
-//    if(IsPlayerID(actorID)) CCLOG("moving speed is %f", actor->GetMovingSpeed());
-    
     const float MovementAdjustDistance = 0.7;
     
     POINT objectCurrentPoint = PointConverter::Convert(movingObject->getPosition());
@@ -383,38 +374,19 @@ void ActorLayer::MoveActor(flownet::ActorID actorID, flownet::POINT currentPosit
     CCFiniteTimeAction* animateMove = CCCallFunc::create(movingObject, callfunc_selector(ActorNode::AnimateMoving));
     CCFiniteTimeAction* actionMove = CCMoveTo::create(duration, PointConverter::Convert(destinationPosition));
     CCFiniteTimeAction* actionMoveDone = CCCallFunc::create( movingObject, callfunc_selector(ActorNode::AnimateIdle));
-    CCFiniteTimeAction* changeToIdleState = nullptr;
-    CCAction* sequence = nullptr;
+    CCFiniteTimeAction* changeToIdleState = CCCallFuncN::create(this, callfuncN_selector(ActorLayer::ChangeActorStateToIdle));
+    CCAction* sequence = CCSequence::create(animateMove, actionMove, actionMoveDone, changeToIdleState, NULL);
     
-    if(IsMonsterID(actorID))
-    {
-        ClientMonster* monster = static_cast<ClientMonster*>(actor);
-        monster->ChangeToMovingState();
-        changeToIdleState = CCCallFunc::create(monster, callfunc_selector(ClientMonster::ChangeToIdleState));
-    }
-    
-    if(IsPlayerID(actorID))
-    {
-        ClientPlayer* player = static_cast<ClientPlayer*>(actor);
-        player->ChangeToMovingState();
-        changeToIdleState = CCCallFunc::create(player, callfunc_selector(ClientPlayer::ChangeToIdleState));
-    }
-    
-    sequence = CCSequence::create(animateMove, actionMove, actionMoveDone, changeToIdleState, NULL);
-    
-    ASSERT_DEBUG(sequence != nullptr);
     ASSERT_DEBUG(changeToIdleState != nullptr);
+    ASSERT_DEBUG(sequence != nullptr);
     
     // TO DO : show moving point
-    
     sequence->setTag(ActionType_Animation);
     movingObject->runAction(sequence);
 }
 
 void ActorLayer::KnockBackActor(flownet::ActorID actorID, flownet::POINT currentPosition, flownet::POINT knockbackDestination)
 {
-    Actor* actor = GameClient::Instance().GetClientStage()->FindActor(actorID);
-    ASSERT_DEBUG(actor);
     ActorNode* knockbackObject = this->FindActorNode(actorID);
     ASSERT_DEBUG(knockbackObject);
 
@@ -436,27 +408,21 @@ void ActorLayer::ActorAttack(flownet::ActorID attackerActorID, flownet::ActorID 
     ActorNode* attackingObject = this->FindActorNode(attackerActorID);
     ActorNode* targetObject = this->FindActorNode(targetActorID);
     
+    if(!actor)
+    {
+        ASSERT_DEBUG(actor);
+        return;
+    }
+    
+    ASSERT_DEBUG(attackingObject);
+    ASSERT_DEBUG(targetObject);
+    
     if( !actor->IsAlive() )
     {
         CCLOG("ActorLayer::ActorAttack >> ignore actor's attack request. actor is dead");
         return;
     }
 
-    CCFiniteTimeAction* changeToIdleState = nullptr;
-    if(IsMonsterID(attackerActorID))
-    {
-        ClientMonster* monster = static_cast<ClientMonster*>(actor);
-        monster->ChangeToAttackingState();
-        changeToIdleState = CCCallFunc::create(monster, callfunc_selector(ClientMonster::ChangeToIdleState));
-    }
-    
-    if(IsPlayerID(attackerActorID))
-    {
-        ClientPlayer* player = static_cast<ClientPlayer*>(actor);
-        player->ChangeToAttackingState();
-        changeToIdleState = CCCallFunc::create(player, callfunc_selector(ClientPlayer::ChangeToIdleState));
-    }
-    
     ASSERT_DEBUG(actor->GetAttackSpeed() != 0);
 
     float attackDuration = 1 / actor->GetAttackSpeed();
@@ -466,6 +432,7 @@ void ActorLayer::ActorAttack(flownet::ActorID attackerActorID, flownet::ActorID 
     CCFiniteTimeAction* animateAttack = CCCallFunc::create(attackingObject, callfunc_selector(ActorNode::AnimateAttacking));
     CCFiniteTimeAction* timeDuration = CCDelayTime::create(attackDuration);
     CCFiniteTimeAction* animateIdle = CCCallFunc::create(attackingObject, callfunc_selector(ActorNode::AnimateIdle));
+    CCFiniteTimeAction* changeToIdleState = CCCallFuncN::create(this, callfuncN_selector(ActorLayer::ChangeActorStateToIdle));
     CCAction* sequence = CCSequence::create(animateAttack, timeDuration, animateIdle, changeToIdleState, NULL);
     sequence->setTag(ActionType_Animation);
     attackingObject->runAction(sequence);
@@ -475,6 +442,12 @@ void ActorLayer::ActorBeginCast(flownet::ActorID casterActorID, flownet::SpellTy
 {
     Actor* actor = GameClient::Instance().GetClientStage()->FindActor(casterActorID);
     ActorNode* castingObject = this->FindActorNode(casterActorID);
+
+    if(!actor)
+    {
+        ASSERT_DEBUG(actor);
+        return;
+    }
 
     if( !actor->IsAlive() )
     {
@@ -514,6 +487,12 @@ void ActorLayer::ActorEndCast(flownet::ActorID invokerActorID, flownet::SpellTyp
     
     SpellInfo spellInfo = SpellDictionary::Instance().FindSpellInfoBySpellType(spellType);
     
+    if(!actor)
+    {
+        ASSERT_DEBUG(actor);
+        return;
+    }
+    
     if( !actor->IsAlive() )
     {
         CCLOG("ActorLayer::ActorEndCast >> ignore fire spell request. player is dead");
@@ -537,6 +516,12 @@ void ActorLayer::ActorEndCast(flownet::ActorID invokerActorID, flownet::SpellTyp
 void ActorLayer::ActorAttacked(flownet::ActorID attackedActorID, flownet::ActorID attackerActorID)
 {
     Actor* actor = GameClient::Instance().GetClientStage()->FindActor(attackedActorID);
+    
+    if(!actor)
+    {
+        ASSERT_DEBUG(actor);
+        return;
+    }
     
     if( !actor->IsAlive() )
     {
@@ -562,6 +547,15 @@ void ActorLayer::ActorDead(flownet::ActorID deadActorID, bool afterDelete)
     Actor* actor = GameClient::Instance().GetClientStage()->FindActor(deadActorID);
     ActorNodeSet* actorNodeSet = this->FindActorNodeSet(deadActorID);
     ActorNode* deadObject = actorNodeSet->m_ActorNode;
+    
+    if(!actor)
+    {
+        ASSERT_DEBUG(actor);
+        return;
+    }
+    
+    ASSERT_DEBUG(actorNodeSet);
+    ASSERT_DEBUG(deadObject);
     
     if(IsMonsterID(deadActorID))
     {
@@ -757,4 +751,84 @@ void ActorLayer::RemoveSpellGuideLine(flownet::ActorID actorID)
 {
     ActorNodeSet* actorNodeSet = this->FindActorNodeSet(actorID);
     actorNodeSet->RemoveGuideLineNode();
+}
+
+void ActorLayer::ChangeActorStateToIdle(CCObject* object)
+{
+    ActorNode* actorNode = static_cast<ActorNode*>(object);
+
+    if(IsPlayerID(actorNode->GetActorID()))
+    {
+        ClientPlayer* clientPlayer = static_cast<ClientPlayer*>(GameClient::Instance().GetClientStage()->FindActor(actorNode->GetActorID()));
+        clientPlayer->ChangeToIdleState();
+    }
+    else if(IsMonsterID(actorNode->GetActorID()))
+    {
+        ClientMonster* clientMonser = static_cast<ClientMonster*>(GameClient::Instance().GetClientStage()->FindActor(actorNode->GetActorID()));
+        clientMonser->ChangeToIdleState();
+    }
+}
+
+void ActorLayer::ChangeActorStateToAttacking(CCObject* object)
+{
+    ActorNode* actorNode = static_cast<ActorNode*>(object);
+    if(IsPlayerID(actorNode->GetActorID()))
+    {
+        ClientPlayer* clientPlayer = static_cast<ClientPlayer*>(GameClient::Instance().GetClientStage()->FindActor(actorNode->GetActorID()));
+        clientPlayer->ChangeToAttackingState();
+    }
+    else if(IsMonsterID(actorNode->GetActorID()))
+    {
+        ClientMonster* clientMonser = static_cast<ClientMonster*>(GameClient::Instance().GetClientStage()->FindActor(actorNode->GetActorID()));
+        clientMonser->ChangeToAttackingState();
+    }
+
+}
+
+void ActorLayer::ChangeActorStateToCasting(CCObject* object)
+{
+    ActorNode* actorNode = static_cast<ActorNode*>(object);
+    if(IsPlayerID(actorNode->GetActorID()))
+    {
+        ClientPlayer* clientPlayer = static_cast<ClientPlayer*>(GameClient::Instance().GetClientStage()->FindActor(actorNode->GetActorID()));
+        clientPlayer->ChangeToCastingState();
+    }
+    else if(IsMonsterID(actorNode->GetActorID()))
+    {
+        ClientMonster* clientMonser = static_cast<ClientMonster*>(GameClient::Instance().GetClientStage()->FindActor(actorNode->GetActorID()));
+        clientMonser->ChangeToCastingState();
+    }
+
+}
+
+void ActorLayer::ChangeActorStateToDead(CCObject* object)
+{
+    ActorNode* actorNode = static_cast<ActorNode*>(object);
+    if(IsPlayerID(actorNode->GetActorID()))
+    {
+        ClientPlayer* clientPlayer = static_cast<ClientPlayer*>(GameClient::Instance().GetClientStage()->FindActor(actorNode->GetActorID()));
+        clientPlayer->ChangeToDeadState();
+    }
+    else if(IsMonsterID(actorNode->GetActorID()))
+    {
+        ClientMonster* clientMonser = static_cast<ClientMonster*>(GameClient::Instance().GetClientStage()->FindActor(actorNode->GetActorID()));
+        clientMonser->ChangeToDeadState();
+    }
+
+}
+
+void ActorLayer::ChangeActorStateToMoving(CCObject* object)
+{
+    ActorNode* actorNode = static_cast<ActorNode*>(object);
+    if(IsPlayerID(actorNode->GetActorID()))
+    {
+        ClientPlayer* clientPlayer = static_cast<ClientPlayer*>(GameClient::Instance().GetClientStage()->FindActor(actorNode->GetActorID()));
+        clientPlayer->ChangeToMovingState();
+    }
+    else if(IsMonsterID(actorNode->GetActorID()))
+    {
+        ClientMonster* clientMonser = static_cast<ClientMonster*>(GameClient::Instance().GetClientStage()->FindActor(actorNode->GetActorID()));
+        clientMonser->ChangeToMovingState();
+    }
+
 }

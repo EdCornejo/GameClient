@@ -271,6 +271,12 @@ public:
 private:
     void AddSpellGuideLine(flownet::ActorID actorID, flownet::SpellType spellType, flownet::POINT destination);
     void RemoveSpellGuideLine(flownet::ActorID actorID);
+    
+    void ChangeActorStateToIdle(CCObject* object);
+    void ChangeActorStateToAttacking(CCObject* object);
+    void ChangeActorStateToCasting(CCObject* object);
+    void ChangeActorStateToDead(CCObject* object);
+    void ChangeActorStateToMoving(CCObject* object);
 };
 
 
