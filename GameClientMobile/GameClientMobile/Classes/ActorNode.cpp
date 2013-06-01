@@ -8,8 +8,10 @@
 
 #include "Headers.pch"
 
-ShadowNode::ShadowNode() {}
-ShadowNode::~ShadowNode(){}
+ShadowNode::ShadowNode() : m_ActorID(ActorID_None), m_SpellNode(nullptr) {}
+ShadowNode::~ShadowNode()
+{
+}
     
 bool ShadowNode::init()
 {
@@ -494,7 +496,7 @@ void ActorNode::StopCharacterAnimate()
 // NOTE : default looking direction for animation is left
 void ActorNode::AnimateIdle()
 {
-    CCLOG("actor %d animates idle", this->GetActorID());
+    CCLOGINFO("actor %d animates idle", this->GetActorID());
     
     Actor* actorInfo = this->GetActorInfo();
     if(!actorInfo->IsAlive())
@@ -523,7 +525,7 @@ void ActorNode::AnimateIdle()
 
 void ActorNode::AnimateMoving()
 {
-    CCLOG("actor %d animates moving", this->GetActorID());
+    CCLOGINFO("actor %d animates moving", this->GetActorID());
     
     
     Actor* actorInfo = this->GetActorInfo();
@@ -555,7 +557,7 @@ void ActorNode::AnimateMoving()
 
 void ActorNode::AnimateAttacking()
 {
-    CCLOG("actor %d animates attacking", this->GetActorID());
+    CCLOGINFO("actor %d animates attacking", this->GetActorID());
     
     Actor* actorInfo = this->GetActorInfo();
     
@@ -585,7 +587,7 @@ void ActorNode::AnimateAttacking()
 
 void ActorNode::AnimateAttacked()
 {
-    CCLOG("actor %d animates attacked", this->GetActorID());
+    CCLOGINFO("actor %d animates attacked", this->GetActorID());
 
     Actor* actorInfo = this->GetActorInfo();
     
@@ -615,7 +617,7 @@ void ActorNode::AnimateAttacked()
 
 void ActorNode::AnimateBeginCasting()
 {
-    CCLOG("actor %d animates begin casting", this->GetActorID());
+    CCLOGINFO("actor %d animates begin casting", this->GetActorID());
     
     Actor* actorInfo = this->GetActorInfo();
     
@@ -644,7 +646,7 @@ void ActorNode::AnimateBeginCasting()
 
 void ActorNode::AnimateRepeatCasting()
 {
-    CCLOG("actor %d animates repeat casting", this->GetActorID());
+    CCLOGINFO("actor %d animates repeat casting", this->GetActorID());
     
     Actor* actorInfo = this->GetActorInfo();
     
@@ -673,7 +675,7 @@ void ActorNode::AnimateRepeatCasting()
 
 void ActorNode::AnimateEndCasting()
 {
-    CCLOG("actor %d animates end casting", this->GetActorID());
+    CCLOGINFO("actor %d animates end casting", this->GetActorID());
     
     Actor* actorInfo = this->GetActorInfo();
     
@@ -702,7 +704,7 @@ void ActorNode::AnimateEndCasting()
 
 void ActorNode::AnimateFire()
 {
-    CCLOG("actor %d animates fire", this->GetActorID());
+    CCLOGINFO("actor %d animates fire", this->GetActorID());
     
     Actor* actorInfo = this->GetActorInfo();
     
@@ -731,7 +733,7 @@ void ActorNode::AnimateFire()
 
 void ActorNode::AnimateDead()
 {
-    CCLOG("actor %d animates dead", this->GetActorID());
+    CCLOGINFO("actor %d animates dead", this->GetActorID());
     
     Actor* actorInfo = this->GetActorInfo();
 

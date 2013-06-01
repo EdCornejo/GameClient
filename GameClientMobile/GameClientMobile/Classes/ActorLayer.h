@@ -69,6 +69,7 @@ struct ActorNodeSet : public CCObject {
         if(IsPlayerID(actorID))
         {
             this->m_ActorNode = PlayerNode::create(actorID);
+            this->m_ActorNode->Reload(); // 플레이어는 리로드 해줘야함
         }
         else if(IsMonsterID(actorID))
         {
