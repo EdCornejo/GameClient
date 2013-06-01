@@ -208,6 +208,7 @@ void EquipmentNode::Update()
         this->m_Body->addChild(this->m_ActorNode);
     }
     
+    // TODO : 매번 여기서 갱신을 해주는게 나중에 속도 문제가 있을 수 있다. 추후에 성능향상을 위한다면 이곳도 리팩토링의 대상이 된다
     if(this->m_ActorNode)
     {
         this->m_ActorNode->Reload();

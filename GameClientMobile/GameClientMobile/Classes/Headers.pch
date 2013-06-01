@@ -32,6 +32,8 @@
 #include "StagePreviewInfoDictionary.h"
 #include "PointConverter.h"
 #include "StageObjectImageLoader.h"
+#include "AudioEngine.h"
+#include "GPS.h"
 
 //  Nodes
 #include "SpellEffectNode.h"

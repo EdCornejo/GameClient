@@ -31,32 +31,32 @@ bool MonsterNode::init()
         case flownet::MonsterType_Wolf:
             this->m_Skeleton = CCSkeletonAnimation::createWithFile("common/wolf.json", "monster/wolf.atlas");
             this->m_Skeleton->setSkin("blue_wolf");
-            this->m_Skeleton->setScale(0.3);
+            this->m_Skeleton->setScale(0.24);
             break;
         case flownet::MonsterType_YoungWolf:
             this->m_Skeleton = CCSkeletonAnimation::createWithFile("common/wolf.json", "monster/wolf.atlas");
             this->m_Skeleton->setSkin("blue_wolf");
-            this->m_Skeleton->setScale(0.2);
+            this->m_Skeleton->setScale(0.15);
             break;
         case flownet::MonsterType_GrandWolfKing:
             this->m_Skeleton = CCSkeletonAnimation::createWithFile("common/white_wolf.json", "monster/white_wolf.atlas");
             this->m_Skeleton->setSkin("white");
-            this->m_Skeleton->setScale(0.2);
+            this->m_Skeleton->setScale(0.24);
             break;
         case flownet::MonsterType_NormalTree :
             this->m_Skeleton = CCSkeletonAnimation::createWithFile("common/tree.json", "monster/tree.atlas");
             this->m_Skeleton->setSkin("blue_tree");
-            this->m_Skeleton->setScale(0.3);
+            this->m_Skeleton->setScale(0.24);
             break;
         case flownet::MonsterType_NightmareTree :
             this->m_Skeleton = CCSkeletonAnimation::createWithFile("common/tree.json", "monster/tree.atlas");
             this->m_Skeleton->setSkin("blue_tree");
-            this->m_Skeleton->setScale(0.3);
+            this->m_Skeleton->setScale(0.24);
             break;
         default:
             this->m_Skeleton = CCSkeletonAnimation::createWithFile("monster/goblins.json", "monster/goblin.atlas");
             this->m_Skeleton->setSkin("goblingirl");
-            this->m_Skeleton->setScale(0.3);
+            this->m_Skeleton->setScale(0.24);
             this->m_Skeleton->skeleton->flipX = true;
 
             break;
