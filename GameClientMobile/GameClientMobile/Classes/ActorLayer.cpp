@@ -272,6 +272,16 @@ void ActorLayer::AddNewPlayer(flownet::ClientPlayer player)
     if(actorNodeSet->m_HUDNode)this->addChild(actorNodeSet->m_HUDNode);
     if(actorNodeSet->m_ShadowNode)this->addChild(actorNodeSet->m_ShadowNode);
     if(actorNodeSet->m_HighlightNode)this->addChild(actorNodeSet->m_HighlightNode);
+    
+    // NOTE : equipment list를 토대로 능력치를 부여해줘야한다 여기로 넘어온 플레이어는 그냥 복사본이니 클라이언트로부터 잡아와야한다
+    Player* playerInfo = GameClient::Instance().GetClientStage()->FindPlayer(player.GetActorID());
+    
+    playerInfo->GetEquipmentList().ForAllItemSlots([&playerInfo](EquipmentSlot slotIndex, ItemID itemID){
+        if(itemID != ItemID_None) {
+            playerInfo->EquipItem(nullptr, slotIndex, itemID);
+            }
+    });
+    
 }
 
 void ActorLayer::AddNewMonster(flownet::ClientMonster monster)
@@ -382,7 +392,7 @@ void ActorLayer::MoveActor(flownet::ActorID actorID, flownet::POINT currentPosit
     
     CCFiniteTimeAction* animateMove = CCCallFunc::create(movingObject, callfunc_selector(ActorNode::AnimateMoving));
     CCFiniteTimeAction* actionMove = CCMoveTo::create(duration, PointConverter::Convert(destinationPosition));
-    CCFiniteTimeAction* actionMoveDone = CCCallFuncN::create( movingObject, callfuncN_selector(ActorNode::AnimateIdle));
+    CCFiniteTimeAction* actionMoveDone = CCCallFunc::create( movingObject, callfunc_selector(ActorNode::AnimateIdle));
     CCFiniteTimeAction* changeToIdleState = nullptr;
     CCAction* sequence = nullptr;
     

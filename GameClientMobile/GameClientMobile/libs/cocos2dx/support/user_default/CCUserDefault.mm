@@ -207,6 +207,7 @@ const string& CCUserDefault::getXMLFilePath()
 
 void CCUserDefault::flush()
 {
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 
