@@ -46,14 +46,14 @@ void GameClient::InitializeDeviceID()
 {
     std::string deviceID = cocos2d::CCUserDefault::sharedUserDefault()->getStringForKey("DeviceID");
     std::stringstream deviceIDStringStream;
-    //deviceIDStringStream << deviceID;
+    deviceIDStringStream << deviceID;
     
-//    if(deviceID.empty())
-//    {
+    if(deviceID.empty())
+    {
         deviceIDStringStream << boost::uuids::random_generator()();
         cocos2d::CCUserDefault::sharedUserDefault()->setStringForKey("DeviceID", deviceIDStringStream.str());
         cocos2d::CCUserDefault::sharedUserDefault()->flush();
-//    }
+    }
     
     CCLOG("Device ID is : %s", deviceIDStringStream.str().c_str());
     
