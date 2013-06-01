@@ -178,6 +178,7 @@ void StageInfoLayer::DisplayRunningStages(flownet::StagePlayInfoList &stageInfoL
         
         menu->addChild(runningStageJoinButton);
         menu->setTouchPriority(kCCMenuHandlerPriority - 1);
+        menu->alignItemsVertically();
     });
     
     this->m_Background->addChild(menu);
@@ -213,7 +214,7 @@ bool StageSelectLayer::init()
 {
     if(!CCLayer::init()) return false;
     
-    CCSprite* worldmap = CCSprite::create("ui/stage_select_scene/worldmap.gif");
+    CCSprite* worldmap = CCSprite::create("ui/stage_select_scene/worldmap.jpg");
     worldmap->setAnchorPoint(CCPointZero);
     CCSize worldMapSize = worldmap->getContentSize();
     this->m_WorldMapWidth = worldMapSize.width;
@@ -225,10 +226,10 @@ bool StageSelectLayer::init()
     // 오브젝트의 태그로 자신의 스테이지 타입을 저장한다
     CCMenuItemImage* object1 = CCMenuItemImage::create("ui/stage_select_scene/object_normal.png", "ui/stage_select_scene/object_active.png", this, menu_selector(StageSelectLayer::OnStageSelectObjectTouch));
     object1->setTag(StageType_MushroomField);
-    object1->setPosition(ccp(worldMapSize.width * 0.21, worldMapSize.height * 0.21));
+    object1->setPosition(ccp(worldMapSize.width * 0.37, worldMapSize.height * 0.22));
     CCMenuItemImage* object2 = CCMenuItemImage::create("ui/stage_select_scene/object_normal.png", "ui/stage_select_scene/object_active.png", this, menu_selector(StageSelectLayer::OnStageSelectObjectTouch));
     object2->setTag(StageType_WolfForest);
-    object2->setPosition(ccp(worldMapSize.width * 0.23, worldMapSize.height * 0.56));
+    object2->setPosition(ccp(worldMapSize.width * 0.11, worldMapSize.height * 0.56));
     this->m_Menu = CCMenu::create(object1, object2, NULL);
     this->m_Menu->retain();
     this->m_Menu->setPosition(CCPointZero);
@@ -286,8 +287,7 @@ void StageSelectLayer::OnStageSelectObjectTouch(cocos2d::CCObject *sender)
 {
     CCNode* node = static_cast<CCNode*>(sender);
     StageType stageType = static_cast<StageType>(node->getTag());
-    
-    // TO DO : popup a new layer or scene
+
     if(this->m_StageInfoLayer)
     {
         this->m_StageInfoLayer->removeFromParentAndCleanup(true);
