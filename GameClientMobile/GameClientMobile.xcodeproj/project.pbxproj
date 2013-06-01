@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6B08439317586BF400257246 /* GPS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6B08439117586BF400257246 /* GPS.mm */; };
+		6B08439C1758718400257246 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B08439A1758716C00257246 /* CoreLocation.framework */; };
+		6B08439F1758739B00257246 /* GPS_ios.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B08439E1758739B00257246 /* GPS_ios.m */; };
+		6B0843A217589E3800257246 /* DeviceInfo.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6B0843A017589E3800257246 /* DeviceInfo.mm */; };
 		6B2A9EF716F83FF600DEB7C3 /* ClientPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B2A9EF516F83FF600DEB7C3 /* ClientPlayer.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		6B2A9EFA16F8482000DEB7C3 /* ClientMonster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B2A9EF816F8482000DEB7C3 /* ClientMonster.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		6B2A9EFC16F854D700DEB7C3 /* ClientStage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B2A9EFB16F854D700DEB7C3 /* ClientStage.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -275,6 +279,8 @@
 		6BC6C3EA17251FED00B439F9 /* ItemImageLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BC6C3E817251FEC00B439F9 /* ItemImageLoader.cpp */; };
 		6BC6C3F11725AA1600B439F9 /* ItemNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BC6C3EF1725AA1400B439F9 /* ItemNode.cpp */; };
 		6BC6C3F6172600DD00B439F9 /* StashNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BC6C3F4172600DB00B439F9 /* StashNode.cpp */; };
+		6BDFB4171754E8DB00669128 /* sound in Resources */ = {isa = PBXBuildFile; fileRef = 6BDFB4161754E8DB00669128 /* sound */; };
+		6BDFB41B175614F800669128 /* AudioEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BDFB419175614F800669128 /* AudioEngine.cpp */; };
 		6BF045FB1738FC7700EE0E53 /* CFConnection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BF045F51738FC7700EE0E53 /* CFConnection.cpp */; };
 		6BF045FC1738FC7700EE0E53 /* FCPacketHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BF045F71738FC7700EE0E53 /* FCPacketHandler.cpp */; };
 		6BF045FD1738FC7700EE0E53 /* FCPacketParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BF045F91738FC7700EE0E53 /* FCPacketParser.cpp */; };
@@ -325,6 +331,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6B08439117586BF400257246 /* GPS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = GPS.mm; path = Classes/GPS.mm; sourceTree = "<group>"; };
+		6B08439217586BF400257246 /* GPS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GPS.h; path = Classes/GPS.h; sourceTree = "<group>"; };
+		6B08439A1758716C00257246 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		6B08439D1758739B00257246 /* GPS_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GPS_ios.h; path = Classes/GPS_ios.h; sourceTree = "<group>"; };
+		6B08439E1758739B00257246 /* GPS_ios.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GPS_ios.m; path = Classes/GPS_ios.m; sourceTree = "<group>"; };
+		6B0843A017589E3800257246 /* DeviceInfo.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = DeviceInfo.mm; path = Classes/DeviceInfo.mm; sourceTree = "<group>"; };
+		6B0843A117589E3800257246 /* DeviceInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceInfo.h; path = Classes/DeviceInfo.h; sourceTree = "<group>"; };
 		6B2A9EF516F83FF600DEB7C3 /* ClientPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ClientPlayer.cpp; sourceTree = "<group>"; };
 		6B2A9EF616F83FF600DEB7C3 /* ClientPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientPlayer.h; sourceTree = "<group>"; };
 		6B2A9EF816F8482000DEB7C3 /* ClientMonster.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ClientMonster.cpp; sourceTree = "<group>"; };
@@ -909,6 +922,9 @@
 		6BC6C3F01725AA1500B439F9 /* ItemNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ItemNode.h; path = Classes/ItemNode.h; sourceTree = "<group>"; };
 		6BC6C3F4172600DB00B439F9 /* StashNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StashNode.cpp; path = Classes/StashNode.cpp; sourceTree = "<group>"; };
 		6BC6C3F5172600DC00B439F9 /* StashNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StashNode.h; path = Classes/StashNode.h; sourceTree = "<group>"; };
+		6BDFB4161754E8DB00669128 /* sound */ = {isa = PBXFileReference; lastKnownFileType = folder; name = sound; path = Resources/sound; sourceTree = "<group>"; };
+		6BDFB419175614F800669128 /* AudioEngine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AudioEngine.cpp; path = Classes/AudioEngine.cpp; sourceTree = "<group>"; };
+		6BDFB41A175614F800669128 /* AudioEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioEngine.h; path = Classes/AudioEngine.h; sourceTree = "<group>"; };
 		6BF045F51738FC7700EE0E53 /* CFConnection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CFConnection.cpp; sourceTree = "<group>"; };
 		6BF045F61738FC7700EE0E53 /* CFConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CFConnection.h; sourceTree = "<group>"; };
 		6BF045F71738FC7700EE0E53 /* FCPacketHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FCPacketHandler.cpp; sourceTree = "<group>"; };
@@ -988,6 +1004,7 @@
 				94F29CBD16DDD6FB005DFDE4 /* UIKit.framework in Frameworks */,
 				94F29CBF16DDD6FB005DFDE4 /* Foundation.framework in Frameworks */,
 				94F29CC116DDD6FB005DFDE4 /* CoreGraphics.framework in Frameworks */,
+				6B08439C1758718400257246 /* CoreLocation.framework in Frameworks */,
 				6B532B881712E0F4009127B2 /* libcurl.a in Frameworks */,
 				6B532B891712E0F4009127B2 /* libwebp.a in Frameworks */,
 			);
@@ -1041,6 +1058,14 @@
 				6BA11854174CBE600085E43B /* StagePreviewInfoDictionary.h */,
 				6BFD7635175468020005BF98 /* StageObjectImageLoader.cpp */,
 				6BFD7636175468020005BF98 /* StageObjectImageLoader.h */,
+				6BDFB419175614F800669128 /* AudioEngine.cpp */,
+				6BDFB41A175614F800669128 /* AudioEngine.h */,
+				6B08439117586BF400257246 /* GPS.mm */,
+				6B08439217586BF400257246 /* GPS.h */,
+				6B08439D1758739B00257246 /* GPS_ios.h */,
+				6B08439E1758739B00257246 /* GPS_ios.m */,
+				6B0843A017589E3800257246 /* DeviceInfo.mm */,
+				6B0843A117589E3800257246 /* DeviceInfo.h */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -2179,6 +2204,7 @@
 		94F29CB116DDD6FB005DFDE4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6B08439A1758716C00257246 /* CoreLocation.framework */,
 				94F29CB216DDD6FB005DFDE4 /* QuartzCore.framework */,
 				94F29CB416DDD6FB005DFDE4 /* OpenGLES.framework */,
 				94F29CB616DDD6FB005DFDE4 /* OpenAL.framework */,
@@ -2206,6 +2232,7 @@
 		94F29CC316DDD6FB005DFDE4 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				6BDFB4161754E8DB00669128 /* sound */,
 				6B2AA02216F9D12400DEB7C3 /* player_animations.plist */,
 				6B2AA3FE16FC72DC00DEB7C3 /* monster_animations.plist */,
 				6B2AA40016FC72F100DEB7C3 /* spell_animations.plist */,
@@ -2390,6 +2417,7 @@
 				6B532BEE1712E0F4009127B2 /* cocos2dx-ext_public.defines.txt in Resources */,
 				6B30CE79171D491300316D9F /* common in Resources */,
 				6BA11857174CD5BE0085E43B /* stageinfos.plist in Resources */,
+				6BDFB4171754E8DB00669128 /* sound in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2667,6 +2695,10 @@
 				6B6CA6E8175432C3002FF7B2 /* StageObjectNode.cpp in Sources */,
 				6BFD76331754654E0005BF98 /* NPCNode.cpp in Sources */,
 				6BFD7637175468020005BF98 /* StageObjectImageLoader.cpp in Sources */,
+				6BDFB41B175614F800669128 /* AudioEngine.cpp in Sources */,
+				6B08439317586BF400257246 /* GPS.mm in Sources */,
+				6B08439F1758739B00257246 /* GPS_ios.m in Sources */,
+				6B0843A217589E3800257246 /* DeviceInfo.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
