@@ -36,19 +36,65 @@ ShadowNode* ShadowNode::create(flownet::ActorID actorID)
         return nullptr;
     }
 }
+
+ShadowNode* ShadowNode::create(SpellNode* spellNode)
+{
+    ShadowNode* newNode = new ShadowNode();
+    newNode->m_SpellNode = spellNode;
+
+    if(newNode && newNode->init())
+    {
+        newNode->autorelease();
+        return newNode;
+    }
+    else
+    {
+        delete newNode;
+        return nullptr;
+    }
+}
+
     
 void ShadowNode::update(float deltaTime)
 {
-    BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
-    ActorLayer* actorLayer = scene->GetActorLayer();
-
-    if(!actorLayer) ASSERT_DEBUG(false);
-    
-    ActorNode* actor = actorLayer->FindActorNode(this->m_ActorID);
-    
-    if(!actor) return;
-    
-    this->setPosition(actor->getPosition());
+    if(this->m_ActorID != ActorID_None)
+    {
+        BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
+        ActorLayer* actorLayer = scene->GetActorLayer();
+        
+        if(!actorLayer) ASSERT_DEBUG(false);
+        
+        ActorNode* actor = actorLayer->FindActorNode(this->m_ActorID);
+        
+        if(!actor) return;
+        
+        this->setPosition(actor->getPosition());
+    }
+    else if (this->m_SpellNode)
+    {
+        CCPoint spellPosition;
+        switch(this->m_SpellNode->GetSpellInfo().m_StartingPoint)
+        {
+            case flownet::StartingPoint_Self :
+                spellPosition = this->m_SpellNode->getPosition();
+                spellPosition.y -= 30;
+                break;
+            case flownet::StartingPoint_Somewhere:
+                spellPosition = this->m_SpellNode->GetDestination();
+                spellPosition.x = this->m_SpellNode->getPosition().x;
+                break;
+            case flownet::StartingPoint_Target :
+            default:
+                spellPosition = this->m_SpellNode->GetDestination();
+                break;
+        }
+        
+        this->setPosition(spellPosition);
+    }
+    else
+    {
+        ASSERT_DEBUG(false);
+    }
 }
 
 

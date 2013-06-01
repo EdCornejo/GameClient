@@ -14,7 +14,12 @@ SpellAnimationLoader::SpellAnimationLoader()
 {
     // NOTE : every spell animation plist file here
     std::vector<std::string> spellAnimationPListFileList = {
-        "spell/spell_fireball.plist",
+        "spell/fireBall.plist",
+        "spell/explosion.plist",
+        "spell/meteor.plist",
+        "spell/iceCrystalize.plist",
+        "spell/iceField.plist",
+        "spell/iceSpear.plist",
     };
     
     for_each(spellAnimationPListFileList.begin(), spellAnimationPListFileList.end(), [](std::string& plistFileName){
@@ -42,9 +47,21 @@ CCAnimation* SpellAnimationLoader::GetSpellAnimation(flownet::SpellType spellTyp
 {
     std::string spellAnimationName;
     switch (spellType) {
+        case flownet::SpellType_FireBurst :
+            spellAnimationName = "meteor";
+            break;
+        case flownet::SpellType_Crystalize :
+            spellAnimationName = "iceCrystalize";
+            break;
+        case flownet::SpellType_IceArrow :
+            spellAnimationName = "iceSpear";
+            break;
+        case flownet::SpellType_IceFog :
+            spellAnimationName = "iceField";
+            break;
         case flownet::SpellType_FireBall:
         default:
-            spellAnimationName = "spell_fireball";
+            spellAnimationName = "fireBall";
             break;
     }
 

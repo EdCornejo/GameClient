@@ -8,14 +8,18 @@
 
 #include "Headers.pch"
 
-SpellNode::SpellNode(const flownet::SpellInfo& spellInfo, flownet::ActorID actorID, flownet::POINT destination) : m_SpellInfo(spellInfo), m_CasterID(actorID), m_Destination(destination), m_LastTickTime(0)
+SpellNode::SpellNode(const flownet::SpellInfo& spellInfo, flownet::ActorID actorID, flownet::POINT destination) : m_SpellInfo(spellInfo), m_CasterID(actorID), m_Destination(destination), m_LastTickTime(0), m_StartingEffectID(0), m_Shadow(nullptr)
 {
 
 }
 
 SpellNode::~SpellNode()
 {
-
+    if(this->m_Shadow)
+    {
+        this->m_Shadow->removeFromParent();
+        this->m_Shadow->release();
+    }
 }
 
 bool SpellNode::initWithFile(const char* fileName)
@@ -27,7 +31,6 @@ bool SpellNode::initWithFile(const char* fileName)
     
     const double degreeVariance = 60;
     const double vertical = 90;
-    const float spellInitialDistance = 200;
     const double PI = 4.0 * atan(1.0);
     CCPoint spellStartPoint = CCPointZero;
 
@@ -40,33 +43,67 @@ bool SpellNode::initWithFile(const char* fileName)
             spellStartPoint = targetPoint;
             break;
         case flownet::StartingPoint_Somewhere:{
+            const float spellInitialDistance = 190; //PointConverter::ModiYToViewPointY(Spell_StartingPoint_Somewhere_Distance);
             float RandomValue = CCRANDOM_0_1() - 0.5; // offset for random 0~1
             
             float spellStartPointX = targetPoint.x + spellInitialDistance * cos((vertical + (RandomValue * degreeVariance)) * PI / 180);
             float spellStartPointY = targetPoint.y + spellInitialDistance * sin((vertical + (RandomValue * degreeVariance)) * PI / 180);
             spellStartPoint = ccp(spellStartPointX, spellStartPointY);
+            
+            double rotateDegree = -atan2(targetPoint.y - spellStartPoint.y, targetPoint.x - spellStartPoint.x) * 180 / M_PI;
+            this->setRotation(rotateDegree);
+            
+            targetPoint.y += 60;
+            
             break;
         }
         case flownet::StartingPoint_Self:
         default:
-            spellStartPoint = firingObject->GetSpellPosition();
-            // NOTE : character height adjustment
-            spellStartPoint.y += firingObject->GetRect().size.height / 2;
-            // NOTE : character width adjustment
+            spellStartPoint = firingObject->getPosition();
+            
             Actor* caster = GameClient::Instance().GetClientStage()->FindActor(this->m_CasterID);
-            if(caster->GetLookingDirection() == DIRECTION_LEFT)
-            {
-                spellStartPoint.x -= firingObject->GetRect().size.width / 2;
+            ASSERT_DEBUG(caster);
+            
+            // NOTE : adjust fire position to charac
+            if(caster->GetLookingDirection() == DIRECTION_LEFT) {
+                spellStartPoint.x -= 30;
+                spellStartPoint.y += 30;
+                this->setRotation(180);
             }
-            if(caster->GetLookingDirection() == DIRECTION_RIGHT)
-            {
-                spellStartPoint.x += firingObject->GetRect().size.width / 2;
+            else { // RIGHT
+                spellStartPoint.x += 30;
+                spellStartPoint.y += 30;
             }
+            
+            targetPoint.y += 30;
+            this->m_Destination = PointConverter::Convert(targetPoint);
+            
+//            double rotateDegree = -atan2(targetPoint.y - spellStartPoint.y, targetPoint.x - spellStartPoint.x) * 180 / M_PI;
+//            this->setRotation(rotateDegree);
+            
             break;
     }
+    
+    // NOTE : if the spell is nova like need rotation
+    switch (this->m_SpellInfo.m_SpellType) {
+    case flownet::SpellType_IceFog:
+        this->setScaleY(0.45);
+        break;
+    default:
+        break;
+    }
+    
 
     this->setPosition(spellStartPoint);
     
+    
+    // 이것은 예외적으로 layer에서 생성하지 않고 여기서 생성한다.
+    // 스펠노드에 차일드로 붙이려고 했지만 너무 많은 코드를 수정해야하는 바람에 일단 이렇게 대체한다.
+    // update에서 페어런트에 붙었는지 확인후에 그림자를 추가하는 식으로 대체를 한다
+    // 스펠노드에 대대적인 수정이 필요할것임을 직감하였다...
+    this->m_Shadow = ShadowNode::create(this);
+    this->m_Shadow->retain();
+        
     this->StartSpellAnimation();
     
     scheduleUpdate();
@@ -80,11 +117,12 @@ SpellNode* SpellNode::create(const SpellInfo& spellInfo, ActorID casterID, POINT
 
     if(spellNode && spellNode->initWithFile("blank.png"))
     {
+        spellNode->autorelease();
         return spellNode;
     }
     else
     {
-        spellNode->release();
+        delete spellNode;
         spellNode = nullptr;
         return nullptr;
     }
@@ -92,6 +130,14 @@ SpellNode* SpellNode::create(const SpellInfo& spellInfo, ActorID casterID, POINT
 
 void SpellNode::update(float deltaTime)
 {
+    if(!this->m_Shadow->getParent())
+    {
+        if(this->getParent())
+        {
+            this->getParent()->addChild(this->m_Shadow);
+        }
+    }
+
     this->m_LastTickTime += deltaTime;
     if( this->m_LastTickTime <= 0.2 )
     {
@@ -137,16 +183,20 @@ void SpellNode::StartSpellAnimation()
 {
     BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
     
-    float delay = PointConverter::Convert(this->getPosition()).DistanceTo(this->m_Destination) / (this->m_SpellInfo.m_Speed) + 1;
+    float delay = PointConverter::Convert(this->getPosition()).DistanceTo(this->m_Destination) / (this->m_SpellInfo.m_Speed);
+    delay = delay == 0 ? 3 : delay;
     
+    // TO DO : changed this logic ! when spell effect changed
     CCAnimation* animation = SpellAnimationLoader::Instance()->GetSpellAnimation(this->m_SpellInfo.m_SpellType);
     CCAction* animate = CCAnimate::create(animation);
     animate->setTag(ActionType_Spell);
     this->runAction(animate);
     
+    CCCallFunc* playStartEffect = CCCallFunc::create(this, callfunc_selector(SpellNode::PlayStartingEffect));
     CCDelayTime* delayTime = CCDelayTime::create(delay);
+    CCCallFunc* playEndEffect = CCCallFunc::create(this, callfunc_selector(SpellNode::PlayEndingEffect));
     CCCallFunc* destroy = CCCallFunc::create(this, callfunc_selector(SpellNode::Destroy));
-    CCSequence* sequence = CCSequence::create(delayTime, destroy, NULL);
+    CCSequence* sequence = CCSequence::create(playStartEffect, delayTime, playEndEffect, destroy, NULL);
     sequence->setTag(ActionType_UI);
     this->runAction(sequence);
 }

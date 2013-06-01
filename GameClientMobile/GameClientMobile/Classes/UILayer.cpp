@@ -226,12 +226,12 @@ bool UILayer::TouchProcessSpellBegan(CCPoint touchLocation)
     
     if(!actorLayer) return false;
     
-    touchLocation = actorLayer->convertToNodeSpace(touchLocation);
-
     ClientPlayer* player = static_cast<ClientPlayer*>(GameClient::Instance().GetClientStage()->FindPlayer(GameClient::Instance().GetMyActorID()));
 
     if(this->m_SelectedSpellType == SpellType_NONE) return false;
-    if(!(player->IsStateIdle() || player->IsStateMoving())) return false;
+    if(player->IsStateAttacking()) return false;
+    
+    touchLocation = actorLayer->convertToNodeSpace(touchLocation);
 
     player->ChangeToCastingState();
     this->m_SpellDestinationPoint = touchLocation;

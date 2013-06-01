@@ -13,19 +13,21 @@ USING_NS_CC;
 
 using namespace spine;
 
+class SpellNode;
 
 class ShadowNode : public CCNode
 {
 private:
     flownet::ActorID m_ActorID;
+    SpellNode* m_SpellNode;
     
 public:
     ShadowNode();
     virtual ~ShadowNode();
     
     virtual bool init();
+    static ShadowNode* create(SpellNode* spellNode);
     static ShadowNode* create(flownet::ActorID actorID);
-    
     virtual void update(float deltaTime);
 };
 

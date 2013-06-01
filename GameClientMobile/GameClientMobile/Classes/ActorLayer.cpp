@@ -434,7 +434,7 @@ void ActorLayer::KnockBackActor(flownet::ActorID actorID, flownet::POINT current
 
     CCFiniteTimeAction* animateAttacked = CCCallFunc::create(knockbackObject, callfunc_selector(ActorNode::AnimateAttacked));
     CCFiniteTimeAction* actionMove = CCMoveTo::create(KNOCKBACK_DURATION, PointConverter::Convert(knockbackDestination));
-    CCFiniteTimeAction* actionMoveDone = CCCallFuncN::create( knockbackObject, callfuncN_selector(ActorNode::AnimateIdle));
+    CCFiniteTimeAction* actionMoveDone = CCCallFunc::create( knockbackObject, callfunc_selector(ActorNode::AnimateIdle));
     CCSequence* sequence = CCSequence::create(animateAttacked, actionMove, actionMoveDone, NULL);
     sequence->setTag(ActionType_Animation);
     knockbackObject->runAction(sequence);
@@ -529,27 +529,13 @@ void ActorLayer::ActorEndCast(flownet::ActorID invokerActorID, flownet::SpellTyp
         CCLOG("ActorLayer::ActorEndCast >> ignore fire spell request. player is dead");
         return;
     }
-   
-    CCFiniteTimeAction* changeToIdleState = nullptr;
-    
-    if(IsMonsterID(invokerActorID))
-    {
-        ClientMonster* monster = static_cast<ClientMonster*>(actor);
-        changeToIdleState = CCCallFunc::create(monster, callfunc_selector(ClientMonster::ChangeToIdleState));
-    }
-    
-    if(IsPlayerID(invokerActorID))
-    {
-        ClientPlayer* player = static_cast<ClientPlayer*>(actor);
-        changeToIdleState = CCCallFunc::create(player, callfunc_selector(ClientPlayer::ChangeToIdleState));
-    }
     
     this->UpdateActorLookingDirection(actor, invokerObject->getPosition(), PointConverter::Convert(destination));
     invokerObject->StopAnimationActions();
     CCFiniteTimeAction* animateFire = CCCallFunc::create(invokerObject, callfunc_selector(ActorNode::AnimateFire));
     CCFiniteTimeAction* timeDuration = CCDelayTime::create(Player_Fire_Duration);
     CCFiniteTimeAction* animateFireDone = CCCallFunc::create(invokerObject, callfunc_selector(ActorNode::AnimateIdle));
-    CCAction* sequence = CCSequence::create(animateFire, timeDuration, animateFireDone, changeToIdleState, NULL);
+    CCAction* sequence = CCSequence::create(animateFire, timeDuration, animateFireDone, NULL);
     sequence->setTag(ActionType_Animation);
     invokerObject->runAction(sequence);
     

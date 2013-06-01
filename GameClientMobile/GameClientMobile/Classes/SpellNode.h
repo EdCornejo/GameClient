@@ -29,6 +29,9 @@ public:
     
     virtual void update(float deltaTime);
     
+    flownet::SpellInfo GetSpellInfo() { return this->m_SpellInfo; }
+    CCPoint GetDestination() { return PointConverter::Convert(this->m_Destination); }
+
     
 private:
     void StartSpellAnimation();
