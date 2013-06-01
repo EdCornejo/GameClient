@@ -8,7 +8,7 @@
 
 #include "Headers.pch"
 
-BaseScene::BaseScene() : m_BackgroundLayer(nullptr), m_EffectLayer(nullptr), m_ObjectLayer(nullptr), m_ActorLayer(nullptr), /*m_PlayerLayer(nullptr), m_MonsterLayer(nullptr),*/ m_UILayer(nullptr)
+BaseScene::BaseScene() : m_BackgroundLayer(nullptr), m_EffectLayer(nullptr), m_ObjectLayer(nullptr), m_ActorLayer(nullptr), /*m_PlayerLayer(nullptr), m_MonsterLayer(nullptr),*/ m_UILayer(nullptr), m_LastGPSTime(0)
 {
     CCLOG("Base scene created");
 }
@@ -65,6 +65,8 @@ bool BaseScene::init()
     this->m_HeartbeatLayer = HeartbeatLayer::create();
     this->m_HeartbeatLayer->retain();
     
+    //this->InitializeGPSInfo();
+    
     this->addChild(m_HeartbeatLayer, 10);
     
     return true;
@@ -79,6 +81,8 @@ void BaseScene::update(float deltaTime)
     }
     RenderingTaskWorkerRoutine& renderingTaskWorkerRoutine = GameClient::Instance().GetRenderingTaskWorkerRoutine();
     renderingTaskWorkerRoutine.Run(THREAD_SCHEDULING_TIMESLICE);
+    
+    //this->UpdateGPSInfo();
 }
 
 BackgroundLayer* BaseScene::GetBackgroundLayer() const
@@ -142,5 +146,28 @@ void BaseScene::OnResponse() const
     if(m_UILayer)
     {
         m_UILayer->OnResponse();
+    }
+}
+
+void BaseScene::InitializeGPSInfo() {
+    CCLabelTTF* label = CCLabelTTF::create("gps info", "thonburi", 13);
+    label->setTag(753);
+    label->setZOrder(333);
+    label->setPosition(ccp(240,160));
+    this->addChild(label);
+}
+
+void BaseScene::UpdateGPSInfo() {
+    ServerTime currentTime = GameClient::Instance().GetClientTimer().Check();
+    if(currentTime - this->m_LastGPSTime > ServerTime(5000)) {
+        this->m_LastGPSTime = currentTime;
+        CCLabelTTF* label = static_cast<CCLabelTTF*>(this->getChildByTag(753));
+        if(label) {
+            GPSPoint gps = GPS::GetCurrentGPSPoint();
+            
+            if(GPS::GetCurrentAddress().empty()) return;
+            
+            label->setString(CCString::createWithFormat("gps %f, %f, %s", gps.latitude, gps.longitude, GPS::GetCurrentAddress().c_str())->getCString());
+        }
     }
 }
