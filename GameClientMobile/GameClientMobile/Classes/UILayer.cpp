@@ -409,7 +409,7 @@ void UILayer::ShowStageClearMessage()
     CCBlink* blink = CCBlink::create(1, 2);
     CCDelayTime* delay = CCDelayTime::create(1);
     CCCallFuncO* removeChild = CCCallFuncO::create(this, callfuncO_selector(UILayer::RemoveChild), clearMessage);
-    CCSequence* sequence = CCSequence::create(blink, delay, removeChild);
+    CCSequence* sequence = CCSequence::create(blink, delay, removeChild, NULL);
     clearMessage->runAction(sequence);
     
     this->addChild(clearMessage);
@@ -424,7 +424,7 @@ void UILayer::ShowTierClearMessage()
     CCBlink* blink = CCBlink::create(1, 2);
     CCDelayTime* delay = CCDelayTime::create(1);
     CCCallFuncO* removeChild = CCCallFuncO::create(this, callfuncO_selector(UILayer::RemoveChild), clearMessage);
-    CCSequence* sequence = CCSequence::create(blink, delay, removeChild);
+    CCSequence* sequence = CCSequence::create(blink, delay, removeChild, NULL);
     clearMessage->runAction(sequence);
     
     this->addChild(clearMessage);
