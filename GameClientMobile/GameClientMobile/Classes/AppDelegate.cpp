@@ -241,7 +241,9 @@ void AppDelegate::OnSCResponseCreatePlayer(flownet::UserID userID, flownet::Acto
         return;
     }
     
-    GameClient::Instance().GetClientObject().SendCSRequestRejoinCurrentStage();
+    // NOTE : if create character create tutorial stage!
+    GPSPoint gps = GPSPoint(CCRANDOM_0_1() * 120, CCRANDOM_0_1() * 120);
+    GameClient::Instance().GetClientObject().SendCSRequestCreateStage(StageType_Intro, gps);
 }
 
 void AppDelegate::OnSCNotifySCErrorMessage(flownet::SCErrorMessage scErrorMessage, flownet::STRING errorMessage) const
@@ -505,12 +507,14 @@ void AppDelegate::OnSCResponseRejoinCurrentStage(flownet::StageID stageID, flown
 {
     if(stageID == StageID_None)
     {
-        // TO DO : go to main menu
-        if( false == static_cast<ClientDirector*>(CCDirector::sharedDirector())->ChangeScene<StageSelectScene>() )
-        {
-            // TO DO : handle error
-            ASSERT_DEBUG(false);
-        }
+//        if( false == static_cast<ClientDirector*>(CCDirector::sharedDirector())->ChangeScene<StageSelectScene>() )
+//        {
+//            // TO DO : handle error
+//            ASSERT_DEBUG(false);
+//        }
+        // NOTE : goto clan community
+        GPSPoint gps = GPSPoint(CCRANDOM_0_1() * 120, CCRANDOM_0_1() * 120);
+        GameClient::Instance().GetClientObject().SendCSRequestJoinClanCommunityStage(gps);
     }
     else
     {

@@ -17,7 +17,7 @@ namespace flownet
 class ClientPlayer : public Player, public cocos2d::CCObject
 {
 public:
-    ClientPlayer(ActorID playerID = ActorID_None, const Gender gender=Gender_Male,  const POINT spawnPosition=POINT(5.f,5.f), const STRING& gameObjectName="ClientPlayer");
+    ClientPlayer(ActorID playerID = ActorID_None, const Gender gender=Gender_Male, const ClanID clanID = ClanID_None, const POINT spawnPosition=POINT(5.f,5.f), const STRING& gameObjectName="ClientPlayer");
     ClientPlayer(const Player& player, const STRING& gameObjectName="ClientPlayer");
     virtual ~ClientPlayer();
     

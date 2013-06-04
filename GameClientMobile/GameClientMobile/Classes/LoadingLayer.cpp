@@ -22,8 +22,13 @@ bool LoadingLayer::init()
     CCSize winSize = CCDirector::sharedDirector()->getWinSize();
     
     // TO DO : loading animation comes here
-    CCSprite* loadingAnimation = CCSprite::create("loading.png");
+    CCSprite* loadingAnimation = CCSprite::create("spinner.png");
     loadingAnimation->setPosition(ccp(winSize.width / 2, winSize.height / 2));
+    
+    CCRotateBy* rotate = CCRotateBy::create(2, 360);
+    CCRepeatForever* repeat = CCRepeatForever::create(rotate);
+    loadingAnimation->runAction(repeat);
+    
     this->addChild(loadingAnimation);
     
     CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, kCCMenuHandlerPriority - 20, true);

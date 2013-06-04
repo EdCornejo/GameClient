@@ -11,9 +11,9 @@
 namespace flownet
 {
     
-ClientPlayer::ClientPlayer(ActorID playerID, const Gender gender, const POINT spawnPosition, const STRING& gameObjectName):Player(playerID,gender,spawnPosition,gameObjectName)
+ClientPlayer::ClientPlayer(ActorID playerID, const Gender gender, const ClanID clanID, const POINT spawnPosition, const STRING& gameObjectName):Player(playerID,gender, clanID, spawnPosition,gameObjectName)
 {
-    
+
 }
 
 ClientPlayer::ClientPlayer(const Player& player,const STRING& gameObjectName):Player(player,gameObjectName)

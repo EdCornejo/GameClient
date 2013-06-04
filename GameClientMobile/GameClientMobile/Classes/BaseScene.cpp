@@ -8,7 +8,7 @@
 
 #include "Headers.pch"
 
-BaseScene::BaseScene() : m_BackgroundLayer(nullptr), m_EffectLayer(nullptr), m_ObjectLayer(nullptr), m_ActorLayer(nullptr), /*m_PlayerLayer(nullptr), m_MonsterLayer(nullptr),*/ m_UILayer(nullptr), m_LastGPSTime(0)
+BaseScene::BaseScene() : m_BackgroundLayer(nullptr), m_EffectLayer(nullptr), m_ObjectLayer(nullptr), m_ActorLayer(nullptr), /*m_PlayerLayer(nullptr), m_MonsterLayer(nullptr),*/ m_UILayer(nullptr), m_LoadingLayer(nullptr), m_LastGPSTime(0)
 {
     CCLOG("Base scene created");
 }
@@ -39,6 +39,11 @@ BaseScene::~BaseScene()
     {
         m_UILayer->release();
         m_UILayer = nullptr;
+    }
+    if(m_LoadingLayer)
+    {
+        m_LoadingLayer->release();
+        m_LoadingLayer = nullptr;
     }
     CCLOG("Base scene des");
 }
@@ -125,6 +130,25 @@ HeartbeatLayer* BaseScene::GetHeartbeatLayer() const
     return this->m_HeartbeatLayer;
 }
 
+void BaseScene::AddLoadingSpinnerAndBlock()
+{
+    this->RemoveLoadingSpinnerAndUnblock();
+    
+    this->m_LoadingLayer = LoadingLayer::create();
+    this->m_LoadingLayer->retain();
+    this->addChild(this->m_LoadingLayer);
+}
+
+void BaseScene::RemoveLoadingSpinnerAndUnblock() const
+{
+    if(this->m_LoadingLayer)
+    {
+        this->m_LoadingLayer->removeFromParent();
+        this->m_LoadingLayer->release();
+        this->m_LoadingLayer = nullptr;
+    }
+}
+
 void BaseScene::OnResponse() const
 {
     if(m_BackgroundLayer)
@@ -147,6 +171,8 @@ void BaseScene::OnResponse() const
     {
         m_UILayer->OnResponse();
     }
+    
+    this->RemoveLoadingSpinnerAndUnblock();
 }
 
 void BaseScene::InitializeGPSInfo() {

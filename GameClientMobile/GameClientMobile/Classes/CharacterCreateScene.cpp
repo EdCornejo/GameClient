@@ -194,6 +194,8 @@ void CharacterCreateLayer::OnCreateButtonTouch(cocos2d::CCObject *sender)
     // TO DO : form check
     CCLOG("create button touch");
     
+    BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
+    scene->AddLoadingSpinnerAndBlock();
     this->m_CreateButton->setEnabled(false);
     GameClient::Instance().GetClientObject().SendCSRequestCreatePlayer(GameClient::Instance().GetDeviceID(), GameClient::Instance().GetUserID(), this->m_SelectedGender, this->m_NameField->getString());
 }

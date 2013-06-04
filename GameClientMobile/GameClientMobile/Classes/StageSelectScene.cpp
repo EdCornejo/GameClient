@@ -159,6 +159,9 @@ void StageInfoLayer::OnRunningStageInfoButtonTouch(cocos2d::CCObject *sender)
     
     this->removeFromParentAndCleanup(true);
     
+    BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
+    scene->AddLoadingSpinnerAndBlock();
+    
     CCNode* button = static_cast<CCNode*>(sender);
     StageID stageID = static_cast<StageID>(button->getTag());
     

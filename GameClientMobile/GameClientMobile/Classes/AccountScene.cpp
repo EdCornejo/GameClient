@@ -135,8 +135,9 @@ void AccountLayer::OnBackButtonTouch(cocos2d::CCObject *sender)
 void AccountLayer::OnCreateButtonTouch(cocos2d::CCObject *sender)
 {
     // TO DO : check form
-    
     // NOTE : this is enabled when response comes
+    BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
+    scene->AddLoadingSpinnerAndBlock();
     this->m_CreateButton->setEnabled(false);
     GameClient::Instance().GetCFConnection().SendCFRequestCreateUserAccount(GameClient::Instance().GetDeviceID(), this->m_EmailField->getString(), this->m_PasswordField->getString());
 
@@ -157,6 +158,8 @@ void AccountLayer::OnLoginButtonTouch(cocos2d::CCObject *sender)
         return;
     }
 
+    BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
+    scene->AddLoadingSpinnerAndBlock();
     this->m_LoginButton->setEnabled(false);
     GameClient::Instance().GetCFConnection().SendCFRequestLogInUserAccount(GameClient::Instance().GetDeviceID(), this->m_EmailField->getString() , this->m_PasswordField->getString());
 
