@@ -144,7 +144,7 @@ void StageInfoLayer::OnResponse() const
 
 void StageInfoLayer::OnCreateButtonTouch(CCObject* sender)
 {
-    GPSPoint gps = GPSPoint(43, 54, 0);
+    GPSPoint gps = GPSPoint(37.566615 + CCRANDOM_0_1(), 126.977958 + CCRANDOM_0_1());
 
     this->m_CreateButton->setEnabled(false);
     
@@ -165,7 +165,7 @@ void StageInfoLayer::OnRunningStageInfoButtonTouch(cocos2d::CCObject *sender)
     CCNode* button = static_cast<CCNode*>(sender);
     StageID stageID = static_cast<StageID>(button->getTag());
     
-    GPSPoint gps = GPSPoint(CCRANDOM_0_1() * 40, CCRANDOM_0_1() * 40, 0);
+    GPSPoint gps = GPSPoint(37.566615 + CCRANDOM_0_1(), 126.977958 + CCRANDOM_0_1());
     GameClient::Instance().GetClientObject().SendCSRequestJoinRunningStage(stageID, gps);
 }
 
@@ -304,7 +304,7 @@ void StageSelectLayer::OnStageSelectObjectTouch(cocos2d::CCObject *sender)
     this->addChild(this->m_StageInfoLayer);
     
     // TO DO : request running stage infos
-    GPSPoint gps = GPSPoint(CCRANDOM_0_1() * 40, CCRANDOM_0_1() * 40, 0);
+    GPSPoint gps = GPSPoint(37.566615 + CCRANDOM_0_1(), 126.977958 + CCRANDOM_0_1());
     GameClient::Instance().GetClientObject().SendCSRequestGetStagePlayInfoList(stageType, gps);
 }
 
@@ -317,15 +317,12 @@ void StageSelectLayer::DisplayRunningStages(flownet::StagePlayInfoList& stageInf
 }
 
 
-StageSelectScene::StageSelectScene(): m_StageSelectLayer(nullptr){}
+StageSelectScene::StageSelectScene(): m_StageSelectLayer(nullptr), m_BackButton(nullptr){}
 
 StageSelectScene::~StageSelectScene()
 {
-    if(this->m_StageSelectLayer)
-    {
-        this->m_StageSelectLayer->release();
-        this->m_StageSelectLayer = nullptr;
-    }
+    CC_SAFE_RELEASE(this->m_StageSelectLayer);
+    CC_SAFE_RELEASE(this->m_BackButton);
 }
 
 bool StageSelectScene::init()
@@ -335,6 +332,20 @@ bool StageSelectScene::init()
     this->m_StageSelectLayer = StageSelectLayer::create();
     this->m_StageSelectLayer->retain();
     this->addChild(this->m_StageSelectLayer);
+    
+    CCSprite* homeButtonImageNormal = CCSprite::create("ui/stage_select_scene/home_button.png");
+    CCSprite* homeButtonImageActive = CCSprite::create("ui/stage_select_scene/home_button.png");
+    homeButtonImageActive->setColor(ccWHITE);
+
+    CCSize winSize = CCDirector::sharedDirector()->getWinSize();
+    this->m_BackButton = CCMenuItemSprite::create(homeButtonImageNormal, homeButtonImageActive, this, menu_selector(StageSelectScene::OnBackButtonTouch));
+    this->m_BackButton->retain();
+    this->m_BackButton->setAnchorPoint(CCPointUpperRight);
+    CCMenu* menu = CCMenu::create(this->m_BackButton, NULL);
+    menu->setAnchorPoint(CCPointUpperRight);
+    menu->setPosition(ccp(winSize.width, winSize.height));
+    
+    this->addChild(menu);
     
     AudioEngine::Instance()->PlayBackgroundMusic("sound/bgm/campsite.mp3", true);
     
@@ -361,4 +372,12 @@ void StageSelectScene::OnResponse() const
     BaseScene::OnResponse();
 
     this->m_StageSelectLayer->OnResponse();
+}
+
+void StageSelectScene::OnBackButtonTouch(CCObject* object)
+{
+    GPSPoint gps = GPSPoint(37.566615 + CCRANDOM_0_1(), 126.977958 + CCRANDOM_0_1());
+    GameClient::Instance().GetClientObject().SendCSRequestJoinClanCommunityStage(gps);
+
+    this->AddLoadingSpinnerAndBlock();
 }

@@ -16,7 +16,7 @@ bool AccountSceneTextFieldDelegate::init()
 
 /////////////////////////////////////////////
 
-AccountLayer::AccountLayer(): m_Delegate(nullptr), m_BackgroundImage(nullptr), m_EmailField(nullptr), m_PasswordField(nullptr), m_PasswordConfirmField(nullptr), m_KeyboardAttachedTextField(nullptr), m_CreateButton(nullptr), m_LoginButton(nullptr) {}
+AccountLayer::AccountLayer(): m_Delegate(nullptr), m_BackgroundImage(nullptr), m_EmailField(nullptr), m_PasswordField(nullptr), m_PasswordConfirmField(nullptr), m_CreateButton(nullptr), m_LoginButton(nullptr) {}
 
 AccountLayer::~AccountLayer()
 {
@@ -102,7 +102,6 @@ bool AccountLayer::ccTouchBegan(CCTouch* touch, CCEvent* event)
                 if(rect.containsPoint(touch->getLocation()))
                 {
                     textfield->attachWithIME();
-                    this->m_KeyboardAttachedTextField = textfield;
                     return true;
                 }
             }

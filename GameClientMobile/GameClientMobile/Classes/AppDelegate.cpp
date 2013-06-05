@@ -241,8 +241,10 @@ void AppDelegate::OnSCResponseCreatePlayer(flownet::UserID userID, flownet::Acto
         return;
     }
     
+    // TODO : play game video here!
+    
     // NOTE : if create character create tutorial stage!
-    GPSPoint gps = GPSPoint(CCRANDOM_0_1() * 120, CCRANDOM_0_1() * 120);
+    GPSPoint gps = GPSPoint(37.566615 + CCRANDOM_0_1(), 126.977958 + CCRANDOM_0_1());
     GameClient::Instance().GetClientObject().SendCSRequestCreateStage(StageType_Intro, gps);
 }
 
@@ -273,6 +275,9 @@ void AppDelegate::OnFCNotifyFCErrorMessage(flownet::FCErrorMessage fcErrorMessag
 
 void AppDelegate::OnFCResponseCreateUserAccount(flownet::UserID userID) const
 {
+    BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
+    ASSERT_DEBUG(scene);
+    scene->OnResponse();
     if(userID != UserID_None)
     {
         CCLOG("AppDelegate::OnFCResponseCreateUserAccount >> User Account Created");
@@ -396,7 +401,7 @@ void AppDelegate::OnSCResponseCreateStage(flownet::StageID stageID, flownet::Sta
     ClientStage* newClientStage = new ClientStage(stage);
     GameClient::Instance().SetClientStage(newClientStage);
     
-    if( false == static_cast<ClientDirector*>(CCDirector::sharedDirector())->ChangeScene<BattleScene>() )
+    if( false == static_cast<ClientDirector*>(CCDirector::sharedDirector())->ChangeScene<StageScene>() )
     {
         // TO DO : handle error
         ASSERT_DEBUG(false);
@@ -437,7 +442,7 @@ void AppDelegate::OnSCResponseJoinRunningStage(flownet::StageID stageID, flownet
     ClientStage* newClientStage = new ClientStage(stage);
     GameClient::Instance().SetClientStage(newClientStage);
 
-    if( false == static_cast<ClientDirector*>(CCDirector::sharedDirector())->ChangeScene<BattleScene>() )
+    if( false == static_cast<ClientDirector*>(CCDirector::sharedDirector())->ChangeScene<StageScene>() )
     {
         // TO DO : handle error
         ASSERT_DEBUG(false);
@@ -460,12 +465,17 @@ void AppDelegate::OnSCResponseExitStage(flownet::StageID stageID, flownet::Actor
     
     GameClient::Instance().SetClientStage(emptyStage);
     
-    if( false == static_cast<ClientDirector*>(CCDirector::sharedDirector())->ChangeScene<StageSelectScene>() )
-    {
-        // TO DO : handle error
-        ASSERT_DEBUG(false);
-    }
+    GPSPoint gps = GPSPoint(37.566615 + CCRANDOM_0_1(), 126.977958 + CCRANDOM_0_1());
 
+    // NOTE : if clan community exit -> goes to stage map
+    if(clientStage->GetStageType() == StageType_ClanCommunity)
+    {
+        ClientDirector* director = static_cast<ClientDirector*>(CCDirector::sharedDirector());
+        director->ChangeScene<StageSelectScene>();
+        return;
+    }
+    
+    GameClient::Instance().GetClientObject().SendCSRequestJoinClanCommunityStage(gps);
 }
 
 void AppDelegate::OnSCNotifyExitStage(flownet::StageID stageID, flownet::ActorID actorID) const
@@ -513,7 +523,7 @@ void AppDelegate::OnSCResponseRejoinCurrentStage(flownet::StageID stageID, flown
 //            ASSERT_DEBUG(false);
 //        }
         // NOTE : goto clan community
-        GPSPoint gps = GPSPoint(CCRANDOM_0_1() * 120, CCRANDOM_0_1() * 120);
+        GPSPoint gps = GPSPoint(37.566615 + CCRANDOM_0_1(), 126.977958 + CCRANDOM_0_1());
         GameClient::Instance().GetClientObject().SendCSRequestJoinClanCommunityStage(gps);
     }
     else
@@ -521,7 +531,7 @@ void AppDelegate::OnSCResponseRejoinCurrentStage(flownet::StageID stageID, flown
         ClientStage* clientStage = new ClientStage(stage);
         GameClient::Instance().SetClientStage(clientStage);
         
-        if( false == static_cast<ClientDirector*>(CCDirector::sharedDirector())->ChangeScene<BattleScene>() )
+        if( false == static_cast<ClientDirector*>(CCDirector::sharedDirector())->ChangeScene<StageScene>() )
         {
             // TO DO : handle error
             ASSERT_DEBUG(false);
@@ -668,7 +678,8 @@ void AppDelegate::OnSCNotifyActorAttributeChanged(flownet::StageID stageID, flow
     
     
     Actor* actor = GameClient::Instance().GetClientStage()->FindActor(actorID);
-
+    if(!actor) return;
+    
     actor->ChangeAttribute(clientStage, actorAttribute, amount);
     
     switch (actorAttribute) {
@@ -1144,6 +1155,11 @@ void AppDelegate::OnSCNotifySendMessageToStagePlayers(flownet::StageID stageID, 
     ASSERT_DEBUG(uiLayer);
     
     uiLayer->MessageReceived(playerID, player->GetPlayerName(), message);
+    
+    ActorLayer* actorLayer = scene->GetActorLayer();
+    ASSERT_DEBUG(actorLayer);
+    
+    actorLayer->MessageReceived(playerID, message);
 }
 
 void AppDelegate::OnSCNotifyApplySpellAbility(flownet::StageID stageID, flownet::ActorID targetID, flownet::ActorID invokerID, flownet::SpellAbility spellAbility, flownet::FLOAT amount) const

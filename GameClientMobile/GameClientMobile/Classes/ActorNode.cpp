@@ -222,54 +222,12 @@ GuideLineNode* GuideLineNode::create(flownet::SpellType spellType, CCPoint sourc
 }
 
 
-HUDNode::HUDNode(): m_ActorID(ActorID_None), m_NameLabel(nullptr), m_HidingPart(nullptr), m_RemainHealthPointBar(nullptr), m_GreenBar(nullptr), m_YellowBar(nullptr), m_RedBar(nullptr), m_DamagedHealthPointBar(nullptr), m_RemainManaPointBar(nullptr), m_DrainedManaPointBar(nullptr) {}
+HUDNode::HUDNode(): m_ActorID(ActorID_None), m_NameLabel(nullptr), m_RemainHealthPointBar(nullptr), m_RemainManaPointBar(nullptr) {}
 HUDNode::~HUDNode()
 {
-    if(this->m_NameLabel)
-    {
-        this->m_NameLabel->release();
-        this->m_NameLabel = nullptr;
-    }
-    if(this->m_HidingPart)
-    {
-        this->m_HidingPart->release();
-        this->m_HidingPart = nullptr;
-    }
-    if(this->m_RemainHealthPointBar)
-    {
-        this->m_RemainHealthPointBar->release();
-        this->m_RemainHealthPointBar = nullptr;
-    }
-    if(this->m_GreenBar)
-    {
-        this->m_GreenBar->release();
-        this->m_GreenBar = nullptr;
-    }
-    if(this->m_YellowBar)
-    {
-        this->m_YellowBar->release();
-        this->m_YellowBar = nullptr;
-    }
-    if(this->m_RedBar)
-    {
-        this->m_RedBar->release();
-        this->m_RedBar = nullptr;
-    }
-    if(this->m_DamagedHealthPointBar)
-    {
-        this->m_DamagedHealthPointBar->release();
-        this->m_DamagedHealthPointBar = nullptr;
-    }
-    if(this->m_RemainManaPointBar)
-    {
-        this->m_RemainManaPointBar->release();
-        this->m_RemainManaPointBar = nullptr;
-    }
-    if(this->m_DrainedManaPointBar)
-    {
-        this->m_DrainedManaPointBar->release();
-        this->m_DrainedManaPointBar = nullptr;
-    }
+    CC_SAFE_RELEASE(this->m_NameLabel);
+    CC_SAFE_RELEASE(this->m_RemainHealthPointBar);
+    CC_SAFE_RELEASE(this->m_RemainManaPointBar);
 }
     
 bool HUDNode::init()
@@ -278,59 +236,40 @@ bool HUDNode::init()
     {
         Player* player = GameClient::Instance().GetClientStage()->FindPlayer(this->m_ActorID);
         this->m_NameLabel = CCLabelTTF::create(player->GetPlayerName().c_str(), "thonburi", 12);
+        this->m_NameLabel->setColor(ccc3(0, 0, 0));
         this->m_NameLabel->setPosition(ccp(0, 10));
         this->m_NameLabel->retain();
         this->addChild(this->m_NameLabel);
+        
+        // DISCUSS : do i have to fix the emblem position?
+        CCSize nameLabelSize = this->m_NameLabel->getContentSize();
+        CCSprite* emblem = CCSprite::create("ui/emblem/emblem.png");
+        emblem->setPosition(ccp(-nameLabelSize.width / 2 - 10, 10));
+        this->addChild(emblem);
     }
-
-
-    this->m_HidingPart = CCNode::create();
-    this->m_HidingPart->retain();
-    this->m_HidingPart->setPosition(CCPointZero);
-    
-    this->addChild(this->m_HidingPart);
     
     CCSprite* statusBarBackground = CCSprite::create("ui/hud/background.png");
-    this->m_HidingPart->addChild(statusBarBackground);
-
-    this->m_DamagedHealthPointBar = CCSprite::create("ui/hud/health_damaged.png");
-    this->m_DamagedHealthPointBar->setAnchorPoint(ccp(0, 0.5));
-    this->m_DamagedHealthPointBar->setPosition(ccp(-this->m_DamagedHealthPointBar->getTextureRect().size.width / 2, 2));
-    this->m_DamagedHealthPointBar->retain();
-    this->m_HidingPart->addChild(this->m_DamagedHealthPointBar);
+    this->addChild(statusBarBackground);
     
-    this->m_GreenBar = CCSprite::create("ui/hud/health_remain_green.png");
-    this->m_GreenBar->setAnchorPoint(ccp(0, 0.5));
-    this->m_GreenBar->setPosition(ccp(-this->m_GreenBar->getTextureRect().size.width / 2, 2));
-    this->m_GreenBar->retain();
-    
-    this->m_YellowBar = CCSprite::create("ui/hud/health_remain_yellow.png");
-    this->m_YellowBar->setAnchorPoint(ccp(0, 0.5));
-    this->m_YellowBar->setPosition(ccp(-this->m_YellowBar->getTextureRect().size.width / 2, 2));
-    this->m_YellowBar->retain();
-    
-    this->m_RedBar = CCSprite::create("ui/hud/health_remain_red.png");
-    this->m_RedBar->setAnchorPoint(ccp(0, 0.5));
-    this->m_RedBar->setPosition(ccp(-this->m_RedBar->getTextureRect().size.width / 2, 2));
-    this->m_RedBar->retain();
-    
-    this->m_RemainHealthPointBar = this->m_GreenBar;
+    CCSprite* healthBarBackground = CCSprite::create("ui/hud/max.png");
+    healthBarBackground->setPosition(ccp(-healthBarBackground->getTextureRect().size.width / 2, 1.5));
+    healthBarBackground->setAnchorPoint(ccp(0, 0.5));
+    this->addChild(healthBarBackground);
+    this->m_RemainHealthPointBar = CCSprite::create("ui/hud/health_remain.png");
     this->m_RemainHealthPointBar->retain();
-    this->m_HidingPart->addChild(this->m_RemainHealthPointBar);
-    
-    this->m_DrainedManaPointBar = CCSprite::create("ui/hud/mana_drained.png");
-    this->m_DrainedManaPointBar->retain();
-    this->m_DrainedManaPointBar->setPosition(ccp(-this->m_DrainedManaPointBar->getTextureRect().size.width / 2 , -2));
-    this->m_DrainedManaPointBar->setAnchorPoint(ccp(0, 0.5));
-    this->m_HidingPart->addChild(this->m_DrainedManaPointBar);
-    
+    this->m_RemainHealthPointBar->setPosition(ccp(-this->m_RemainHealthPointBar->getTextureRect().size.width / 2, 1.5));
+    this->m_RemainHealthPointBar->setAnchorPoint(ccp(0, 0.5));
+    this->addChild(this->m_RemainHealthPointBar);
+
+    CCSprite* manaBarBackground = CCSprite::create("ui/hud/max.png");
+    manaBarBackground->setPosition(ccp(-manaBarBackground->getTextureRect().size.width / 2, -1.5));
+    manaBarBackground->setAnchorPoint(ccp(0, 0.5));
+    this->addChild(manaBarBackground);
     this->m_RemainManaPointBar = CCSprite::create("ui/hud/mana_remain.png");
     this->m_RemainManaPointBar->retain();
-    this->m_RemainManaPointBar->setPosition(ccp(-this->m_RemainManaPointBar->getTextureRect().size.width / 2, -2));
+    this->m_RemainManaPointBar->setPosition(ccp(-this->m_RemainManaPointBar->getTextureRect().size.width / 2, -1.5));
     this->m_RemainManaPointBar->setAnchorPoint(ccp(0, 0.5));
-    this->m_HidingPart->addChild(this->m_RemainManaPointBar);
-    
-    this->m_HidingPart->setVisible(false);
+    this->addChild(this->m_RemainManaPointBar);
     
     scheduleUpdate();
     
@@ -372,87 +311,105 @@ void HUDNode::update(float deltaTime)
 
 void HUDNode::ChangeHealthPointBar(float scaleFactor)
 {
-    this->m_DamagedHealthPointBar->stopActionByTag(ActionType_UI);
-    this->stopActionByTag(ActionType_UI);
-    
-    if(scaleFactor >= 0.5)
-    {
-        if(this->m_GreenBar != this->m_RemainHealthPointBar)
-        {
-            this->m_HidingPart->removeChild(this->m_RemainHealthPointBar, true);
-            this->m_RemainHealthPointBar->release();
-            this->m_RemainHealthPointBar = this->m_GreenBar;
-            this->m_HidingPart->addChild(this->m_RemainHealthPointBar);
-            this->m_RemainHealthPointBar->retain();
-        }
-    }
-    else if(scaleFactor >= 0.25)
-    {
-        if(this->m_RemainHealthPointBar != this->m_YellowBar)
-        {
-            this->m_HidingPart->removeChild(this->m_RemainHealthPointBar, true);
-            this->m_RemainHealthPointBar->release();
-            this->m_RemainHealthPointBar = this->m_YellowBar;
-            this->m_HidingPart->addChild(this->m_RemainHealthPointBar);
-            this->m_RemainHealthPointBar->retain();
-        }
-    }
-    else
-    {
-        if(this->m_RemainHealthPointBar != this->m_RedBar)
-        {
-            this->m_HidingPart->removeChild(this->m_RemainHealthPointBar, true);
-            this->m_RemainHealthPointBar->release();
-            this->m_RemainHealthPointBar = this->m_RedBar;
-            this->m_HidingPart->addChild(this->m_RemainHealthPointBar);
-            this->m_RemainHealthPointBar->retain();
-        }
-    }
-    
     this->m_RemainHealthPointBar->setScaleX(scaleFactor);
-
-    CCScaleTo* scaleTo = CCScaleTo::create(0.5, scaleFactor, 1);
-    scaleTo->setTag(ActionType_UI);
-    this->m_DamagedHealthPointBar->runAction(scaleTo);
-    
-    CCFiniteTimeAction* showHUD = CCCallFunc::create(this, callfunc_selector(HUDNode::ShowHUD));
-    CCDelayTime* delay = CCDelayTime::create(3);
-    CCFiniteTimeAction* hideHUD = CCCallFunc::create(this, callfunc_selector(HUDNode::HideHUD));
-    CCSequence* sequence = CCSequence::create(showHUD, delay, hideHUD, NULL);
-    sequence->setTag(ActionType_UI);
-    
-    this->runAction(sequence);
 }
 
 void HUDNode::ChangeManaPointBar(float scaleFactor)
 {
-    this->m_DrainedManaPointBar->stopActionByTag(ActionType_UI);
-    this->stopActionByTag(ActionType_UI);
-    
     this->m_RemainManaPointBar->setScaleX(scaleFactor);
-
-    CCScaleTo* scaleTo = CCScaleTo::create(0.5, scaleFactor, 1);
-    scaleTo->setTag(ActionType_UI);
-    this->m_DrainedManaPointBar->runAction(scaleTo);
-    
-    CCFiniteTimeAction* showHUD = CCCallFunc::create(this, callfunc_selector(HUDNode::ShowHUD));
-    CCDelayTime* delay = CCDelayTime::create(3);
-    CCFiniteTimeAction* hideHUD = CCCallFunc::create(this, callfunc_selector(HUDNode::HideHUD));
-    CCSequence* sequence = CCSequence::create(showHUD, delay, hideHUD, NULL);
-    sequence->setTag(ActionType_UI);
-    
-    this->runAction(sequence);
 }
 
-void HUDNode::ShowHUD()
+
+
+
+ChatBalloonNode::ChatBalloonNode(): m_ActorID(ActorID_None), m_LastInputTime(0), m_MessageLabel(nullptr) {}
+
+ChatBalloonNode::~ChatBalloonNode()
 {
-    this->m_HidingPart->setVisible(true);
+    CC_SAFE_RELEASE(this->m_MessageLabel);
 }
 
-void HUDNode::HideHUD()
+bool ChatBalloonNode::init()
 {
-    this->m_HidingPart->setVisible(false);
+    if(!CCNode::init()) return false;
+    
+    CCSprite* background = CCSprite::create("ui/chatting/chat_balloon.png");
+    background->setOpacity(150);
+    background->setAnchorPoint(CCPointLowerMid);
+    this->addChild(background);
+    
+    const int paddingX = 4;
+    const int paddingY = 4;
+    CCSize backgroundSize = background->getContentSize();
+    backgroundSize.width -= paddingX * 2;
+    backgroundSize.height -= paddingY * 2;
+    
+    this->m_MessageLabel = CCLabelTTF::create("", "thonburi", 12, backgroundSize, kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+    this->m_MessageLabel->setColor(ccBLACK);
+    this->m_MessageLabel->setAnchorPoint(CCPointLowerLeft);
+    this->m_MessageLabel->setPosition(ccp(paddingX, paddingY * 2));
+    background->addChild(this->m_MessageLabel);
+    
+    scheduleUpdate();
+    
+    return true;
 }
+
+ChatBalloonNode* ChatBalloonNode::create(flownet::ActorID actorID)
+{
+    ChatBalloonNode* node = new ChatBalloonNode();
+    node->m_ActorID = actorID;
+    
+    if(node && node->init())
+    {
+        node->autorelease();
+        return node;
+    }
+    else
+    {
+        delete node;
+        return nullptr;
+    }
+}
+    
+void ChatBalloonNode::update(float deltaTime)
+{
+    if(this->m_LastInputTime < GameClient::Instance().GetClientTimer().Check())
+    {
+        this->setVisible(false);
+        return;
+    }
+
+    BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
+    ASSERT_DEBUG(scene);
+    
+    ActorLayer* actorLayer = scene->GetActorLayer();
+    ASSERT_DEBUG(actorLayer);
+    
+    ActorNode* actorNode = actorLayer->FindActorNode(this->m_ActorID);
+    ASSERT_DEBUG(actorNode);
+    
+    CCPoint actorPosition = actorNode->getPosition();
+    actorPosition.y += 80;
+    
+    this->setPosition(actorPosition);
+}
+
+void ChatBalloonNode::ChangeMessage(flownet::STRING message)
+{
+    this->m_LastInputTime = GameClient::Instance().GetClientTimer().Check();
+    this->m_LastInputTime += ServerTime(3000);
+
+    this->m_MessageLabel->setString(message.c_str());
+    
+    this->setVisible(true);
+}
+
+
+
+
+
+
 
 
 

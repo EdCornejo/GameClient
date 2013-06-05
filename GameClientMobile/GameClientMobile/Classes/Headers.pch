@@ -69,7 +69,7 @@
 #include "BaseScene.h"
 #include "SplashScene.h"
 #include "AccountScene.h"
-#include "BattleScene.h"
+#include "StageScene.h"
 #include "StageSelectScene.h"
 #include "LoadingScene.h"
 #include "CharacterCreateScene.h"

@@ -1,4 +1,3 @@
-
 //
 //  ActorLayer.cpp
 //  GameClientMobile
@@ -79,13 +78,14 @@ bool ActorLayer::init()
         
         if(playerID == GameClient::Instance().GetMyActorID())
         {
-            actorNodeSet->AddHighlightNode(playerID);
+            // actorNodeSet->AddHighlightNode(playerID);
         }
         
         if(actorNodeSet->m_ActorNode) this->addChild(actorNodeSet->m_ActorNode);
         if(actorNodeSet->m_HUDNode) this->addChild(actorNodeSet->m_HUDNode);
         if(actorNodeSet->m_ShadowNode) this->addChild(actorNodeSet->m_ShadowNode);
         if(actorNodeSet->m_HighlightNode) this->addChild(actorNodeSet->m_HighlightNode);
+        if(actorNodeSet->m_ChatBalloonNode) this->addChild(actorNodeSet->m_ChatBalloonNode);
     });
     
     // NOTE : initialize monsters
@@ -105,6 +105,7 @@ bool ActorLayer::init()
         if(actorNodeSet->m_HUDNode) this->addChild(actorNodeSet->m_HUDNode);
         if(actorNodeSet->m_ShadowNode) this->addChild(actorNodeSet->m_ShadowNode);
         if(actorNodeSet->m_HighlightNode) this->addChild(actorNodeSet->m_HighlightNode);
+        if(actorNodeSet->m_ChatBalloonNode) this->addChild(actorNodeSet->m_ChatBalloonNode);
     });
 
     scheduleUpdate();
@@ -252,7 +253,7 @@ void ActorLayer::AddNewPlayer(flownet::ClientPlayer player)
 
     if(player.GetActorID() == GameClient::Instance().GetMyActorID())
     {
-        actorNodeSet->AddHighlightNode(player.GetActorID());
+        //actorNodeSet->AddHighlightNode(player.GetActorID());
     }
 
     actorNodeSet->m_ActorNode->setPosition(PointConverter::Convert(player.GetCurrentPosition()));
@@ -267,6 +268,7 @@ void ActorLayer::AddNewPlayer(flownet::ClientPlayer player)
     if(actorNodeSet->m_HUDNode) this->addChild(actorNodeSet->m_HUDNode);
     if(actorNodeSet->m_ShadowNode) this->addChild(actorNodeSet->m_ShadowNode);
     if(actorNodeSet->m_HighlightNode) this->addChild(actorNodeSet->m_HighlightNode);
+    if(actorNodeSet->m_ChatBalloonNode) this->addChild(actorNodeSet->m_ChatBalloonNode);
 }
 
 void ActorLayer::AddNewMonster(flownet::ClientMonster monster)
@@ -289,6 +291,7 @@ void ActorLayer::AddNewMonster(flownet::ClientMonster monster)
     if(actorNodeSet->m_HUDNode) this->addChild(actorNodeSet->m_HUDNode);
     if(actorNodeSet->m_ShadowNode) this->addChild(actorNodeSet->m_ShadowNode);
     if(actorNodeSet->m_HighlightNode) this->addChild(actorNodeSet->m_HighlightNode);
+    if(actorNodeSet->m_ChatBalloonNode) this->addChild(actorNodeSet->m_ChatBalloonNode);
 }
 
 void ActorLayer::AddNewNPC(flownet::NPC npc)
@@ -308,6 +311,7 @@ void ActorLayer::AddNewNPC(flownet::NPC npc)
     if(actorNodeSet->m_HUDNode) this->addChild(actorNodeSet->m_HUDNode);
     if(actorNodeSet->m_ShadowNode) this->addChild(actorNodeSet->m_ShadowNode);
     if(actorNodeSet->m_HighlightNode) this->addChild(actorNodeSet->m_HighlightNode);
+    if(actorNodeSet->m_ChatBalloonNode) this->addChild(actorNodeSet->m_ChatBalloonNode);
 }
 
 void ActorLayer::AddNewStageObject(flownet::StageObject stageObject)
@@ -327,6 +331,7 @@ void ActorLayer::AddNewStageObject(flownet::StageObject stageObject)
     if(actorNodeSet->m_HUDNode) this->addChild(actorNodeSet->m_HUDNode);
     if(actorNodeSet->m_ShadowNode) this->addChild(actorNodeSet->m_ShadowNode);
     if(actorNodeSet->m_HighlightNode) this->addChild(actorNodeSet->m_HighlightNode);
+    if(actorNodeSet->m_ChatBalloonNode) this->addChild(actorNodeSet->m_ChatBalloonNode);
 }
 
 void ActorLayer::ChangeTarget(flownet::ActorID monsterID, flownet::ActorID targetPlayerID)
@@ -410,7 +415,6 @@ void ActorLayer::ActorAttack(flownet::ActorID attackerActorID, flownet::ActorID 
     
     if(!actor)
     {
-        ASSERT_DEBUG(actor);
         return;
     }
     
@@ -518,8 +522,7 @@ void ActorLayer::ActorAttacked(flownet::ActorID attackedActorID, flownet::ActorI
     Actor* actor = GameClient::Instance().GetClientStage()->FindActor(attackedActorID);
     
     if(!actor)
-    {
-        ASSERT_DEBUG(actor);
+    {    
         return;
     }
     
@@ -738,6 +741,14 @@ void ActorLayer::PickupItemFromField(flownet::ActorID playerID, flownet::ItemID 
     sequence->setTag(ActionType_Animation);
     item->runAction(sequence);
     // TO DO : display effect for acquiring item
+}
+
+void ActorLayer::MessageReceived(flownet::ActorID senderID, flownet::STRING message)
+{
+    ActorNodeSet* actorNodeSet = this->FindActorNodeSet(senderID);
+    ASSERT_DEBUG(actorNodeSet->m_ChatBalloonNode);
+    
+    actorNodeSet->m_ChatBalloonNode->ChangeMessage(message);
 }
 
 void ActorLayer::AddSpellGuideLine(flownet::ActorID actorID, flownet::SpellType spellType, flownet::POINT destination)

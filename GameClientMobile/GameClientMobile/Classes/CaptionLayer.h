@@ -35,6 +35,7 @@ typedef Vector<CaptionInfo*>::type CaptionInfoList;
 class CaptionLayer : public BaseLayer
 {
 private:
+    flownet::StageType m_StageType;
     CCLabelTTF* m_CaptionLabel;
     CCLabelTTF* m_NameLabel;
     CCSprite* m_CharacterImage;
@@ -49,14 +50,13 @@ public:
     virtual ~CaptionLayer();
     
     virtual bool init();
-    virtual bool initWithStageType(StageType stageType);
-    static CaptionLayer* create();
     static CaptionLayer* create(StageType stageType);
     
     virtual bool ccTouchBegan(CCTouch* touch, CCEvent* event);
     
 private:
-    void LoadCaptionInfoFromFile(const char* fileName);
+    std::string GetCaptionInfoFileName(flownet::StageType stageType);
+    bool LoadCaptionInfoFromFile(const char* fileName, int tier);
     void CaptionEnded();
 };
 

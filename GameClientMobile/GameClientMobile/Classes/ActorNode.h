@@ -78,14 +78,8 @@ private:
     
     CCLabelTTF* m_NameLabel;
     
-    CCNode* m_HidingPart;
     CCSprite* m_RemainHealthPointBar;
-    CCSprite* m_GreenBar;
-    CCSprite* m_YellowBar;
-    CCSprite* m_RedBar;
-    CCSprite* m_DamagedHealthPointBar;
     CCSprite* m_RemainManaPointBar;
-    CCSprite* m_DrainedManaPointBar;
     
 public:
     HUDNode();
@@ -98,12 +92,27 @@ public:
     
     void ChangeHealthPointBar(float scaleFactor);
     void ChangeManaPointBar(float scaleFactor);
-    
-private:
-    void ShowHUD();
-    void HideHUD();
 };
 
+class ChatBalloonNode : public CCNode
+{
+private:
+    flownet::ActorID m_ActorID;
+    flownet::ServerTime m_LastInputTime;
+    CCLabelTTF* m_MessageLabel;
+    
+public:
+    ChatBalloonNode();
+    virtual ~ChatBalloonNode();
+    
+    virtual bool init() override;
+    
+    static ChatBalloonNode* create(flownet::ActorID actorID);
+    
+    virtual void update(float deltaTime);
+    
+    void ChangeMessage(flownet::STRING message);
+};
 
 
 class ActorNode : public CCNode

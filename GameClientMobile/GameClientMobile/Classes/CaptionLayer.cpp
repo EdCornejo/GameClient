@@ -8,7 +8,7 @@
 
 #include "Headers.pch"
 
-CaptionLayer::CaptionLayer() : m_CaptionLabel(nullptr), m_NameLabel(nullptr), m_CharacterImage(nullptr), m_CaptionInfoList(), m_CaptionInfoListIndex(0), m_CaptionIndex(0)
+CaptionLayer::CaptionLayer() : m_StageType(StageType_NONE), m_CaptionLabel(nullptr), m_NameLabel(nullptr), m_CharacterImage(nullptr), m_CaptionInfoList(), m_CaptionInfoListIndex(0), m_CaptionIndex(0)
 {
 
 }
@@ -33,7 +33,9 @@ bool CaptionLayer::init()
         return false;
     }
     // TODO : for test loaded tutorial script
-    this->LoadCaptionInfoFromFile("script/tutorial.plist");
+    bool result = this->LoadCaptionInfoFromFile(this->GetCaptionInfoFileName(this->m_StageType).c_str(), GameClient::Instance().GetClientStage()->GetCurrentTier());
+    
+    if(!result) return false;
     
     CCSprite* background = CCSprite::create("ui/textbox/background.png");
     background->setAnchorPoint(CCPointLowerLeft);
@@ -79,42 +81,12 @@ bool CaptionLayer::init()
     return true;
 }
 
-bool CaptionLayer::initWithStageType(flownet::StageType stageType)
-{
-    if(!BaseLayer::initWithStageType(stageType))
-    {
-        return false;
-    }
-    
-    switch(this->m_StageType)
-    {
-        case flownet::StageType_NONE:
-        default:
-            break;
-    }
-    
-    return true;
-}
-
-CaptionLayer* CaptionLayer::create()
-{
-    CaptionLayer* captionLayer = new CaptionLayer();
-    if(captionLayer && captionLayer->init())
-    {
-        captionLayer->autorelease();
-        return captionLayer;
-    }
-    else
-    {
-        delete captionLayer;
-        return nullptr;
-    }
-}
-
 CaptionLayer* CaptionLayer::create(flownet::StageType stageType)
 {
     CaptionLayer* captionLayer = new CaptionLayer();
-    if(captionLayer && captionLayer->initWithStageType(stageType))
+    captionLayer->m_StageType = stageType;
+    
+    if(captionLayer && captionLayer->init())
     {
         captionLayer->autorelease();
         return captionLayer;
@@ -203,8 +175,25 @@ bool CaptionLayer::ccTouchBegan(CCTouch* touch, CCEvent* event)
     return true;
 }
 
+std::string CaptionLayer::GetCaptionInfoFileName(flownet::StageType stageType)
+{
+    std::string captionFileName = "script/";
+    
+    switch (stageType) {
+    case flownet::StageType_Intro:
+        captionFileName += "intro";
+        break;
+    default:
+        break;
+    }
+    
+    captionFileName += ".plist";
+    
+    return captionFileName;
+}
+
 // TODO : make return type of caption info
-void CaptionLayer::LoadCaptionInfoFromFile(const char * fileName)
+bool CaptionLayer::LoadCaptionInfoFromFile(const char * fileName, int tier)
 {
     CaptionCharacterPosition m_CharacterPosition;
     std::string m_Name;
@@ -215,7 +204,14 @@ void CaptionLayer::LoadCaptionInfoFromFile(const char * fileName)
 
 
     CCDictionary* dict = CCDictionary::createWithContentsOfFile(fileName);
-    CCArray* captionInfos = static_cast<CCArray*>(dict->objectForKey("captions"));
+    if(dict->count() == 0) return false;
+    
+    CCDictionary* captionsDict = static_cast<CCDictionary*>(dict->objectForKey("captions"));
+    std::stringstream ss;
+    ss << tier;
+    std::string s = ss.str();
+    CCArray* captionInfos = static_cast<CCArray*>(captionsDict->objectForKey(s.c_str()));
+    
     CCObject* object;
     CCARRAY_FOREACH(captionInfos, object)
     {
@@ -243,6 +239,8 @@ void CaptionLayer::LoadCaptionInfoFromFile(const char * fileName)
         this->m_CaptionInfoList.push_back(captionInfo);
     }
     delete dict;
+    
+    return true;
 }
 
 void CaptionLayer::CaptionEnded()

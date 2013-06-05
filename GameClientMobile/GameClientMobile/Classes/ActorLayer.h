@@ -11,7 +11,7 @@
 
 typedef Map<flownet::SpellAbility, SpellEffectNode*>::type SpellEffectNodeMap;
 
-struct ActorNodeSet : public CCObject {
+struct ActorNodeSet : public CCNode {
     int m_ZOrder;
     ActorID m_ActorID;
     ActorNode* m_ActorNode;
@@ -19,12 +19,14 @@ struct ActorNodeSet : public CCObject {
     ShadowNode* m_ShadowNode;
     HighlightNode* m_HighlightNode;
     GuideLineNode* m_GuideLineNode;
+    ChatBalloonNode* m_ChatBalloonNode;
     SpellEffectNodeMap m_SpellEffectNodeMap;
 
     
-    ActorNodeSet(flownet::ActorID actorID): m_ZOrder(0), m_ActorID(actorID), m_ActorNode(nullptr), m_HUDNode(nullptr), m_ShadowNode(nullptr), m_HighlightNode(nullptr), m_GuideLineNode(nullptr), m_SpellEffectNodeMap()
+    ActorNodeSet(flownet::ActorID actorID): m_ZOrder(0), m_ActorID(actorID), m_ActorNode(nullptr), m_HUDNode(nullptr), m_ShadowNode(nullptr), m_HighlightNode(nullptr), m_GuideLineNode(nullptr), m_ChatBalloonNode(nullptr), m_SpellEffectNodeMap()
     {
         this->AddActorNode(actorID);
+        this->AddChatBalloonNode(actorID);
     }
     
     ~ActorNodeSet()
@@ -34,6 +36,7 @@ struct ActorNodeSet : public CCObject {
         this->RemoveShadowNode();
         this->RemoveHighlightNode();
         this->RemoveGuideLineNode();
+        this->RemoveChatBalloonNode();
 
 //        std::for_each(this->m_SpellEffectNodeMap.begin(), this->m_SpellEffectNodeMap.end(), [this](SpellEffectNodeMap::value_type pair){
 //            pair.second->release();
@@ -48,6 +51,7 @@ struct ActorNodeSet : public CCObject {
         if(this->m_HUDNode) this->m_HUDNode->setZOrder(zOrder + 9);
         if(this->m_ShadowNode) this->m_ShadowNode->setZOrder(zOrder - 9);
         if(this->m_HighlightNode) this->m_HighlightNode->setZOrder(zOrder - 8);
+        if(this->m_ChatBalloonNode) this->m_ChatBalloonNode->setZOrder(zOrder + 9);
 
         std::for_each(this->m_SpellEffectNodeMap.begin(), this->m_SpellEffectNodeMap.end(), [this, zOrder](SpellEffectNodeMap::value_type pair){
             SpellEffectNode* node = pair.second;
@@ -165,9 +169,29 @@ struct ActorNodeSet : public CCObject {
     {
         if(this->m_GuideLineNode)
         {
-            this->m_GuideLineNode->removeFromParentAndCleanup(true);
+            this->m_GuideLineNode->removeFromParent();
             this->m_GuideLineNode->release();
             this->m_GuideLineNode = nullptr;
+        }
+    }
+    
+    void AddChatBalloonNode(flownet::ActorID senderID)
+    {
+        this->RemoveChatBalloonNode();
+        int zOrder = this->GetZOrder();
+        CCPoint source = this->m_ActorNode->getPosition();
+        this->m_ChatBalloonNode = ChatBalloonNode::create(senderID);
+        this->m_ChatBalloonNode->retain();
+        this->m_ChatBalloonNode->setZOrder(zOrder + 9);
+    }
+    
+    void RemoveChatBalloonNode()
+    {
+        if(this->m_ChatBalloonNode)
+        {
+            this->m_ChatBalloonNode->removeFromParent();
+            this->m_ChatBalloonNode->release();
+            this->m_ChatBalloonNode = nullptr;
         }
     }
     
@@ -267,6 +291,8 @@ public:
     void AddNewItem(flownet::Item item, flownet::POINT spawnPosition);
     void RemoveItem(CCObject* itemNode);
     void PickupItemFromField(flownet::ActorID playerID, flownet::ItemID itemID);
+    
+    void MessageReceived(flownet::ActorID senderID, flownet::STRING message);
     
 private:
     void AddSpellGuideLine(flownet::ActorID actorID, flownet::SpellType spellType, flownet::POINT destination);

@@ -24,7 +24,6 @@ private:
     CCTextFieldTTF* m_EmailField;
     CCTextFieldTTF* m_PasswordField;
     CCTextFieldTTF* m_PasswordConfirmField;
-    CCTextFieldTTF* m_KeyboardAttachedTextField;
     CCMenuItemImage* m_CreateButton;
     CCMenuItemImage* m_LoginButton;
     

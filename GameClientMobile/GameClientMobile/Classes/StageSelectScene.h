@@ -79,6 +79,7 @@ class StageSelectScene : public BaseScene
 {
 private:
     StageSelectLayer* m_StageSelectLayer;
+    CCMenuItemSprite* m_BackButton;
 
 public:
     StageSelectScene();
@@ -93,6 +94,9 @@ public:
     void DisplayRunningStages(flownet::StagePlayInfoList& stageInfoList);
     
     virtual void OnResponse() const override;
+    
+private:
+    void OnBackButtonTouch(CCObject* object);
 };
 
 #endif /* defined(__GameClientMobile__StageSelectScene__) */

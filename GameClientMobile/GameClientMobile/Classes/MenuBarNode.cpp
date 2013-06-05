@@ -147,12 +147,18 @@ void MenuBarNode::Slide()
 
 void MenuBarNode::OnHomeButtonClicked(CCObject* sender)
 {
+    if(GameClient::Instance().GetClientStage()->GetStageType() == StageType_ClanCommunity)
+    {
+        return;
+    }
+    
     GameClient::Instance().GetClientObject().SendCSRequestExitStage(GameClient::Instance().GetClientStage()->GetStageID());
     this->m_HomeButton->setEnabled(false);
 }
 
 void MenuBarNode::OnSettingButtonClicked(CCObject* sender)
 {
+    GameClient::Instance().GetClientObject().SendCSRequestExitStage(GameClient::Instance().GetClientStage()->GetStageID());
 }
 
 void MenuBarNode::OnLogoutButtonClicked(CCObject* sender)

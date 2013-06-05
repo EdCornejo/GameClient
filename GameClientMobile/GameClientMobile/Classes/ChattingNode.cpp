@@ -98,7 +98,11 @@ bool ChattingNode::init()
         this->MessageReceived(message->m_SenderName, message->m_Message);
     });
     
-    CCMenuItemImage* chatButton = CCMenuItemImage::create("ui/chatting/chat_button_normal.png", "ui/chatting/chat_button_active.png", this, menu_selector(ChattingNode::ToggleChat));
+    CCSprite* chatButtonNormal = CCSprite::create("ui/chatting/chat_button.png");
+    CCSprite* chatButtonActive = CCSprite::create("ui/chatting/chat_button.png");
+    chatButtonActive->setColor(ccWHITE);
+    
+    CCMenuItemSprite* chatButton = CCMenuItemSprite::create(chatButtonNormal, chatButtonActive, this, menu_selector(ChattingNode::ToggleChat));
     CCMenu* menu = CCMenu::create(chatButton, NULL);
     menu->setPosition(ccp(450, 30));
     
