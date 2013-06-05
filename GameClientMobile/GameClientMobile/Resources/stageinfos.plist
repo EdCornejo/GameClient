@@ -10,7 +10,7 @@
 			<key>recommended_level</key>
 			<integer>1</integer>
 			<key>stage_type</key>
-			<integer>2</integer>
+			<integer>3</integer>
 			<key>description_kr</key>
 			<string>상아탑으로 가는 길. 버섯밭에는 버섯들이 많죠</string>
 		</dict>
@@ -20,7 +20,7 @@
 			<key>recommended_level</key>
 			<integer>15</integer>
 			<key>stage_type</key>
-			<integer>10</integer>
+			<integer>11</integer>
 			<key>description_kr</key>
 			<string>하얀 늑대가 있다고 하는 기괴한 숲이에요</string>
 		</dict>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>captions</key>
+  <dict>
+    <key>0</key>
+    <array>
+      <dict>
+	<key>position</key>
+	<integer>1</integer>
+	<key>name</key>
+	<string>odin</string>
+	<key>display_name_kr</key>
+	<string>????</string>
+	<key>state</key>
+	<string>idle</string>
+	<key>caption_kr</key>
+	<array>
+	  <string>(놀란 눈으로 나를 바라보며)</string>
+	  <string>흠... 소환이 성공했나??!</string>
+	</array>
+      </dict>
+      <dict>
+	<key>position</key>
+	<integer>0</integer>
+	<key>name</key>
+	<string>girl</string>
+	<key>display_name_kr</key>
+	<string>char</string>
+	<key>state</key>
+	<string>idle</string>
+	<key>caption_kr</key>
+	<array>
+	  <string>(나를 보며 하는 소리인가? 여기는 어디지?)</string>
+	  <string>저 말씀이신가요...? 저는... $actorName라고 해요...</string>
+	</array>
+      </dict>
+      <dict>
+	<key>position</key>
+	<integer>1</integer>
+	<key>name</key>
+	<string>odin</string>
+	<key>display_name_kr</key>
+	<string>오딘</string>
+	<key>state</key>
+	<string>idle</string>
+	<key>caption_kr</key>
+	<array>
+	  <string>나는 오딘이라고하네. 자네는 현재 내가 사는 세계인 '에렌'에 오게되었다네. 물론 이 세계에 대해서는 아는게 하나도 없을테지? 그렇지 아니한가?</string>
+	</array>
+	<key>after_event</key>
+	<string>ask_for_tutorial</string>
+      </dict>
+    </array>
+  </dict>
+</dict>
+</plist>
