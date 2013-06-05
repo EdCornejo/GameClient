@@ -345,6 +345,7 @@ bool ChatBalloonNode::init()
     backgroundSize.height -= paddingY * 2;
     
     this->m_MessageLabel = CCLabelTTF::create("", "thonburi", 12, backgroundSize, kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+    this->m_MessageLabel->retain();
     this->m_MessageLabel->setColor(ccBLACK);
     this->m_MessageLabel->setAnchorPoint(CCPointLowerLeft);
     this->m_MessageLabel->setPosition(ccp(paddingX, paddingY * 2));
@@ -398,7 +399,7 @@ void ChatBalloonNode::update(float deltaTime)
 void ChatBalloonNode::ChangeMessage(flownet::STRING message)
 {
     this->m_LastInputTime = GameClient::Instance().GetClientTimer().Check();
-    this->m_LastInputTime += ServerTime(3000);
+    this->m_LastInputTime += ServerTime(6000);
 
     this->m_MessageLabel->setString(message.c_str());
     
