@@ -1255,3 +1255,9 @@ void AppDelegate::OnSCNotifyRunOutMovingMana(StageID stageID, ActorID actorID) c
     ASSERT_DEBUG(actorLayer);
     actorLayer->ActorRunOutOfMana(actorID);
 }
+
+void AppDelegate::OnSCNotifyRunOutSpellMana(StageID stageID, ActorID actorID) const
+{
+    // To Do : implement this handler
+    
+}

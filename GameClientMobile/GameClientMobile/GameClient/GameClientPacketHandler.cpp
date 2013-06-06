@@ -388,8 +388,11 @@ void GameClientPacketHandler::OnSCNotifyRunOutMovingMana(StageID stageID, ActorI
     this->m_GameClientRPCReceiver->OnSCNotifyRunOutMovingMana(stageID, actorID);
 }
 
-
-
+void GameClientPacketHandler::OnSCNotifyRunOutSpellMana(StageID stageID, ActorID actorID)
+{
+    ASSERT_DEBUG(this->m_GameClientObject != nullptr);
+    this->m_GameClientRPCReceiver->OnSCNotifyRunOutSpellMana(stageID, actorID);
+}
 
     
 } // namespace flownet
