@@ -8,6 +8,6 @@
       location = "group:../GameShared/GameShared/GameSharedMobile.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:GameClientMobile/GameClientMobile.xcodeproj">
+      location = "group:GameClientMobile/StoryOfEren.xcodeproj">
    </FileRef>
 </Workspace>

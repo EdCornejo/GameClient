@@ -943,7 +943,7 @@
 		945D872217422BE200C03494 /* libGameSharedMobile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGameSharedMobile.a; path = "../../GameShared/GameShared/build/Release-iphoneos/libGameSharedMobile.a"; sourceTree = "<group>"; };
 		945D872517422BF300C03494 /* boost.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = boost.framework; path = ../../flownet/BoostMobile/ios/framework/boost.framework; sourceTree = "<group>"; };
 		94D3D74D16DF45D80030A458 /* GameClientRPCInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameClientRPCInterface.h; sourceTree = "<group>"; };
-		94F29CAE16DDD6FB005DFDE4 /* GameClientMobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GameClientMobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		94F29CAE16DDD6FB005DFDE4 /* StoryOfEren.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StoryOfEren.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		94F29CB216DDD6FB005DFDE4 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		94F29CB416DDD6FB005DFDE4 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		94F29CB616DDD6FB005DFDE4 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
@@ -983,7 +983,7 @@
 		94F29F8516DDD738005DFDE4 /* GameClientTasks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameClientTasks.h; sourceTree = "<group>"; };
 		94F29F8616DDD738005DFDE4 /* HeartbeatGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HeartbeatGenerator.cpp; sourceTree = "<group>"; };
 		94F29F8716DDD738005DFDE4 /* HeartbeatGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeartbeatGenerator.h; sourceTree = "<group>"; };
-		94F29F8916DDD738005DFDE4 /* GameClientProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameClientProperties.h; path = GameClientMobile/GameClientProperties.h; sourceTree = "<group>"; };
+		94F29F8916DDD738005DFDE4 /* GameClientProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameClientProperties.h; path = StoryOfEren/GameClientProperties.h; sourceTree = "<group>"; };
 		94F29FFE16DE3DE2005DFDE4 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -2187,7 +2187,7 @@
 				94F29FFE16DE3DE2005DFDE4 /* Default-568h@2x.png */,
 				94F29F7816DDD738005DFDE4 /* GameClient */,
 				94F29F8916DDD738005DFDE4 /* GameClientProperties.h */,
-				94F29CC216DDD6FB005DFDE4 /* GameClientMobile */,
+				94F29CC216DDD6FB005DFDE4 /* StoryOfEren */,
 				94F29CB116DDD6FB005DFDE4 /* Frameworks */,
 				94F29CAF16DDD6FB005DFDE4 /* Products */,
 			);
@@ -2196,7 +2196,7 @@
 		94F29CAF16DDD6FB005DFDE4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				94F29CAE16DDD6FB005DFDE4 /* GameClientMobile.app */,
+				94F29CAE16DDD6FB005DFDE4 /* StoryOfEren.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2217,7 +2217,7 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		94F29CC216DDD6FB005DFDE4 /* GameClientMobile */ = {
+		94F29CC216DDD6FB005DFDE4 /* StoryOfEren */ = {
 			isa = PBXGroup;
 			children = (
 				94F29CC316DDD6FB005DFDE4 /* Resources */,
@@ -2226,7 +2226,7 @@
 				94F29F6C16DDD700005DFDE4 /* Classes */,
 				94F29F6A16DDD700005DFDE4 /* Supporting Files */,
 			);
-			path = GameClientMobile;
+			path = StoryOfEren;
 			sourceTree = "<group>";
 		};
 		94F29CC316DDD6FB005DFDE4 /* Resources */ = {
@@ -2324,16 +2324,17 @@
 				6BB6C02D1702DB4E003CD4B4 /* DelayChecker.h */,
 			);
 			name = GameClient;
-			path = GameClientMobile/GameClient;
+			path = StoryOfEren/GameClient;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		94F29CAD16DDD6FB005DFDE4 /* GameClientMobile */ = {
+		94F29CAD16DDD6FB005DFDE4 /* StoryOfEren */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 94F29F7516DDD700005DFDE4 /* Build configuration list for PBXNativeTarget "GameClientMobile" */;
+			buildConfigurationList = 94F29F7516DDD700005DFDE4 /* Build configuration list for PBXNativeTarget "StoryOfEren" */;
 			buildPhases = (
+				6B0614B817608038000F43C5 /* ShellScript */,
 				94F29CAA16DDD6FB005DFDE4 /* Sources */,
 				94F29CAB16DDD6FB005DFDE4 /* Frameworks */,
 				94F29CAC16DDD6FB005DFDE4 /* Resources */,
@@ -2342,9 +2343,9 @@
 			);
 			dependencies = (
 			);
-			name = GameClientMobile;
-			productName = GameClientMobile;
-			productReference = 94F29CAE16DDD6FB005DFDE4 /* GameClientMobile.app */;
+			name = StoryOfEren;
+			productName = StoryOfEren;
+			productReference = 94F29CAE16DDD6FB005DFDE4 /* StoryOfEren.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -2355,7 +2356,7 @@
 			attributes = {
 				LastUpgradeCheck = 0450;
 			};
-			buildConfigurationList = 94F29CA816DDD6FA005DFDE4 /* Build configuration list for PBXProject "GameClientMobile" */;
+			buildConfigurationList = 94F29CA816DDD6FA005DFDE4 /* Build configuration list for PBXProject "StoryOfEren" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -2373,7 +2374,7 @@
 			);
 			projectRoot = "";
 			targets = (
-				94F29CAD16DDD6FB005DFDE4 /* GameClientMobile */,
+				94F29CAD16DDD6FB005DFDE4 /* StoryOfEren */,
 			);
 		};
 /* End PBXProject section */
@@ -2422,6 +2423,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6B0614B817608038000F43C5 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "touch -cm ${SRCROOT}/StoryOfEren/Resources";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		94F29CAA16DDD6FB005DFDE4 /* Sources */ = {
@@ -2782,7 +2799,7 @@
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = GameClientMobile/Prefix.pch;
+				GCC_PREFIX_HEADER = StoryOfEren/Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					DEBUG,
 					"COCOS2D_DEBUG=1",
@@ -2805,11 +2822,11 @@
 					"\"$(PROJECT_NAME)/libs/spine-cocos2dx/src\"",
 					"\"$(PROJECT_NAME)/libs/spine-c/include\"",
 				);
-				INFOPLIST_FILE = GameClientMobile/Resources/Info.plist;
+				INFOPLIST_FILE = StoryOfEren/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/GameClientMobile/libs/cocos2dx/platform/third_party/ios/libraries\"",
+					"\"$(SRCROOT)/StoryOfEren/libs/cocos2dx/platform/third_party/ios/libraries\"",
 				);
 				OTHER_LDFLAGS = (
 					"-lxml2",
@@ -2837,7 +2854,7 @@
 					"\"$(SRCROOT)/../../flownet/BoostMobile/ios/framework\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = GameClientMobile/Prefix.pch;
+				GCC_PREFIX_HEADER = StoryOfEren/Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					NDEBUG,
 					USE_FILE32API,
@@ -2857,11 +2874,11 @@
 					"\"$(PROJECT_NAME)/libs/spine-cocos2dx/src\"",
 					"\"$(PROJECT_NAME)/libs/spine-c/include\"",
 				);
-				INFOPLIST_FILE = GameClientMobile/Resources/Info.plist;
+				INFOPLIST_FILE = StoryOfEren/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/GameClientMobile/libs/cocos2dx/platform/third_party/ios/libraries\"",
+					"\"$(SRCROOT)/StoryOfEren/libs/cocos2dx/platform/third_party/ios/libraries\"",
 				);
 				OTHER_LDFLAGS = (
 					"-lxml2",
@@ -2881,7 +2898,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		94F29CA816DDD6FA005DFDE4 /* Build configuration list for PBXProject "GameClientMobile" */ = {
+		94F29CA816DDD6FA005DFDE4 /* Build configuration list for PBXProject "StoryOfEren" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				94F29F7316DDD700005DFDE4 /* Debug */,
@@ -2890,7 +2907,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		94F29F7516DDD700005DFDE4 /* Build configuration list for PBXNativeTarget "GameClientMobile" */ = {
+		94F29F7516DDD700005DFDE4 /* Build configuration list for PBXNativeTarget "StoryOfEren" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				94F29F7616DDD700005DFDE4 /* Debug */,
