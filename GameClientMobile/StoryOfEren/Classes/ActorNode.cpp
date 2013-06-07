@@ -180,18 +180,18 @@ bool GuideLineNode::init()
     this->m_SpellGuideLine->retain();
     this->m_SpellGuideLine->setAnchorPoint(CCPointZero);
     this->m_SpellGuideLine->setPosition(this->m_Source);
-    this->m_SpellGuideLine->setScaleX(scaleFactor);
+    this->m_SpellGuideLine->setScaleY(scaleFactor);
     this->m_SpellGuideLine->setRotation(rotateDegree);
     
     this->m_SpellCastingIcon = SpellImageLoader::GetSpellGuideImage(this->m_SpellType);
     this->m_SpellCastingIcon->retain();
-    this->m_SpellCastingIcon->getCamera()->setEyeXYZ(0, -2, 1);
+    this->m_SpellCastingIcon->setScaleY(0.4);
     this->m_SpellCastingIcon->setPosition(this->m_Source);
     
     
     this->m_SpellGuideIcon = SpellImageLoader::GetSpellGuideImage(this->m_SpellType);
     this->m_SpellGuideIcon->retain();
-    this->m_SpellGuideIcon->getCamera()->setEyeXYZ(0, -2, 1);
+    this->m_SpellGuideIcon->setScaleY(0.4);
     this->m_SpellGuideIcon->setPosition(this->m_Destination);
     
     this->addChild(this->m_SpellGuideLine);

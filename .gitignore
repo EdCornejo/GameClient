@@ -122,7 +122,8 @@ xcuserdata
 
 # for android 
 *.so
-*.a
 *.o
 *.o.d
 *.apk
+
+
