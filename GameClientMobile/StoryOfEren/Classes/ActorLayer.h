@@ -36,14 +36,6 @@ struct ActorNodeSet : public CCNode {
         this->RemoveHighlightNode();
         this->RemoveGuideLineNode();
         this->RemoveChatBalloonNode();
-        CCLOG("dest %p", this);
-        void* buff[100];
-        int cnt=backtrace(buff,100);
-        char** str=backtrace_symbols(buff,cnt);
-        for(int i=0;i<cnt;i++)
-        {
-            printf("\n%s\n",str[i]);
-        }
 //        std::for_each(this->m_SpellEffectNodeMap.begin(), this->m_SpellEffectNodeMap.end(), [this](SpellEffectNodeMap::value_type pair){
 //            pair.second->release();
 //        });
