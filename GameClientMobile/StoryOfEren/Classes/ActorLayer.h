@@ -23,7 +23,7 @@ struct ActorNodeSet : public CCNode {
     SpellEffectNodeMap m_SpellEffectNodeMap;
 
     
-    ActorNodeSet(flownet::ActorID actorID): m_ZOrder(0), m_ActorID(actorID), m_ActorNode(nullptr), m_HUDNode(nullptr), m_ShadowNode(nullptr), m_HighlightNode(nullptr), m_GuideLineNode(nullptr), m_ChatBalloonNode(nullptr), m_SpellEffectNodeMap()
+    ActorNodeSet(): m_ZOrder(0), m_ActorID(ActorID_None), m_ActorNode(nullptr), m_HUDNode(nullptr), m_ShadowNode(nullptr), m_HighlightNode(nullptr), m_GuideLineNode(nullptr), m_ChatBalloonNode(nullptr), m_SpellEffectNodeMap()
     {
      
     }
