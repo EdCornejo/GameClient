@@ -150,8 +150,13 @@ void TesterRPCReceiver::RunStageAI()
     }
     
     
-    if( currentTime - m_StageStartTime > milliseconds(180000) )
+    if( currentTime - m_StageStartTime > milliseconds(240000) )
     {
+        m_StageID = StageID_None;
+        m_Stage = nullptr;
+        m_Player = nullptr;
+        m_TargetMonster = nullptr;
+        
         m_GameClientObject->SendCSRequestExitStage(m_StageID);
         m_StageStartTime = currentTime;
     }

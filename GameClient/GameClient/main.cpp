@@ -51,19 +51,42 @@ int main(int argc, const char * argv[])
         LogTerminal::GetLogReceiver()->FlushLog();
         LogSystem::GetLogReceiver()->FlushLog();
         
+        static BOOL isAddConnectionTurn = true;
         static ServerTime lastTickTime = GameClientTester::Instance().GetClientTimer().Check();
+        static ServerTime lastTurnOffTime = GameClientTester::Instance().GetClientTimer().Check();
         ServerTime currentTime = GameClientTester::Instance().GetClientTimer().Check();
-        if( currentTime - lastTickTime >= ServerTime(2000) )
+        
+
+        if( isAddConnectionTurn == false )
         {
-            if( numberOfCFConnections <= 2000 )
+            if( currentTime - lastTurnOffTime > milliseconds(20000) )
             {
-                const INT increment = 30;
-                new std::thread(CreateCFConnection, increment);
-                numberOfCFConnections += increment;
-                LogTerminal::Instance() << "Number Of Connections " << numberOfCFConnections;
-                LogTerminal::Instance().Commit();
+                isAddConnectionTurn = true;
             }
-            lastTickTime = GameClientTester::Instance().GetClientTimer().Check();
+        }
+        else
+        {
+            if( (numberOfCFConnections % 390) == 0 )
+            {
+                isAddConnectionTurn = false;
+                lastTurnOffTime = GameClientTester::Instance().GetClientTimer().Check();
+            }
+        }
+        
+        if( isAddConnectionTurn )
+        {
+            if( currentTime - lastTickTime >= ServerTime(300) )
+            {
+                if( numberOfCFConnections <= 2000 )
+                {
+                    const INT increment = 10;
+                    new std::thread(CreateCFConnection, increment);
+                    numberOfCFConnections += increment;
+                    LogTerminal::Instance() << "Number Of Connections " << numberOfCFConnections;
+                    LogTerminal::Instance().Commit();
+                }
+                lastTickTime = GameClientTester::Instance().GetClientTimer().Check();
+            }
         }
         
         std::this_thread::sleep_for(milliseconds(100));
