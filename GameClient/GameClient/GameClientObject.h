@@ -35,6 +35,7 @@ public:
     GameClientObject(BoostIOService& ioService, PacketParser* packetParser);
     virtual ~GameClientObject();
     virtual void        InitializeClient(const CHAR* connectAddress, const INT connectPort) override;
+    BOOL                InitializeClientWithBlocking(const CHAR *connectAddress, const INT connectPort) override;
     
     void            SetSessionID(const SessionID sessionID)  {   m_SessionID = sessionID; }
     SessionID       GetSessionID()                          {return m_SessionID;}

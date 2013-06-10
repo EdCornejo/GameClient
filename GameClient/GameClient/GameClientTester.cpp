@@ -18,6 +18,7 @@ GameClientTester::GameClientTester():
     m_ScheduledTaskWorkerRoutine(m_ClientTimer),
     m_GameTaskWorkerRoutine(),
     m_NetworkWorkerRoutine(),
+    m_ClientTickWorkerRoutine(),
     m_ThreadController(THREAD_SCHEDULING_TIMESLICE),
     m_RenderingTaskWorkerRoutine(),
     m_GameClientObjectManager(m_NetworkWorkerRoutine.m_IOService),
@@ -76,9 +77,11 @@ void GameClientTester::InitializeClient(GameClientRPCInterface* gameClientRPCRec
     SpellDictionary::Initialize();
     ItemDataDictionary::Initialize();
     
-    m_ThreadController.Initialize(DEFAULT_NUMBER_OF_THREADS);
+//    m_ThreadController.Initialize(DEFAULT_NUMBER_OF_THREADS);
+    m_ThreadController.Initialize(1);
     m_ThreadController.AddWorkerRoutine(&m_ScheduledTaskWorkerRoutine);
     m_ThreadController.AddWorkerRoutine(&m_GameTaskWorkerRoutine);
+    m_ThreadController.AddWorkerRoutine(&m_ClientTickWorkerRoutine);
     m_ThreadController.AddWorkerRoutine(&m_NetworkWorkerRoutine);
     
     #ifdef GAMECLIENTTESTER
@@ -90,7 +93,7 @@ void GameClientTester::InitializeClient(GameClientRPCInterface* gameClientRPCRec
     
     
     // connect to server
-    m_CFConnectionManager.Initialize(4000);
+    m_CFConnectionManager.Initialize(1);
 //    m_GameClientObjectManager.Initialize(1);
 //    m_GameClientObjectManager.Initialize(500);
 

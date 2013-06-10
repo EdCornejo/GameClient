@@ -15,7 +15,7 @@ namespace flownet
 class ClientPlayer : public Player
 {
 public:
-    ClientPlayer(ActorID playerID = ActorID_None, const Gender gender=Gender_Male,  const POINT spawnPosition=POINT(5.f,5.f), const STRING& gameObjectName="ClientPlayer");
+    ClientPlayer(ActorID playerID = ActorID_None, const Gender gender=Gender_Male, const ClanID clanID = ClanID_None, const POINT spawnPosition=POINT(5.f,5.f), const STRING& gameObjectName="ClientPlayer");
     ClientPlayer(const Player& player, const STRING& gameObjectName="ClientPlayer");
     virtual ~ClientPlayer();
     
@@ -35,6 +35,9 @@ public:
 public:
     virtual void OnAttacked(FLOAT damageAmount);
     
+    virtual BOOL UseItem(Stage* stage, const ItemID itemID) override;
+    virtual BOOL EquipItem(Stage* stage, const EquipmentSlot equipmentSlot, const ItemID itemID) override;
+    virtual ItemID UnEquipItem(Stage* stage, const EquipmentSlot equipmentSlot) override;
 public:
 //    void    RequestFireSpell(const ActorID targetID);
 };

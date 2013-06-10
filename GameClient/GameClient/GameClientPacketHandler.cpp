@@ -94,12 +94,24 @@ void GameClientPacketHandler::OnSCResponseConnect(ConnectionID connectionID)
     this->m_GameClientRPCReceiver->OnSCResponseConnect(connectionID);
 }
 
+void GameClientPacketHandler::OnSCNotifySCErrorMessage(SCErrorMessage scErrorMessage, STRING errorMessage)
+{
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+    this->m_GameClientRPCReceiver->OnSCNotifySCErrorMessage(scErrorMessage, errorMessage);
+}
+
 void GameClientPacketHandler::OnSCResponseSession(UserID userID, ActorID myPlayerID, SessionID sessionID)
 {
     m_GameClientObject->SetSessionID(sessionID);
     
     ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr );
     this->m_GameClientRPCReceiver->OnSCResponseSession(userID, myPlayerID, sessionID);
+}
+
+void GameClientPacketHandler::OnSCResponseCreatePlayer(UserID userID, ActorID playerID, SessionID sessionID)
+{
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+    this->m_GameClientRPCReceiver->OnSCResponseCreatePlayer(userID, playerID, sessionID);
 }
 
 void GameClientPacketHandler::OnSCResponseHeartbeat(INT64 heartbeatCountAck)
@@ -147,12 +159,22 @@ void GameClientPacketHandler::OnSCResponseHeartbeat(INT64 heartbeatCountAck)
 
 void GameClientPacketHandler::OnSCResponseLogInWithOTP(UserID userID, ActorID playerID, SessionID sessionID)
 {
+    if( userID == UserID_None)
+    {
+        LogSystem::Instance() << "Log In Failed. ConnectionID:" << m_GameClientObject->GetConnectionID();
+        LogSystem::Instance().Commit();
+    }
+    else
+    {
+        LogSystem::Instance() << "Log In Success. ConnectionID:" << m_GameClientObject->GetConnectionID() << " UserID:"<<userID;
+        LogSystem::Instance().Commit();
+    }
     m_GameClientObject->SetUserID(userID);
     m_GameClientObject->SetMyActorID(playerID);
     m_GameClientObject->SetSessionID(sessionID);
     
     
-    m_GameClientObject->SendCSRequestCreateStage(StageType_SpiderCaveFront);
+    m_GameClientObject->SendCSRequestCreateStage(StageType_WolfForest, GPSPoint(0.f,0.f,0.f));
     
     
     ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
@@ -172,10 +194,10 @@ void GameClientPacketHandler::OnSCResponseCreateStage(StageID stageID, Stage sta
     m_GameClientRPCReceiver->OnSCResponseCreateStage(stageID, stage);
 }
 
-void GameClientPacketHandler::OnSCResponseRunningStages(StageInfoList stageInfoList)
+void GameClientPacketHandler::OnSCResponseGetStagePlayInfoList(StagePlayInfoList stageInfoList)
 {
     ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
-    this->m_GameClientRPCReceiver->OnSCResponseRunningStages(stageInfoList);
+    this->m_GameClientRPCReceiver->OnSCResponseGetStagePlayInfoList(stageInfoList);
 }
 
 void GameClientPacketHandler::OnSCResponseJoinRunningStage(StageID stageID, Stage stage, ErrorType errorType)
@@ -218,7 +240,19 @@ void GameClientPacketHandler::OnSCNotifySpawnMonster(StageID stageID, Monster mo
 {
     ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
     this->m_GameClientRPCReceiver->OnSCNotifySpawnMonster(stageID, monster);
-}    
+}
+
+void GameClientPacketHandler::OnSCNotifySpawnNPC(StageID stageID, flownet::NPC newNPC)
+{
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+    this->m_GameClientRPCReceiver->OnSCNotifySpawnNPC(stageID, newNPC);
+}
+
+void GameClientPacketHandler::OnSCNotifySpawnStageObject(StageID stageID, flownet::StageObject stageObject)
+{
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+    this->m_GameClientRPCReceiver->OnSCNotifySpawnStageObject(stageID, stageObject);
+}
     
 void GameClientPacketHandler::OnSCNotifyMoveActor(StageID stageID, ActorID playerID, flownet::POINT currentPosition, flownet::POINT destinationPosition)
 {
@@ -226,10 +260,22 @@ void GameClientPacketHandler::OnSCNotifyMoveActor(StageID stageID, ActorID playe
     m_GameClientRPCReceiver->OnSCNotifyMoveActor(stageID, playerID, currentPosition, destinationPosition);
 }
 
+void GameClientPacketHandler::OnSCNotifyKnockBackActor(StageID stageID, ActorID playerID, POINT currentPosition, POINT knockBackDestination)
+{
+    ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
+    m_GameClientRPCReceiver->OnSCNotifyKnockBackActor(stageID, playerID, currentPosition, knockBackDestination);
+}
+
 void GameClientPacketHandler::OnSCNotifyActorAttributeChanged(StageID stageID, ActorID actorID, ActorAttribute actorAttribute, FLOAT amount)
 {
     ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
     m_GameClientRPCReceiver->OnSCNotifyActorAttributeChanged(stageID, actorID, actorAttribute, amount);
+}
+
+void GameClientPacketHandler::OnSCNotifyResetActorAttributeAmplifier(StageID stageID, ActorID actorID)
+{
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+    this->m_GameClientRPCReceiver->OnSCNotifyResetActorAttributeAmplifier(stageID, actorID);
 }
 
 void GameClientPacketHandler::OnSCNotifyActorAttack(StageID stageID, ActorID actorID, ActorID targetPlayerID, AttackType attackType)
@@ -299,52 +345,77 @@ void GameClientPacketHandler::OnSCNotifyRemoveItemFromStash(flownet::StageID sta
     m_GameClientRPCReceiver->OnSCNotifyRemoveItemFromStash(stageID, playerID, itemID);
 }
 
-void GameClientPacketHandler::OnSCResponseRegisterStashItemToInventory(StageID stageID, ActorID playerID, ItemID itemID, ItemGroup itemGroup, InventorySlot inventorySlot)
+void GameClientPacketHandler::OnSCResponseRegisterStashItemToInventory(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID, flownet::ItemGroup itemGroup, flownet::InventorySlot slotNumber)
 {
     ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
-    m_GameClientRPCReceiver->OnSCResponseRegisterStashItemToInventory(stageID, playerID, itemID, itemGroup, inventorySlot);
+    m_GameClientRPCReceiver->OnSCResponseRegisterStashItemToInventory(stageID, playerID, itemID, itemGroup, slotNumber);
 }
 
-void GameClientPacketHandler::OnSCResponseUnRegisterStashItemFromInventory(StageID stageID, ActorID playerID, ItemID itemID, ItemGroup itemGroup, InventorySlot inventorySlot)
+void GameClientPacketHandler::OnSCResponseUnRegisterStashItemFromInventory(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID, flownet::ItemGroup itemGroup, flownet::InventorySlot slotNumber)
 {
     ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
-    m_GameClientRPCReceiver->OnSCResponseUnRegisterStashItemFromInventory(stageID, playerID, itemID, itemGroup, inventorySlot);
+    m_GameClientRPCReceiver->OnSCResponseUnRegisterStashItemFromInventory(stageID, playerID, itemID, itemGroup, slotNumber);
 }
 
-void GameClientPacketHandler::OnSCResponseSwapInventorySlot(StageID stageID, ActorID playerID, ItemGroup itemGroup, InventorySlot sourceSlot, InventorySlot destinationSlot)
+void GameClientPacketHandler::OnSCResponseSwapInventorySlot(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemGroup itemGroup, flownet::InventorySlot sourceSlotNumber, flownet::InventorySlot destinationSlotNumber)
 {
     ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
-    m_GameClientRPCReceiver->OnSCResponseSwapInventorySlot(stageID, playerID, itemGroup, sourceSlot, destinationSlot);
+    m_GameClientRPCReceiver->OnSCResponseSwapInventorySlot(stageID, playerID, itemGroup, sourceSlotNumber, destinationSlotNumber);
 }
 
-void GameClientPacketHandler::OnSCNotifyUseItem(StageID stageID, ActorID playerID, ItemID itemID)
+void GameClientPacketHandler::OnSCNotifyUseItem(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID)
 {
-    ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
-    m_GameClientRPCReceiver->OnSCNotifyUseItem(stageID, playerID, itemID);
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+    this->m_GameClientRPCReceiver->OnSCNotifyUseItem(stageID, playerID, itemID);
+}
+
+void GameClientPacketHandler::OnSCNotifyEquipItem(flownet::StageID stageID, flownet::ActorID playerID, flownet::ItemID itemID, flownet::EquipmentSlot equipedSlot)
+{
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+    this->m_GameClientRPCReceiver->OnSCNotifyEquipItem(stageID, playerID, itemID, equipedSlot);
 }
 
 void GameClientPacketHandler::OnSCNotifyUnEquipItem(StageID stageID, ActorID playerID, EquipmentSlot unequipedSlot)
 {
-    ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
-    m_GameClientRPCReceiver->OnSCNotifyUnEquipItem(stageID, playerID, unequipedSlot);
-}
-
-void GameClientPacketHandler::OnSCNotifyEquipItem(StageID stageID, ActorID playerID, ItemID itemID, EquipmentSlot equipedSlot)
-{
-    ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
-    m_GameClientRPCReceiver->OnSCNotifyEquipItem(stageID, playerID, itemID, equipedSlot);
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+    this->m_GameClientRPCReceiver->OnSCNotifyUnEquipItem(stageID, playerID, unequipedSlot);
 }
 
 void GameClientPacketHandler::OnSCNotifySendMessageToStagePlayers(StageID stageID, ActorID playerID, STRING message)
 {
-    ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
-    m_GameClientRPCReceiver->OnSCNotifySendMessageToStagePlayers(stageID, playerID, message);
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+    this->m_GameClientRPCReceiver->OnSCNotifySendMessageToStagePlayers(stageID, playerID, message);
 }
 
-void GameClientPacketHandler::OnSCNotifyResetActorAttributeAmplifier(StageID stageID, ActorID actorID)
+void GameClientPacketHandler::OnSCNotifyApplySpellAbility(flownet::StageID stageID, flownet::ActorID targetID, flownet::ActorID invokerID, flownet::SpellAbility spellAbility, flownet::FLOAT amount)
 {
-    ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);
-    m_GameClientRPCReceiver->OnSCNotifyResetActorAttributeAmplifier(stageID, actorID);
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+    this->m_GameClientRPCReceiver->OnSCNotifyApplySpellAbility(stageID, targetID, invokerID, spellAbility, amount);
 }
+
+void GameClientPacketHandler::OnSCNotifyClearSpellAbility(flownet::StageID stageID, flownet::ActorID targetID, flownet::SpellAbility spellAbility, flownet::FLOAT amount)
+{
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+    this->m_GameClientRPCReceiver->OnSCNotifyClearSpellAbility(stageID, targetID, spellAbility, amount);
+}
+
+void GameClientPacketHandler::OnSCNotifySetFreeze(flownet::StageID stageID, flownet::ActorID targetID, flownet::BOOL isFreezed)
+{
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+    this->m_GameClientRPCReceiver->OnSCNotifySetFreeze(stageID, targetID, isFreezed);
+}
+
+void GameClientPacketHandler::OnSCNotifyRunOutMovingMana(StageID stageID, ActorID actorID)
+{
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+    this->m_GameClientRPCReceiver->OnSCNotifyRunOutMovingMana(stageID, actorID);
+}
+
+void GameClientPacketHandler::OnSCNotifyRunOutSpellMana(StageID stageID, ActorID actorID)
+{
+    ASSERT_DEBUG(this->m_GameClientObject != nullptr);
+    this->m_GameClientRPCReceiver->OnSCNotifyRunOutSpellMana(stageID, actorID);
+}
+
     
 } // namespace flownet

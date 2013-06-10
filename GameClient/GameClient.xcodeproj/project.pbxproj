@@ -28,8 +28,9 @@
 		9413D44716CBE1CA001FA2E9 /* GameClientObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9413D44516CBE1C9001FA2E9 /* GameClientObject.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		9413D49F16D2846D001FA2E9 /* GameClientTasks.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9413D49D16D2846D001FA2E9 /* GameClientTasks.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		9413D4A216D2861D001FA2E9 /* GameClientScheduledTasks.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9413D4A016D2861D001FA2E9 /* GameClientScheduledTasks.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
-		945C0A1C16CB820E00FB8664 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 945C0A1B16CB820E00FB8664 /* main.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		945C0A1E16CB820E00FB8664 /* GameClient.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 945C0A1D16CB820E00FB8664 /* GameClient.1 */; };
+		94DEC8AC1765BE1F0061018E /* ClientTickWorkerRoutine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94DEC8AA1765BE1F0061018E /* ClientTickWorkerRoutine.cpp */; };
+		94DEC8AD1765CA7F0061018E /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DE253DE172FB33D0064B1A7 /* main.cpp */; };
 		94F5836616D5A9FF00AE632E /* HeartbeatGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94F5836416D5A9FF00AE632E /* HeartbeatGenerator.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 /* End PBXBuildFile section */
 
@@ -97,9 +98,10 @@
 		9413D4A016D2861D001FA2E9 /* GameClientScheduledTasks.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameClientScheduledTasks.cpp; sourceTree = "<group>"; };
 		9413D4A116D2861D001FA2E9 /* GameClientScheduledTasks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameClientScheduledTasks.h; sourceTree = "<group>"; };
 		945C0A1716CB820E00FB8664 /* GameClient */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = GameClient; sourceTree = BUILT_PRODUCTS_DIR; };
-		945C0A1B16CB820E00FB8664 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		945C0A1D16CB820E00FB8664 /* GameClient.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = GameClient.1; sourceTree = "<group>"; };
 		94D9072316EB24FC00637B38 /* GameClientRPCInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameClientRPCInterface.h; path = GameClient/GameClientRPCInterface.h; sourceTree = "<group>"; };
+		94DEC8AA1765BE1F0061018E /* ClientTickWorkerRoutine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ClientTickWorkerRoutine.cpp; sourceTree = "<group>"; };
+		94DEC8AB1765BE1F0061018E /* ClientTickWorkerRoutine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientTickWorkerRoutine.h; sourceTree = "<group>"; };
 		94F5836416D5A9FF00AE632E /* HeartbeatGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HeartbeatGenerator.cpp; sourceTree = "<group>"; };
 		94F5836516D5A9FF00AE632E /* HeartbeatGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeartbeatGenerator.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -163,6 +165,10 @@
 		945C0A1A16CB820E00FB8664 /* GameClient */ = {
 			isa = PBXGroup;
 			children = (
+				94F5836316D5A9E400AE632E /* NetworkUtilities */,
+				94F5836116D5A9CE00AE632E /* RPC */,
+				4D9108E71730F2180073AE04 /* Tester */,
+				9413D49C16D2845B001FA2E9 /* Task */,
 				4DE253C6172FB33D0064B1A7 /* ClientMonster.cpp */,
 				4DE253C7172FB33D0064B1A7 /* ClientMonster.h */,
 				4DE253C8172FB33D0064B1A7 /* ClientPlayer.cpp */,
@@ -178,13 +184,10 @@
 				4DE253DC172FB33D0064B1A7 /* HeartbeatGenerator.cpp */,
 				4DE253DD172FB33D0064B1A7 /* HeartbeatGenerator.h */,
 				4DE253DE172FB33D0064B1A7 /* main.cpp */,
+				94DEC8AA1765BE1F0061018E /* ClientTickWorkerRoutine.cpp */,
+				94DEC8AB1765BE1F0061018E /* ClientTickWorkerRoutine.h */,
 				4DE253DF172FB33D0064B1A7 /* RenderingTaskWorkerRoutine.cpp */,
 				4DE253E0172FB33D0064B1A7 /* RenderingTaskWorkerRoutine.h */,
-				94F5836316D5A9E400AE632E /* NetworkUtilities */,
-				94F5836116D5A9CE00AE632E /* RPC */,
-				4D9108E71730F2180073AE04 /* Tester */,
-				9413D49C16D2845B001FA2E9 /* Task */,
-				945C0A1B16CB820E00FB8664 /* main.cpp */,
 				945C0A1D16CB820E00FB8664 /* GameClient.1 */,
 				9413D43C16CBD2DF001FA2E9 /* GameClient.cpp */,
 				9413D43D16CBD2DF001FA2E9 /* GameClient.h */,
@@ -278,7 +281,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				945C0A1C16CB820E00FB8664 /* main.cpp in Sources */,
+				94DEC8AD1765CA7F0061018E /* main.cpp in Sources */,
 				9413D43E16CBD2DF001FA2E9 /* GameClient.cpp in Sources */,
 				9413D44716CBE1CA001FA2E9 /* GameClientObject.cpp in Sources */,
 				9413D49F16D2846D001FA2E9 /* GameClientTasks.cpp in Sources */,
@@ -298,6 +301,7 @@
 				4DE253FC1730021B0064B1A7 /* GameClientObjectManager.cpp in Sources */,
 				4DE253FF1730022B0064B1A7 /* CFConnectionManager.cpp in Sources */,
 				4D9108EA1730F2290073AE04 /* TesterRPCReceiver.cpp in Sources */,
+				94DEC8AC1765BE1F0061018E /* ClientTickWorkerRoutine.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

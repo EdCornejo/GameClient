@@ -49,6 +49,8 @@ GameClientObject* GameClientObjectManager::CreateGameClientObject(const STRING g
     GameClientObject* gameClientObject = new GameClientObject(m_IOService, packetParser);
     packetHandler->LinkGameClientObject(gameClientObject);
     packetHandler->SetGameClientRPCReceiver(testerRPCReceiver);
+    testerRPCReceiver->SetGameClientObject(gameClientObject);
+    GameClientTester::Instance().GetClientTickWorkerRoutine().AddTesterRPCReceiver(testerRPCReceiver);
     
     gameClientObject->InitializeClient(gameServerIP.c_str(), gameServerPORT);
     
@@ -57,6 +59,7 @@ GameClientObject* GameClientObjectManager::CreateGameClientObject(const STRING g
         m_GameClientObjectList.push_back(gameClientObject);
         ++m_NumberOfGameClientObjects;
     }
+    
     
     return gameClientObject;
 }
