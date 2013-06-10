@@ -33,6 +33,7 @@ private:
     SystemTimer                     m_ClientTimer;
     ScheduledTaskWorkerRoutine      m_ScheduledTaskWorkerRoutine;
     TaskWorkerRoutine               m_GameTaskWorkerRoutine;
+    ClientTickWorkerRoutine         m_ClientTickWorkerRoutine;
     NetworkWorkerRoutine            m_NetworkWorkerRoutine;
     ThreadController                m_ThreadController;
 
@@ -62,10 +63,11 @@ public:
     
 public:
     inline SystemTimer&                 GetClientTimer()                {   return m_ClientTimer;  }
-    inline ScheduledTaskWorkerRoutine&  GetScheduledTaskWorkerRoutine() { return m_ScheduledTaskWorkerRoutine;    }
+    inline ScheduledTaskWorkerRoutine&  GetScheduledTaskWorkerRoutine() {   return m_ScheduledTaskWorkerRoutine;    }
     inline TaskWorkerRoutine&           GetGameTaskWorkerRoutine()      {   return m_GameTaskWorkerRoutine; }
     inline RenderingTaskWorkerRoutine&  GetRenderingTaskWorkerRoutine() {   return m_RenderingTaskWorkerRoutine; }
     inline NetworkWorkerRoutine&        GetNeworkWorkerRoutine()        {   return m_NetworkWorkerRoutine; }
+    inline ClientTickWorkerRoutine&     GetClientTickWorkerRoutine()    {   return m_ClientTickWorkerRoutine; }
     inline ThreadController&            GetThreadController()           {   return m_ThreadController; }
     inline GameClientObjectManager&     GetGameClientObjectManager()    {   return m_GameClientObjectManager; }
     inline CFConnectionManager&         GetCFConnectionManager()        {   return m_CFConnectionManager; }

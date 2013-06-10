@@ -13,7 +13,7 @@
 namespace flownet
 {
 
-GameClient* GameClient::_SingletonInstance = 0;
+GameClient* GameClient::_SingletonInstance = nullptr;
 
 GameClient::GameClient():
     m_ClientTimer(),
@@ -29,11 +29,39 @@ GameClient::GameClient():
     m_FCPacketParser(&m_FCPacketHandler),
     m_CFConnection(m_NetworkWorkerRoutine.m_IOService,&m_FCPacketParser),
     m_IsInitialized(false),
-    m_IsStarted(false)
+    m_IsStarted(false),
+    m_DeviceID(DeviceID_None),
+    m_GameServerID(GameServerID_None),
+    m_SessionID(SessionID_NONE),
+    m_UserID(UserID_None),
+    m_MyActorID(ActorID_None),
+    m_ClientStage(nullptr),
+    m_OTP(OTP_None)
 {
     this->m_DeviceID = boost::uuids::random_generator()();
     m_ClientPacketHandler.LinkGameClientObject(&m_ClientObject);
     m_FCPacketHandler.LinkCFConnection(&m_CFConnection);
+}
+
+void GameClient::InitializeDeviceID()
+{
+    std::string deviceID = cocos2d::CCUserDefault::sharedUserDefault()->getStringForKey("DeviceID");
+    std::stringstream deviceIDStringStream;
+    deviceIDStringStream << deviceID;
+    
+    if(deviceID.empty())
+    {
+        deviceIDStringStream << boost::uuids::random_generator()();
+        cocos2d::CCUserDefault::sharedUserDefault()->setStringForKey("DeviceID", deviceIDStringStream.str());
+        cocos2d::CCUserDefault::sharedUserDefault()->flush();
+    }
+    
+    CCLOG("Device ID is : %s", deviceIDStringStream.str().c_str());
+    
+    DeviceID thisDeviceID;
+    deviceIDStringStream >> thisDeviceID;
+    
+    this->SetDeviceID(thisDeviceID);
 }
 
 GameClient::~GameClient()
@@ -42,6 +70,12 @@ GameClient::~GameClient()
     {
         m_ThreadController.Stop();
     }
+    
+    SpellDictionary::DeleteInstance();
+    SpellAbilityApplier::DeleteInstance();
+    ItemDataDictionary::DeleteInstance();
+    ItemAbilityApplier::DeleteInstance();
+
 }
 
 GameClient& GameClient::Instance()
@@ -70,7 +104,9 @@ void GameClient::InitializeClient(GameClientRPCInterface* gameClientRPCReceiver)
     ASSERT_RELEASE(m_IsStarted == false);
 
     SpellDictionary::Initialize();
+    SpellAbilityApplier::Initialize();
     ItemDataDictionary::Initialize();
+    ItemAbilityApplier::Initialize();
     
     m_ThreadController.Initialize(DEFAULT_NUMBER_OF_THREADS);
     m_ThreadController.AddWorkerRoutine(&m_ScheduledTaskWorkerRoutine);
@@ -82,8 +118,9 @@ void GameClient::InitializeClient(GameClientRPCInterface* gameClientRPCReceiver)
     
     
     // connect to server
-    m_ClientObject.InitializeClient(SERVER_CONNECT_ADDRESS, SERVER_CONNECT_PORT);
+    //m_ClientObject.InitializeClient(SERVER_CONNECT_ADDRESS, SERVER_CONNECT_PORT);
     m_ClientPacketHandler.SetGameClientRPCReceiver(gameClientRPCReceiver);
+    m_FCPacketHandler.SetGameClientRPCReceiver(gameClientRPCReceiver);
     
     m_IsInitialized = true;
 }
@@ -106,6 +143,90 @@ void GameClient::TerminateClient()
     
 // GameClient Data Part
 
+DeviceID GameClient::GetDeviceID()
+{
+    return this->m_DeviceID;
+}
+
+SessionID GameClient::GetSessionID()
+{
+    return this->m_SessionID;
+}
+
+ActorID GameClient::GetMyActorID()
+{
+    return this->m_MyActorID;
+}
+
+ClientStage* GameClient::GetClientStage()
+{
+    return this->m_ClientStage;
+}
+
+PlayerMap& GameClient::GetPlayerMap()
+{
+    return this->m_ClientStage->GetPlayerMap();
+}
+
+MonsterMap& GameClient::GetMonsterMap()
+{
+    return this->m_ClientStage->GetMonsterMap();
+}
+
+void GameClient::SetDeviceID(DeviceID deviceID)
+{
+    this->m_DeviceID = deviceID;
+    std::stringstream deviceIDStringStream;
+    deviceIDStringStream << deviceID;
+    cocos2d::CCUserDefault::sharedUserDefault()->setStringForKey("DeviceID", deviceIDStringStream.str());
+    cocos2d::CCUserDefault::sharedUserDefault()->flush();
+}
+
+void GameClient::SetSessionID(SessionID sessionID)
+{
+    this->m_SessionID = sessionID;
+}
+
+void GameClient::SetMyActorID(ActorID actorID)
+{
+    this->m_MyActorID = actorID;
+}
+
+void GameClient::SetClientStage(ClientStage *clientStage)
+{
+    if(this->m_ClientStage != nullptr)
+    {
+        delete this->m_ClientStage;
+        this->m_ClientStage == nullptr;
+    }
+
+    this->m_ClientStage = clientStage;
+}
+ 
+void GameClient::Finalize()
+{
+    ClientStage* emptyClientStage = new ClientStage(Stage());
+    this->SetGameServerID(GameServerID_None);
+    this->SetClientStage(emptyClientStage);
+    this->SetSessionID(SessionID_NONE);
+    this->SetUserID(UserID_None);
+    this->SetMyActorID(ActorID_None);
+    this->SetOTP(OTP_None);
+}
+    
+void GameClient::AddChatMessageLog(flownet::ActorID senderID, flownet::STRING senderName, flownet::STRING message)
+{
+    const int MaxLogSize = 40;
+    if(this->m_ChatMessageLog.size() > MaxLogSize)
+    {
+        ChatMessage* chatMessage = this->m_ChatMessageLog.front();
+        this->m_ChatMessageLog.pop_front();
+        
+        delete chatMessage;
+    }
+    ChatMessage* newChatMessage = new ChatMessage(senderID, senderName, message);
+    this->m_ChatMessageLog.push_back(newChatMessage);
+}
     
 // End of GameClient Data Part
     
@@ -114,7 +235,7 @@ void GameClient::InitializeTestData()
 {
     // test data generation code
     ActorID ownerID = 1;
-    StageInfo* stageInfo = new StageInfo(StageType_MushroomField, 1, 200, 100, 3);
+    StageInfo* stageInfo = new StageInfo(StageType_MushroomField, 1, 26, 26, 3);
     Stage* stage = new Stage(*stageInfo, ownerID);
     
     ClientStage* clientStage = new ClientStage(*stage);

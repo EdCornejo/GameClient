@@ -52,8 +52,8 @@ void CFConnection::OnConnect(const BoostErrorCode& error, BoostTCPSocket* connec
         accountString << "test"<<  myID;
         this->SendCFRequestLogInUserAccount(this->GetDeviceID(), accountString.str().c_str(), accountString.str().c_str());
     }
-    {
-        
+    else{
+        HandleBoostErrorCode(error, "CFConnect Error");
     }
 }
 

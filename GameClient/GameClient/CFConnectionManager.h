@@ -33,9 +33,7 @@ public:
     // Round Robin Request ?
     CFConnection*         GetNextCFConnection();
     
-private:
-    // To guarantee multi-thread-safe behavior
-    // DO NOT CreateDBServerConnection after initialize()
+public:
     CFConnection*         CreateCFConnection();
 };
 

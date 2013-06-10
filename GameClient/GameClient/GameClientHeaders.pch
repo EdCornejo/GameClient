@@ -46,6 +46,7 @@
 #define GAMECLIENTTESTER
 //#include "GameClient.h"
 #include "TesterRPCReceiver.h"
+#include "ClientTickWorkerRoutine.h"
 #include "GameClientTester.h"
 
 #include "GameClientTasks.h"

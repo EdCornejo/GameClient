@@ -12,13 +12,37 @@
 namespace flownet
 {
 
+
 class TesterRPCReceiver : public GameClientRPCInterface
 {
 private:
+    mutable BOOL                    m_IsPlayerInStage;
+    mutable ServerTime              m_LastStageAITickTime;
+    mutable GameClientObject*       m_GameClientObject;
+    
+    mutable UserID                  m_UserID;
+    mutable SessionID               m_SessionID;
+    
+    mutable ServerTime              m_StageStartTime;
+    mutable StageID                 m_StageID;
+    mutable ClientStage*            m_Stage;
+    mutable ActorID                 m_PlayerID;
+    mutable Player*                 m_Player;
+    mutable Monster*                m_TargetMonster;
+    mutable ServerTime              m_LastMoveRequestTime;
+    mutable ServerTime              m_LastCastRequestTime;
+    
+    mutable POINT                   m_CurrentPosition;
+    mutable POINT                   m_DestinationPosition;
 
 public:
     TesterRPCReceiver();
     virtual ~TesterRPCReceiver();
+    
+    void    SetGameClientObject(GameClientObject* gameClientObject) { m_GameClientObject = gameClientObject; }
+    void    Tick();
+    
+    void    RunStageAI();
     
     #include "GameSCOverrideProtocolHandlerDeclaration.hpp"
     #include "GameFCOverrideProtocolHandlerDeclaration.hpp"

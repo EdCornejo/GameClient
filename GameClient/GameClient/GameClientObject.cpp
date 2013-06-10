@@ -37,6 +37,11 @@ void GameClientObject::InitializeClient(const CHAR* connectAddress, const INT co
     
     // and do some initialize
 }
+
+BOOL GameClientObject::InitializeClientWithBlocking(const CHAR *connectAddress, const INT connectPort)
+{
+    return ClientObject::InitializeClientWithBlocking(connectAddress, connectPort);
+}
     
 void GameClientObject::StartHeartbeat()
 {
