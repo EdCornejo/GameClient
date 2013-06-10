@@ -81,7 +81,7 @@ bool AppDelegate::applicationDidFinishLaunching()
     LogSystem::Initialize("GameClientSystemLog");
     // Initialize GameClient
     flownet::GameClient::Instance().InitializeClient(this);
-    this->InitializeConnection();
+    if(!this->InitializeConnection()) CCMessageBox("Cannot connect with server", "Error!");
     flownet::GameClient::Instance().StartClient();
 
     return true;
@@ -105,7 +105,7 @@ void AppDelegate::applicationWillEnterForeground()
 {
     // Re start GameClient
     flownet::GameClient::Instance().InitializeClient(this);
-    this->InitializeConnection();
+    if(!this->InitializeConnection()) CCMessageBox("Cannot connect with server", "Error!");
     flownet::GameClient::Instance().StartClient();
 
 
@@ -115,24 +115,29 @@ void AppDelegate::applicationWillEnterForeground()
     AudioEngine::Instance()->ResumeAllEffects();
 }
 
-void AppDelegate::InitializeConnection()
+bool AppDelegate::InitializeConnection()
 {
     std::string serverIP = CCUserDefault::sharedUserDefault()->getStringForKey("yours", "");
     
+    bool result = false;
+    
     if( serverIP.empty() || serverIP.length()==0 )
     {
-        GameClient::Instance().GetCFConnection().InitializeClient(FESERVER_CF_CONNECT_ADDRESS, FESERVER_CF_CONNECT_PORT);
-        //GameClient::Instance().GetCFConnection().RecvStart();
+        result = GameClient::Instance().GetCFConnection().InitializeClientWithBlocking(FESERVER_CF_CONNECT_ADDRESS, FESERVER_CF_CONNECT_PORT);
+        GameClient::Instance().GetCFConnection().RecvStart();
     }
     else
     {
-        GameClient::Instance().GetClientObject().InitializeClient(serverIP.c_str(), SERVER_CONNECT_PORT);
-        //GameClient::Instance().GetClientObject().RecvStart();
+        result = GameClient::Instance().GetClientObject().InitializeClientWithBlocking(serverIP.c_str(), SERVER_CONNECT_PORT);
+        GameClient::Instance().GetClientObject().RecvStart();
     }
+    
+    return result;
 }
 
-void AppDelegate::DisconnectCFAndConnectCSConnection() const
+bool AppDelegate::DisconnectCFAndConnectCSConnection() const
 {
+    bool result = false;
     if(GameClient::Instance().GetCFConnection().IsConnected())
     {
         GameClient::Instance().GetCFConnection().Disconnect();
@@ -141,22 +146,27 @@ void AppDelegate::DisconnectCFAndConnectCSConnection() const
     {
         std::string serverIP = CCUserDefault::sharedUserDefault()->getStringForKey("yours", "");
         if(serverIP.empty()) ASSERT_DEBUG(!serverIP.empty());
-        GameClient::Instance().GetClientObject().InitializeClientWithBlocking(serverIP.c_str(), SERVER_CONNECT_PORT);
+        result = GameClient::Instance().GetClientObject().InitializeClientWithBlocking(serverIP.c_str(), SERVER_CONNECT_PORT);
         GameClient::Instance().GetClientObject().RecvStart();
     }
+    
+    return result;
 }
 
-void AppDelegate::DisconnectCSAndConnectCFConnection() const
+bool AppDelegate::DisconnectCSAndConnectCFConnection() const
 {
+    bool result = false;
     if(GameClient::Instance().GetClientObject().IsConnected())
     {
         GameClient::Instance().GetClientObject().Disconnect();
     }
     if(!GameClient::Instance().GetCFConnection().IsConnected())
     {
-        GameClient::Instance().GetCFConnection().InitializeClientWithBlocking(FESERVER_CF_CONNECT_ADDRESS, FESERVER_CF_CONNECT_PORT);
+        result = GameClient::Instance().GetCFConnection().InitializeClientWithBlocking(FESERVER_CF_CONNECT_ADDRESS, FESERVER_CF_CONNECT_PORT);
         GameClient::Instance().GetCFConnection().RecvStart();
     }
+    
+    return result;
 }
 
 void AppDelegate::OnSCProtocolError() const
@@ -461,9 +471,9 @@ void AppDelegate::OnSCResponseExitStage(flownet::StageID stageID, flownet::Actor
     
     ASSERT_DEBUG(playerID == GameClient::Instance().GetMyActorID());
     
-    ClientStage* emptyStage = new ClientStage(Stage());
-    
-    GameClient::Instance().SetClientStage(emptyStage);
+//    ClientStage* emptyStage = new ClientStage(Stage());
+//    
+//    GameClient::Instance().SetClientStage(emptyStage);
     
     GPSPoint gps = GPSPoint(37.566615 + CCRANDOM_0_1(), 126.977958 + CCRANDOM_0_1());
 
@@ -491,6 +501,8 @@ void AppDelegate::OnSCNotifyExitStage(flownet::StageID stageID, flownet::ActorID
     ASSERT_DEBUG(actorLayer);
     
     // TO DO : fix auto release bug here
+    
+    CCLOG("exit %d", actorID);
     
     actorLayer->DeleteActor(actorID);
 
@@ -593,7 +605,7 @@ void AppDelegate::OnSCNotifySpawnMonster(flownet::StageID stageID, flownet::Mons
     ClientStage* clientStage = GameClient::Instance().GetClientStage();
     if(clientStage == nullptr || stageID != clientStage->GetStageID())
     {
-        //ASSERT_DEBUG(clientStage != nullptr && stageID == clientStage->GetStageID());
+        ASSERT_DEBUG(clientStage != nullptr && stageID == clientStage->GetStageID());
         return;
     }
     
@@ -814,6 +826,7 @@ void AppDelegate::OnSCNotifyChangeTarget(flownet::StageID stageID, flownet::Acto
 
 void AppDelegate::OnSCNotifyBeginCast(flownet::StageID stageID, flownet::ActorID actorID, flownet::SpellType spellType, flownet::POINT destination) const
 {
+    CCLOG("begin response recv");
     ClientStage* clientStage = GameClient::Instance().GetClientStage();
     if(clientStage == nullptr || stageID != clientStage->GetStageID())
     {
@@ -831,6 +844,7 @@ void AppDelegate::OnSCNotifyBeginCast(flownet::StageID stageID, flownet::ActorID
 
 void AppDelegate::OnSCNotifyEndCast(flownet::StageID stageID, flownet::ActorID actorID, flownet::SpellType spellType, flownet::POINT destination) const
 {
+    CCLOG("end response recv");
     ClientStage* clientStage = GameClient::Instance().GetClientStage();
     if(clientStage == nullptr || stageID != clientStage->GetStageID())
     {
@@ -854,6 +868,7 @@ void AppDelegate::OnSCNotifyEndCast(flownet::StageID stageID, flownet::ActorID a
             CCLOGERROR("AppDelegate::OnSCNotifyEndCast >> no UILayer exists");
             ASSERT_DEBUG(uiLayer != nullptr);
         }
+        uiLayer->RemoveSpellHighlight();
         uiLayer->ApplyCoolTime(spellType);
     }
 }

@@ -25,8 +25,7 @@ struct ActorNodeSet : public CCNode {
     
     ActorNodeSet(flownet::ActorID actorID): m_ZOrder(0), m_ActorID(actorID), m_ActorNode(nullptr), m_HUDNode(nullptr), m_ShadowNode(nullptr), m_HighlightNode(nullptr), m_GuideLineNode(nullptr), m_ChatBalloonNode(nullptr), m_SpellEffectNodeMap()
     {
-        this->AddActorNode(actorID);
-        this->AddChatBalloonNode(actorID);
+     
     }
     
     ~ActorNodeSet()
@@ -37,11 +36,43 @@ struct ActorNodeSet : public CCNode {
         this->RemoveHighlightNode();
         this->RemoveGuideLineNode();
         this->RemoveChatBalloonNode();
-
+        CCLOG("dest %p", this);
+        void* buff[100];
+        int cnt=backtrace(buff,100);
+        char** str=backtrace_symbols(buff,cnt);
+        for(int i=0;i<cnt;i++)
+        {
+            printf("\n%s\n",str[i]);
+        }
 //        std::for_each(this->m_SpellEffectNodeMap.begin(), this->m_SpellEffectNodeMap.end(), [this](SpellEffectNodeMap::value_type pair){
 //            pair.second->release();
 //        });
 //        this->m_SpellEffectNodeMap.clear();
+    }
+
+    bool init()
+    {
+        this->AddActorNode(this->m_ActorID);
+        this->AddChatBalloonNode(this->m_ActorID);
+        
+        return true;
+    }
+    
+    static ActorNodeSet* create(flownet::ActorID actorID)
+    {
+        ActorNodeSet* nodeSet = new ActorNodeSet();
+        nodeSet->m_ActorID = actorID;
+        
+        if(nodeSet && nodeSet->init())
+        {
+            nodeSet->autorelease();
+            return nodeSet;
+        }
+        else
+        {
+            delete nodeSet;
+            return nullptr;
+        }
     }
     
     void SetZOrder(int zOrder)
@@ -92,6 +123,8 @@ struct ActorNodeSet : public CCNode {
             ASSERT_DEBUG(false);
         }
         this->m_ActorNode->retain();
+        
+        CCLOG("this->m_ActorNode %ld, %p", actorID, m_ActorNode);
     }
     
     void RemoveActorNode()
@@ -218,6 +251,14 @@ struct ActorNodeSet : public CCNode {
         
         return iter->second;
     }
+    
+    void Hide()
+    {
+        if(this->m_ActorNode) this->m_ActorNode->setVisible(false);
+        if(this->m_HUDNode) this->m_HUDNode->setVisible(false);
+        if(this->m_HighlightNode) this->m_HighlightNode->setVisible(false);
+        if(this->m_GuideLineNode) this->m_GuideLineNode->setVisible(false);
+    }
 };
 
 
@@ -250,7 +291,7 @@ public:
     ActorNodeSet* FindActorNodeSet(ActorID actorID);
     ItemNode* FindItemNode(ItemID itemID);
     
-    void DeleteActorNode(CCObject* actorNodeSet);
+//    void DeleteActorNode(CCObject* actorNodeSet);
     
     void SortNodes();
 

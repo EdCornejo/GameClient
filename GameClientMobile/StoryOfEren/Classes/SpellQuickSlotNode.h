@@ -38,6 +38,7 @@ public:
 
 private:
     ButtonSpellMap m_ButtonSpellMap;
+    CCSprite* m_HighlightImage;
     
 public:
     SpellQuickSlotNode();
@@ -54,8 +55,11 @@ private:
     void EnableButton(CCObject* menuItem);
     void RemoveProgressTimer(CCObject* timer);
     
+    void SetHighlight(CCMenuItem* spellIcon);
+    
 public:
     void ApplyCoolTime(flownet::SpellType spellType);
+    void RemoveHighlight();
 };
 
 #endif /* defined(__GameClientMobile__SpellQuickSlotNode__) */

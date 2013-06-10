@@ -18,6 +18,11 @@ ActorLayer::~ActorLayer()
     std::for_each(this->m_ActorNodeSetMap.begin(), this->m_ActorNodeSetMap.end(), [this](ActorNodeSetMap::value_type pair){
         ActorNodeSet* actorNodeSet = pair.second;
 
+        std::for_each(actorNodeSet->m_SpellEffectNodeMap.begin(), actorNodeSet->m_SpellEffectNodeMap.end(), [this](SpellEffectNodeMap::value_type pair){
+            SpellEffectNode* node = pair.second;
+            this->removeChild(node, true);
+        });
+
         if(actorNodeSet->m_ActorNode)
         {
             this->removeChild(actorNodeSet->m_ActorNode, true);
@@ -34,12 +39,7 @@ ActorLayer::~ActorLayer()
         {
             this->removeChild(actorNodeSet->m_HighlightNode, true);
         }
-        
-        std::for_each(actorNodeSet->m_SpellEffectNodeMap.begin(), actorNodeSet->m_SpellEffectNodeMap.end(), [this](SpellEffectNodeMap::value_type pair){
-            SpellEffectNode* node = pair.second;
-            this->removeChild(node, true);
-        });
-        
+                
         delete actorNodeSet;
 
         pair.second = nullptr;
@@ -70,7 +70,8 @@ bool ActorLayer::init()
         ActorID playerID = playerInfoPair.first;
         Player* playerInfo = playerInfoPair.second;
         
-        ActorNodeSet* actorNodeSet = new ActorNodeSet(playerID);
+        ActorNodeSet* actorNodeSet = ActorNodeSet::create(playerID);
+        actorNodeSet->retain();
 
         this->m_ActorNodeSetMap.insert(ActorNodeSetMap::value_type(playerID, actorNodeSet));
         
@@ -95,7 +96,8 @@ bool ActorLayer::init()
         ActorID monsterID = monsterInfoPair.first;
         Monster* monsterInfo = monsterInfoPair.second;
         
-        ActorNodeSet* actorNodeSet = new ActorNodeSet(monsterID);
+        ActorNodeSet* actorNodeSet = ActorNodeSet::create(monsterID);
+        actorNodeSet->retain();
         
         this->m_ActorNodeSetMap.insert(ActorNodeSetMap::value_type(monsterID, actorNodeSet));
         
@@ -155,7 +157,7 @@ void ActorLayer::DeleteActor(ActorID playerID)
         this->removeChild(pair.second, true);
     });
 
-    delete actorNodeSet;
+    actorNodeSet->release();
     
     this->m_ActorNodeSetMap.erase(iter);
 }
@@ -194,11 +196,11 @@ ItemNode* ActorLayer::FindItemNode(ItemID itemID)
     return iter->second;
 }
 
-void ActorLayer::DeleteActorNode(CCObject* object)
-{
-    ActorNodeSet* actorNodeSet = static_cast<ActorNodeSet*>(object);
-    this->DeleteActor(actorNodeSet->m_ActorID);
-}
+//void ActorLayer::DeleteActorNode(CCObject* object)
+//{
+//    ActorNodeSet* actorNodeSet = static_cast<ActorNodeSet*>(object);
+//    this->DeleteActor(actorNodeSet->m_ActorID);
+//}
 
 void ActorLayer::UpdateActorLookingDirection(flownet::Actor *actor, cocos2d::CCPoint actorPoint, cocos2d::CCPoint lookingPoint)
 {
@@ -223,6 +225,8 @@ void ActorLayer::SortNodes()
     });
 
     std::sort(actorNodeSets.begin(), actorNodeSets.end(), [](ActorNodeSet* lhs, ActorNodeSet* rhs)->bool{
+        if(!lhs->m_ActorNode || !rhs->m_ActorNode) return false;
+        
         return lhs->m_ActorNode->getPositionY() > rhs->m_ActorNode->getPositionY();
     });
 
@@ -246,7 +250,8 @@ void ActorLayer::AddNewPlayer(flownet::ClientPlayer player)
 {
     player.ChangeToIdleState();
     
-    ActorNodeSet* actorNodeSet = new ActorNodeSet(player.GetActorID());
+    ActorNodeSet* actorNodeSet = ActorNodeSet::create(player.GetActorID());
+    actorNodeSet->retain();
     actorNodeSet->AddHUDNode(player.GetActorID());
     actorNodeSet->AddShadowNode(player.GetActorID());
 
@@ -261,21 +266,22 @@ void ActorLayer::AddNewPlayer(flownet::ClientPlayer player)
     ActorNodeSetMap::iterator iter = this->m_ActorNodeSetMap.find(player.GetActorID());
     
     ASSERT_DEBUG(iter == this->m_ActorNodeSetMap.end());
-    
-    this->m_ActorNodeSetMap.insert(ActorNodeSetMap::value_type(player.GetActorID(), actorNodeSet));
-    
+
     if(actorNodeSet->m_ActorNode) this->addChild(actorNodeSet->m_ActorNode);
     if(actorNodeSet->m_HUDNode) this->addChild(actorNodeSet->m_HUDNode);
     if(actorNodeSet->m_ShadowNode) this->addChild(actorNodeSet->m_ShadowNode);
     if(actorNodeSet->m_HighlightNode) this->addChild(actorNodeSet->m_HighlightNode);
     if(actorNodeSet->m_ChatBalloonNode) this->addChild(actorNodeSet->m_ChatBalloonNode);
+    
+    this->m_ActorNodeSetMap.insert(ActorNodeSetMap::value_type(player.GetActorID(), actorNodeSet));
 }
 
 void ActorLayer::AddNewMonster(flownet::ClientMonster monster)
 {
     monster.ChangeToIdleState();
     
-    ActorNodeSet* actorNodeSet = new ActorNodeSet(monster.GetActorID());
+    ActorNodeSet* actorNodeSet = ActorNodeSet::create(monster.GetActorID());
+    actorNodeSet->retain();
     actorNodeSet->AddHUDNode(monster.GetActorID());
     actorNodeSet->AddShadowNode(monster.GetActorID());
 
@@ -285,18 +291,25 @@ void ActorLayer::AddNewMonster(flownet::ClientMonster monster)
     
     ASSERT_DEBUG(iter == this->m_ActorNodeSetMap.end());
     
-    this->m_ActorNodeSetMap.insert(ActorNodeSetMap::value_type(monster.GetActorID(), actorNodeSet));
+    CCLOG("%p", actorNodeSet);
+    CCLOG("%p", actorNodeSet->m_ActorNode);
+    CCLOG("%p", actorNodeSet->m_HUDNode);
+    CCLOG("%p", actorNodeSet->m_ShadowNode);
+    CCLOG("%p", actorNodeSet->m_ChatBalloonNode);
     
     if(actorNodeSet->m_ActorNode) this->addChild(actorNodeSet->m_ActorNode);
     if(actorNodeSet->m_HUDNode) this->addChild(actorNodeSet->m_HUDNode);
     if(actorNodeSet->m_ShadowNode) this->addChild(actorNodeSet->m_ShadowNode);
     if(actorNodeSet->m_HighlightNode) this->addChild(actorNodeSet->m_HighlightNode);
     if(actorNodeSet->m_ChatBalloonNode) this->addChild(actorNodeSet->m_ChatBalloonNode);
+    
+    this->m_ActorNodeSetMap.insert(ActorNodeSetMap::value_type(monster.GetActorID(), actorNodeSet));
 }
 
 void ActorLayer::AddNewNPC(flownet::NPC npc)
 {
-    ActorNodeSet* actorNodeSet = new ActorNodeSet(npc.GetActorID());
+    ActorNodeSet* actorNodeSet = ActorNodeSet::create(npc.GetActorID());
+    actorNodeSet->retain();
     actorNodeSet->AddShadowNode(npc.GetActorID());
     
     actorNodeSet->m_ActorNode->setPosition(PointConverter::Convert(npc.GetCurrentPosition()));
@@ -305,18 +318,19 @@ void ActorLayer::AddNewNPC(flownet::NPC npc)
     
     ASSERT_DEBUG(iter == this->m_ActorNodeSetMap.end());
     
-    this->m_ActorNodeSetMap.insert(ActorNodeSetMap::value_type(npc.GetActorID(), actorNodeSet));
-    
     if(actorNodeSet->m_ActorNode) this->addChild(actorNodeSet->m_ActorNode);
     if(actorNodeSet->m_HUDNode) this->addChild(actorNodeSet->m_HUDNode);
     if(actorNodeSet->m_ShadowNode) this->addChild(actorNodeSet->m_ShadowNode);
     if(actorNodeSet->m_HighlightNode) this->addChild(actorNodeSet->m_HighlightNode);
     if(actorNodeSet->m_ChatBalloonNode) this->addChild(actorNodeSet->m_ChatBalloonNode);
+    
+    this->m_ActorNodeSetMap.insert(ActorNodeSetMap::value_type(npc.GetActorID(), actorNodeSet));
 }
 
 void ActorLayer::AddNewStageObject(flownet::StageObject stageObject)
 {
-    ActorNodeSet* actorNodeSet = new ActorNodeSet(stageObject.GetActorID());
+    ActorNodeSet* actorNodeSet = ActorNodeSet::create(stageObject.GetActorID());
+    actorNodeSet->retain();
     actorNodeSet->AddShadowNode(stageObject.GetActorID());
     
     actorNodeSet->m_ActorNode->setPosition(PointConverter::Convert(stageObject.GetCurrentPosition()));
@@ -324,14 +338,14 @@ void ActorLayer::AddNewStageObject(flownet::StageObject stageObject)
     ActorNodeSetMap::iterator iter = this->m_ActorNodeSetMap.find(stageObject.GetActorID());
     
     ASSERT_DEBUG(iter == this->m_ActorNodeSetMap.end());
-    
-    this->m_ActorNodeSetMap.insert(ActorNodeSetMap::value_type(stageObject.GetActorID(), actorNodeSet));
-    
+
     if(actorNodeSet->m_ActorNode) this->addChild(actorNodeSet->m_ActorNode);
     if(actorNodeSet->m_HUDNode) this->addChild(actorNodeSet->m_HUDNode);
     if(actorNodeSet->m_ShadowNode) this->addChild(actorNodeSet->m_ShadowNode);
     if(actorNodeSet->m_HighlightNode) this->addChild(actorNodeSet->m_HighlightNode);
     if(actorNodeSet->m_ChatBalloonNode) this->addChild(actorNodeSet->m_ChatBalloonNode);
+    
+    this->m_ActorNodeSetMap.insert(ActorNodeSetMap::value_type(stageObject.GetActorID(), actorNodeSet));
 }
 
 void ActorLayer::ChangeTarget(flownet::ActorID monsterID, flownet::ActorID targetPlayerID)
@@ -574,7 +588,8 @@ void ActorLayer::ActorDead(flownet::ActorID deadActorID, bool afterDelete)
     CCAction* sequence = nullptr;
     CCFiniteTimeAction* animateDead = CCCallFunc::create(deadObject, callfunc_selector(ActorNode::AnimateDead));
     CCBlink* blink = CCBlink::create(3, 6);
-    sequence = CCSequence::create(animateDead, blink, NULL);
+    CCCallFunc* hide = CCCallFunc::create(actorNodeSet, callfunc_selector(ActorNodeSet::Hide));
+    sequence = CCSequence::create(animateDead, blink, hide, NULL);
     sequence->setTag(ActionType_Animation);
     deadObject->runAction(sequence);
 
@@ -672,6 +687,7 @@ ItemNode* ActorLayer::FindSelectedItemNode(cocos2d::CCPoint touchLocation)
 
 void ActorLayer::FireSpell(flownet::ActorID playerID, flownet::POINT destination, flownet::SpellInfo spellInfo)
 {
+    CCLOG("fire spell");
     SpellNode* spellObject = SpellNode::create(spellInfo, playerID, destination);
     this->addChild(spellObject);
 }

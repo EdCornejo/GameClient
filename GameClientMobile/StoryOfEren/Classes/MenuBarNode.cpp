@@ -115,6 +115,10 @@ void MenuBarNode::OnResponse() const
     {
         this->m_HomeButton->setEnabled(true);
     }
+    if(this->m_SettingButton)
+    {
+        this->m_SettingButton->setEnabled(true);
+    }
     if(this->m_LogoutButton)
     {
         this->m_LogoutButton->setEnabled(true);
@@ -151,18 +155,24 @@ void MenuBarNode::OnHomeButtonClicked(CCObject* sender)
     {
         return;
     }
-    
     GameClient::Instance().GetClientObject().SendCSRequestExitStage(GameClient::Instance().GetClientStage()->GetStageID());
     this->m_HomeButton->setEnabled(false);
+    this->m_SettingButton->setEnabled(false);
+    this->m_LogoutButton->setEnabled(false);
 }
 
 void MenuBarNode::OnSettingButtonClicked(CCObject* sender)
 {
     GameClient::Instance().GetClientObject().SendCSRequestExitStage(GameClient::Instance().GetClientStage()->GetStageID());
+    this->m_HomeButton->setEnabled(false);
+    this->m_SettingButton->setEnabled(false);
+    this->m_LogoutButton->setEnabled(false);
 }
 
 void MenuBarNode::OnLogoutButtonClicked(CCObject* sender)
 {
     GameClient::Instance().GetClientObject().SendCSRequestLogOutUserAccount(GameClient::Instance().GetDeviceID(), GameClient::Instance().GetUserID());
+    this->m_HomeButton->setEnabled(false);
+    this->m_SettingButton->setEnabled(false);
     this->m_LogoutButton->setEnabled(false);
 }

@@ -32,6 +32,7 @@
 #include "StagePreviewInfoDictionary.h"
 #include "PointConverter.h"
 #include "StageObjectImageLoader.h"
+#include "NPCImageLoader.h"
 #include "AudioEngine.h"
 #include "GPS.h"
 
