@@ -43,9 +43,9 @@ public:
     */
     virtual void applicationWillEnterForeground();
     
-    void InitializeConnection();
-    void DisconnectCSAndConnectCFConnection() const;
-    void DisconnectCFAndConnectCSConnection() const;
+    bool InitializeConnection();
+    bool DisconnectCSAndConnectCFConnection() const;
+    bool DisconnectCFAndConnectCSConnection() const;
     
     // flownet RPC Receiver Interface
     #include "GameSCOverrideProtocolHandlerDeclaration.hpp"

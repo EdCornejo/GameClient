@@ -245,7 +245,7 @@ void InventoryNode::ccTouchEnded(cocos2d::CCTouch *touch, cocos2d::CCEvent *even
         
         GameClient& client = GameClient::Instance();
         
-        CCRect bodyRect = GetRect(this->m_Body);
+        CCRect bodyRect = GetRectForAnchorLowerLeft(this->m_Body);
         
         // if the selected item was tracking node itself
         if(selectedItemSlot == this->m_TrackingItemSlotNode)

@@ -115,6 +115,8 @@ void UILayer::ccTouchesBegan(cocos2d::CCSet *touches, cocos2d::CCEvent *event)
     CCTouch* touch = (CCTouch*)(touches->anyObject());
     CCPoint touchLocation = touch->getLocation();
     
+    CCLOG("touch began");
+    
     if(this->TouchProcessSpellBegan(touchLocation)) return;
 }
 
@@ -122,6 +124,8 @@ void UILayer::ccTouchesEnded(CCSet *touches, CCEvent *event)
 {
     CCTouch* touch = (CCTouch*)( touches->anyObject() );
     CCPoint touchLocation = touch->getLocation();
+    
+    CCLOG("touch end");
     
     if(this->TouchProcessSpellEnded(touchLocation)) return;
     if(this->TouchProcessItem(touchLocation)) return;
@@ -153,7 +157,7 @@ void UILayer::InitializeInventory()
     this->m_InventoryNode->retain();
     this->m_InventoryNode->setPosition(ccp(InventoryNode::PositionX, InventoryNode::PositionY));
 
-    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this->m_InventoryNode, 0, true);
+    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this->m_InventoryNode, kCCMenuHandlerPriority - 1, true);
 
     this->addChild(this->m_InventoryNode);
 }
@@ -164,7 +168,7 @@ void UILayer::InitializeStash()
     this->m_StashNode->retain();
     this->m_StashNode->setPosition(ccp(StashNode::PositionX, StashNode::PositionY));
     
-    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this->m_StashNode, 0, true);
+    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this->m_StashNode, kCCMenuHandlerPriority - 1, true);
     
     this->addChild(this->m_StashNode);
 }
@@ -175,7 +179,7 @@ void UILayer::InitializeEquipment()
     this->m_EquipmentNode->retain();
     this->m_EquipmentNode->setPosition(ccp(EquipmentNode::PositionX, EquipmentNode::PositionY));
     
-    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this->m_EquipmentNode, 0, true);
+    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this->m_EquipmentNode, kCCMenuHandlerPriority - 1, true);
     
     this->addChild(this->m_EquipmentNode);
 }
@@ -186,7 +190,7 @@ void UILayer::InitializeMenuBar()
     this->m_MenuBarNode->retain();
     this->m_MenuBarNode->setPosition(ccp(MenuBarNode::PositionX, MenuBarNode::PositionY));
     
-    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this->m_MenuBarNode, 0, true);
+    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this->m_MenuBarNode, kCCMenuHandlerPriority, true);
     
     this->addChild(this->m_MenuBarNode);
 }
@@ -196,7 +200,7 @@ void UILayer::InitializeChatting()
     this->m_ChattingNode = ChattingNode::create();
     this->m_ChattingNode->retain();
     
-    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this->m_ChattingNode, 0, true);
+    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this->m_ChattingNode, kCCMenuHandlerPriority - 1, true);
 
     this->addChild(this->m_ChattingNode);
 }
@@ -236,6 +240,8 @@ bool UILayer::TouchProcessSpellBegan(CCPoint touchLocation)
     player->ChangeToCastingState();
     this->m_SpellDestinationPoint = touchLocation;
     GameClient::Instance().GetClientObject().SendCSRequestBeginCast(GameClient::Instance().GetClientStage()->GetStageID(), player->GetActorID(), this->m_SelectedSpellType, PointConverter::Convert(touchLocation));
+    
+    CCLOG("begin request sent");
 
     return true;
 }
@@ -244,13 +250,21 @@ bool UILayer::TouchProcessSpellEnded(CCPoint touchLocation)
 {
     ClientPlayer* player = static_cast<ClientPlayer*>(GameClient::Instance().GetClientStage()->FindPlayer(GameClient::Instance().GetMyActorID()));
     
-    if(this->m_SelectedSpellType == SpellType_NONE) return false;
-    if(!player->IsStateCasting()) return false;
+    if(this->m_SelectedSpellType == SpellType_NONE)
+    {
+        return false;
+    }
+    if(!player->IsStateCasting())
+    {
+        return false;
+    }
 
     player->ChangeToIdleState();
     GameClient::Instance().GetClientObject().SendCSRequestEndCast(GameClient::Instance().GetClientStage()->GetStageID(), player->GetActorID(), this->m_SelectedSpellType, PointConverter::Convert(this->m_SpellDestinationPoint));
     this->m_SelectedSpellType = SpellType_NONE;
     this->m_SpellDestinationPoint = CCPointZero;
+    
+    CCLOG("end request sent");
     
     return true;
 }
@@ -389,6 +403,14 @@ void UILayer::ApplyCoolTime(flownet::SpellType spellType)
     if(this->m_SpellQuickSlotNode)
     {
         this->m_SpellQuickSlotNode->ApplyCoolTime(spellType);
+    }
+}
+
+void UILayer::RemoveSpellHighlight()
+{
+    if(this->m_SpellQuickSlotNode)
+    {
+        this->m_SpellQuickSlotNode->RemoveHighlight();
     }
 }
 

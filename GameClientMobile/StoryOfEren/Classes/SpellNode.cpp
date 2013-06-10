@@ -150,6 +150,8 @@ void SpellNode::update(float deltaTime)
     
     // NOTE : reoder spell's ZOrder based on caster's ZOrder
     ActorNode* actorNode = actorLayer->FindActorNode(this->m_CasterID);
+    if(!actorNode) return; // NOTE : actorNode가 제거된 경우 위치 갱신을 하지 않는다
+    
     this->setZOrder(actorNode->getZOrder() + 1);
     
     switch(this->m_SpellInfo.m_StartingPoint)

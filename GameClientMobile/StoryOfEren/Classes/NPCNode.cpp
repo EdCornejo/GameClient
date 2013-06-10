@@ -10,31 +10,21 @@
 
 NPCNode::NPCNode(){}
 
-NPCNode::~NPCNode() {}
+NPCNode::~NPCNode()
+{
+    CC_SAFE_RELEASE(this->m_Body);
+}
 
 bool NPCNode::init()
 {
     if(!CCNode::init()) return false;
     
-    this->m_Skeleton = CCSkeletonAnimation::createWithFile("common/character.json", "player/character.atlas");
-    this->m_Skeleton->retain();
+    NPC* npc = GameClient::Instance().GetClientStage()->FindNPC(this->m_ActorID);
     
+    this->m_Body = NPCImageLoader::GetNPCImage(npc->GetNPCType());
+    this->m_Body->retain();
     
-    // set animtaion mixing
-    this->m_Skeleton->setMix("idle", "moving", 0.2);
-    this->m_Skeleton->setMix("moving", "idle", 0.2);
-    
-    this->m_Skeleton->setAnchorPoint(CharacterAnchorPoint);
-    
-    this->m_Skeleton->setSkin("girl");
-    this->m_Skeleton->setSlotsToSetupPose();
-    
-    this->m_Skeleton->setAnimation("idle", true);
-    
-    this->setScale(0.1);
-    
-    this->addChild(this->m_Skeleton);
-
+    this->addChild(this->m_Body);
     
     return true;
 }
@@ -56,3 +46,13 @@ NPCNode* NPCNode::create(flownet::ActorID actorID)
     }
 }
 
+
+void NPCNode::AnimateIdle() {}
+void NPCNode::AnimateMoving() {}
+void NPCNode::AnimateAttacking() {}
+void NPCNode::AnimateAttacked() {}
+void NPCNode::AnimateBeginCasting() {}
+void NPCNode::AnimateRepeatCasting() {}
+void NPCNode::AnimateEndCasting() {}
+void NPCNode::AnimateFire() {}
+void NPCNode::AnimateDead() {}

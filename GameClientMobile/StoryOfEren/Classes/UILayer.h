@@ -60,6 +60,7 @@ public:
     void SetSelectedSpellType(SpellType spellType);
     void SwapInventorySlot(flownet::InventorySlot sourceSlotNumber, flownet::InventorySlot destinationSlotNumber);
     void ApplyCoolTime(flownet::SpellType spellType);
+    void RemoveSpellHighlight();
     void MessageReceived(flownet::ActorID senderID, flownet::STRING senderName, flownet::STRING message);
     void ShowStageClearMessage();
     void ShowTierClearMessage();

@@ -8,7 +8,7 @@
 
 #include "Headers.pch"
 
-SpellQuickSlotNode::SpellQuickSlotNode(): m_ButtonSpellMap()
+SpellQuickSlotNode::SpellQuickSlotNode(): m_ButtonSpellMap(), m_HighlightImage(nullptr)
 {
 
 }
@@ -16,6 +16,7 @@ SpellQuickSlotNode::SpellQuickSlotNode(): m_ButtonSpellMap()
 SpellQuickSlotNode::~SpellQuickSlotNode()
 {
     this->m_ButtonSpellMap.clear();
+    CC_SAFE_RELEASE(this->m_HighlightImage);
 }
 
 bool SpellQuickSlotNode::init()
@@ -63,7 +64,8 @@ SpellQuickSlotNode* SpellQuickSlotNode::create()
 
 void SpellQuickSlotNode::OnSkillTouched(cocos2d::CCObject *sender)
 {
-    ButtonSpellMap::iterator iter = this->m_ButtonSpellMap.find(static_cast<CCMenuItem*>(sender));
+    CCMenuItem* spellIcon = static_cast<CCMenuItem*>(sender);
+    ButtonSpellMap::iterator iter = this->m_ButtonSpellMap.find(spellIcon);
     if (iter == this->m_ButtonSpellMap.end())
     {
         return;
@@ -80,6 +82,7 @@ void SpellQuickSlotNode::OnSkillTouched(cocos2d::CCObject *sender)
     
     // TO DO : do nothing on empty skill slot
     // TO DO : set selected highlight on MenuItem's position
+    this->SetHighlight(spellIcon);
     uiLayer->SetSelectedSpellType(spellType);
 }
 
@@ -95,10 +98,29 @@ void SpellQuickSlotNode::EnableButton(CCObject* object)
     menuItem->setEnabled(true);
 }
 
+void SpellQuickSlotNode::SetHighlight(CCMenuItem* spellIcon)
+{
+    this->RemoveHighlight();
+    this->m_HighlightImage = CCSprite::create("ui/spell_icon/highlight.png");
+    this->m_HighlightImage->retain();
+    this->m_HighlightImage->setPosition(spellIcon->getPosition());
+    this->addChild(this->m_HighlightImage);
+}
+
+void SpellQuickSlotNode::RemoveHighlight()
+{
+    if(this->m_HighlightImage)
+    {
+        this->m_HighlightImage->removeFromParent();
+        this->m_HighlightImage->release();
+        this->m_HighlightImage = nullptr;
+    }
+}
+
 void SpellQuickSlotNode::RemoveProgressTimer(CCObject* object)
 {
     CCProgressTimer* timer = static_cast<CCProgressTimer*>(object);
-    this->removeChild(timer, true);
+    timer->removeFromParent();
 }
 
 void SpellQuickSlotNode::ApplyCoolTime(flownet::SpellType spellType)
@@ -111,7 +133,7 @@ void SpellQuickSlotNode::ApplyCoolTime(flownet::SpellType spellType)
         if(pair.second == spellInfo.m_SpellType)
         {
     
-            // progress with spell cooltime. now fixed to 5 sec
+            // TODO : progress with spell cooltime. now fixed to 5 sec
             CCCallFuncO* disable = CCCallFuncO::create(this, callfuncO_selector(SpellQuickSlotNode::DisableButton), pair.first);
             CCDelayTime* delay = CCDelayTime::create(5);
             CCCallFuncO* enable = CCCallFuncO::create(this, callfuncO_selector(SpellQuickSlotNode::EnableButton), pair.first);

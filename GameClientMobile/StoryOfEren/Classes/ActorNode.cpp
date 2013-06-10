@@ -180,7 +180,7 @@ bool GuideLineNode::init()
     this->m_SpellGuideLine->retain();
     this->m_SpellGuideLine->setAnchorPoint(CCPointZero);
     this->m_SpellGuideLine->setPosition(this->m_Source);
-    this->m_SpellGuideLine->setScaleY(scaleFactor);
+    this->m_SpellGuideLine->setScaleX(scaleFactor);
     this->m_SpellGuideLine->setRotation(rotateDegree);
     
     this->m_SpellCastingIcon = SpellImageLoader::GetSpellGuideImage(this->m_SpellType);
@@ -391,7 +391,7 @@ void ChatBalloonNode::update(float deltaTime)
     ASSERT_DEBUG(actorNode);
     
     CCPoint actorPosition = actorNode->getPosition();
-    actorPosition.y += 80;
+    actorPosition.y += 60;
     
     this->setPosition(actorPosition);
 }
@@ -457,6 +457,8 @@ void ActorNode::AnimateIdle()
     CCLOGINFO("actor %d animates idle", this->GetActorID());
     
     Actor* actorInfo = this->GetActorInfo();
+    if(!actorInfo) return;
+    
     if(!actorInfo->IsAlive())
     {
         return;
@@ -487,6 +489,8 @@ void ActorNode::AnimateMoving()
     
     
     Actor* actorInfo = this->GetActorInfo();
+    
+    if(!actorInfo) return;
     
     if(!actorInfo->IsAlive())
     {
@@ -519,6 +523,8 @@ void ActorNode::AnimateAttacking()
     
     Actor* actorInfo = this->GetActorInfo();
     
+    if(!actorInfo) return;
+    
     if(!actorInfo->IsAlive())
     {
         return;
@@ -548,6 +554,7 @@ void ActorNode::AnimateAttacked()
     CCLOGINFO("actor %d animates attacked", this->GetActorID());
 
     Actor* actorInfo = this->GetActorInfo();
+    if(!actorInfo) return;
     
     if(!actorInfo->IsAlive())
     {
@@ -578,6 +585,7 @@ void ActorNode::AnimateBeginCasting()
     CCLOGINFO("actor %d animates begin casting", this->GetActorID());
     
     Actor* actorInfo = this->GetActorInfo();
+    if(!actorInfo) return;
     
     if(!actorInfo->IsAlive())
     {
@@ -607,6 +615,7 @@ void ActorNode::AnimateRepeatCasting()
     CCLOGINFO("actor %d animates repeat casting", this->GetActorID());
     
     Actor* actorInfo = this->GetActorInfo();
+    if(!actorInfo) return;
     
     if(!actorInfo->IsAlive())
     {
@@ -636,6 +645,7 @@ void ActorNode::AnimateEndCasting()
     CCLOGINFO("actor %d animates end casting", this->GetActorID());
     
     Actor* actorInfo = this->GetActorInfo();
+    if(!actorInfo) return;
     
     if(!actorInfo->IsAlive())
     {
@@ -665,6 +675,7 @@ void ActorNode::AnimateFire()
     CCLOGINFO("actor %d animates fire", this->GetActorID());
     
     Actor* actorInfo = this->GetActorInfo();
+    if(!actorInfo) return;
     
     if(!actorInfo->IsAlive())
     {
@@ -694,7 +705,8 @@ void ActorNode::AnimateDead()
     CCLOGINFO("actor %d animates dead", this->GetActorID());
     
     Actor* actorInfo = this->GetActorInfo();
-
+    if(!actorInfo) return;
+    
     bool flipX = false;
     
     if(actorInfo->GetLookingDirection() == DIRECTION_LEFT) // actor's looking direction is left

@@ -32,7 +32,7 @@ bool ExpBarNode::init()
     this->m_LevelLabel->retain();
     this->m_LevelLabel->setAnchorPoint(CCPointUpperRight);
     this->m_LevelLabel->setHorizontalAlignment(kCCTextAlignmentRight);
-    this->m_LevelLabel->setPosition(ccp(levelBackgroundSize.width - 2, 0));
+    this->m_LevelLabel->setPosition(ccp(levelBackgroundSize.width - 4, 0));
     this->addChild(this->m_LevelLabel);
     
     CCSprite* background = CCSprite::create("ui/exp_bar/background.png");
@@ -66,8 +66,7 @@ void ExpBarNode::update(float deltaTime)
         CCString* level = CCString::createWithFormat("%d", actor->GetLevel());
         this->m_LevelLabel->setString(level->getCString());
     
-        float scaleFactor = CCRANDOM_0_1();
-        //float scaleFactor = actor->GetExperiencePoint() / actor->GetMaxExperiencePoint();
+        float scaleFactor = actor->GetExperiencePoint() / actor->GetMaxExperiencePoint();
         this->m_CurrentExpBar->setScaleX(scaleFactor);
         
         this->m_Initialized = true;
