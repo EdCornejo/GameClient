@@ -77,7 +77,7 @@ int main(int argc, const char * argv[])
         {
             if( currentTime - lastTickTime >= ServerTime(300) )
             {
-                if( numberOfCFConnections <= 5000 )
+                if( numberOfCFConnections <= 2000 )
                 {
                     const INT increment = 10;
                     new std::thread(CreateCFConnection, increment);

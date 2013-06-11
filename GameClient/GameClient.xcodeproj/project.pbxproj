@@ -381,7 +381,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRELINK_LIBS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/** ../../flownet/flownet ../../GameShared/GameShared";
+				USER_HEADER_SEARCH_PATHS = "../../flownet/libpq/include ../../flownet/flownet ../../GameShared/GameShared";
 			};
 			name = Debug;
 		};
@@ -407,7 +407,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRELINK_LIBS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/** ../../flownet/flownet ../../GameShared/GameShared";
+				USER_HEADER_SEARCH_PATHS = "../../flownet/libpq/include ../../flownet/flownet ../../GameShared/GameShared";
 			};
 			name = Release;
 		};
