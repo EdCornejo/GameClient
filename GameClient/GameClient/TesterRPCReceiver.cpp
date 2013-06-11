@@ -339,6 +339,15 @@ void TesterRPCReceiver::OnSCNotifyMoveActor(flownet::StageID stageID, flownet::A
     }
 }
 
+void TesterRPCReceiver::OnSCNotifyTeleportActor(flownet::StageID stageID, flownet::ActorID playerID, flownet::POINT currentPosition, flownet::POINT destinationPosition) const
+{
+    if( m_PlayerID == playerID)
+    {
+        m_CurrentPosition = currentPosition;
+        m_DestinationPosition = destinationPosition;
+    }
+}
+
 void TesterRPCReceiver::OnSCNotifyActorAttributeChanged(flownet::StageID stageID, flownet::ActorID actorID, flownet::ActorAttribute actorAttribute, flownet::FLOAT amount) const 
 {
 }
@@ -447,8 +456,12 @@ void TesterRPCReceiver::OnSCNotifyRunOutSpellMana(long long, long long) const
 {
 }
 
-void TesterRPCReceiver::OnSCNotifyRunOutMovingMana(long long, long long) const
+void TesterRPCReceiver::OnSCNotifyRunOutMovingMana(flownet::StageID stageID, flownet::ActorID actorID) const
 {
+    if( actorID == m_PlayerID )
+    {
+    
+    }
 }
 
 void TesterRPCReceiver::OnSCNotifySpawnStageObject(long long, flownet::StageObject) const
