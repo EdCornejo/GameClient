@@ -64,7 +64,6 @@ bool MonsterNode::init()
     }
     this->m_Skeleton->retain();
     this->m_Skeleton->setSlotsToSetupPose();
-    this->m_Skeleton->setAnimation("idle", true);
     this->m_Skeleton->setAnchorPoint(CharacterAnchorPoint);
 
     this->addChild(this->m_Skeleton);

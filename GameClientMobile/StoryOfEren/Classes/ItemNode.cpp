@@ -29,6 +29,14 @@ bool ItemNode::init(flownet::ItemType itemType, flownet::ItemID itemID)
 
     this->m_ItemImage = ItemImageLoader::GetItemStageImage(itemType);
     this->m_ItemImage->retain();
+    
+    CCMoveBy* moveUp = CCMoveBy::create(1, ccp(0, 4));
+    CCMoveBy* moveDown = CCMoveBy::create(1, ccp(0, -4));
+    CCSequence* sequence = CCSequence::create(moveUp, moveDown, NULL);
+    CCRepeatForever* hovering = CCRepeatForever::create(sequence);
+    
+    this->m_ItemImage->runAction(hovering);
+    
     this->addChild(this->m_ItemImage);
     
     return true;

@@ -301,6 +301,7 @@ public:
     void AddNewNPC(flownet::NPC npc);
     void AddNewStageObject(flownet::StageObject stageObject);
     void MoveActor(flownet::ActorID actorID, flownet::POINT currentPosition, flownet::POINT destinationPosition);
+    void TeleportActor(flownet::ActorID actorID, flownet::POINT currentPosition, flownet::POINT destinationPosition);
     void KnockBackActor(flownet::ActorID actorID, flownet::POINT currentPosition, flownet::POINT knockbackDestination);
     void ActorAttack(flownet::ActorID attackerActorID, flownet::ActorID targetActorID);
     void ActorBeginCast(flownet::ActorID casterActorID, flownet::SpellType spellType, flownet::POINT destination);

@@ -651,7 +651,11 @@ void AppDelegate::OnSCNotifyMoveActor(flownet::StageID stageID, flownet::ActorID
 {
     ClientStage* clientStage = GameClient::Instance().GetClientStage();
     if(!clientStage) return;
-    if(stageID != clientStage->GetStageID()) ASSERT_DEBUG(stageID == clientStage->GetStageID());
+    if(stageID != clientStage->GetStageID())
+    {
+        ASSERT_DEBUG(stageID == clientStage->GetStageID());
+        return;
+    }
     
     BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
     ActorLayer* actorLayer = scene->GetActorLayer();
@@ -659,6 +663,23 @@ void AppDelegate::OnSCNotifyMoveActor(flownet::StageID stageID, flownet::ActorID
     if(actorLayer == nullptr) return;
 
     actorLayer->MoveActor(actorID, currentPosition, destinationPosition);
+}
+
+void AppDelegate::OnSCNotifyTeleportActor(flownet::StageID stageID, flownet::ActorID playerID, flownet::POINT currentPosition, flownet::POINT destinationPosition) const
+{
+    ClientStage* clientStage = GameClient::Instance().GetClientStage();
+    if(!clientStage) return;
+    if(stageID != clientStage->GetStageID())
+    {
+        ASSERT_DEBUG(stageID == clientStage->GetStageID());
+        return;
+    }
+    
+    BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
+    ActorLayer* actorLayer = scene->GetActorLayer();
+    
+    actorLayer->TeleportActor(playerID, currentPosition, destinationPosition);
+    // TODO : impl. teleport
 }
 
 void AppDelegate::OnSCNotifyKnockBackActor(flownet::StageID stageID, flownet::ActorID playerID, flownet::POINT currentPosition, flownet::POINT knockBackDestination) const

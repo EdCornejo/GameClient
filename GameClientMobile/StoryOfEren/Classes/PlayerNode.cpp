@@ -38,8 +38,6 @@ bool PlayerNode::init()
     }
     this->m_Skeleton->setSlotsToSetupPose();
     
-    this->m_Skeleton->setAnimation("idle", true);
-    
     this->setScale(0.1);
     
     this->addChild(this->m_Skeleton);

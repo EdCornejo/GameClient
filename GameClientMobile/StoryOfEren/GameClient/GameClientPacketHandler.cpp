@@ -237,6 +237,12 @@ void GameClientPacketHandler::OnSCNotifyMoveActor(StageID stageID, ActorID playe
     m_GameClientRPCReceiver->OnSCNotifyMoveActor(stageID, playerID, currentPosition, destinationPosition);
 }
 
+void GameClientPacketHandler::OnSCNotifyTeleportActor(StageID stageID, ActorID playerID, flownet::POINT currentPosition, flownet::POINT destinationPosition)
+{
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+    this->m_GameClientRPCReceiver->OnSCNotifyTeleportActor(stageID, playerID, currentPosition, destinationPosition);
+}
+
 void GameClientPacketHandler::OnSCNotifyKnockBackActor(StageID stageID, ActorID playerID, POINT currentPosition, POINT knockBackDestination)
 {
     ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);

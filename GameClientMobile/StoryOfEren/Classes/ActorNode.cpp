@@ -440,6 +440,29 @@ void ActorNode::StopAnimationActions()
     }
 }
 
+void ActorNode::InitializeAnimation()
+{
+    Actor* actor = GameClient::Instance().GetClientStage()->FindActor(this->m_ActorID);
+    switch (actor->GetActorState()) {
+        case flownet::ActorState_Attacking:
+            this->AnimateAttacking();
+            break;
+        case flownet::ActorState_Casting:
+            this->AnimateBeginCasting();
+            break;
+        case flownet::ActorState_Dead:
+            this->AnimateDead();
+            break;
+        case flownet::ActorState_Moving:
+            this->AnimateMoving();
+            break;
+        case flownet::ActorState_Idle:
+        default:
+            this->AnimateIdle();
+            break;
+    }
+}
+
 // NOTE : this method will be deprecated
 // NOTE : this method called by AnimateXXX methods
 void ActorNode::StopCharacterAnimate()

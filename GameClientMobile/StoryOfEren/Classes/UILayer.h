@@ -22,6 +22,8 @@ private:
     ExpBarNode* m_ExpBarNode;
     SpellType m_SelectedSpellType;
     CCPoint m_SpellDestinationPoint;
+    CCPoint m_LastTouchLocation;
+    ServerTime m_LastTouchTime;
     
 public:
     UILayer();

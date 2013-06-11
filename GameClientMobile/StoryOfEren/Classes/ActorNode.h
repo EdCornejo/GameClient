@@ -131,6 +131,7 @@ public:
 public:
     void StopAnimationActions();
     
+    void InitializeAnimation();
     virtual void AnimateIdle();
     virtual void AnimateMoving();
     virtual void AnimateAttacking();

@@ -8,7 +8,7 @@
 
 #include "Headers.pch"
 
-UILayer::UILayer() : m_StageType(flownet::StageType_NONE), m_SpellQuickSlotNode(nullptr), m_StashNode(nullptr), m_EquipmentNode(nullptr), m_InventoryNode(nullptr), m_MenuBarNode(nullptr), m_ChattingNode(nullptr), m_SelectedSpellType(SpellType_NONE), m_SpellDestinationPoint()
+UILayer::UILayer() : m_StageType(flownet::StageType_NONE), m_SpellQuickSlotNode(nullptr), m_StashNode(nullptr), m_EquipmentNode(nullptr), m_InventoryNode(nullptr), m_MenuBarNode(nullptr), m_ChattingNode(nullptr), m_SelectedSpellType(SpellType_NONE), m_SpellDestinationPoint(), m_LastTouchLocation(), m_LastTouchTime(0)
 {
     
 }
@@ -320,8 +320,23 @@ bool UILayer::TouchProcessMove(CCPoint touchLocation)
     
     ASSERT_DEBUG(node != nullptr);
 
-    GameClient::Instance().GetClientObject().SendCSRequestMoveActor(GameClient::Instance().GetClientStage()->GetStageID(), myActorID, PointConverter::Convert(node->getPosition()), PointConverter::Convert(touchLocation));
+    const float doubleTouchRadius = 20;
+    const ServerTime doubleTouchTimeRange = ServerTime(300); // millisecond
+    const ServerTime currentTime = GameClient::Instance().GetClientTimer().Check();
+    float distanceToLastTouchLocation = ccpDistance(this->m_LastTouchLocation, touchLocation);
+    CCLOG("distance to last touch location %f", distanceToLastTouchLocation);
+    
+    if(distanceToLastTouchLocation < doubleTouchRadius && (currentTime - this->m_LastTouchTime) < doubleTouchTimeRange)
+    {
+        GameClient::Instance().GetClientObject().SendCSRequestTeleportActor(GameClient::Instance().GetClientStage()->GetStageID(), myActorID, PointConverter::Convert(node->getPosition()), PointConverter::Convert(touchLocation));
+    }
+    else
+    {
+        GameClient::Instance().GetClientObject().SendCSRequestMoveActor(GameClient::Instance().GetClientStage()->GetStageID(), myActorID, PointConverter::Convert(node->getPosition()), PointConverter::Convert(touchLocation));
+    }
 
+    this->m_LastTouchTime = currentTime;
+    this->m_LastTouchLocation = touchLocation;
     
     return true;
 }   

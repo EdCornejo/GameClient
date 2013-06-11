@@ -84,7 +84,7 @@ void CCObject::release(void)
 
     if (m_uReference == 0)
     {
-        CCLOG("%d, %d, %s", this, this->m_uID, typeid(*this).name());
+//        CCLOG("%d, %d, %s", this, this->m_uID, typeid(*this).name());
         delete this;
     }
 }

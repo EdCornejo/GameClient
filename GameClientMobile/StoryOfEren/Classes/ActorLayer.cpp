@@ -82,7 +82,11 @@ bool ActorLayer::init()
             // actorNodeSet->AddHighlightNode(playerID);
         }
         
-        if(actorNodeSet->m_ActorNode) this->addChild(actorNodeSet->m_ActorNode);
+        if(actorNodeSet->m_ActorNode)
+        {
+            this->addChild(actorNodeSet->m_ActorNode);
+            actorNodeSet->m_ActorNode->InitializeAnimation();
+        }
         if(actorNodeSet->m_HUDNode) this->addChild(actorNodeSet->m_HUDNode);
         if(actorNodeSet->m_ShadowNode) this->addChild(actorNodeSet->m_ShadowNode);
         if(actorNodeSet->m_HighlightNode) this->addChild(actorNodeSet->m_HighlightNode);
@@ -103,7 +107,11 @@ bool ActorLayer::init()
         
         actorNodeSet->m_ActorNode->setPosition(PointConverter::Convert(monsterInfo->GetCurrentPosition()));
         
-        if(actorNodeSet->m_ActorNode) this->addChild(actorNodeSet->m_ActorNode);
+        if(actorNodeSet->m_ActorNode)
+        {
+            this->addChild(actorNodeSet->m_ActorNode);
+            actorNodeSet->m_ActorNode->InitializeAnimation();
+        }
         if(actorNodeSet->m_HUDNode) this->addChild(actorNodeSet->m_HUDNode);
         if(actorNodeSet->m_ShadowNode) this->addChild(actorNodeSet->m_ShadowNode);
         if(actorNodeSet->m_HighlightNode) this->addChild(actorNodeSet->m_HighlightNode);
@@ -267,7 +275,11 @@ void ActorLayer::AddNewPlayer(flownet::ClientPlayer player)
     
     ASSERT_DEBUG(iter == this->m_ActorNodeSetMap.end());
 
-    if(actorNodeSet->m_ActorNode) this->addChild(actorNodeSet->m_ActorNode);
+    if(actorNodeSet->m_ActorNode)
+    {
+        this->addChild(actorNodeSet->m_ActorNode);
+        actorNodeSet->m_ActorNode->InitializeAnimation();
+    }
     if(actorNodeSet->m_HUDNode) this->addChild(actorNodeSet->m_HUDNode);
     if(actorNodeSet->m_ShadowNode) this->addChild(actorNodeSet->m_ShadowNode);
     if(actorNodeSet->m_HighlightNode) this->addChild(actorNodeSet->m_HighlightNode);
@@ -291,13 +303,11 @@ void ActorLayer::AddNewMonster(flownet::ClientMonster monster)
     
     ASSERT_DEBUG(iter == this->m_ActorNodeSetMap.end());
     
-    CCLOG("%p", actorNodeSet);
-    CCLOG("%p", actorNodeSet->m_ActorNode);
-    CCLOG("%p", actorNodeSet->m_HUDNode);
-    CCLOG("%p", actorNodeSet->m_ShadowNode);
-    CCLOG("%p", actorNodeSet->m_ChatBalloonNode);
-    
-    if(actorNodeSet->m_ActorNode) this->addChild(actorNodeSet->m_ActorNode);
+    if(actorNodeSet->m_ActorNode)
+    {
+        this->addChild(actorNodeSet->m_ActorNode);
+        actorNodeSet->m_ActorNode->InitializeAnimation();
+    }
     if(actorNodeSet->m_HUDNode) this->addChild(actorNodeSet->m_HUDNode);
     if(actorNodeSet->m_ShadowNode) this->addChild(actorNodeSet->m_ShadowNode);
     if(actorNodeSet->m_HighlightNode) this->addChild(actorNodeSet->m_HighlightNode);
@@ -318,7 +328,11 @@ void ActorLayer::AddNewNPC(flownet::NPC npc)
     
     ASSERT_DEBUG(iter == this->m_ActorNodeSetMap.end());
     
-    if(actorNodeSet->m_ActorNode) this->addChild(actorNodeSet->m_ActorNode);
+    if(actorNodeSet->m_ActorNode)
+    {
+        this->addChild(actorNodeSet->m_ActorNode);
+        actorNodeSet->m_ActorNode->InitializeAnimation();
+    }
     if(actorNodeSet->m_HUDNode) this->addChild(actorNodeSet->m_HUDNode);
     if(actorNodeSet->m_ShadowNode) this->addChild(actorNodeSet->m_ShadowNode);
     if(actorNodeSet->m_HighlightNode) this->addChild(actorNodeSet->m_HighlightNode);
@@ -339,7 +353,11 @@ void ActorLayer::AddNewStageObject(flownet::StageObject stageObject)
     
     ASSERT_DEBUG(iter == this->m_ActorNodeSetMap.end());
 
-    if(actorNodeSet->m_ActorNode) this->addChild(actorNodeSet->m_ActorNode);
+    if(actorNodeSet->m_ActorNode)
+    {
+        this->addChild(actorNodeSet->m_ActorNode);
+        actorNodeSet->m_ActorNode->InitializeAnimation();
+    }
     if(actorNodeSet->m_HUDNode) this->addChild(actorNodeSet->m_HUDNode);
     if(actorNodeSet->m_ShadowNode) this->addChild(actorNodeSet->m_ShadowNode);
     if(actorNodeSet->m_HighlightNode) this->addChild(actorNodeSet->m_HighlightNode);
@@ -396,8 +414,32 @@ void ActorLayer::MoveActor(flownet::ActorID actorID, flownet::POINT currentPosit
     CCFiniteTimeAction* changeToIdleState = CCCallFuncN::create(this, callfuncN_selector(ActorLayer::ChangeActorStateToIdle));
     CCAction* sequence = CCSequence::create(animateMove, actionMove, actionMoveDone, changeToIdleState, NULL);
     
-    ASSERT_DEBUG(changeToIdleState != nullptr);
-    ASSERT_DEBUG(sequence != nullptr);
+    // TO DO : show moving point
+    sequence->setTag(ActionType_Animation);
+    movingObject->runAction(sequence);
+}
+
+void ActorLayer::TeleportActor(flownet::ActorID actorID, flownet::POINT currentPosition, flownet::POINT destinationPosition)
+{
+    Actor* actor = GameClient::Instance().GetClientStage()->FindActor(actorID);
+    ASSERT_DEBUG(actor);
+    ActorNode* movingObject = this->FindActorNode(actorID);
+    ASSERT_DEBUG(movingObject);
+    
+    if( !actor->IsAlive() )
+    {
+        CCLOG("ActorLayer::MoveActor >> ignore actor move request. actor is dead");
+        return;
+    }
+    
+    this->UpdateActorLookingDirection(actor, movingObject->getPosition(), PointConverter::Convert(destinationPosition));
+    movingObject->StopAnimationActions();
+    
+    CCFiniteTimeAction* animateMove = CCCallFunc::create(movingObject, callfunc_selector(ActorNode::AnimateMoving));
+    CCFiniteTimeAction* actionMove = CCMoveTo::create(0, PointConverter::Convert(destinationPosition));
+    CCFiniteTimeAction* actionMoveDone = CCCallFunc::create( movingObject, callfunc_selector(ActorNode::AnimateIdle));
+    CCFiniteTimeAction* changeToIdleState = CCCallFuncN::create(this, callfuncN_selector(ActorLayer::ChangeActorStateToIdle));
+    CCAction* sequence = CCSequence::create(animateMove, actionMove, actionMoveDone, changeToIdleState, NULL);
     
     // TO DO : show moving point
     sequence->setTag(ActionType_Animation);

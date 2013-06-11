@@ -21,6 +21,9 @@ std::string StageImageLoader::GetStageName(flownet::StageType stageType)
         case flownet::StageType_ClanCommunity :
             stageName = "clan_community";
             break;
+        case flownet::StageType_Colosseum :
+            stageName = "mushroom_field";
+            break;
         case flownet::StageType_MushroomField :
             stageName = "mushroom_field";
             break;

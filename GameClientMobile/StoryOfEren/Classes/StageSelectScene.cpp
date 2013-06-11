@@ -187,7 +187,7 @@ void StageInfoLayer::DisplayRunningStages(flownet::StagePlayInfoList &stageInfoL
     
     menu->alignItemsVertically();
     menu->setAnchorPoint(CCPointUpperLeft);
-    menu->setPosition(ccp(256, 80));
+    menu->setPosition(ccp(256, 102));
     this->m_Background->addChild(menu);
 }
 
@@ -231,13 +231,16 @@ bool StageSelectLayer::init()
     // 지금은 월드맵 오브젝트 위치를 맵사이즈안의 퍼센티지로 표현하겠음 obejct1 은 0.21, 0.21
     // object2 는 0.23, 0.56임
     // 오브젝트의 태그로 자신의 스테이지 타입을 저장한다
+    CCMenuItemImage* object0 = CCMenuItemImage::create("ui/stage_select_scene/object_normal.png", "ui/stage_select_scene/object_active.png", this, menu_selector(StageSelectLayer::OnStageSelectObjectTouch));
+    object0->setTag(StageType_Colosseum);
+    object0->setPosition(ccp(worldMapSize.width * 0.5, worldMapSize.height * 0.90));
     CCMenuItemImage* object1 = CCMenuItemImage::create("ui/stage_select_scene/object_normal.png", "ui/stage_select_scene/object_active.png", this, menu_selector(StageSelectLayer::OnStageSelectObjectTouch));
     object1->setTag(StageType_MushroomField);
     object1->setPosition(ccp(worldMapSize.width * 0.37, worldMapSize.height * 0.22));
     CCMenuItemImage* object2 = CCMenuItemImage::create("ui/stage_select_scene/object_normal.png", "ui/stage_select_scene/object_active.png", this, menu_selector(StageSelectLayer::OnStageSelectObjectTouch));
     object2->setTag(StageType_WolfForest);
     object2->setPosition(ccp(worldMapSize.width * 0.11, worldMapSize.height * 0.56));
-    this->m_Menu = CCMenu::create(object1, object2, NULL);
+    this->m_Menu = CCMenu::create(object0, object1, object2, NULL);
     this->m_Menu->retain();
     this->m_Menu->setPosition(CCPointZero);
 

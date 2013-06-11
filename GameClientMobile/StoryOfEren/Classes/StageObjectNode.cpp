@@ -23,15 +23,7 @@ bool StageObjectNode::init()
     
     this->m_Body = StageObjectImageLoader::GetStageObjectImage(stageObject->GetStageObjectType());
     this->m_Body->retain();
-
-    // NOTE : calculate anchor point with boundary
-    
-    float boundary = stageObject->GetActorBoundary();
-    CCLOG("%f", boundary);
-    float anchorY = (boundary - 2) * 0.1;
-    anchorY = anchorY < 0 ? 0 : anchorY;
-    
-    this->m_Body->setAnchorPoint(ccp(0.5, anchorY));
+    this->m_Body->setAnchorPoint(CharacterAnchorPoint);
     this->addChild(this->m_Body);
     
     return true;

@@ -6,11 +6,21 @@
 	<array>
 		<dict>
 			<key>name_kr</key>
-			<string>버섯밭</string>
+			<string>콜로세움</string>
 			<key>recommended_level</key>
 			<integer>1</integer>
 			<key>stage_type</key>
 			<integer>3</integer>
+			<key>description_kr</key>
+			<string>사람들과 전투를 할 수 있셈</string>
+		</dict>
+		<dict>
+			<key>name_kr</key>
+			<string>버섯밭</string>
+			<key>recommended_level</key>
+			<integer>1</integer>
+			<key>stage_type</key>
+			<integer>4</integer>
 			<key>description_kr</key>
 			<string>상아탑으로 가는 길. 버섯밭에는 버섯들이 많죠</string>
 		</dict>
