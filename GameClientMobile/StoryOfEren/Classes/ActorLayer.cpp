@@ -388,18 +388,6 @@ void ActorLayer::MoveActor(flownet::ActorID actorID, flownet::POINT currentPosit
         return;
     }
     
-    const float MovementAdjustDistance = 0.7;
-    
-    POINT objectCurrentPoint = PointConverter::Convert(movingObject->getPosition());
-    bool isDestinationSame = actor->GetDestinationPosition() == destinationPosition;
-    
-    actor->SetDestinationPositionForClient(destinationPosition);
-    
-    if(isDestinationSame && objectCurrentPoint.DistanceTo(currentPosition) < MovementAdjustDistance)
-    {
-        return;
-    }
-    
     float distance = destinationPosition.DistanceTo(currentPosition); // NOTE : using cocos2d object point because of distance is a bit diffence with server's
     
     ASSERT_DEBUG(actor->GetMovingSpeed() != 0);
