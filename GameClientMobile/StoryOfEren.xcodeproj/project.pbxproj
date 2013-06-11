@@ -913,6 +913,7 @@
 		6BB8AD61174B2DAC00D82DE8 /* StageSelectScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StageSelectScene.h; path = Classes/StageSelectScene.h; sourceTree = "<group>"; };
 		6BB8AD66174B5FAF00D82DE8 /* ChattingNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ChattingNode.cpp; path = Classes/ChattingNode.cpp; sourceTree = "<group>"; };
 		6BB8AD67174B5FAF00D82DE8 /* ChattingNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChattingNode.h; path = Classes/ChattingNode.h; sourceTree = "<group>"; };
+		6BBC58E6176753C9006DA35B /* GameClientTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GameClientTypes.h; path = StoryOfEren/GameClient/GameClientTypes.h; sourceTree = "<group>"; };
 		6BC6C3D717226C6600B439F9 /* MenuBarNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MenuBarNode.cpp; path = Classes/MenuBarNode.cpp; sourceTree = "<group>"; };
 		6BC6C3D817226C6600B439F9 /* MenuBarNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MenuBarNode.h; path = Classes/MenuBarNode.h; sourceTree = "<group>"; };
 		6BC6C3DD172284B100B439F9 /* InventoryNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = InventoryNode.cpp; path = Classes/InventoryNode.cpp; sourceTree = "<group>"; };
@@ -2191,6 +2192,7 @@
 				945D872217422BE200C03494 /* libGameSharedMobile.a */,
 				94F29FFE16DE3DE2005DFDE4 /* Default-568h@2x.png */,
 				94F29F7816DDD738005DFDE4 /* GameClient */,
+				6BBC58E6176753C9006DA35B /* GameClientTypes.h */,
 				94F29F8916DDD738005DFDE4 /* GameClientProperties.h */,
 				94F29CC216DDD6FB005DFDE4 /* StoryOfEren */,
 				94F29CB116DDD6FB005DFDE4 /* Frameworks */,

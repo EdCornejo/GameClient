@@ -20,6 +20,7 @@ SpellAnimationLoader::SpellAnimationLoader()
         "spell/iceCrystalize.plist",
         "spell/iceField.plist",
         "spell/iceSpear.plist",
+        "spell/teleport.plist",
     };
     
     for_each(spellAnimationPListFileList.begin(), spellAnimationPListFileList.end(), [](std::string& plistFileName){
@@ -71,3 +72,40 @@ CCAnimation* SpellAnimationLoader::GetSpellAnimation(flownet::SpellType spellTyp
    
     return animation;
 }
+
+CCAnimation* SpellAnimationLoader::GetSpellAnimation(flownet::SpellEffectType spellEffectType)
+{
+    std::string spellAnimationName;
+    switch (spellEffectType) {
+        case flownet::SpellEffectType_Teleport:
+            spellAnimationName = "teleport";
+            break;
+        default:
+            spellAnimationName = "";
+            break;
+    }
+    
+    CCAnimation* animation = CCAnimationCache::sharedAnimationCache()->animationByName(spellAnimationName.c_str());
+    
+    ASSERT_DEBUG(animation != nullptr);
+    
+    return animation;
+}
+
+CCAnimation* SpellAnimationLoader::GetAfterEffectAnimation(flownet::SpellType spellType)
+{
+    std::string afterEffectAnimationName;
+    switch (spellType) {
+        case flownet::SpellType_FireBurst:
+        case flownet::SpellType_FireBall:
+            afterEffectAnimationName = "explosion";
+            break;
+        default:
+            break;
+    }
+    
+    CCAnimation* animation = CCAnimationCache::sharedAnimationCache()->animationByName(afterEffectAnimationName.c_str());
+    
+    return animation;
+}
+

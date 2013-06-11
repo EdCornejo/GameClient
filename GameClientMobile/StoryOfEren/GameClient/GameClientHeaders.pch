@@ -20,6 +20,7 @@
 #include "GameCFProtocol.h"
 
 #include "GameClientProperties.h"
+#include "GameClientTypes.h"
 
 #include "RenderingTaskWorkerRoutine.h"
 

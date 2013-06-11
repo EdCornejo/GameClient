@@ -69,7 +69,7 @@ CCSprite* SpellImageLoader::GetSpellEffectImage(flownet::SpellAbility spellAbili
             effectFileName += "slow.png";
             break;
         default:
-            return nullptr;
+            return CCSprite::create("blank.png");
             break;
     }
 

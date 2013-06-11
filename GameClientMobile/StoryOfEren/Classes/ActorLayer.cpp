@@ -435,11 +435,18 @@ void ActorLayer::TeleportActor(flownet::ActorID actorID, flownet::POINT currentP
     this->UpdateActorLookingDirection(actor, movingObject->getPosition(), PointConverter::Convert(destinationPosition));
     movingObject->StopAnimationActions();
     
+    // NOTE : 자신한테 텔레포트 이펙트를 붙인채 싱크에 맞춰 이동할 수 있도록 한다
+    // NOTE : teleport effect node는 자동 소멸 할 수 있도록 플래그를 켠다
+    SpellEffectNode* effectNode = SpellEffectNode::create(actorID, SpellEffectType_Teleport);
+    this->addChild(effectNode);
+    
     CCFiniteTimeAction* animateMove = CCCallFunc::create(movingObject, callfunc_selector(ActorNode::AnimateMoving));
+    CCDelayTime* beforeDelay = CCDelayTime::create(0.1);
     CCFiniteTimeAction* actionMove = CCMoveTo::create(0, PointConverter::Convert(destinationPosition));
+    CCDelayTime* afterDelay = CCDelayTime::create(0.1);
     CCFiniteTimeAction* actionMoveDone = CCCallFunc::create( movingObject, callfunc_selector(ActorNode::AnimateIdle));
     CCFiniteTimeAction* changeToIdleState = CCCallFuncN::create(this, callfuncN_selector(ActorLayer::ChangeActorStateToIdle));
-    CCAction* sequence = CCSequence::create(animateMove, actionMove, actionMoveDone, changeToIdleState, NULL);
+    CCAction* sequence = CCSequence::create(animateMove, beforeDelay, actionMove, afterDelay, actionMoveDone, changeToIdleState, NULL);
     
     // TO DO : show moving point
     sequence->setTag(ActionType_Animation);

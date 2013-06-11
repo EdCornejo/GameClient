@@ -21,6 +21,8 @@ public:
     static SpellAnimationLoader* Instance();
     
     CCAnimation* GetSpellAnimation(flownet::SpellType spellType);
+    CCAnimation* GetSpellAnimation(flownet::SpellEffectType spellEffectType);
+    CCAnimation* GetAfterEffectAnimation(flownet::SpellType spellType);
 };
 
 #endif /* defined(__GameClientMobile__SpellAnimationLoader__) */

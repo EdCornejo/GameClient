@@ -17,6 +17,7 @@ private:
     flownet::POINT m_Destination;
     float m_LastTickTime;
     unsigned int m_StartingEffectID;
+    bool m_HasReachedToDestination;
     
     ShadowNode* m_Shadow;
 
@@ -40,6 +41,10 @@ private:
     std::string GetFileName(flownet::SpellType spellType);
     void PlayStartingEffect();
     void PlayEndingEffect();
+    
+    void MoveToOriginDestination();
+    void SetAnchorPointToCCPointLowerMid();
+    void SetRotateToOrigin();
 };
 
 #endif /* defined(__GameClientMobile__SpellNode__) */
