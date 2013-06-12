@@ -35,14 +35,13 @@ GPSPoint GPS::GetCurrentGPSPoint()
 #ifdef FLOWNET_IPHONE
     gpsPoint.latitude = static_getLatitude();
     gpsPoint.longitude = static_getLongitude();
-#elif FLOWNET_ANDROID
+#elif defined FLOWNET_ANDROID
     gpsPoint.latitude = 0;
     gpsPoint.longitude = 0;
 #else
     gpsPoint.latitude = 0;
     gpsPoint.longitude = 0;
 #endif
-
     return gpsPoint;
 }
 
@@ -52,11 +51,9 @@ std::string GPS::GetCurrentAddress()
 {
 #ifdef FLOWNET_IPHONE
     return static_getAddress();
-#elif FLOWNET_ANDROID
-    gpsPoint.latitude = 0;
-    gpsPoint.longitude = 0;
+#elif defined FLOWNET_ANDROID
+    return "";
 #else
-    gpsPoint.latitude = 0;
-    gpsPoint.longitude = 0;
+    return "";
 #endif
 }
