@@ -26,6 +26,7 @@ GameClient::GameClient():
     m_FCPacketHandler(&m_RenderingTaskWorkerRoutine),
     m_FCPacketParser(&m_FCPacketHandler),
     m_CFConnection(m_NetworkWorkerRoutine.m_IOService, &m_FCPacketParser),
+    m_GameClientRPCInterface(nullptr),
     m_IsInitialized(false),
     m_IsStarted(false),
     m_DeviceID(DeviceID_None),
@@ -102,6 +103,7 @@ void GameClient::InitializeClient(GameClientRPCInterface* gameClientRPCReceiver)
     ASSERT_RELEASE(m_IsInitialized == false);
     ASSERT_RELEASE(m_IsStarted == false);
 
+    m_GameClientRPCInterface = gameClientRPCReceiver;
     SpellDictionary::Initialize();
     SpellAbilityApplier::Initialize();
     ItemDataDictionary::Initialize();

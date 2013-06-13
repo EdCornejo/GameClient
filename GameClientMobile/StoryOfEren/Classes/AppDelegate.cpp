@@ -169,6 +169,11 @@ bool AppDelegate::DisconnectCSAndConnectCFConnection() const
     return result;
 }
 
+void AppDelegate::PopUpMessageBox(const flownet::STRING& message) const
+{
+    CCMessageBox(message.c_str(), "Story of EREN");
+}
+
 void AppDelegate::OnSCProtocolError() const
 {
 
