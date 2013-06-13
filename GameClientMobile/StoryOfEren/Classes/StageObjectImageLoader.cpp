@@ -37,6 +37,18 @@ CCSprite* StageObjectImageLoader::GetStageObjectImage(flownet::StageObjectType s
     case flownet::StageObjectType_IceTree:
         imageName += "ice_tree.png";
         break;
+    case flownet::StageObjectType_PrivateStorage:
+        imageName += "ice_column2.png";
+        break;
+    case flownet::StageObjectType_PrivateCampFire:
+        imageName += "ice_column.png";
+        break;
+    case flownet::StageObjectType_ColosseumBase:
+        imageName += "ice_pond.png";
+        break;
+    case flownet::StageObjectType_ColosseumCenter:
+        imageName += "ice_tree.png";
+        break;
     default:
         ASSERT_DEBUG(false);
         break;
