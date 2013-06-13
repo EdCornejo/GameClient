@@ -25,7 +25,7 @@ bool LoadingScene::init()
         return false;
     }
     
-    this->m_LoadingSprite = BackgroundImageLoader::GetBackgroundImage(StageType_Loading);
+    this->m_LoadingSprite = BackgroundImageLoader::GetGroundImage(StageType_Loading);
     this->m_LoadingSprite->retain();
     this->setPosition(CCPointMid);
     this->addChild(this->m_LoadingSprite);

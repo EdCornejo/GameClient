@@ -11,52 +11,88 @@
 BackgroundImageLoader::BackgroundImageLoader(){}
 BackgroundImageLoader::~BackgroundImageLoader(){}
 
-CCSprite* BackgroundImageLoader::GetBackgroundImage(StageType stageType)
+std::string BackgroundImageLoader::GetFileName(flownet::StageType stageType)
 {
-    std::string imageFileName = "stage/background/";
-    
+    std::string fileName;
     switch(stageType)
     {
+        case flownet::StageType_Loading:
+            fileName = "loading";
+            break;
         case flownet::StageType_Intro:
-            imageFileName += "mushroom_field.png";
+            fileName = "mushroom_field";
+            break;
+        case flownet::StageType_ClanCommunity:
+            fileName = "clan_community";
+            break;
+        case flownet::StageType_Colosseum:
+            fileName = "wolf_forest";
             break;
         case flownet::StageType_MushroomField:
-            imageFileName += "mushroom_field.png";
+            fileName = "mushroom_field";
             break;
         case flownet::StageType_SpiderCaveFront:
-            imageFileName += "spider_cave_front.png";
+            fileName = "spider_cave_front";
             break;
         case flownet::StageType_SpiderCave:
-            imageFileName += "spider_cave.png";
+            fileName = "spider_cave";
             break;
         case flownet::StageType_IvoryTower:
-            imageFileName += "ivorytower_background.png";
+            fileName = "ivorytower";
             break;
         case flownet::StageType_PrivateLibrary:
-            imageFileName += "privatelibrary_background.png";
+            fileName = "private_library";
             break;
         case flownet::StageType_GrowingNature:
-            imageFileName += "growingnature_background.png";
+            fileName = "growingnature";
             break;
         case flownet::StageType_MotherNature:
-            imageFileName += "mothernature_background.png";
+            fileName = "mothernature";
             break;
         case flownet::StageType_WeirdForest:
-            imageFileName += "weirdforest_background.png";
-            break;
-        case flownet::StageType_Loading:
-            imageFileName += "loading.png";
+            fileName = "weirdforest";
             break;
         case flownet::StageType_WolfForest:
-            imageFileName += "wolf_forest.png";
+            fileName = "wolf_forest";
             break;
         default:
-            imageFileName += "default.png";
+            fileName = "default";
+            break;
     }
+    
+    return fileName;
+}
+
+CCSprite* BackgroundImageLoader::GetSkyImage(flownet::StageType stageType)
+{
+    std::string imageFileName = "stage/background/";
+    imageFileName += GetFileName(stageType);
+    imageFileName += "_sky.png";
     
     CCSprite* image = CCSprite::create(imageFileName.c_str());
     
-    ASSERT_DEBUG(image != nullptr);
+    return image;
+
+}
+
+CCSprite* BackgroundImageLoader::GetTerrainImage(flownet::StageType stageType)
+{
+    std::string imageFileName = "stage/background/";
+    imageFileName += GetFileName(stageType);
+    imageFileName += "_terrain.png";
+    
+    CCSprite* image = CCSprite::create(imageFileName.c_str());
+    
+    return image;
+}
+
+CCSprite* BackgroundImageLoader::GetGroundImage(StageType stageType)
+{
+    std::string imageFileName = "stage/background/";
+    imageFileName += GetFileName(stageType);
+    imageFileName += "_ground.png";
+    
+    CCSprite* image = CCSprite::create(imageFileName.c_str());
     
     return image;
 }

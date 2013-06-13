@@ -221,7 +221,7 @@ bool StageSelectLayer::init()
 {
     if(!CCLayer::init()) return false;
     
-    CCSprite* worldmap = CCSprite::create("ui/stage_select_scene/worldmap.jpg");
+    CCSprite* worldmap = CCSprite::create("ui/stage_select_scene/map.png");
     worldmap->setAnchorPoint(CCPointZero);
     CCSize worldMapSize = worldmap->getContentSize();
     this->m_WorldMapWidth = worldMapSize.width;
@@ -233,21 +233,29 @@ bool StageSelectLayer::init()
     // 오브젝트의 태그로 자신의 스테이지 타입을 저장한다
     CCMenuItemImage* object0 = CCMenuItemImage::create("ui/stage_select_scene/object_normal.png", "ui/stage_select_scene/object_active.png", this, menu_selector(StageSelectLayer::OnStageSelectObjectTouch));
     object0->setTag(StageType_Colosseum);
-    object0->setPosition(ccp(worldMapSize.width * 0.5, worldMapSize.height * 0.90));
+    object0->setPosition(ccp(worldMapSize.width * 0.15, worldMapSize.height * 0.5));
     CCMenuItemImage* object1 = CCMenuItemImage::create("ui/stage_select_scene/object_normal.png", "ui/stage_select_scene/object_active.png", this, menu_selector(StageSelectLayer::OnStageSelectObjectTouch));
     object1->setTag(StageType_MushroomField);
-    object1->setPosition(ccp(worldMapSize.width * 0.37, worldMapSize.height * 0.22));
+    object1->setPosition(ccp(worldMapSize.width * 0.64, worldMapSize.height * 0.17));
     CCMenuItemImage* object2 = CCMenuItemImage::create("ui/stage_select_scene/object_normal.png", "ui/stage_select_scene/object_active.png", this, menu_selector(StageSelectLayer::OnStageSelectObjectTouch));
     object2->setTag(StageType_WolfForest);
-    object2->setPosition(ccp(worldMapSize.width * 0.11, worldMapSize.height * 0.56));
-    this->m_Menu = CCMenu::create(object0, object1, object2, NULL);
+    object2->setPosition(ccp(worldMapSize.width * 0.08, worldMapSize.height * 0.87));
+    CCMenuItemImage* object3 = CCMenuItemImage::create("ui/stage_select_scene/small_object_n.png", "ui/stage_select_scene/small_object_a.png", this, menu_selector(StageSelectLayer::OnStageSelectObjectTouch));
+    object3->setTag(StageType_Intro);
+    object3->setPosition(ccp(worldMapSize.width * 0.5, worldMapSize.height * 0.5));
+    this->m_Menu = CCMenu::create(object0, object1, object2, object3, NULL);
     this->m_Menu->retain();
     this->m_Menu->setPosition(CCPointZero);
 
     this->m_WorldMap = CCParallaxNode::create();
     this->m_WorldMap->retain();
     this->m_WorldMap->addChild(worldmap, 0, ccp(1, 1), CCPointZero);
-
+    
+    
+    // 좀더 정확한 초기 위치 조정 코드를 넣어라
+//    this->m_WorldMap->setPosition( ccp(-worldMapSize.width / 2, -worldMapSize.height / 2) );
+//    this->m_Menu->setPosition( ccp(-worldMapSize.width / 2, -worldMapSize.height / 2) );
+    
     this->addChild(this->m_WorldMap);
     this->addChild(this->m_Menu);
     

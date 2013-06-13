@@ -693,6 +693,8 @@ void AppDelegate::OnSCNotifyKnockBackActor(flownet::StageID stageID, flownet::Ac
     
     if(!actorLayer) return;
     
+    CCLOG("knockback dest %f, %f", knockBackDestination.x, knockBackDestination.y);
+    
     actorLayer->KnockBackActor(playerID, currentPosition, knockBackDestination);
 }
 

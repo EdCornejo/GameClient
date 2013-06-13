@@ -18,13 +18,7 @@ StageScene::~StageScene()
 
 bool StageScene::init()
 {
-    if(!BaseScene::init())
-    {
-        return false;
-    }
-    // test code
-    //GameClient::Instance().InitializeTestData();
-    // end of test code
+    if(!BaseScene::init()) return false;
     
     ClientStage* stage = GameClient::Instance().GetClientStage();
     

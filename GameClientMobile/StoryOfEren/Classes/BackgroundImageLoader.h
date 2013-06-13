@@ -17,8 +17,12 @@ private:
     BackgroundImageLoader();
     ~BackgroundImageLoader();
     
+    static std::string GetFileName(flownet::StageType stageType);
+    
 public:
-    static CCSprite* GetBackgroundImage(flownet::StageType stageType);
+    static CCSprite* GetSkyImage(flownet::StageType stageType);
+    static CCSprite* GetTerrainImage(flownet::StageType stageType);
+    static CCSprite* GetGroundImage(flownet::StageType stageType);
 };
 
 

@@ -25,6 +25,10 @@ bool PlayerNode::init()
     // set animtaion mixing
     this->m_Skeleton->setMix("idle", "moving", 0.2);
     this->m_Skeleton->setMix("moving", "idle", 0.2);
+    this->m_Skeleton->setMix("idle", "casting", 0.2);
+    this->m_Skeleton->setMix("cating", "idle", 0.2);
+    this->m_Skeleton->setMix("idle", "attacked", 0.2);
+    this->m_Skeleton->setMix("attacked", "idle", 0.2);
     
     this->m_Skeleton->setAnchorPoint(CharacterAnchorPoint);
     
@@ -53,6 +57,10 @@ bool PlayerNode::initWithGender(flownet::Gender gender)
     this->m_Skeleton->retain();
     this->m_Skeleton->setMix("idle", "moving", 0.2);
     this->m_Skeleton->setMix("moving", "idle", 0.2);
+    this->m_Skeleton->setMix("idle", "casting", 0.2);
+    this->m_Skeleton->setMix("cating", "idle", 0.2);
+    this->m_Skeleton->setMix("idle", "attacked", 0.2);
+    this->m_Skeleton->setMix("attacked", "idle", 0.2);
     
     this->m_Skeleton->setAnchorPoint(CharacterAnchorPoint);
     
@@ -157,10 +165,13 @@ void PlayerNode::ChangeWand(flownet::ItemType itemType)
     std::string itemImageName;
     switch (itemType) {
         case flownet::ItemType_OakWand:
-            itemImageName = "oakwand";
+            itemImageName = "wood";
             break;
-        case flownet::ItemType_WizardStaff:
-            itemImageName = "wizard";
+        case flownet::ItemType_MoonWand:
+            itemImageName = "moon";
+            break;
+        case flownet::ItemType_CrystalWand:
+            itemImageName = "crystal";
             break;
         default:
             itemImageName = "default";
@@ -174,8 +185,12 @@ void PlayerNode::ChangeHat(flownet::ItemType itemType)
 {
     std::string itemImageName;
     switch (itemType) {
-        case flownet::ItemType_WizardHat:
+        case flownet::ItemType_WizardHat_Boy:
+        case flownet::ItemType_WizardHat_Girl:
             itemImageName = "wizard";
+            break;
+        case flownet::ItemType_Fedora_Girl:
+            itemImageName = "fedora";
             break;
         default:
             itemImageName = "default";
@@ -189,7 +204,8 @@ void PlayerNode::ChangeRobe(flownet::ItemType itemType)
 {
     std::string itemImageName;
     switch (itemType) {
-        case flownet::ItemType_WizardRobe:
+        case flownet::ItemType_WizardRobe_Boy:
+        case flownet::ItemType_WizardRobe_Girl:
             itemImageName = "wizard";
             break;
         default:
@@ -198,7 +214,7 @@ void PlayerNode::ChangeRobe(flownet::ItemType itemType)
     }
     
     this->m_Skeleton->setAttachment("right_upper_arm", itemImageName.c_str());
-    this->m_Skeleton->setAttachment("right_lower_arm-copy", itemImageName.c_str());
+    this->m_Skeleton->setAttachment("right_lower_arm", itemImageName.c_str());
     this->m_Skeleton->setAttachment("robe_up", itemImageName.c_str());
     this->m_Skeleton->setAttachment("robe_down", itemImageName.c_str());
     this->m_Skeleton->setAttachment("robe_neck", itemImageName.c_str());

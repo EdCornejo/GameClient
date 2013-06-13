@@ -328,6 +328,9 @@ bool UILayer::TouchProcessMove(CCPoint touchLocation)
     
     if(distanceToLastTouchLocation < doubleTouchRadius && (currentTime - this->m_LastTouchTime) < doubleTouchTimeRange)
     {
+        POINT dest = PointConverter::Convert(touchLocation);
+        CCLOG("teleport to CCPoint %f, %f", touchLocation.x, touchLocation.y);
+        CCLOG("teleport to POINT %f, %f", dest.x, dest.y);
         GameClient::Instance().GetClientObject().SendCSRequestTeleportActor(GameClient::Instance().GetClientStage()->GetStageID(), myActorID, PointConverter::Convert(node->getPosition()), PointConverter::Convert(touchLocation));
     }
     else

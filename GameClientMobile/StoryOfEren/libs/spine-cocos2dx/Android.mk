@@ -6,7 +6,9 @@ LOCAL_MODULE := spineCocos2d
 
 LOCAL_MODULE_FILENAME := libspineCocos2d
 
-LOCAL_SRC_FILES := src/spine/spine-cocos2dx.cpp
+LOCAL_SRC_FILES := src/spine/spine-cocos2dx.cpp \
+src/spine/CCSkeleton.cpp \
+src/spine/CCSkeletonAnimation.cpp
 
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/src
 
