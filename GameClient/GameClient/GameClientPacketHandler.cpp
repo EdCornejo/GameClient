@@ -174,7 +174,7 @@ void GameClientPacketHandler::OnSCResponseLogInWithOTP(UserID userID, ActorID pl
     m_GameClientObject->SetSessionID(sessionID);
     
     
-    m_GameClientObject->SendCSRequestCreateStage(StageType_WolfForest, GPSPoint(0.f,0.f,0.f));
+    m_GameClientObject->SendCSRequestCreateStage(StageType_MushroomField, GPSPoint(0.f,0.f,0.f));
     
     
     ASSERT_DEBUG(m_GameClientRPCReceiver != nullptr);

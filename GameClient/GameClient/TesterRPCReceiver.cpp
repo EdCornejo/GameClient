@@ -11,9 +11,10 @@
 namespace flownet
 {
 
-TesterRPCReceiver::TesterRPCReceiver():m_IsPlayerInStage(false),m_LastStageAITickTime(0),m_GameClientObject(nullptr),
-    m_LastMoveRequestTime(0),
-    m_LastCastRequestTime(0),
+TesterRPCReceiver::TesterRPCReceiver():
+    m_IsPlayerInStage(false),
+    m_LastStageAITickTime(0),
+    m_GameClientObject(nullptr),
     m_UserID(UserID_None),
     m_SessionID(SessionID_NONE),
     m_StageStartTime(0),
@@ -23,7 +24,9 @@ TesterRPCReceiver::TesterRPCReceiver():m_IsPlayerInStage(false),m_LastStageAITic
     m_Player(nullptr),
     m_TargetMonster(nullptr),
     m_CurrentPosition(0.f,0.f),
-    m_DestinationPosition(0.f,0.f)
+    m_DestinationPosition(0.f,0.f),
+    m_LastMoveRequestTime(0),
+    m_LastCastRequestTime(0)
 {
 }
 
@@ -92,6 +95,15 @@ void TesterRPCReceiver::RunStageAI()
             const FLOAT randomY = RandomNumberGeneratorFloat(-randomDistanceUnit, randomDistanceUnit)(RandomNumberGenerator::GetGeneratorEngine());
             moveDestination.x = m_CurrentPosition.x+randomX;
             moveDestination.y = m_CurrentPosition.y+randomY;
+            
+            if( moveDestination.x != moveDestination.x )
+            {
+                int i=0;
+            }
+            if( moveDestination.y != moveDestination.y )
+            {
+                int i=0;
+            }
         }
         else
         {
@@ -125,6 +137,15 @@ void TesterRPCReceiver::RunStageAI()
                 
                 moveDestination.x = targetPosition.x-destinationSign*directionVector.x*desiredDistanceToMonster;
                 moveDestination.y = targetPosition.y-destinationSign*directionVector.y*desiredDistanceToMonster;
+                if( moveDestination.x != moveDestination.x )
+                {
+                    int i=0;
+                }
+                if( moveDestination.y != moveDestination.y )
+                {
+                    int i=0;
+                }
+
             }
         }
         
@@ -144,6 +165,15 @@ void TesterRPCReceiver::RunStageAI()
         if( m_DestinationPosition.y < 0.f )
         {
             m_DestinationPosition.y = 0.f;
+        }
+        
+        if( m_DestinationPosition.x != m_DestinationPosition.x )
+        {
+            int i=0;
+        }
+        if( m_DestinationPosition.y != m_DestinationPosition.y )
+        {
+            int i=0;
         }
         m_GameClientObject->SendCSRequestMoveActor(m_StageID, m_PlayerID, m_CurrentPosition, m_DestinationPosition);
         m_LastMoveRequestTime = currentTime;
@@ -242,7 +272,7 @@ void TesterRPCReceiver::OnSCResponseExitStage(flownet::StageID stageID, flownet:
     }
     
     
-    m_GameClientObject->SendCSRequestCreateStage(StageType_WolfForest, GPSPoint(0.f,0.f,0.f));
+    m_GameClientObject->SendCSRequestCreateStage(StageType_MushroomField, GPSPoint(0.f,0.f,0.f));
 }
 
 void TesterRPCReceiver::OnSCNotifyExitStage(flownet::StageID stageID, flownet::ActorID playerID) const 
