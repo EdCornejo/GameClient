@@ -52,5 +52,16 @@ void CFConnection::OnConnect(const BoostErrorCode& error, BoostTCPSocket* connec
     }
 }
 
+void CFConnection::OnDisconnect()
+{
+    ClientObject::OnDisconnect();
+    const GameClientRPCInterface* gameClientRPCInterface = GameClient::Instance().GetGameClientRPCInterface();
+    if( gameClientRPCInterface )
+    {
+        GameClient::Instance().GetRenderingTaskWorkerRoutine().AddTask(CreateLambdaTask("OnDisconnectLambda", [ gameClientRPCInterface](){
+            gameClientRPCInterface->PopUpMessageBox("GameServer Is Busy. Please try again LATER.");
+        }));
+    }
+}
 
 } // namespace flownet

@@ -49,6 +49,8 @@ private:
     FCPacketHandler                 m_FCPacketHandler;
     FCPacketParser                  m_FCPacketParser;
     CFConnection                    m_CFConnection;
+    
+    GameClientRPCInterface*         m_GameClientRPCInterface;
    
     // State for assert accurate operation calls
 private:
@@ -69,6 +71,7 @@ public:
     inline ThreadController&            GetThreadController()           {   return m_ThreadController; }
     inline GameClientObject&            GetClientObject()               {   return m_ClientObject; }
     inline CFConnection&                GetCFConnection()               {   return m_CFConnection; }
+    inline GameClientRPCInterface*      GetGameClientRPCInterface()     {   return m_GameClientRPCInterface; }
 
 // End of GameClient Network Part
     

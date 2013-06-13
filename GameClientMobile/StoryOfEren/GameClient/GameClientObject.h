@@ -50,6 +50,7 @@ protected:
   
 protected:
     virtual void        OnConnect(const BoostErrorCode& error, BoostTCPSocket* connectedSocket) override;
+    virtual void        OnDisconnect() override;
     
 public:
     #include "GameCSProtocolSenderDeclaration.hpp"
