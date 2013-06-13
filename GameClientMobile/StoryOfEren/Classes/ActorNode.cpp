@@ -70,7 +70,26 @@ void ShadowNode::update(float deltaTime)
         
         if(!actor) return;
         
-        this->setPosition(actor->getPosition());
+        CCPoint shadowAdjustment = CCPointMake(0.f, 0.f);
+        
+
+        if( (actor->m_Skeleton!=nullptr) && (actor->m_Skeleton->skeleton) )
+        {
+            if( actor->m_Skeleton->skeleton->flipX == true )
+            {
+                shadowAdjustment.x = -actor->m_Skeleton->boundingBox().size.width*0.12f;
+            }
+            else
+            {
+                shadowAdjustment.x = actor->m_Skeleton->boundingBox().size.width*0.12f;
+            }
+       
+            #define ShadowBaseWidth 60.f
+            const float shadowScaleFactor = actor->m_Skeleton->boundingBox().size.width / ShadowBaseWidth;
+            this->setScaleX(shadowScaleFactor);
+        }
+        
+        this->setPosition(ccpAdd(actor->getPosition(), shadowAdjustment));
     }
     else if (this->m_SpellNode)
     {
@@ -90,6 +109,10 @@ void ShadowNode::update(float deltaTime)
                 spellPosition = this->m_SpellNode->GetDestination();
                 break;
         }
+        
+        #define ShadowBaseWidth 60.f
+        const float shadowScaleFactor = this->m_SpellNode->boundingBox().size.width / ShadowBaseWidth;
+        this->setScaleX(shadowScaleFactor);
         
         this->setPosition(spellPosition);
     }

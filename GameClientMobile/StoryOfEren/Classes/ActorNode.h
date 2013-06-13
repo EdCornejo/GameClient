@@ -117,6 +117,7 @@ public:
 
 class ActorNode : public CCNode
 {
+friend class ShadowNode;
 protected:
     flownet::ActorID m_ActorID;
     CCSkeletonAnimation* m_Skeleton;

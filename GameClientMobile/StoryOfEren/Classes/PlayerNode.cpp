@@ -38,7 +38,7 @@ bool PlayerNode::init()
     }
     this->m_Skeleton->setSlotsToSetupPose();
     
-    this->setScale(0.1);
+    this->setScale(0.115);
     
     this->addChild(this->m_Skeleton);
     
