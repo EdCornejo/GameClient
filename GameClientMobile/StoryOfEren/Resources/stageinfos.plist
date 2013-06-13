@@ -6,6 +6,16 @@
 	<array>
 		<dict>
 			<key>name_kr</key>
+			<string>시발</string>
+			<key>recommended_level</key>
+			<integer>15</integer>
+			<key>stage_type</key>
+			<integer>1</integer>
+			<key>description_kr</key>
+			<string>하얀 늑대가 있다고 하는 기괴한 숲이에요</string>
+		</dict>
+		<dict>
+			<key>name_kr</key>
 			<string>콜로세움</string>
 			<key>recommended_level</key>
 			<integer>1</integer>
@@ -30,7 +40,7 @@
 			<key>recommended_level</key>
 			<integer>15</integer>
 			<key>stage_type</key>
-			<integer>11</integer>
+			<integer>12</integer>
 			<key>description_kr</key>
 			<string>하얀 늑대가 있다고 하는 기괴한 숲이에요</string>
 		</dict>
