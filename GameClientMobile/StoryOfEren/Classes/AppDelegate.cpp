@@ -38,17 +38,7 @@ bool AppDelegate::applicationDidFinishLaunching()
 
     std::vector<std::string> searchPaths;
 
-    if (frameSize.height > mediumResource.size.height)
-    {
-        searchPaths.push_back(largeResource.directory);
-        pDirector->setContentScaleFactor(largeResource.size.height/designResolutionSize.height);
-    }
-    else if (frameSize.height > iphoneHDResource.size.height)
-    {
-        searchPaths.push_back(mediumResource.directory);
-        pDirector->setContentScaleFactor(mediumResource.size.height/designResolutionSize.height);
-    }
-    else if (frameSize.height > smallResource.size.height)
+    if (frameSize.height > smallResource.size.height)
     {
         searchPaths.push_back(iphoneHDResource.directory);
         pDirector->setContentScaleFactor(iphoneHDResource.size.height/designResolutionSize.height);
@@ -750,6 +740,9 @@ void AppDelegate::OnSCNotifyActorAttributeChanged(flownet::StageID stageID, flow
             ASSERT_DEBUG(uiLayer);
             uiLayer->UpdateExpBar();
             break;
+        case ActorAttribute_BattleTeamType:
+            ASSERT_DEBUG(actorLayer);
+            actorLayer->ActorTeamChanged(actorID);
         default:
             break;
     

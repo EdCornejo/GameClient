@@ -128,10 +128,28 @@ HighlightNode::~HighlightNode() {}
     
 bool HighlightNode::init()
 {
-    CCSprite* highlightImage = CCSprite::create("actor/highlight_circle.png");
-    this->addChild(highlightImage);
+    Actor* actor = GameClient::Instance().GetClientStage()->FindActor(this->m_ActorID);
+    if(!actor) return false;
+
+    CCSprite* highlightImage = nullptr;
+    switch(actor->GetBattleTeamType())
+    {
+        case flownet::BattleTeamType_Alpha :
+            highlightImage = CCSprite::create("actor/highlight_red.png");
+            break;
+        case flownet::BattleTeamType_Beta :
+            highlightImage = CCSprite::create("actor/highlight_blue.png");
+            break;
+        default :
+            break;
+    }
     
-    scheduleUpdate();
+    if(highlightImage)
+    {
+        highlightImage->setOpacity(150);
+        this->addChild(highlightImage);
+        scheduleUpdate();
+    }
     
     return true;
 }
@@ -160,11 +178,19 @@ void HighlightNode::update(float deltaTime)
     
     if(!actorLayer) ASSERT_DEBUG(false);
     
-    ActorNode* actor = actorLayer->FindActorNode(this->m_ActorID);
+    ActorNode* actorNode = actorLayer->FindActorNode(this->m_ActorID);
+
+    if(!actorNode) return;
+    
+    Actor* actor = GameClient::Instance().GetClientStage()->FindActor(this->m_ActorID);
 
     if(!actor) return;
 
-    this->setPosition(actor->getPosition());
+    const float HighlightBaseWidth = 60;
+    const float highlightScaleFactor = actor->GetActorBoundary();
+    this->setScaleX(highlightScaleFactor);
+    
+    this->setPosition(actorNode->getPosition());
 }
 
 

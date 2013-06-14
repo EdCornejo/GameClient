@@ -200,8 +200,6 @@ void UILayer::InitializeChatting()
     this->m_ChattingNode = ChattingNode::create();
     this->m_ChattingNode->retain();
     
-    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this->m_ChattingNode, kCCMenuHandlerPriority - 1, true);
-
     this->addChild(this->m_ChattingNode);
 }
 

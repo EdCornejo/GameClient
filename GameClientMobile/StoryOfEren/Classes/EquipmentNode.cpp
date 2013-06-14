@@ -8,7 +8,7 @@
 
 #include "Headers.pch"
 
-EquipmentNode::EquipmentNode() : m_IsOpen(false), m_ScrollButton(nullptr), m_SlideButton(nullptr), m_Body(nullptr), m_ActorNode(nullptr), m_ItemSlotNodeList(), m_TrackingItemSlotNode(nullptr), m_HighlightedItemSlotNode(nullptr), m_TrackingItemSlotTouchedTime(0) {}
+EquipmentNode::EquipmentNode() : m_IsOpen(false), m_SlideButton(nullptr), m_Body(nullptr), m_ActorNode(nullptr), m_ItemSlotNodeList(), m_TrackingItemSlotNode(nullptr), m_HighlightedItemSlotNode(nullptr), m_TrackingItemSlotTouchedTime(0) {}
 
 
 EquipmentNode::~EquipmentNode()
@@ -38,16 +38,15 @@ EquipmentNode::~EquipmentNode()
 
 bool EquipmentNode::init()
 {
-    this->m_SlideButton = CCMenuItemImage::create("ui/inventory/equipment_slide_button.png", "ui/inventory/equipment_slide_button.png", this, menu_selector(EquipmentNode::Slide));
+    this->m_SlideButton = CCSprite::create("ui/inventory/equipment_slide_button.png");
     this->m_SlideButton->retain();
     this->m_Body = CCSprite::create("ui/inventory/equipment_background.png");
     this->m_Body->retain();
 
     this->m_SlideButton->setAnchorPoint(CCPointMidLeft);
-    CCMenu* menu = CCMenu::create(this->m_SlideButton, NULL);
-    menu->setPosition(ccp(-1, -this->m_Body->getContentSize().height / 2)); // set position of slide button here
+    this->m_SlideButton->setPosition(ccp(-1, -this->m_Body->getContentSize().height / 2)); // set position of slide button here
 
-    this->addChild(menu);
+    this->addChild(this->m_SlideButton);
     
     this->m_Body->setAnchorPoint(CCPointUpperRight);
     
@@ -110,6 +109,14 @@ EquipmentNode* EquipmentNode::create()
 bool EquipmentNode::ccTouchBegan(CCTouch* touch, CCEvent* event)
 {
     CC_UNUSED_PARAM(event);
+    
+    CCRect slideButtonRect = GetRectForAnchorMidLeft(this->m_SlideButton);
+    slideButtonRect.origin = this->convertToWorldSpace(slideButtonRect.origin);
+    if(slideButtonRect.containsPoint(touch->getLocation()))
+    {
+        this->Slide();
+        return true;
+    }
     
     ItemSlotNode* selectedItemSlot = this->FindSelectedItemSlotNode(touch->getLocation());
     if(this->m_HighlightedItemSlotNode && selectedItemSlot != this->m_HighlightedItemSlotNode)

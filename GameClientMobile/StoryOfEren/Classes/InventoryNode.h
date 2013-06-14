@@ -20,8 +20,8 @@ private:
     CCNode* m_PinnedPart;
     
     flownet::ItemGroup m_CurrentItemGroup;
-    CCMenuItem* m_ScrollButton;
-    CCMenuItem* m_SlideButton;
+    CCSprite* m_ScrollButton;
+    CCSprite* m_SlideButton;
     CCSprite* m_Body;
     CCLabelTTF* m_GoldLabel;
     CCLabelTTF* m_DescriptionLabel;

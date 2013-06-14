@@ -75,6 +75,7 @@ bool ChattingNode::init()
     
     this->m_Background = CCSprite::create("ui/chatting/background.png");
     this->m_Background->retain();
+    this->m_Background->setOpacity(150);
     this->m_Background->setAnchorPoint(CCPointUpperLeft);
     this->m_Background->setPosition(ccp(0, 320));
     this->m_HidingPart->addChild(this->m_Background);
@@ -84,10 +85,14 @@ bool ChattingNode::init()
 
     CCSize backgroundSize = this->m_Background->getContentSize();
 
+    CCSprite* textBox = CCSprite::create("ui/chatting/textbox.png");
+    textBox->setPosition(ccp(240, backgroundSize.height-24));
+    this->m_Background->addChild(textBox);
+    
     this->m_TextField = CCTextFieldTTF::textFieldWithPlaceHolder("", CCSize(440, 24), kCCTextAlignmentLeft, "thonburi", 20);
     this->m_TextField->retain();
     this->m_TextField->setDelegate(this->m_Delegate);
-    this->m_TextField->setPosition(ccp(240, backgroundSize.height - 12));
+    this->m_TextField->setPosition(ccp(240, backgroundSize.height - 24));
     
     this->m_Background->addChild(this->m_TextField);
     
@@ -105,6 +110,7 @@ bool ChattingNode::init()
     CCMenuItemSprite* chatButton = CCMenuItemSprite::create(chatButtonNormal, chatButtonActive, this, menu_selector(ChattingNode::ToggleChat));
     CCMenu* menu = CCMenu::create(chatButton, NULL);
     menu->setPosition(ccp(450, 30));
+    menu->setTouchPriority(kCCMenuHandlerPriority - 3);
     
     this->addChild(this->m_HidingPart);
     this->addChild(menu);
@@ -122,7 +128,7 @@ bool ChattingNode::ccTouchBegan(cocos2d::CCTouch *touch, cocos2d::CCEvent *event
         return true;
     }
 
-    return false;
+    return true;
 }
 
 void ChattingNode::ToggleChat(CCObject* sender)
@@ -132,12 +138,14 @@ void ChattingNode::ToggleChat(CCObject* sender)
 
 void ChattingNode::ShowChat()
 {
+    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, kCCMenuHandlerPriority - 2, true);
     this->m_HidingPart->setVisible(true);
     this->m_TextField->attachWithIME();
 }
 
 void ChattingNode::HideChat()
 {
+    CCDirector::sharedDirector()->getTouchDispatcher()->removeDelegate(this);
     this->m_TextField->setString("");
     this->m_TextField->detachWithIME();
     this->m_HidingPart->setVisible(false);
@@ -146,7 +154,7 @@ void ChattingNode::HideChat()
 void ChattingNode::MessageReceived(flownet::STRING senderName, flownet::STRING message)
 {
     CCSize chatLogBoxSize = this->m_Background->getContentSize();
-    chatLogBoxSize.height -= 24; // height of textfield
+    chatLogBoxSize.height -= 38; // height of textfield
 
     int chatLogHeightLeft = chatLogBoxSize.height;
     

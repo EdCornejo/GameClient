@@ -71,6 +71,27 @@ static CCRect GetRectForAnchorLowerRight(CCNode* node)
     return rc;
 }
 
+static CCRect GetRectForAnchorMidLeft(CCNode* node)
+{
+    CCRect rc;
+    rc.origin = node->getPosition();
+    rc.size = node->getContentSize();
+    rc.origin.y -= rc.size.height / 2;
+    
+    return rc;
+}
+
+static CCRect GetRectForAnchorMidRight(CCNode* node)
+{
+    CCRect rc;
+    rc.origin = node->getPosition();
+    rc.size = node->getContentSize();
+    rc.origin.x -= rc.size.width;
+    rc.origin.y -= rc.size.height / 2;
+    
+    return rc;
+}
+
 static CCRect GetRectForAnchorUpperLeft(CCNode* node)
 {
     CCRect rc;

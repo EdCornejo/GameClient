@@ -311,6 +311,7 @@ public:
     void ActorTakeDamage(flownet::ActorID actorID);
     void ActorConsumedMana(flownet::ActorID actorID);
     void ActorRunOutOfMana(flownet::ActorID actorID);
+    void ActorTeamChanged(flownet::ActorID actorID);
 
     void ActorNodeReload(flownet::ActorID actorID);
 

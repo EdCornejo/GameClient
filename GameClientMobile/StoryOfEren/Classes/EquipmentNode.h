@@ -16,8 +16,7 @@ typedef flownet::Vector<ItemSlotNode*>::type ItemSlotNodeList;
 private:
     bool m_IsOpen;
     
-    CCMenuItem* m_ScrollButton;
-    CCMenuItem* m_SlideButton;
+    CCSprite* m_SlideButton;
     CCSprite* m_Body;
     ActorNode* m_ActorNode;
 

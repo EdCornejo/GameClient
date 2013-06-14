@@ -79,12 +79,11 @@ bool InventoryNode::init()
     this->m_PinnedPart = CCNode::create();
     this->m_PinnedPart->retain();
     
-    this->m_SlideButton = CCMenuItemImage::create("ui/inventory/inventory_tag_button.png", "ui/inventory/inventory_tag_button.png", this, menu_selector(InventoryNode::Slide));
+    this->m_SlideButton = CCSprite::create("ui/inventory/inventory_tag_button.png");
     this->m_SlideButton->retain();
     this->m_SlideButton->setAnchorPoint(CCPointLowerLeft);
-    CCMenu* menu = CCMenu::create(this->m_SlideButton, NULL);
-    menu->setPosition(ccp(-30, 50));
-    this->m_MovingPart->addChild(menu);
+    this->m_SlideButton->setPosition(ccp(-30, 50));
+    this->m_MovingPart->addChild(this->m_SlideButton);
     
     this->m_Body = CCSprite::create("ui/inventory/inventory_background.png");
     this->m_Body->retain();
@@ -167,11 +166,10 @@ bool InventoryNode::init()
     
     this->m_MovingPart->addChild(bodyNode);
     
-    this->m_ScrollButton = CCMenuItemImage::create("ui/inventory/inventory_scroll_button.png", "ui/inventory/inventory_scroll_button.png", this, menu_selector(InventoryNode::OnScrollButtonClicked));
+    this->m_ScrollButton = CCSprite::create("ui/inventory/inventory_scroll_button.png");
     this->m_ScrollButton->setAnchorPoint(CCPointLowerLeft);
-    CCMenu* scrollMenu = CCMenu::create(this->m_ScrollButton, NULL);
-    scrollMenu->setPosition(ccp(0, -5));
-    this->m_PinnedPart->addChild(scrollMenu);
+    this->m_ScrollButton->setPosition(ccp(0, -5));
+    this->m_PinnedPart->addChild(this->m_ScrollButton);
     
     this->addChild(m_MovingPart);
     this->addChild(m_PinnedPart);
@@ -201,6 +199,22 @@ InventoryNode* InventoryNode::create()
 bool InventoryNode::ccTouchBegan(CCTouch* touch, CCEvent* event)
 {
     CC_UNUSED_PARAM(event);
+    
+    CCRect slideButtonRect = GetRectForAnchorLowerLeft(this->m_SlideButton);
+    slideButtonRect.origin = this->m_MovingPart->convertToWorldSpace(slideButtonRect.origin);
+    CCRect scrollButtonRect = GetRectForAnchorLowerLeft(this->m_ScrollButton);
+    scrollButtonRect.origin = this->m_PinnedPart->convertToWorldSpace(scrollButtonRect.origin);
+    
+    if(slideButtonRect.containsPoint(touch->getLocation()))
+    {
+        this->Slide();
+        return true;
+    }
+    else if(scrollButtonRect.containsPoint(touch->getLocation()))
+    {
+        this->OnScrollButtonClicked();
+        return true;
+    }
     
     ItemSlotNode* selectedItemSlot = this->FindSelectedItemSlotNode(touch->getLocation());
     if(this->m_HighlightedItemSlotNode && selectedItemSlot != this->m_HighlightedItemSlotNode)

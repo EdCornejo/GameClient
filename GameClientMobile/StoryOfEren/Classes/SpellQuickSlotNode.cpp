@@ -135,7 +135,7 @@ void SpellQuickSlotNode::ApplyCoolTime(flownet::SpellType spellType)
     
             // TODO : progress with spell cooltime. now fixed to 5 sec
             CCCallFuncO* disable = CCCallFuncO::create(this, callfuncO_selector(SpellQuickSlotNode::DisableButton), pair.first);
-            CCDelayTime* delay = CCDelayTime::create(5);
+            CCDelayTime* delay = CCDelayTime::create(spellInfo.m_SpellCoolTime);
             CCCallFuncO* enable = CCCallFuncO::create(this, callfuncO_selector(SpellQuickSlotNode::EnableButton), pair.first);
             
             CCSequence* sequence = CCSequence::create(disable, delay, enable, NULL);
@@ -149,10 +149,10 @@ void SpellQuickSlotNode::ApplyCoolTime(flownet::SpellType spellType)
     });
     
     this->addChild(timer, 1);
-    CCProgressTo* progress = CCProgressTo::create(5, 100);
+    CCProgressTo* progress = CCProgressTo::create(spellInfo.m_SpellCoolTime, 100);
     timer->runAction(progress);
     
-    CCDelayTime* delay = CCDelayTime::create(5);
+    CCDelayTime* delay = CCDelayTime::create(spellInfo.m_SpellCoolTime);
     CCCallFuncO* removeChild = CCCallFuncO::create(this, callfuncO_selector(SpellQuickSlotNode::RemoveProgressTimer), timer);
     CCSequence* sequence = CCSequence::create(delay, removeChild, NULL);
 

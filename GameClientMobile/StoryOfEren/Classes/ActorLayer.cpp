@@ -262,7 +262,7 @@ void ActorLayer::AddNewPlayer(flownet::ClientPlayer player)
     actorNodeSet->retain();
     actorNodeSet->AddHUDNode(player.GetActorID());
     actorNodeSet->AddShadowNode(player.GetActorID());
-
+    actorNodeSet->AddHighlightNode(player.GetActorID());
 
     if(player.GetActorID() == GameClient::Instance().GetMyActorID())
     {
@@ -296,6 +296,7 @@ void ActorLayer::AddNewMonster(flownet::ClientMonster monster)
     actorNodeSet->retain();
     actorNodeSet->AddHUDNode(monster.GetActorID());
     actorNodeSet->AddShadowNode(monster.GetActorID());
+    actorNodeSet->AddHighlightNode(monster.GetActorID());
 
     actorNodeSet->m_ActorNode->setPosition(PointConverter::Convert(monster.GetCurrentPosition()));
     
@@ -321,6 +322,7 @@ void ActorLayer::AddNewNPC(flownet::NPC npc)
     ActorNodeSet* actorNodeSet = ActorNodeSet::create(npc.GetActorID());
     actorNodeSet->retain();
     actorNodeSet->AddShadowNode(npc.GetActorID());
+    actorNodeSet->AddHighlightNode(npc.GetActorID());
     
     actorNodeSet->m_ActorNode->setPosition(PointConverter::Convert(npc.GetCurrentPosition()));
     
@@ -345,7 +347,7 @@ void ActorLayer::AddNewStageObject(flownet::StageObject stageObject)
 {
     ActorNodeSet* actorNodeSet = ActorNodeSet::create(stageObject.GetActorID());
     actorNodeSet->retain();
-    actorNodeSet->AddShadowNode(stageObject.GetActorID());
+    actorNodeSet->AddHighlightNode(stageObject.GetActorID());
     
     actorNodeSet->m_ActorNode->setPosition(PointConverter::Convert(stageObject.GetCurrentPosition()));
     
@@ -669,6 +671,14 @@ void ActorLayer::ActorRunOutOfMana(flownet::ActorID actorID)
     CCSequence* sequence = CCSequence::create(moveRight, moveLeft, NULL);
     CCRepeat* repeat = CCRepeat::create(sequence, 5);
     actorNode->runAction(repeat);
+}
+
+void ActorLayer::ActorTeamChanged(flownet::ActorID actorID)
+{
+    ActorNodeSet* actorNodeSet = this->FindActorNodeSet(actorID);
+    actorNodeSet->AddHighlightNode(actorID);
+    
+    if(actorNodeSet->m_HighlightNode) this->addChild(actorNodeSet->m_HighlightNode);
 }
 
 void ActorLayer::ActorNodeReload(flownet::ActorID actorID)
