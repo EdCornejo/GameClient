@@ -59,7 +59,7 @@ bool SpellQuickSlotNode::init()
         menu->addChild(menuItem);
     }
     
-    menu->alignItemsHorizontallyWithPadding(10);
+    menu->alignItemsHorizontallyWithPadding(4);
     menu->setPosition(CCPointZero);
 
     this->addChild(menu);

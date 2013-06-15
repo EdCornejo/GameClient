@@ -16,7 +16,7 @@ std::string SpellImageLoader::GetImageFileName(SpellType spellType)
             imageName = "fire_ball.png";
             break;
         case SpellType_FireBurst:
-            imageName = "fire_burst.png";
+            imageName = "meteor.png";
             break;
         case SpellType_IceArrow:
             imageName = "ice_arrow.png";
@@ -48,7 +48,7 @@ CCSprite* SpellImageLoader::GetSpellQuickSlotImage(SpellType spellType)
 
 CCSprite* SpellImageLoader::GetSpellGuideImage(SpellType spellType)
 {
-    std::string iconName = "ui/guide_line/";
+    std::string iconName = "ui/spell_icon/";
     iconName += GetImageFileName(spellType);
     
     CCSprite* icon = CCSprite::create(iconName.c_str());
