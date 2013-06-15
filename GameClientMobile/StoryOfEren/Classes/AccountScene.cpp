@@ -153,7 +153,16 @@ void AccountLayer::OnLoginButtonTouch(cocos2d::CCObject *sender)
     // TO DO : check form
     if( GameClient::Instance().GetCFConnection().IsConnected() == false )
     {
-        CCMessageBox("GameServer is not ready. Wait for a minute.", "LogIn Error");
+        BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
+        ASSERT_DEBUG(scene);
+        UILayer* uiLayer = scene->GetUILayer();
+        if(!uiLayer)
+        {
+            ASSERT_DEBUG(uiLayer);
+            return;
+        }
+        uiLayer->SystemMessageReceived("Game Server is not ready. retry later");
+        
         return;
     }
 
