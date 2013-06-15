@@ -8,7 +8,7 @@
 
 #include "Headers.pch"
 
-SpellNode::SpellNode(const flownet::SpellInfo& spellInfo, flownet::ActorID actorID, flownet::POINT destination) : m_SpellInfo(spellInfo), m_CasterID(actorID), m_Destination(destination), m_LastTickTime(0), m_StartingEffectID(0), m_HasReachedToDestination(false), m_Shadow(nullptr)
+SpellNode::SpellNode(const flownet::SpellInfo& spellInfo, flownet::ActorID actorID, flownet::POINT destination) : m_SpellInfo(spellInfo), m_CasterID(actorID), m_StartPoint(destination), m_Destination(destination), m_LastTickTime(0), m_StartingEffectID(0), m_HasReachedToDestination(false), m_Shadow(nullptr)
 {
 
 }
@@ -40,9 +40,13 @@ bool SpellNode::initWithFile(const char* fileName)
     switch(this->m_SpellInfo.m_StartingPoint)
     {
         case flownet::StartingPoint_Target:
+        {
             spellStartPoint = targetPoint;
-            break;
-        case flownet::StartingPoint_Somewhere:{
+            m_StartPoint = PointConverter::Convert(spellStartPoint);
+        }
+        break;
+        case flownet::StartingPoint_Somewhere:
+        {
             const float spellInitialDistance = 190; //PointConverter::ModiYToViewPointY(Spell_StartingPoint_Somewhere_Distance);
             float RandomValue = CCRANDOM_0_1() - 0.5; // offset for random 0~1
             
@@ -54,35 +58,45 @@ bool SpellNode::initWithFile(const char* fileName)
             this->setAnchorPoint(ccp(0.7, 0.5));
             this->setRotation(rotateDegree);
             
-            targetPoint.y += 60;
-            
-            break;
+//            targetPoint.y += 60.f;
+            this->m_StartPoint = PointConverter::Convert(spellStartPoint);
+            this->m_Destination = PointConverter::Convert(targetPoint);
         }
+        break;
         case flownet::StartingPoint_Self:
-        default:
+        {
             spellStartPoint = firingObject->getPosition();
             
             Actor* caster = GameClient::Instance().GetClientStage()->FindActor(this->m_CasterID);
             ASSERT_DEBUG(caster);
             
             // NOTE : adjust fire position to charac
-            if(caster->GetLookingDirection() == DIRECTION_LEFT) {
-                spellStartPoint.x -= 30;
-                spellStartPoint.y += 30;
-                this->setRotation(180);
+            const float StartingPointAdjustmentX = 30.f;
+            if( targetPoint.x - spellStartPoint.x < 0.f )
+            {
+                spellStartPoint.x -= StartingPointAdjustmentX;
+//                this->setRotation(180.f);
             }
-            else { // RIGHT
-                spellStartPoint.x += 30;
-                spellStartPoint.y += 30;
+            else
+            { // RIGHT
+                spellStartPoint.x += StartingPointAdjustmentX;
             }
-            
+//            const float SpellHeightAdjustment = 15.f;
+//            spellStartPoint.y += SpellHeightAdjustment;
+            this->m_StartPoint = PointConverter::Convert(spellStartPoint);
+//            targetPoint.y += SpellHeightAdjustment;
             this->m_Destination = PointConverter::Convert(targetPoint);
-            this->setAnchorPoint(ccp(0.7, 0.5));
+            this->setAnchorPoint(ccp(0.5f, 0.f));
             
 //            double rotateDegree = -atan2(targetPoint.y - spellStartPoint.y, targetPoint.x - spellStartPoint.x) * 180 / M_PI;
 //            this->setRotation(rotateDegree);
-            
-            break;
+        }
+        break;
+        default:
+        {
+            ASSERT_DEBUG(false);
+        }
+        break;
     }
     
     // NOTE : if the spell is nova like need rotation
@@ -164,8 +178,11 @@ void SpellNode::update(float deltaTime)
     switch(this->m_SpellInfo.m_StartingPoint)
     {
         case flownet::StartingPoint_Target:
-            break;
-        case flownet::StartingPoint_Self:{
+        {
+        }
+        break;
+        case flownet::StartingPoint_Self:
+        {
             CCPoint currentPosition = this->getPosition();
             CCPoint destination = PointConverter::Convert(this->m_Destination);
             
@@ -179,10 +196,11 @@ void SpellNode::update(float deltaTime)
         
                 this->runAction(moveTo);
             }
-            break;
         }
+        break;
         case flownet::StartingPoint_Somewhere:
-        default:{
+        default:
+        {
             CCPoint currentPosition = this->getPosition();
             CCPoint destination = PointConverter::Convert(this->m_Destination);
             
@@ -196,8 +214,8 @@ void SpellNode::update(float deltaTime)
         
                 this->runAction(moveTo);
             }
-            break;
         }
+        break;
     }
         
     
@@ -207,16 +225,38 @@ void SpellNode::StartSpellAnimation()
 {
     BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
     
-    float delay = PointConverter::Convert(this->getPosition()).DistanceTo(this->m_Destination) / (this->m_SpellInfo.m_Speed);
+    CCPoint startPoint = this->getPosition();
+    if( this->m_SpellInfo.m_StartingPoint == StartingPoint_Self )
+    {
+        const float StartingPointAdjustmentX = 30.f;
+        if( this->m_Destination.x - startPoint.x > 0.f  )
+        {
+            startPoint.x -= StartingPointAdjustmentX;
+        }
+        else
+        {
+            startPoint.x += StartingPointAdjustmentX;
+        }
+    }
+    
+    float delay = PointConverter::Convert(startPoint).DistanceTo(this->m_Destination) / (this->m_SpellInfo.m_Speed);
     delay = delay == 0 ? 3 : delay;
     
     // TO DO : changed this logic ! when spell effect changed
     CCAnimation* animation = SpellAnimationLoader::Instance()->GetSpellAnimation(this->m_SpellInfo.m_SpellType);
+    if( this->m_SpellInfo.m_StartingPoint == StartingPoint_Self )
+    {
+        if( this->m_Destination.x - this->m_StartPoint.x < 0.f )
+        {
+            CCFlipX* flipX = CCFlipX::create(true);
+            this->runAction(flipX);
+        }
+    }
     CCDelayTime* animationDelayTime = CCDelayTime::create(delay - animation->getDelayPerUnit() * animation->getTotalDelayUnits());
     CCFiniteTimeAction* animate = CCAnimate::create(animation);
     CCAnimation* afterEffect = SpellAnimationLoader::Instance()->GetAfterEffectAnimation(this->m_SpellInfo.m_SpellType);
     CCCallFunc* destroy = CCCallFunc::create(this, callfunc_selector(SpellNode::Destroy));
-    CCCallFunc* moveToOriginDestination = CCCallFunc::create(this, callfunc_selector(SpellNode::MoveToOriginDestination));
+    CCCallFunc* beginAfterEffect = CCCallFunc::create(this, callfunc_selector(SpellNode::BeginAfterEffect));
     CCCallFunc* setAnchorPointToLowerMid = CCCallFunc::create(this, callfunc_selector(SpellNode::SetAnchorPointToCCPointLowerMid));
     CCCallFunc* setRotateToOrigin = CCCallFunc::create(this, callfunc_selector(SpellNode::SetRotateToOrigin));
     
@@ -225,7 +265,7 @@ void SpellNode::StartSpellAnimation()
     if(afterEffect)
     {
         CCFiniteTimeAction* animateAfterEffect = CCAnimate::create(afterEffect);
-        animationSequence = CCSequence::create(animate, animationDelayTime, moveToOriginDestination, setAnchorPointToLowerMid, setRotateToOrigin, animateAfterEffect, destroy, NULL);
+        animationSequence = CCSequence::create(animate, animationDelayTime, beginAfterEffect, setAnchorPointToLowerMid, setRotateToOrigin, animateAfterEffect, destroy, NULL);
     }
     else
     {
@@ -292,7 +332,7 @@ void SpellNode::PlayEndingEffect()
     AudioEngine::Instance()->PlayEffect(effectFileName.c_str());
 }
 
-void SpellNode::MoveToOriginDestination()
+void SpellNode::BeginAfterEffect()
 {
     this->m_HasReachedToDestination = true;
     this->setPosition(PointConverter::Convert(this->m_Destination));

@@ -72,7 +72,7 @@ void ShadowNode::update(float deltaTime)
         
         CCPoint shadowAdjustment = CCPointMake(0.f, 0.f);
         
-
+        CCPoint actorPosition = actor->getPosition();
         if( (actor->m_Skeleton!=nullptr) && (actor->m_Skeleton->skeleton) )
         {
             if( actor->m_Skeleton->skeleton->flipX == true )
@@ -87,32 +87,59 @@ void ShadowNode::update(float deltaTime)
             #define ShadowBaseWidth 60.f
             const float shadowScaleFactor = actor->m_Skeleton->boundingBox().size.width / ShadowBaseWidth;
             this->setScaleX(shadowScaleFactor);
+            actorPosition = actor->m_Skeleton->boundingBox().origin;
         }
         
-        this->setPosition(ccpAdd(actor->getPosition(), shadowAdjustment));
+        this->setPosition(ccpAdd(actorPosition, shadowAdjustment));
     }
     else if (this->m_SpellNode)
     {
         CCPoint spellPosition;
+        #define ShadowBaseWidth 60.f
+        const float shadowScaleFactor = this->m_SpellNode->boundingBox().size.width / ShadowBaseWidth;
+        this->setScaleX(shadowScaleFactor*1.2f);
+        
         switch(this->m_SpellNode->GetSpellInfo().m_StartingPoint)
         {
             case flownet::StartingPoint_Self :
+            {
                 spellPosition = this->m_SpellNode->getPosition();
-                spellPosition.y -= 30;
-                break;
+//                if( false == this->m_SpellNode->HasReachedToDestination() )
+//                {
+//                    const float startPointX = m_SpellNode->GetStartPoint().x;
+//                    const float destPointX = m_SpellNode->GetDestination().x;
+//                    
+//                    const float movingDistanceX = fabsf(destPointX - startPointX);
+//                    const float pastDistanceX = fabsf(destPointX - spellPosition.x);
+//                    
+//                    const float progressRatio = (movingDistanceX==0.f)?0.f:(pastDistanceX/movingDistanceX);
+//                    
+//                    const float SpellHeightAdjustment = 15.f;
+//                    if( (this->m_SpellNode->GetDestination().x - this->m_SpellNode->GetStartPoint().x) < 0.f )
+//                    {
+//                        spellPosition.x += this->getContentSize().width*0.2f;
+//                    }
+//                    else
+//                    {
+//                        spellPosition.x -= this->getContentSize().width*0.2f;
+//                    }
+//                    spellPosition.y -= SpellHeightAdjustment*progressRatio;
+//                }
+            }
+            break;
             case flownet::StartingPoint_Somewhere:
+            {
                 spellPosition = this->m_SpellNode->GetDestination();
                 spellPosition.x = this->m_SpellNode->getPosition().x;
-                break;
+            }
+            break;
             case flownet::StartingPoint_Target :
             default:
+            {
                 spellPosition = this->m_SpellNode->GetDestination();
-                break;
+            }
+            break;
         }
-        
-        #define ShadowBaseWidth 60.f
-        const float shadowScaleFactor = this->m_SpellNode->boundingBox().size.width / ShadowBaseWidth;
-        this->setScaleX(shadowScaleFactor);
         
         this->setPosition(spellPosition);
     }
@@ -256,6 +283,15 @@ GuideLineNode* GuideLineNode::create(flownet::SpellType spellType, CCPoint sourc
     GuideLineNode* newNode = new GuideLineNode();
     newNode->m_SpellType = spellType;
     newNode->m_Source = source;
+    const float StartingPointAdjustmentX = 30.f;
+    if( destination.x - source.x > 0.f  )
+    {
+        newNode->m_Source.x += StartingPointAdjustmentX;
+    }
+    else
+    {
+        newNode->m_Source.x -= StartingPointAdjustmentX;
+    }
     newNode->m_Destination = destination;
     
     if(newNode && newNode->init())

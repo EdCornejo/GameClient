@@ -567,6 +567,7 @@ void ActorLayer::ActorEndCast(flownet::ActorID invokerActorID, flownet::SpellTyp
     
     
     this->RemoveSpellGuideLine(invokerActorID);
+    
     this->FireSpell(invokerActorID, destination, spellInfo);
 }
 

@@ -50,7 +50,14 @@ bool StageScene::init()
         this->addChild(this->m_CaptionLayer, 9);
     }
     
-    AudioEngine::Instance()->PlayBackgroundMusic("sound/bgm/seal.mp3", true);
+    if( stage->GetStageType() == StageType_ClanCommunity || stage->GetStageType() == StageType_Intro )
+    {
+        AudioEngine::Instance()->PlayBackgroundMusic("sound/bgm/campsite.mp3", true);
+    }
+    else
+    {
+        AudioEngine::Instance()->PlayBackgroundMusic("sound/bgm/seal.mp3", true);
+    }
 
     scheduleUpdate();
     

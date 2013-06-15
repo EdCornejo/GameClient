@@ -12,12 +12,13 @@
 class SpellNode : public CCSprite
 {
 private:
-    const flownet::SpellInfo m_SpellInfo;
-    flownet::ActorID m_CasterID;
-    flownet::POINT m_Destination;
-    float m_LastTickTime;
-    unsigned int m_StartingEffectID;
-    bool m_HasReachedToDestination;
+    const flownet::SpellInfo    m_SpellInfo;
+    flownet::ActorID            m_CasterID;
+    flownet::POINT              m_StartPoint;
+    flownet::POINT              m_Destination;
+    float                       m_LastTickTime;
+    unsigned int                m_StartingEffectID;
+    bool                        m_HasReachedToDestination;
     
     ShadowNode* m_Shadow;
 
@@ -30,9 +31,10 @@ public:
     
     virtual void update(float deltaTime);
     
-    flownet::SpellInfo GetSpellInfo() { return this->m_SpellInfo; }
-    CCPoint GetDestination() { return PointConverter::Convert(this->m_Destination); }
-
+    flownet::SpellInfo GetSpellInfo()   {   return this->m_SpellInfo; }
+    CCPoint GetDestination()            {   return PointConverter::Convert(this->m_Destination); }
+    CCPoint GetStartPoint()             {   return PointConverter::Convert(this->m_StartPoint); }
+    bool    HasReachedToDestination()   {   return m_HasReachedToDestination; }
     
 private:
     void StartSpellAnimation();
@@ -42,7 +44,7 @@ private:
     void PlayStartingEffect();
     void PlayEndingEffect();
     
-    void MoveToOriginDestination();
+    void BeginAfterEffect();
     void SetAnchorPointToCCPointLowerMid();
     void SetRotateToOrigin();
 };
