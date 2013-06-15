@@ -36,7 +36,7 @@ private:
 public:
     enum {
         PositionX = 0,
-        PositionY = 320
+        PositionY = 304
     };
     
 public:
