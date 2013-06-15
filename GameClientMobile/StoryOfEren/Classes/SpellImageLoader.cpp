@@ -72,6 +72,8 @@ CCSprite* SpellImageLoader::GetSpellEffectImage(flownet::SpellAbility spellAbili
             return CCSprite::create("blank.png");
             break;
     }
+    CCSprite* sprite = CCSprite::create(effectFileName.c_str());
+    sprite->setOpacity(150);
 
-    return CCSprite::create(effectFileName.c_str());
+    return sprite;
 }

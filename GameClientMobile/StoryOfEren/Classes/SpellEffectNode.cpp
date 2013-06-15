@@ -26,6 +26,7 @@ bool SpellEffectNode::init()
         {
             case flownet::SpellAbility_Freeze :
                 this->m_IsOverTheCharacter = true;
+                effectImage->setAnchorPoint(CharacterAnchorPoint);
                 break;
             case flownet::SpellAbility_Slow :
             default:
