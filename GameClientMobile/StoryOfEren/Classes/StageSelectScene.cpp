@@ -362,6 +362,11 @@ bool StageSelectScene::init()
     
     this->addChild(menu);
     
+    this->m_UILayer = UILayer::create(StageType_NONE);
+    this->m_UILayer->retain();
+    
+    this->addChild(this->m_UILayer);
+    
     AudioEngine::Instance()->PlayBackgroundMusic("sound/bgm/campsite.mp3", true);
     
     scheduleUpdate();

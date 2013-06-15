@@ -59,7 +59,7 @@ void CFConnection::OnDisconnect()
     if( gameClientRPCInterface )
     {
         GameClient::Instance().GetRenderingTaskWorkerRoutine().AddTask(CreateLambdaTask("OnDisconnectLambda", [ gameClientRPCInterface](){
-            gameClientRPCInterface->PopUpMessageBox("GameServer Is Busy. Please try again LATER.");
+            gameClientRPCInterface->ShowSystemMessage("GameServer Is Busy. Please try again LATER.");
         }));
     }
 }

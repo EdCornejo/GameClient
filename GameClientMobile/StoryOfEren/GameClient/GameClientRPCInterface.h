@@ -20,7 +20,7 @@ protected:
 public:
     virtual ~GameClientRPCInterface(){}
     
-    virtual void PopUpMessageBox(const STRING& message) const = 0;
+    virtual void ShowSystemMessage(const STRING& message) const = 0;
 
 public:
     #include "GameSCVirtualProtocolHandlerDeclaration.hpp"

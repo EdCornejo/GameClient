@@ -44,7 +44,6 @@ bool BaseScene::init()
         CCAnimationCache::sharedAnimationCache()->addAnimationsWithFile(plistFileName.c_str());
     });
 
-    
     this->m_HeartbeatLayer = HeartbeatLayer::create();
     if(this->m_HeartbeatLayer)
     {

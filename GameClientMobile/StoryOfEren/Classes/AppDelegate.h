@@ -47,7 +47,7 @@ public:
     bool DisconnectCSAndConnectCFConnection() const;
     bool DisconnectCFAndConnectCSConnection() const;
     
-    virtual void PopUpMessageBox(const flownet::STRING& message) const override;
+    virtual void ShowSystemMessage(const flownet::STRING& message) const override;
     
     // flownet RPC Receiver Interface
     #include "GameSCOverrideProtocolHandlerDeclaration.hpp"

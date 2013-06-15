@@ -159,9 +159,17 @@ bool AppDelegate::DisconnectCSAndConnectCFConnection() const
     return result;
 }
 
-void AppDelegate::PopUpMessageBox(const flownet::STRING& message) const
+void AppDelegate::ShowSystemMessage(const flownet::STRING& message) const
 {
-    CCMessageBox(message.c_str(), "Story of EREN");
+    BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
+    ASSERT_DEBUG(scene);
+    UILayer* uiLayer = scene->GetUILayer();
+    if(!uiLayer)
+    {
+        ASSERT_DEBUG(uiLayer);
+        return;
+    }
+    uiLayer->SystemMessageReceived(message.c_str());
 }
 
 void AppDelegate::OnSCProtocolError() const

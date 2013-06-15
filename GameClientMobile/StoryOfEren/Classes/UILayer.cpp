@@ -63,6 +63,8 @@ bool UILayer::init()
         return false;
     }
 
+    this->InitializeSystemMessageWindow();
+
     this->setTouchEnabled(true);
     
     scheduleUpdate();
@@ -145,7 +147,6 @@ void UILayer::OnLoad()
             this->InitializeMenuBar();
             this->InitializeExpBar();
             this->InitializeChatting();
-            this->InitializeSystemMessageWindow();
 
             break;
     }
@@ -225,7 +226,7 @@ void UILayer::InitializeSystemMessageWindow()
     this->m_SystemMessageWindowNode = SystemMessageWindowNode::create();
     this->m_SystemMessageWindowNode->retain();
     
-    this->addChild(this->m_SystemMessageWindowNode);
+    this->addChild(this->m_SystemMessageWindowNode, 100);
 }
 
 InventoryNode* UILayer::GetInventoryNode()
