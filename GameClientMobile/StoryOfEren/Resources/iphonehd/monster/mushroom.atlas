@@ -1,0 +1,39 @@
+mushroom-hd.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+open_eyes
+  rotate: false
+  xy: 2, 410
+  size: 204, 54
+  orig: 204, 54
+  offset: 0, 0
+  index: -1
+closed_eyes
+  rotate: false
+  xy: 103, 466
+  size: 201, 33
+  orig: 201, 33
+  offset: 0, 0
+  index: -1
+body
+  rotate: false
+  xy: 595, 2
+  size: 419, 368
+  orig: 419, 368
+  offset: 0, 0
+  index: -1
+head
+  rotate: false
+  xy: 2, 2
+  size: 591, 406
+  orig: 591, 406
+  offset: 0, 0
+  index: -1
+mouth
+  rotate: false
+  xy: 2, 466
+  size: 99, 36
+  orig: 99, 36
+  offset: 0, 0
+  index: -1

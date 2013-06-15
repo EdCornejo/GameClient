@@ -21,7 +21,10 @@ bool MonsterNode::init()
     switch(monster->GetMonsterType())
     {
         case flownet::MonsterType_Mushroom:
-
+            this->m_Skeleton = CCSkeletonAnimation::createWithFile("monster/mushroom.json", "monster/mushroom.atlas");
+            this->m_Skeleton->setSkin("purple");
+            this->m_Skeleton->setScale(0.1);
+            break;
         case flownet::MonsterType_Goblin:
 
         case flownet::MonsterType_Spider:
@@ -31,7 +34,7 @@ bool MonsterNode::init()
             this->m_Skeleton->setSkin("goblingirl");
             this->m_Skeleton->setScale(0.24);
             this->m_Skeleton->skeleton->flipX = true;
-        break;
+            break;
         
         case flownet::MonsterType_Wolf:
             this->m_Skeleton = CCSkeletonAnimation::createWithFile("common/wolf.json", "monster/wolf.atlas");
@@ -68,7 +71,6 @@ bool MonsterNode::init()
             this->m_Skeleton->setSkin("goblingirl");
             this->m_Skeleton->setScale(0.24);
             this->m_Skeleton->skeleton->flipX = true;
-
             break;
         
     }

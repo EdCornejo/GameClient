@@ -7,197 +7,197 @@
             <key>iceSpear0.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,504},{190,100}}</string>
+                <string>{{204,498},{190,99}}</string>
                 <key>offset</key>
-                <string>{-22,-12}</string>
+                <string>{-8,0}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{83,237},{190,100}}</string>
+                <string>{{6,0},{190,99}}</string>
                 <key>sourceSize</key>
-                <string>{400,550}</string>
+                <string>{218,99}</string>
             </dict>
             <key>iceSpear1.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,318},{214,96}}</string>
+                <string>{{216,235},{210,97}}</string>
                 <key>offset</key>
-                <string>{-8,-13}</string>
+                <string>{4,0}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{85,240},{214,96}}</string>
+                <string>{{8,1},{210,97}}</string>
                 <key>sourceSize</key>
-                <string>{400,550}</string>
+                <string>{218,99}</string>
             </dict>
             <key>iceSpear10.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{230,194},{224,68}}</string>
+                <string>{{2,480},{200,69}}</string>
                 <key>offset</key>
-                <string>{-7,-19}</string>
+                <string>{-5,-6}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{81,260},{224,68}}</string>
+                <string>{{4,21},{200,69}}</string>
                 <key>sourceSize</key>
-                <string>{400,550}</string>
+                <string>{218,99}</string>
             </dict>
             <key>iceSpear11.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{226,264},{220,66}}</string>
+                <string>{{2,81},{214,65}}</string>
                 <key>offset</key>
-                <string>{-9,-19}</string>
+                <string>{2,-7}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{81,261},{220,66}}</string>
+                <string>{{4,24},{214,65}}</string>
                 <key>sourceSize</key>
-                <string>{400,550}</string>
+                <string>{218,99}</string>
             </dict>
             <key>iceSpear12.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{218,408},{214,68}}</string>
+                <string>{{222,77},{214,69}}</string>
                 <key>offset</key>
-                <string>{-11,-21}</string>
+                <string>{2,-8}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{82,262},{214,68}}</string>
+                <string>{{4,23},{214,69}}</string>
                 <key>sourceSize</key>
-                <string>{400,550}</string>
+                <string>{218,99}</string>
             </dict>
             <key>iceSpear13.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{216,478},{210,62}}</string>
+                <string>{{2,245},{210,63}}</string>
                 <key>offset</key>
-                <string>{-11,-23}</string>
+                <string>{3,-10}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{84,267},{210,62}}</string>
+                <string>{{7,28},{210,63}}</string>
                 <key>sourceSize</key>
-                <string>{400,550}</string>
+                <string>{218,99}</string>
             </dict>
             <key>iceSpear14.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{218,332},{214,74}}</string>
+                <string>{{222,2},{214,73}}</string>
                 <key>offset</key>
-                <string>{-12,-18}</string>
+                <string>{2,-6}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{81,256},{214,74}}</string>
+                <string>{{4,19},{214,73}}</string>
                 <key>sourceSize</key>
-                <string>{400,550}</string>
+                <string>{218,99}</string>
             </dict>
             <key>iceSpear2.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{232,98},{226,94}}</string>
+                <string>{{2,148},{212,95}}</string>
                 <key>offset</key>
-                <string>{-4,-14}</string>
+                <string>{3,-1}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{83,242},{226,94}}</string>
+                <string>{{6,3},{212,95}}</string>
                 <key>sourceSize</key>
-                <string>{400,550}</string>
+                <string>{218,99}</string>
             </dict>
             <key>iceSpear3.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{244,2},{236,94}}</string>
+                <string>{{2,310},{208,95}}</string>
                 <key>offset</key>
-                <string>{-5,-13}</string>
+                <string>{-4,0}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{77,241},{236,94}}</string>
+                <string>{{1,2},{208,95}}</string>
                 <key>sourceSize</key>
-                <string>{400,550}</string>
+                <string>{218,99}</string>
             </dict>
             <key>iceSpear4.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,2},{240,92}}</string>
+                <string>{{212,334},{204,93}}</string>
                 <key>offset</key>
-                <string>{-2,-15}</string>
+                <string>{-5,-2}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{78,244},{240,92}}</string>
+                <string>{{2,5},{204,93}}</string>
                 <key>sourceSize</key>
-                <string>{400,550}</string>
+                <string>{218,99}</string>
             </dict>
             <key>iceSpear5.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{194,542},{190,94}}</string>
+                <string>{{2,551},{190,95}}</string>
                 <key>offset</key>
-                <string>{-27,-14}</string>
+                <string>{-13,-1}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{78,242},{190,94}}</string>
+                <string>{{1,3},{190,95}}</string>
                 <key>sourceSize</key>
-                <string>{400,550}</string>
+                <string>{218,99}</string>
             </dict>
             <key>iceSpear6.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,416},{212,86}}</string>
+                <string>{{216,148},{212,85}}</string>
                 <key>offset</key>
-                <string>{-16,-18}</string>
+                <string>{-2,-6}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{78,250},{212,86}}</string>
+                <string>{{1,13},{212,85}}</string>
                 <key>sourceSize</key>
-                <string>{400,550}</string>
+                <string>{218,99}</string>
             </dict>
             <key>iceSpear7.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,238},{222,78}}</string>
+                <string>{{2,2},{218,77}}</string>
                 <key>offset</key>
-                <string>{-13,-20}</string>
+                <string>{0,-8}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{76,256},{222,78}}</string>
+                <string>{{0,19},{218,77}}</string>
                 <key>sourceSize</key>
-                <string>{400,550}</string>
+                <string>{218,99}</string>
             </dict>
             <key>iceSpear8.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,164},{226,72}}</string>
+                <string>{{2,407},{204,71}}</string>
                 <key>offset</key>
-                <string>{-10,-20}</string>
+                <string>{-7,-8}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{77,259},{226,72}}</string>
+                <string>{{0,22},{204,71}}</string>
                 <key>sourceSize</key>
-                <string>{400,550}</string>
+                <string>{218,99}</string>
             </dict>
             <key>iceSpear9.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,96},{228,66}}</string>
+                <string>{{208,429},{202,67}}</string>
                 <key>offset</key>
-                <string>{-7,-20}</string>
+                <string>{-6,-7}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{79,262},{228,66}}</string>
+                <string>{{2,23},{202,67}}</string>
                 <key>sourceSize</key>
-                <string>{400,550}</string>
+                <string>{218,99}</string>
             </dict>
         </dict>
         <key>metadata</key>
@@ -209,7 +209,7 @@
             <key>size</key>
             <string>{512,1024}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:d0c38dd4837fb41bbbf8c46b48369336$</string>
+            <string>$TexturePacker:SmartUpdate:c4192365e6ac1ca097f7258f422c817a$</string>
             <key>textureFileName</key>
             <string>iceSpear-hd.png</string>
         </dict>
