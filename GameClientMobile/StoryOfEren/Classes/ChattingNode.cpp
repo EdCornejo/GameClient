@@ -162,7 +162,7 @@ void ChattingNode::MessageReceived(flownet::STRING senderName, flownet::STRING m
     visualString += " : ";
     visualString += message.c_str();
     
-    CCLabelTTF* newChatLogLabel = CCLabelTTF::create(visualString.c_str(), "thonburi", 20, CCSize(440, 0), kCCTextAlignmentLeft); // NOTE : height is autosized
+    CCLabelTTF* newChatLogLabel = CCLabelTTF::create(visualString.c_str(), "thonburi", 10, CCSize(440, 0), kCCTextAlignmentLeft); // NOTE : height is autosized
     newChatLogLabel->setAnchorPoint(ccp(0.5, 1));
     newChatLogLabel->retain();
     this->m_Background->addChild(newChatLogLabel);
