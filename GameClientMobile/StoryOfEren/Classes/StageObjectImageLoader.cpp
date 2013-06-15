@@ -40,6 +40,15 @@ CCSprite* StageObjectImageLoader::GetStageObjectImage(flownet::StageObjectType s
         case flownet::StageObjectType_ColosseumCenter:
             imageName += "colosseum_center.png";
             break;
+        case flownet::StageObjectType_BookShelf:
+            imageName +="bookshelf.png";
+            break;
+        case flownet::StageObjectType_PrivateChest:
+            imageName +="private_chest.png";
+            break;
+        case flownet::StageObjectType_Campfire:
+            imageName +="campfire.png";
+            break;
         default:
             ASSERT_DEBUG(false);
             break;
