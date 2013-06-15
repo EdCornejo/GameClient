@@ -437,6 +437,8 @@ void InventoryNode::OnEquipmentButtonClicked(CCObject* sender)
     this->m_ConsumeButton->setSelectedIndex(0);
     this->m_MaterialButton->setSelectedIndex(0);
     this->m_CurrentItemGroup = ItemGroup_Equipment;
+    this->m_TrackingItemSlotNode = nullptr;
+    this->m_HighlightedItemSlotNode = nullptr;
     
     this->Update();
 }
@@ -453,6 +455,8 @@ void InventoryNode::OnConsumeButtonClicked(CCObject* sender)
     this->m_EquipmentButton->setSelectedIndex(0);
     this->m_MaterialButton->setSelectedIndex(0);
     this->m_CurrentItemGroup = ItemGroup_Consume;
+    this->m_TrackingItemSlotNode = nullptr;
+    this->m_HighlightedItemSlotNode = nullptr;
     
     this->Update();
 }
@@ -469,6 +473,8 @@ void InventoryNode::OnMaterialButtonClicked(CCObject* sender)
     this->m_EquipmentButton->setSelectedIndex(0);
     this->m_ConsumeButton->setSelectedIndex(0);
     this->m_CurrentItemGroup = ItemGroup_Material;
+    this->m_TrackingItemSlotNode = nullptr;
+    this->m_HighlightedItemSlotNode = nullptr;    
 
     this->Update();
 }

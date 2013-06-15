@@ -23,23 +23,32 @@ bool StageScene::init()
     ClientStage* stage = GameClient::Instance().GetClientStage();
     
     this->m_BackgroundLayer = BackgroundLayer::create(stage->GetStageType());
-    this->m_BackgroundLayer->retain();
+    if(this->m_BackgroundLayer)
+    {
+        this->m_BackgroundLayer->retain();
+        this->addChild(this->m_BackgroundLayer);
+    }
     
     this->m_ActorLayer = ActorLayer::create(stage->GetStageType());
-    this->m_ActorLayer->retain();
+    if(this->m_ActorLayer)
+    {
+        this->m_ActorLayer->retain();
+        this->addChild(this->m_ActorLayer);
+    }
     
     this->m_UILayer = UILayer::create(stage->GetStageType());
-    this->m_UILayer->retain();
-
-    this->addChild(this->m_BackgroundLayer);
-    this->addChild(this->m_ActorLayer);
-    this->addChild(this->m_UILayer);
+    if(this->m_UILayer)
+    {
+        this->m_UILayer->retain();
+        this->addChild(this->m_UILayer);
+    }
     
-    // NOTE : usage of caption layer is different from any other layers
-    // the return value may me null when stage has no script
-    // so check for instance is intialized and add as child
-    CaptionLayer* layer = CaptionLayer::create(stage->GetStageType());
-    if(layer) this->addChild(layer);
+    this->m_CaptionLayer = CaptionLayer::create(stage->GetStageType(), stage->GetCurrentTier());
+    if(this->m_CaptionLayer)
+    {
+        this->m_CaptionLayer->retain();
+        this->addChild(this->m_CaptionLayer, 9);
+    }
     
     AudioEngine::Instance()->PlayBackgroundMusic("sound/bgm/seal.mp3", true);
 
@@ -51,4 +60,28 @@ bool StageScene::init()
 void StageScene::update(float deltaTime)
 {
     BaseScene::update(deltaTime);
+}
+
+void StageScene::OnClearTier()
+{
+    BaseScene::OnClearTier();
+    
+    if(this->m_CaptionLayer)
+    {
+        this->m_CaptionLayer->removeFromParent();
+        this->m_CaptionLayer->release();
+        this->m_CaptionLayer = nullptr;
+    }
+    
+    if(!this->m_CaptionLayer)
+    {
+        Stage* stage = GameClient::Instance().GetClientStage();
+        this->m_CaptionLayer = CaptionLayer::create(stage->GetStageType(), stage->GetCurrentTier());
+        if(this->m_CaptionLayer)
+        {
+            this->m_CaptionLayer->retain();
+            this->m_CaptionLayer->ccTouchBegan(nullptr, nullptr);
+            this->addChild(this->m_CaptionLayer, 9);
+        }
+    }
 }

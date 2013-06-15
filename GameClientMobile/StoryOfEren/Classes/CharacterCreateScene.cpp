@@ -135,7 +135,7 @@ bool CharacterCreateLayer::ccTouchBegan(CCTouch* touch, CCEvent* event)
     return false;
 }
 
-void CharacterCreateLayer::OnResponse() const
+void CharacterCreateLayer::OnResponse()
 {
     if(this->m_CreateButton)
     {
@@ -231,7 +231,7 @@ void CharacterCreateScene::update(float deltaTime)
     BaseScene::update(deltaTime);
 }
 
-void CharacterCreateScene::OnResponse() const
+void CharacterCreateScene::OnResponse()
 {
     BaseScene::OnResponse();
     

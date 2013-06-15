@@ -67,7 +67,7 @@ public:
     
     virtual void update(float deltaTime) override;
     
-    virtual void OnResponse() const override;
+    virtual void OnResponse() override;
 };
 
 #endif /* defined(__GameClientMobile__AccountScene__) */

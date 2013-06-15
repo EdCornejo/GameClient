@@ -54,6 +54,7 @@
 #include "EquipmentNode.h"
 #include "ChattingNode.h"
 #include "ExpBarNode.h"
+#include "SystemMessageWindowNode.h"
 
 
 //  Layers
@@ -66,6 +67,7 @@
 #include "CaptionLayer.h"
 #include "HeartbeatLayer.h"
 #include "LoadingLayer.h"
+#include "ConfirmWindowLayer.h"
 
 //  Scenes
 #include "BaseScene.h"

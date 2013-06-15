@@ -555,15 +555,38 @@ void AppDelegate::OnSCNotifyClearStage(flownet::StageID stageID) const
     BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
     ASSERT_DEBUG(scene);
     
+    scene->OnClearTier();
+    
+    
+    // TO DO : move these to on ClearTier();
     UILayer* uiLayer = scene->GetUILayer();
     ASSERT_DEBUG(uiLayer);
     
     uiLayer->ShowStageClearMessage();
-    
-    // TO DO : end the stage
-    CCLOG("clear stage notify recv");
-    
+}
 
+void AppDelegate::OnSCNotifyClearTier(flownet::StageID stageID, flownet::INT tierNumber) const
+{
+    ClientStage* clientStage = GameClient::Instance().GetClientStage();
+    if(!clientStage) return;
+    if(stageID != clientStage->GetStageID())
+    {
+        ASSERT_DEBUG(stageID == clientStage->GetStageID());
+        return;
+    }
+    
+    if(tierNumber != clientStage->GetCurrentTier())
+    {
+        ASSERT_DEBUG(tierNumber == clientStage->GetCurrentTier());
+        return;
+    }
+    
+    clientStage->IncreaseTier();
+    
+    BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
+    ASSERT_DEBUG(scene);
+    
+    scene->OnClearTier();
 }
 
 void AppDelegate::OnSCNotifySpawnPlayer(flownet::StageID stageID, flownet::Player player) const
@@ -576,6 +599,9 @@ void AppDelegate::OnSCNotifySpawnPlayer(flownet::StageID stageID, flownet::Playe
     }
 
     BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
+    ASSERT_DEBUG(scene);
+    
+
     
     ClientPlayer* newPlayer = new ClientPlayer(player);
     GameClient::Instance().GetClientStage()->AddPlayer(newPlayer->GetActorID(), newPlayer);
@@ -586,12 +612,14 @@ void AppDelegate::OnSCNotifySpawnPlayer(flownet::StageID stageID, flownet::Playe
 
     if(player.GetActorID() == GameClient::Instance().GetMyActorID())
     {
+        scene->OnLoad();
+    
         UILayer* uiLayer = scene->GetUILayer();
         ASSERT_DEBUG(uiLayer);
 
-        uiLayer->UpdateStash();
-        uiLayer->UpdateInventory();
-        uiLayer->UpdateEquipment();
+//        uiLayer->UpdateStash();
+//        uiLayer->UpdateInventory();
+//        uiLayer->UpdateEquipment();
     }
 }
 
@@ -1290,6 +1318,10 @@ void AppDelegate::OnSCNotifyRunOutMovingMana(StageID stageID, ActorID actorID) c
     ActorLayer* actorLayer = scene->GetActorLayer();
     ASSERT_DEBUG(actorLayer);
     actorLayer->ActorRunOutOfMana(actorID);
+    
+    UILayer* uiLayer = scene->GetUILayer();
+    ASSERT_DEBUG(uiLayer);
+    uiLayer->SystemMessageReceived("움직일 마나가 부족합니다");
 }
 
 void AppDelegate::OnSCNotifyRunOutSpellMana(StageID stageID, ActorID actorID) const

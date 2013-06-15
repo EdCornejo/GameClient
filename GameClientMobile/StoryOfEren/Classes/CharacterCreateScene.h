@@ -40,7 +40,7 @@ public :
     virtual bool ccTouchBegan(CCTouch* touch, CCEvent* event) override;
     
     // TO DO : when extending layer changes, this also need to be changed
-    void OnResponse() const;
+    void OnResponse();
     
 private :
     void OnMaleButtonTouch(CCObject* sender);
@@ -65,7 +65,7 @@ public :
     
     CREATE_FUNC(CharacterCreateScene);
     
-    virtual void OnResponse() const override;
+    virtual void OnResponse() override;
 };
 
 #endif /* defined(__GameClientMobile__CharacterCreateScene__) */

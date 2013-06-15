@@ -41,6 +41,7 @@ private:
     CCSprite* m_CharacterImage;
     CaptionInfoList m_CaptionInfoList;
     
+    int m_Tier;
     int m_CaptionInfoListIndex;
     int m_CaptionIndex;
     
@@ -49,15 +50,18 @@ public:
     CaptionLayer();
     virtual ~CaptionLayer();
     
-    virtual bool init();
-    static CaptionLayer* create(StageType stageType);
+    virtual bool init() override;
+    static CaptionLayer* create(const StageType stageType, const int tier);
     
-    virtual bool ccTouchBegan(CCTouch* touch, CCEvent* event);
+    virtual bool ccTouchBegan(CCTouch* touch, CCEvent* event) override;
+    
+    virtual void OnLoad() override;
     
 private:
     std::string GetCaptionInfoFileName(flownet::StageType stageType);
     bool LoadCaptionInfoFromFile(const char* fileName, int tier);
     void CaptionEnded();
+    std::string ReplaceReservedKeyword(std::string contentString);
 };
 
 #endif /* defined(__GameClientMobile__CaptionLayer__) */

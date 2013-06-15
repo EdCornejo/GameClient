@@ -34,7 +34,12 @@ bool BaseLayer::initWithStageType(StageType stageType)
     return true;
 }
 
-void BaseLayer::OnResponse() const
+void BaseLayer::OnResponse()
+{
+
+}
+
+void BaseLayer::OnLoad()
 {
 
 }

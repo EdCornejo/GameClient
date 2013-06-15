@@ -18,6 +18,7 @@ public:
     ClientStage(const Stage& stage, const STRING gameObjectName="ClientStage");
     virtual ~ClientStage();
 
+    void IncreaseTier();
 };
     
 } // namespace flownet

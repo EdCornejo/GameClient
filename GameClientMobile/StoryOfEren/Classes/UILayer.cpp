@@ -8,7 +8,8 @@
 
 #include "Headers.pch"
 
-UILayer::UILayer() : m_StageType(flownet::StageType_NONE), m_SpellQuickSlotNode(nullptr), m_StashNode(nullptr), m_EquipmentNode(nullptr), m_InventoryNode(nullptr), m_MenuBarNode(nullptr), m_ChattingNode(nullptr), m_SelectedSpellType(SpellType_NONE), m_SpellDestinationPoint(), m_LastTouchLocation(), m_LastTouchTime(0)
+
+UILayer::UILayer() : m_StageType(flownet::StageType_NONE), m_SpellQuickSlotNode(nullptr), m_StashNode(nullptr), m_EquipmentNode(nullptr), m_InventoryNode(nullptr), m_MenuBarNode(nullptr), m_ChattingNode(nullptr), m_ExpBarNode(nullptr), m_SystemMessageWindowNode(nullptr), m_SpellDestinationPoint(), m_LastTouchLocation(), m_LastTouchTime(0)
 {
     
 }
@@ -52,6 +53,7 @@ UILayer::~UILayer()
         this->m_ChattingNode = nullptr;
     }
     CC_SAFE_RELEASE(this->m_ExpBarNode);
+    CC_SAFE_RELEASE(this->m_SystemMessageWindowNode);
 }
 
 bool UILayer::init()
@@ -60,22 +62,7 @@ bool UILayer::init()
     {
         return false;
     }
-    switch (this->m_StageType) {
-        case flownet::StageType_MushroomField:
-        case flownet::StageType_SpiderCaveFront:
-        case flownet::StageType_SpiderCave:
-        default:
-            this->InitializeSpellQuickSlot();
-            this->InitializeInventory();
-            //this->InitializeStash();
-            this->InitializeEquipment();
-            this->InitializeMenuBar();
-            this->InitializeExpBar();
-            this->InitializeChatting();
 
-            break;
-    }
-    
     this->setTouchEnabled(true);
     
     scheduleUpdate();
@@ -132,13 +119,35 @@ void UILayer::ccTouchesEnded(CCSet *touches, CCEvent *event)
     if(this->TouchProcessMove(touchLocation)) return;
 }
 
-void UILayer::OnResponse() const
+void UILayer::OnResponse()
 {
     BaseLayer::OnResponse();
     
     if(this->m_MenuBarNode)
     {
         this->m_MenuBarNode->OnResponse();
+    }
+}
+
+void UILayer::OnLoad()
+{
+    BaseLayer::OnLoad();
+    
+    switch (this->m_StageType) {
+        case flownet::StageType_MushroomField:
+        case flownet::StageType_SpiderCaveFront:
+        case flownet::StageType_SpiderCave:
+        default:
+            this->InitializeSpellQuickSlot();
+            this->InitializeInventory();
+            //this->InitializeStash();
+            this->InitializeEquipment();
+            this->InitializeMenuBar();
+            this->InitializeExpBar();
+            this->InitializeChatting();
+            this->InitializeSystemMessageWindow();
+
+            break;
     }
 }
 
@@ -211,6 +220,14 @@ void UILayer::InitializeExpBar()
     this->addChild(this->m_ExpBarNode);
 }
 
+void UILayer::InitializeSystemMessageWindow()
+{
+    this->m_SystemMessageWindowNode = SystemMessageWindowNode::create();
+    this->m_SystemMessageWindowNode->retain();
+    
+    this->addChild(this->m_SystemMessageWindowNode);
+}
+
 InventoryNode* UILayer::GetInventoryNode()
 {
     return this->m_InventoryNode;
@@ -223,21 +240,24 @@ StashNode* UILayer::GetStashNode()
 
 bool UILayer::TouchProcessSpellBegan(CCPoint touchLocation)
 {
+    if(!this->m_SpellQuickSlotNode) return false;
+
     BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
     ActorLayer* actorLayer = scene->GetActorLayer();
     
     if(!actorLayer) return false;
     
     ClientPlayer* player = static_cast<ClientPlayer*>(GameClient::Instance().GetClientStage()->FindPlayer(GameClient::Instance().GetMyActorID()));
-
-    if(this->m_SelectedSpellType == SpellType_NONE) return false;
+    ASSERT_DEBUG(player);
+    
+    if(this->m_SpellQuickSlotNode->GetSelectedSpellType() == SpellType_NONE) return false;
     if(player->IsStateAttacking()) return false;
     
     touchLocation = actorLayer->convertToNodeSpace(touchLocation);
 
     player->ChangeToCastingState();
     this->m_SpellDestinationPoint = touchLocation;
-    GameClient::Instance().GetClientObject().SendCSRequestBeginCast(GameClient::Instance().GetClientStage()->GetStageID(), player->GetActorID(), this->m_SelectedSpellType, PointConverter::Convert(touchLocation));
+    GameClient::Instance().GetClientObject().SendCSRequestBeginCast(GameClient::Instance().GetClientStage()->GetStageID(), player->GetActorID(), this->m_SpellQuickSlotNode->GetSelectedSpellType(), PointConverter::Convert(touchLocation));
     
     CCLOG("begin request sent");
 
@@ -246,9 +266,12 @@ bool UILayer::TouchProcessSpellBegan(CCPoint touchLocation)
 
 bool UILayer::TouchProcessSpellEnded(CCPoint touchLocation)
 {
+    if(!this->m_SpellQuickSlotNode) return false;
+
     ClientPlayer* player = static_cast<ClientPlayer*>(GameClient::Instance().GetClientStage()->FindPlayer(GameClient::Instance().GetMyActorID()));
+    ASSERT_DEBUG(player);
     
-    if(this->m_SelectedSpellType == SpellType_NONE)
+    if(this->m_SpellQuickSlotNode->GetSelectedSpellType() == SpellType_NONE)
     {
         return false;
     }
@@ -258,8 +281,8 @@ bool UILayer::TouchProcessSpellEnded(CCPoint touchLocation)
     }
 
     player->ChangeToIdleState();
-    GameClient::Instance().GetClientObject().SendCSRequestEndCast(GameClient::Instance().GetClientStage()->GetStageID(), player->GetActorID(), this->m_SelectedSpellType, PointConverter::Convert(this->m_SpellDestinationPoint));
-    this->m_SelectedSpellType = SpellType_NONE;
+    GameClient::Instance().GetClientObject().SendCSRequestEndCast(GameClient::Instance().GetClientStage()->GetStageID(), player->GetActorID(), this->m_SpellQuickSlotNode->GetSelectedSpellType(), PointConverter::Convert(this->m_SpellDestinationPoint));
+    this->m_SpellQuickSlotNode->ResetSelectedSpellType();
     this->m_SpellDestinationPoint = CCPointZero;
     
     CCLOG("end request sent");
@@ -344,7 +367,7 @@ bool UILayer::TouchProcessMove(CCPoint touchLocation)
 
 void UILayer::TranslateScreen()
 {
-    const int Border = 160;
+    const int Border = 180;
     const int LeftTranslateBorder = Border;
     const int RightTranslateBorder = 480 - Border;
 
@@ -401,11 +424,6 @@ void UILayer::TranslateScreen()
     }
 }
 
-void UILayer::SetSelectedSpellType(flownet::SpellType spellType)
-{
-    this->m_SelectedSpellType = spellType;
-}
-
 void UILayer::SwapInventorySlot(flownet::InventorySlot sourceSlotNumber, flownet::InventorySlot destinationSlotNumber)
 {
     if(this->m_InventoryNode)
@@ -435,6 +453,14 @@ void UILayer::MessageReceived(flownet::ActorID senderID, flownet::STRING senderN
     if(this->m_ChattingNode)
     {
         this->m_ChattingNode->MessageReceived(senderName, message);
+    }
+}
+
+void UILayer::SystemMessageReceived(std::string message)
+{
+    if(this->m_SystemMessageWindowNode)
+    {
+        this->m_SystemMessageWindowNode->MessageReceived(message);
     }
 }
 

@@ -2,57 +2,162 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-  <key>captions</key>
-  <dict>
-    <key>0</key>
-    <array>
-      <dict>
-	<key>position</key>
-	<integer>1</integer>
-	<key>name</key>
-	<string>odin</string>
-	<key>display_name_kr</key>
-	<string>????</string>
-	<key>state</key>
-	<string>idle</string>
-	<key>caption_kr</key>
-	<array>
-	  <string>(놀란 눈으로 나를 바라보며)</string>
-	  <string>흠... 소환이 성공했나??!</string>
-	</array>
-      </dict>
-      <dict>
-	<key>position</key>
-	<integer>0</integer>
-	<key>name</key>
-	<string>girl</string>
-	<key>display_name_kr</key>
-	<string>char</string>
-	<key>state</key>
-	<string>idle</string>
-	<key>caption_kr</key>
-	<array>
-	  <string>(나를 보며 하는 소리인가? 여기는 어디지?)</string>
-	  <string>저 말씀이신가요...? 저는... $actorName라고 해요...</string>
-	</array>
-      </dict>
-      <dict>
-	<key>position</key>
-	<integer>1</integer>
-	<key>name</key>
-	<string>odin</string>
-	<key>display_name_kr</key>
-	<string>오딘</string>
-	<key>state</key>
-	<string>idle</string>
-	<key>caption_kr</key>
-	<array>
-	  <string>나는 오딘이라고하네. 자네는 현재 내가 사는 세계인 '에렌'에 오게되었다네. 물론 이 세계에 대해서는 아는게 하나도 없을테지? 그렇지 아니한가?</string>
-	</array>
-	<key>after_event</key>
-	<string>ask_for_tutorial</string>
-      </dict>
-    </array>
-  </dict>
+	<key>captions</key>
+	<dict>
+		<key>0</key>
+		<array>
+			<dict>
+				<key>position</key>
+				<integer>1</integer>
+				<key>name</key>
+				<string>odin</string>
+				<key>display_name_kr</key>
+				<string>????</string>
+				<key>state</key>
+				<string>idle</string>
+				<key>caption_kr</key>
+				<array>
+					<string>(놀란 눈으로 나를 바라보며)</string>
+					<string>흠... 소환이 성공했나??!</string>
+				</array>
+			</dict>
+			<dict>
+				<key>position</key>
+				<integer>0</integer>
+				<key>name</key>
+				<string>player</string>
+				<key>display_name_kr</key>
+				<string>$PlayerName</string>
+				<key>state</key>
+				<string>idle</string>
+				<key>caption_kr</key>
+				<array>
+					<string>(나를 보며 하는 소리인건가? 여기는 어디지?)</string>
+					<string>저 말씀이신가요...? 저는... $PlayerName라고 해요...</string>
+				</array>
+			</dict>
+			<dict>
+				<key>position</key>
+				<integer>1</integer>
+				<key>name</key>
+				<string>odin</string>
+				<key>display_name_kr</key>
+				<string>오딘</string>
+				<key>state</key>
+				<string>idle</string>
+				<key>caption_kr</key>
+				<array>
+					<string>나는 오딘이라고하네. 자네는 현재 내가 사는 세계인 &apos;에렌&apos;에 오게되었다네. 물론 이 세계에 대해서는 아는게 하나도 없을테지? 그렇지 아니한가? 내가 이곳에서 생활하기 위한 여러 도움을 주겠네</string>
+					<string>이동을 위해서는 스크린을 한 번 터치하면 된다네</string>
+				</array>
+			</dict>
+		</array>
+		<key>1</key>
+		<array>
+			<dict>
+				<key>position</key>
+				<integer>1</integer>
+				<key>name</key>
+				<string>odin</string>
+				<key>display_name_kr</key>
+				<string>오딘</string>
+				<key>state</key>
+				<string>idle</string>
+				<key>caption_kr</key>
+				<array>
+					<string>잘했네! 그렇게 하면 된다네.</string>
+					<string>급박한 상황에서는 걸어가는 것 외에 수단이 필요할때가 있네. 이동하고자 하는 곳을 빠르게 두번 터치하면 그 자리로 순간이동을 할 수 있네</string>
+					<string>한 번 해보게나</string>
+				</array>
+			</dict>
+		</array>
+		<key>2</key>
+		<array>
+			<dict>
+				<key>position</key>
+				<integer>1</integer>
+				<key>name</key>
+				<string>odin</string>
+				<key>display_name_kr</key>
+				<string>오딘</string>
+				<key>state</key>
+				<string>idle</string>
+				<key>caption_kr</key>
+				<array>
+					<string>이 세계에서 살아가기 위해서는 자신의 몸을 지키는 방법 정도는 알아야겠지? 우리의 세계에서는 마법을 사용하여 자신을 지킬 수 있다네</string>
+					<string>마법을 사용하기 위해서는 왼쪽위에 보이는 마법 단축아이콘을 클릭한 후에</string>
+					<string>사용하고 싶은 장소에 터치를 하여 마법을 사용 할 수 있다네</string>
+					<string>다시 한 번 말하자면 사용할 마법을 터치하고, 그 마법을 사용할 곳을 터치하면 된다네</string>
+					<string>내 몬스터를 하나 소환해 볼테니 한번 사냥해보게나</string>
+				</array>
+			</dict>
+		</array>
+		<key>3</key>
+		<array>
+			<dict>
+				<key>position</key>
+				<integer>1</integer>
+				<key>name</key>
+				<string>odin</string>
+				<key>display_name_kr</key>
+				<string>오딘</string>
+				<key>state</key>
+				<string>idle</string>
+				<key>caption_kr</key>
+				<array>
+					<string>또 이 세계를 살아가기 위해서는 다양한 물품들을 수집하고 이용해야 하네. 내 자네가 필요한 물품을 몇개 준비해보았네</string>
+					<string>땅에 떨어진 물품을 줍기 위해서는 땅 위에 보이는 물품을 터치하여 획득할 수 있네</string>
+				</array>
+			</dict>
+		</array>
+		<key>4</key>
+		<array>
+			<dict>
+				<key>position</key>
+				<integer>1</integer>
+				<key>name</key>
+				<string>odin</string>
+				<key>display_name_kr</key>
+				<string>오딘</string>
+				<key>state</key>
+				<string>idle</string>
+				<key>caption_kr</key>
+				<array>
+					<string>아까 주운 물품들을 이제 사용하는 방법을 알려주겠네</string>
+					<string>왼쪽 아래 구석에 보이는 스크롤 모양이 보이지 않나? 그걸 누르면 &quot;인벤토리&quot; 창이 나오게 되네. 자신이 여행하면서 들고 다닐 수 있는 가방이라고 생각하면 되네</string>
+					<string>인벤토리를 열면 탭이 3개가 보일걸세. 각각 장비, 소비, 재료를 보관할 수 있는 가방을 불러 올 수 있지</string>
+					<string>장비탭에는 자신이 장비할 수 있는 장비들이 보일거고, </string>
+					<string>소비탭에는 자신이 소모할 수 있는 물약과 같은 것들이 보일거고,</string>
+					<string>재료탭에는 연금술에 쓰일 수 있는 재료들이 보일걸세</string>
+					<string>장비창에 있는 지팡이를 착용해 보겠나? 착용하고자 하는 장비를 더블 터치하면 장착할 수 있을걸세</string>
+					<string>소비창에 있는 물약을 복용해 보겠나? 사용하고자 하는 물약을 더블 터치하면 먹을 수 있다네</string>
+				</array>
+			</dict>
+		</array>
+		<key>5</key>
+		<array>
+			<dict>
+				<key>position</key>
+				<integer>1</integer>
+				<key>name</key>
+				<string>odin</string>
+				<key>display_name_kr</key>
+				<string>오딘</string>
+				<key>state</key>
+				<string>idle</string>
+				<key>caption_kr</key>
+				<array>
+					<string>이 정도를 알면 이 세계를 살아가는데 있어서 기본이 되는 것들을 모두 익힌것 같구먼... 허허허</string>
+					<string>그럼 이제 이 세계의 사람들이 모여사는 마을로 가는 방법을 알려주겠네</string>
+					<string>오른쪽 위에 노란색 스크롤 모양이 보일 걸세 이 메뉴를 통해서 집으로 돌아가기, 설정, 로그아웃 등을 할 수 있네</string>
+					<string>가장 왼쪽에 있는것이 마을로 가기,</string>
+					<string>가운데가 설정창을 열기</string>
+					<string>가장 오른쪽에 있는 것이 로그아웃 버튼이라네</string>
+					<string>이 세계로 자네를 불러온 것에 대해서는 미안하지만... 앞으로 살아가기 위해서는 많은 사람들과 어울려서 지내야 할걸세</string>
+					<string>마을로 가기 버튼을 눌러 마을로 이동하여 잘 살아보게나 하하하하하</string>
+				</array>
+			</dict>
+		</array>
+	</dict>
 </dict>
 </plist>

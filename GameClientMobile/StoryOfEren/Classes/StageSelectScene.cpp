@@ -134,7 +134,7 @@ bool StageInfoLayer::ccTouchBegan(cocos2d::CCTouch *touch, cocos2d::CCEvent *eve
     return true;
 }
 
-void StageInfoLayer::OnResponse() const
+void StageInfoLayer::OnResponse()
 {
     this->m_CreateButton->setEnabled(true);
 }
@@ -294,7 +294,7 @@ void StageSelectLayer::ccTouchesMoved(cocos2d::CCSet *touches, cocos2d::CCEvent 
     this->m_Menu->setPosition( newPos );
 }
 
-void StageSelectLayer::OnResponse() const
+void StageSelectLayer::OnResponse()
 {
     BaseLayer::OnResponse();
 
@@ -382,7 +382,7 @@ void StageSelectScene::DisplayRunningStages(flownet::StagePlayInfoList &stageInf
     }
 }
 
-void StageSelectScene::OnResponse() const
+void StageSelectScene::OnResponse()
 {
     BaseScene::OnResponse();
 

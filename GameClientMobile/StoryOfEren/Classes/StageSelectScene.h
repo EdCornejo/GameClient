@@ -37,7 +37,7 @@ public:
 
     virtual bool ccTouchBegan(CCTouch* touch, CCEvent* event) override;
     
-    void OnResponse() const;
+    void OnResponse();
 
 private:
     void OnCreateButtonTouch(CCObject* sender);
@@ -66,7 +66,7 @@ public :
     
     virtual void ccTouchesMoved(CCSet* touches, CCEvent* event) override;
     
-    virtual void OnResponse() const override;
+    virtual void OnResponse() override;
 
 private:
     void OnStageSelectObjectTouch(CCObject* sender);
@@ -93,7 +93,7 @@ public:
     
     void DisplayRunningStages(flownet::StagePlayInfoList& stageInfoList);
     
-    virtual void OnResponse() const override;
+    virtual void OnResponse() override;
     
 private:
     void OnBackButtonTouch(CCObject* object);

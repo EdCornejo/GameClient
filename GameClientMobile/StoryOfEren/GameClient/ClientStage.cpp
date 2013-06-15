@@ -60,4 +60,9 @@ ClientStage::~ClientStage()
     m_MonsterMap.clear();
 }
 
+void ClientStage::IncreaseTier()
+{
+    this->m_StageInfo.m_CurrentTier++;
+}
+
 } // namespace flownet

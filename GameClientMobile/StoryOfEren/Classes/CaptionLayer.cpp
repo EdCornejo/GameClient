@@ -8,7 +8,7 @@
 
 #include "Headers.pch"
 
-CaptionLayer::CaptionLayer() : m_StageType(StageType_NONE), m_CaptionLabel(nullptr), m_NameLabel(nullptr), m_CharacterImage(nullptr), m_CaptionInfoList(), m_CaptionInfoListIndex(0), m_CaptionIndex(0)
+CaptionLayer::CaptionLayer() : m_StageType(StageType_NONE), m_CaptionLabel(nullptr), m_NameLabel(nullptr), m_CharacterImage(nullptr), m_CaptionInfoList(), m_Tier(0), m_CaptionInfoListIndex(0), m_CaptionIndex(0)
 {
 
 }
@@ -33,7 +33,7 @@ bool CaptionLayer::init()
         return false;
     }
     // TODO : for test loaded tutorial script
-    bool result = this->LoadCaptionInfoFromFile(this->GetCaptionInfoFileName(this->m_StageType).c_str(), GameClient::Instance().GetClientStage()->GetCurrentTier());
+    bool result = this->LoadCaptionInfoFromFile(this->GetCaptionInfoFileName(this->m_StageType).c_str(), this->m_Tier);
     
     if(!result) return false;
     
@@ -75,16 +75,14 @@ bool CaptionLayer::init()
     CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, kCCMenuHandlerPriority - 10, true);
     this->setTouchEnabled(true);
     
-    // NOTE : for initialize force call ccTouchEnded
-    this->ccTouchBegan(nullptr, nullptr);
-    
     return true;
 }
 
-CaptionLayer* CaptionLayer::create(flownet::StageType stageType)
+CaptionLayer* CaptionLayer::create(const flownet::StageType stageType, const int tier)
 {
     CaptionLayer* captionLayer = new CaptionLayer();
     captionLayer->m_StageType = stageType;
+    captionLayer->m_Tier = tier;
     
     if(captionLayer && captionLayer->init())
     {
@@ -110,7 +108,7 @@ bool CaptionLayer::ccTouchBegan(CCTouch* touch, CCEvent* event)
     if(captionInfoListSize == this->m_CaptionInfoListIndex)
     {
         // NOTE : the caption is ended
-        this->CaptionEnded();
+        this->runAction(CCCallFunc::create(this, callfunc_selector(CaptionLayer::CaptionEnded)));
         return true;
     }
     
@@ -122,6 +120,8 @@ bool CaptionLayer::ccTouchBegan(CCTouch* touch, CCEvent* event)
     
     std::string currentCaption = currentCaptionInfo->m_CaptionList[this->m_CaptionIndex++];
     
+    
+    // NOTE : display the character illust
     if(this->m_CharacterImage)
     {
         this->m_CharacterImage->removeFromParent();
@@ -130,7 +130,7 @@ bool CaptionLayer::ccTouchBegan(CCTouch* touch, CCEvent* event)
     
     std::string characterImageFileName = "illust/";
     
-    if(currentCaptionInfo->m_Name.compare("char") == 0) {
+    if(currentCaptionInfo->m_Name.compare("player") == 0) {
         Player* actor = GameClient::Instance().GetClientStage()->FindPlayer(GameClient::Instance().GetMyActorID());
         if(!actor || actor->GetGender() == Gender_Female)
         {
@@ -154,25 +154,37 @@ bool CaptionLayer::ccTouchBegan(CCTouch* touch, CCEvent* event)
     CCPoint characterPosition;
     if(currentCaptionInfo->m_CharacterPosition == CaptionCharacterPosition_LEFT)
     {
-        characterPosition = ccp(100, 160);
+        const CCPoint leftSideIllustPosition = ccp(100, 160);
+        characterPosition = leftSideIllustPosition;
     }
     else
     {
-        characterPosition = ccp(380, 160);
+        const CCPoint rightSideIllustPosition = ccp(380, 160);
+        characterPosition = rightSideIllustPosition;
     }
     this->m_CharacterImage->setPosition(characterPosition);
     
     this->addChild(this->m_CharacterImage);
+    // NOTE : end of displaying character illust
     
-    this->m_NameLabel->setString(currentCaptionInfo->m_DisplayName.c_str());
-    this->m_CaptionLabel->setString(currentCaption.c_str());
+    // NOTE : process the reserved keyword for text
+    this->m_NameLabel->setString(this->ReplaceReservedKeyword(currentCaptionInfo->m_DisplayName).c_str());
+    this->m_CaptionLabel->setString(this->ReplaceReservedKeyword(currentCaption).c_str());
     
-    if(captionListSize == this->m_CaptionIndex) {
+    if(captionListSize == this->m_CaptionIndex)
+    {
         this->m_CaptionInfoListIndex++;
         this->m_CaptionIndex = 0;
     }
     
     return true;
+}
+
+void CaptionLayer::OnLoad()
+{
+    BaseLayer::OnLoad();
+    // NOTE : for initialize force call ccTouchEnded
+    this->ccTouchBegan(nullptr, nullptr);
 }
 
 std::string CaptionLayer::GetCaptionInfoFileName(flownet::StageType stageType)
@@ -209,7 +221,8 @@ bool CaptionLayer::LoadCaptionInfoFromFile(const char * fileName, int tier)
     CCDictionary* captionsDict = static_cast<CCDictionary*>(dict->objectForKey("captions"));
     std::stringstream ss;
     ss << tier;
-    std::string s = ss.str();
+    std::string s = ss.str().c_str();
+    
     CCArray* captionInfos = static_cast<CCArray*>(captionsDict->objectForKey(s.c_str()));
     
     CCObject* object;
@@ -246,4 +259,21 @@ bool CaptionLayer::LoadCaptionInfoFromFile(const char * fileName, int tier)
 void CaptionLayer::CaptionEnded()
 {
     this->removeFromParent();
+}
+
+std::string CaptionLayer::ReplaceReservedKeyword(std::string contentString)
+{
+    // NOTE : current reserved keywords are $PlayerName
+    Vector<std::string>::type reservedKeywordList = {"$PlayerName", };
+
+    Player* player = GameClient::Instance().GetClientStage()->FindPlayer(GameClient::Instance().GetMyActorID());
+    ASSERT_DEBUG(player);
+    
+    std::string::size_type foundIndex = std::string::npos;
+    while((foundIndex = contentString.find("$PlayerName")) != std::string::npos)
+    {
+        contentString = contentString.replace(foundIndex, std::string("$PlayerName").size() , player->GetPlayerName().c_str());
+    }
+
+    return contentString;
 }

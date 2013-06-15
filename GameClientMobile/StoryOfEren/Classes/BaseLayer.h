@@ -25,7 +25,8 @@ public:
     virtual bool init() override;
     virtual bool initWithStageType(StageType stageType);
 
-    virtual void OnResponse() const;
+    virtual void OnResponse();
+    virtual void OnLoad();
 };
 
 #endif /* defined(__GameClientMobile__BaseLayer__) */

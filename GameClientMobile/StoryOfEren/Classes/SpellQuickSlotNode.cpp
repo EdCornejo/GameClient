@@ -8,7 +8,7 @@
 
 #include "Headers.pch"
 
-SpellQuickSlotNode::SpellQuickSlotNode(): m_ButtonSpellMap(), m_HighlightImage(nullptr)
+SpellQuickSlotNode::SpellQuickSlotNode(): m_ButtonSpellMap(), m_HighlightImage(nullptr), m_SelectedSpellType(SpellType_NONE)
 {
 
 }
@@ -22,13 +22,20 @@ SpellQuickSlotNode::~SpellQuickSlotNode()
 bool SpellQuickSlotNode::init()
 {
     Player* player = GameClient::Instance().GetClientStage()->FindPlayer(GameClient::Instance().GetMyActorID());
+    
     // TO DO : initialize with player's spell info
-
     std::vector<SpellType> spellList = {SpellType_FireBall, SpellType_IceArrow, SpellType_FireBurst, SpellType_IceFog, SpellType_Crystalize};
     
     CCMenu* menu = CCMenu::create();
     
-    std::for_each(spellList.begin(), spellList.end(), [this, &menu](SpellType spellType){
+    // NOTE : spell can be activated by player's level
+    const int level = player->GetLevel();
+    int SpellListMax = (level + 1) / 2;
+    SpellListMax = SpellListMax > 5 ? 5 : SpellListMax;
+    
+    for(int i = 0; i < SpellListMax; i++)
+    {
+        SpellType spellType = spellList[i];
         CCSprite* spellIconImage = SpellImageLoader::GetSpellQuickSlotImage(spellType);
         CCSprite* spellIconImageDisabled = SpellImageLoader::GetSpellQuickSlotImage(spellType);
         spellIconImageDisabled->setColor(ccGRAY);
@@ -37,7 +44,20 @@ bool SpellQuickSlotNode::init()
         
         this->m_ButtonSpellMap.insert(ButtonSpellMap::value_type(menuItem, spellType));
         menu->addChild(menuItem);
-    });
+    }
+    
+    const int NumOfPlaceHolders = 5 - SpellListMax;
+    for(int i = 0; i < NumOfPlaceHolders; i++)
+    {
+        SpellType spellType = SpellType_NONE;
+        CCSprite* spellIconImage = SpellImageLoader::GetSpellQuickSlotImage(spellType);
+        CCSprite* spellIconImageDisabled = SpellImageLoader::GetSpellQuickSlotImage(spellType);
+        spellIconImageDisabled->setColor(ccGRAY);
+        
+        CCMenuItemSprite* menuItem = CCMenuItemSprite::create(spellIconImage, spellIconImage, spellIconImageDisabled, this, menu_selector(SpellQuickSlotNode::OnSkillTouched));
+        menuItem->setEnabled(false);
+        menu->addChild(menuItem);
+    }
     
     menu->alignItemsHorizontallyWithPadding(10);
     menu->setPosition(CCPointZero);
@@ -73,17 +93,16 @@ void SpellQuickSlotNode::OnSkillTouched(cocos2d::CCObject *sender)
     
     flownet::SpellType spellType = iter->second;
     
-    UILayer* uiLayer = static_cast<UILayer*>(this->getParent());
-    if(!uiLayer)
+    if(this->m_SelectedSpellType == spellType)
     {
-        CCLOGERROR("SpellQuickSlotNode::OnSkillTouched >> no UILayer exists");
-        ASSERT_DEBUG(uiLayer != nullptr);
+        this->m_SelectedSpellType = SpellType_NONE;
+        this->RemoveHighlight();
     }
-    
-    // TO DO : do nothing on empty skill slot
-    // TO DO : set selected highlight on MenuItem's position
-    this->SetHighlight(spellIcon);
-    uiLayer->SetSelectedSpellType(spellType);
+    else
+    {
+        this->m_SelectedSpellType = spellType;
+        this->SetHighlight(spellIcon);
+    }
 }
 
 void SpellQuickSlotNode::DisableButton(CCObject* object)
@@ -123,6 +142,16 @@ void SpellQuickSlotNode::RemoveProgressTimer(CCObject* object)
     timer->removeFromParent();
 }
 
+flownet::SpellType SpellQuickSlotNode::GetSelectedSpellType()
+{
+    return this->m_SelectedSpellType;
+}
+
+void SpellQuickSlotNode::ResetSelectedSpellType()
+{
+    this->m_SelectedSpellType = SpellType_NONE;
+}
+
 void SpellQuickSlotNode::ApplyCoolTime(flownet::SpellType spellType)
 {    
     CCProgressTimer* timer = CCProgressTimer::create(SpellImageLoader::GetSpellQuickSlotImage(spellType));
@@ -132,8 +161,6 @@ void SpellQuickSlotNode::ApplyCoolTime(flownet::SpellType spellType)
     std::for_each(this->m_ButtonSpellMap.begin(), this->m_ButtonSpellMap.end(), [this, spellInfo, timer](ButtonSpellMap::value_type pair){
         if(pair.second == spellInfo.m_SpellType)
         {
-    
-            // TODO : progress with spell cooltime. now fixed to 5 sec
             CCCallFuncO* disable = CCCallFuncO::create(this, callfuncO_selector(SpellQuickSlotNode::DisableButton), pair.first);
             CCDelayTime* delay = CCDelayTime::create(spellInfo.m_SpellCoolTime);
             CCCallFuncO* enable = CCCallFuncO::create(this, callfuncO_selector(SpellQuickSlotNode::EnableButton), pair.first);

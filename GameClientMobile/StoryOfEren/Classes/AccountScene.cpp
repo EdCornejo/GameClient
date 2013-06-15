@@ -315,7 +315,7 @@ void AccountScene::update(float deltaTime)
     BaseScene::update(deltaTime);
 }
 
-void AccountScene::OnResponse() const
+void AccountScene::OnResponse()
 {
     BaseScene::OnResponse();
     

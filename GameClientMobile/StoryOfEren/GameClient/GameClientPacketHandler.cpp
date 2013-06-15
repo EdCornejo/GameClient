@@ -207,6 +207,12 @@ void GameClientPacketHandler::OnSCNotifyClearStage(StageID stageID)
     this->m_GameClientRPCReceiver->OnSCNotifyClearStage(stageID);
 }
 
+void GameClientPacketHandler::OnSCNotifyClearTier(StageID stageID, INT tierNumber)
+{
+    ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);
+    this->m_GameClientRPCReceiver->OnSCNotifyClearTier(stageID, tierNumber);
+}
+
 void GameClientPacketHandler::OnSCNotifySpawnPlayer(StageID stageID, Player player)
 {
     ASSERT_DEBUG(this->m_GameClientRPCReceiver != nullptr);

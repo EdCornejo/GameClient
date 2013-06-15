@@ -20,7 +20,7 @@ private:
     MenuBarNode* m_MenuBarNode;
     ChattingNode* m_ChattingNode;
     ExpBarNode* m_ExpBarNode;
-    SpellType m_SelectedSpellType;
+    SystemMessageWindowNode* m_SystemMessageWindowNode;
     CCPoint m_SpellDestinationPoint;
     CCPoint m_LastTouchLocation;
     ServerTime m_LastTouchTime;
@@ -36,7 +36,8 @@ public:
     virtual void ccTouchesBegan(CCSet* touches, CCEvent* event) override;
     virtual void ccTouchesEnded(CCSet* touches, CCEvent* event) override;
     
-    virtual void OnResponse() const override;
+    virtual void OnResponse() override;
+    virtual void OnLoad() override;
     
 private:
     void InitializeSpellQuickSlot();
@@ -46,6 +47,7 @@ private:
     void InitializeMenuBar();
     void InitializeChatting();
     void InitializeExpBar();
+    void InitializeSystemMessageWindow();
     
 public:
     InventoryNode* GetInventoryNode();
@@ -59,11 +61,11 @@ private:
     void TranslateScreen();
     
 public:
-    void SetSelectedSpellType(SpellType spellType);
     void SwapInventorySlot(flownet::InventorySlot sourceSlotNumber, flownet::InventorySlot destinationSlotNumber);
     void ApplyCoolTime(flownet::SpellType spellType);
     void RemoveSpellHighlight();
     void MessageReceived(flownet::ActorID senderID, flownet::STRING senderName, flownet::STRING message);
+    void SystemMessageReceived(std::string message);
     void ShowStageClearMessage();
     void ShowTierClearMessage();
     

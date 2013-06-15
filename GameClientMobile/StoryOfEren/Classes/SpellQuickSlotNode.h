@@ -39,6 +39,7 @@ public:
 private:
     ButtonSpellMap m_ButtonSpellMap;
     CCSprite* m_HighlightImage;
+    flownet::SpellType m_SelectedSpellType;
     
 public:
     SpellQuickSlotNode();
@@ -58,6 +59,9 @@ private:
     void SetHighlight(CCMenuItem* spellIcon);
     
 public:
+    flownet::SpellType GetSelectedSpellType();
+    void ResetSelectedSpellType();
+
     void ApplyCoolTime(flownet::SpellType spellType);
     void RemoveHighlight();
 };

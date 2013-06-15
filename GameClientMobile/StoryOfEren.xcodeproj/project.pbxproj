@@ -238,6 +238,8 @@
 		6B7477B416F0CBC00014C286 /* loading_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B7477B316F0CBC00014C286 /* loading_background.png */; };
 		6B7477B816F0E6C20014C286 /* RenderingTaskWorkerRoutine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B7477B616F0E6C20014C286 /* RenderingTaskWorkerRoutine.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		6B7CB3361743914D00D40476 /* CharacterCreateScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B7CB3341743914D00D40476 /* CharacterCreateScene.cpp */; };
+		6B926704176C55EE0055770B /* ConfirmWindowLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B926702176C55EE0055770B /* ConfirmWindowLayer.cpp */; };
+		6B92670B176C88910055770B /* SystemMessageWindowNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B926709176C88910055770B /* SystemMessageWindowNode.cpp */; };
 		6B9E9A1816EE6C7E007A2BAC /* GameClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B9E9A1716EE6C7E007A2BAC /* GameClient.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		6B9E9A2F16F0492A007A2BAC /* PointConverter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B9E9A2D16F04929007A2BAC /* PointConverter.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		6BA1184F174C89610085E43B /* ChatMessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BA1184D174C89610085E43B /* ChatMessage.cpp */; };
@@ -840,6 +842,10 @@
 		6B7477B716F0E6C20014C286 /* RenderingTaskWorkerRoutine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderingTaskWorkerRoutine.h; sourceTree = "<group>"; };
 		6B7CB3341743914D00D40476 /* CharacterCreateScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CharacterCreateScene.cpp; path = Classes/CharacterCreateScene.cpp; sourceTree = "<group>"; };
 		6B7CB3351743914D00D40476 /* CharacterCreateScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CharacterCreateScene.h; path = Classes/CharacterCreateScene.h; sourceTree = "<group>"; };
+		6B926702176C55EE0055770B /* ConfirmWindowLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConfirmWindowLayer.cpp; path = Classes/ConfirmWindowLayer.cpp; sourceTree = "<group>"; };
+		6B926703176C55EE0055770B /* ConfirmWindowLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConfirmWindowLayer.h; path = Classes/ConfirmWindowLayer.h; sourceTree = "<group>"; };
+		6B926709176C88910055770B /* SystemMessageWindowNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SystemMessageWindowNode.cpp; path = Classes/SystemMessageWindowNode.cpp; sourceTree = "<group>"; };
+		6B92670A176C88910055770B /* SystemMessageWindowNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SystemMessageWindowNode.h; path = Classes/SystemMessageWindowNode.h; sourceTree = "<group>"; };
 		6B9E9A1716EE6C7E007A2BAC /* GameClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameClient.cpp; sourceTree = "<group>"; };
 		6B9E9A2D16F04929007A2BAC /* PointConverter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PointConverter.cpp; path = Classes/PointConverter.cpp; sourceTree = "<group>"; };
 		6B9E9A2E16F04929007A2BAC /* PointConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PointConverter.h; path = Classes/PointConverter.h; sourceTree = "<group>"; };
@@ -2138,6 +2144,8 @@
 				6BAA3A9B16E705C700BB233E /* HeartbeatLayer.h */,
 				6B639804174F2D15001F3D5F /* LoadingLayer.cpp */,
 				6B639805174F2D15001F3D5F /* LoadingLayer.h */,
+				6B926702176C55EE0055770B /* ConfirmWindowLayer.cpp */,
+				6B926703176C55EE0055770B /* ConfirmWindowLayer.h */,
 			);
 			name = Layers;
 			sourceTree = "<group>";
@@ -2161,6 +2169,8 @@
 				6BB8AD67174B5FAF00D82DE8 /* ChattingNode.h */,
 				6B6CA6E217534C0D002FF7B2 /* ExpBarNode.cpp */,
 				6B6CA6E317534C0D002FF7B2 /* ExpBarNode.h */,
+				6B926709176C88910055770B /* SystemMessageWindowNode.cpp */,
+				6B92670A176C88910055770B /* SystemMessageWindowNode.h */,
 			);
 			name = UINodes;
 			sourceTree = "<group>";
@@ -2724,6 +2734,8 @@
 				6B08439F1758739B00257246 /* GPS_ios.m in Sources */,
 				6B0843A217589E3800257246 /* DeviceInfo.mm in Sources */,
 				6B1AAD0417617A1700B56ECE /* NPCImageLoader.cpp in Sources */,
+				6B926704176C55EE0055770B /* ConfirmWindowLayer.cpp in Sources */,
+				6B92670B176C88910055770B /* SystemMessageWindowNode.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

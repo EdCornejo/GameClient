@@ -18,6 +18,8 @@ public:
     CREATE_FUNC(StageScene);
     
     virtual void update(float deltaTime) override;
+    
+    virtual void OnClearTier();
 };
 
 #endif /* defined(__GameClientMobile__StageScene__) */

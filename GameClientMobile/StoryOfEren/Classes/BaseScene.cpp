@@ -8,44 +8,20 @@
 
 #include "Headers.pch"
 
-BaseScene::BaseScene() : m_BackgroundLayer(nullptr), m_EffectLayer(nullptr), m_ObjectLayer(nullptr), m_ActorLayer(nullptr), /*m_PlayerLayer(nullptr), m_MonsterLayer(nullptr),*/ m_UILayer(nullptr), m_LoadingLayer(nullptr), m_LastGPSTime(0)
+BaseScene::BaseScene() : m_BackgroundLayer(nullptr), m_EffectLayer(nullptr), m_ObjectLayer(nullptr), m_ActorLayer(nullptr), m_UILayer(nullptr), m_CaptionLayer(nullptr), m_LoadingLayer(nullptr), m_LastGPSTime(0)
 {
     CCLOG("Base scene created");
 }
 
 BaseScene::~BaseScene()
 {
-    if(m_BackgroundLayer)
-    {
-        m_BackgroundLayer->release();
-        m_BackgroundLayer = nullptr;
-    }
-    if(m_EffectLayer)
-    {
-        m_EffectLayer->release();
-        m_EffectLayer = nullptr;
-    }
-    if(m_ObjectLayer)
-    {
-        m_ObjectLayer->release();
-        m_ObjectLayer = nullptr;
-    }
-    if(m_ActorLayer)
-    {
-        m_ActorLayer->release();
-        m_ActorLayer = nullptr;
-    }
-    if(m_UILayer)
-    {
-        m_UILayer->release();
-        m_UILayer = nullptr;
-    }
-    if(m_LoadingLayer)
-    {
-        m_LoadingLayer->release();
-        m_LoadingLayer = nullptr;
-    }
-    CCLOG("Base scene des");
+    CC_SAFE_RELEASE(this->m_BackgroundLayer);
+    CC_SAFE_RELEASE(this->m_EffectLayer);
+    CC_SAFE_RELEASE(this->m_ObjectLayer);
+    CC_SAFE_RELEASE(this->m_ActorLayer);
+    CC_SAFE_RELEASE(this->m_UILayer);
+    CC_SAFE_RELEASE(this->m_CaptionLayer);
+    CC_SAFE_RELEASE(this->m_LoadingLayer);
 }
 
 bool BaseScene::init()
@@ -54,6 +30,8 @@ bool BaseScene::init()
     {
         return false;
     }
+    
+    ClientStage* stage = GameClient::Instance().GetClientStage();
     
     // load animations
     SpellAnimationLoader::Instance();
@@ -68,12 +46,13 @@ bool BaseScene::init()
 
     
     this->m_HeartbeatLayer = HeartbeatLayer::create();
-    this->m_HeartbeatLayer->retain();
+    if(this->m_HeartbeatLayer)
+    {
+        this->m_HeartbeatLayer->retain();
+        this->addChild(m_HeartbeatLayer, 10);
+    }
     
     //this->InitializeGPSInfo();
-    
-    this->addChild(m_HeartbeatLayer, 10);
-    
     return true;
 }
 
@@ -109,16 +88,6 @@ ActorLayer* BaseScene::GetActorLayer() const
 {
     return this->m_ActorLayer;
 }
-//PlayerLayer* BaseScene::GetPlayerLayer() const
-//{
-//    return this->m_PlayerLayer;
-//}
-//
-//MonsterLayer* BaseScene::GetMonsterLayer() const
-//{
-//    return this->m_MonsterLayer;
-//}
-
 
 UILayer* BaseScene::GetUILayer() const
 {
@@ -149,30 +118,68 @@ void BaseScene::RemoveLoadingSpinnerAndUnblock() const
     }
 }
 
-void BaseScene::OnResponse() const
+void BaseScene::OnResponse()
 {
-    if(m_BackgroundLayer)
+    if(this->m_BackgroundLayer)
     {
-        m_BackgroundLayer->OnResponse();
+        this->m_BackgroundLayer->OnResponse();
     }
-    if(m_EffectLayer)
+    if(this->m_EffectLayer)
     {
-        m_EffectLayer->OnResponse();
+        this->m_EffectLayer->OnResponse();
     }
-    if(m_ObjectLayer)
+    if(this->m_ObjectLayer)
     {
-        m_ObjectLayer->OnResponse();
+        this->m_ObjectLayer->OnResponse();
     }
-    if(m_ActorLayer)
+    if(this->m_ActorLayer)
     {
-        m_ActorLayer->OnResponse();
+        this->m_ActorLayer->OnResponse();
     }
-    if(m_UILayer)
+    if(this->m_UILayer)
     {
-        m_UILayer->OnResponse();
+        this->m_UILayer->OnResponse();
     }
     
     this->RemoveLoadingSpinnerAndUnblock();
+}
+
+void BaseScene::OnLoad()
+{
+    if(this->m_BackgroundLayer)
+    {
+        this->m_BackgroundLayer->OnLoad();
+    }
+    if(this->m_EffectLayer)
+    {
+        this->m_EffectLayer->OnLoad();
+    }
+    if(this->m_ObjectLayer)
+    {
+        this->m_ObjectLayer->OnLoad();
+    }
+    if(this->m_ActorLayer)
+    {
+        this->m_ActorLayer->OnLoad();
+    }
+    if(this->m_UILayer)
+    {
+        this->m_UILayer->OnLoad();
+    }
+    if(this->m_CaptionLayer)
+    {
+        this->m_CaptionLayer->OnLoad();
+    }
+}
+
+void BaseScene::OnClearStage()
+{
+
+}
+
+void BaseScene::OnClearTier()
+{
+
 }
 
 void BaseScene::InitializeGPSInfo() {

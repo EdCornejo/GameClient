@@ -22,6 +22,7 @@ protected:
 //    MonsterLayer* m_MonsterLayer;
     UILayer* m_UILayer;
     HeartbeatLayer* m_HeartbeatLayer;
+    CaptionLayer* m_CaptionLayer;
     mutable LoadingLayer* m_LoadingLayer;
     
     ServerTime m_LastGPSTime;
@@ -48,7 +49,10 @@ public:
     void AddLoadingSpinnerAndBlock();
     void RemoveLoadingSpinnerAndUnblock() const;
     // this function is for enabling the disabled buttons when requested
-    virtual void OnResponse() const;
+    virtual void OnResponse();
+    virtual void OnLoad();
+    virtual void OnClearStage();
+    virtual void OnClearTier();
     
     
 private:
