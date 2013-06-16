@@ -75,21 +75,14 @@ bool SpellNode::initWithFile(const char* fileName)
             if( targetPoint.x - spellStartPoint.x < 0.f )
             {
                 spellStartPoint.x -= StartingPointAdjustmentX;
-//                this->setRotation(180.f);
             }
             else
             { // RIGHT
                 spellStartPoint.x += StartingPointAdjustmentX;
             }
-//            const float SpellHeightAdjustment = 15.f;
-//            spellStartPoint.y += SpellHeightAdjustment;
             this->m_StartPoint = PointConverter::Convert(spellStartPoint);
-//            targetPoint.y += SpellHeightAdjustment;
             this->m_Destination = PointConverter::Convert(targetPoint);
             this->setAnchorPoint(ccp(0.5f, 0.f));
-            
-//            double rotateDegree = -atan2(targetPoint.y - spellStartPoint.y, targetPoint.x - spellStartPoint.x) * 180 / M_PI;
-//            this->setRotation(rotateDegree);
         }
         break;
         default:
@@ -225,10 +218,10 @@ void SpellNode::StartSpellAnimation()
 {
     BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());
     
-    CCPoint startPoint = this->getPosition();
+    flownet::POINT startPoint = PointConverter::Convert(this->getPosition());
     if( this->m_SpellInfo.m_StartingPoint == StartingPoint_Self )
     {
-        const float StartingPointAdjustmentX = 30.f;
+        const float StartingPointAdjustmentX = 2.f;
         if( this->m_Destination.x - startPoint.x > 0.f  )
         {
             startPoint.x -= StartingPointAdjustmentX;
@@ -239,7 +232,7 @@ void SpellNode::StartSpellAnimation()
         }
     }
     
-    float delay = PointConverter::Convert(startPoint).DistanceTo(this->m_Destination) / (this->m_SpellInfo.m_Speed);
+    float delay = startPoint.DistanceTo(this->m_Destination) / (this->m_SpellInfo.m_Speed);
     delay = delay == 0 ? 3 : delay;
     
     // TO DO : changed this logic ! when spell effect changed

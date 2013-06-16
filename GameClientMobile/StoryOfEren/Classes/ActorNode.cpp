@@ -87,7 +87,6 @@ void ShadowNode::update(float deltaTime)
             #define ShadowBaseWidth 60.f
             const float shadowScaleFactor = actor->m_Skeleton->boundingBox().size.width / ShadowBaseWidth;
             this->setScaleX(shadowScaleFactor);
-            actorPosition = actor->m_Skeleton->boundingBox().origin;
         }
         
         this->setPosition(ccpAdd(actorPosition, shadowAdjustment));
