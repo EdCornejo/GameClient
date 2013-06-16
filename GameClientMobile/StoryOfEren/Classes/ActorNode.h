@@ -54,7 +54,7 @@ private:
     CCPoint m_Destination;
     
     CCSprite* m_SpellCastingIcon;
-    CCSprite* m_SpellGuideLine;
+    CCDrawNode* m_SpellGuideLine;
     CCSprite* m_SpellGuideIcon;
     
 public:
