@@ -252,7 +252,7 @@ bool UILayer::TouchProcessSpellBegan(CCPoint touchLocation)
     ASSERT_DEBUG(player);
     
     if(this->m_SpellQuickSlotNode->GetSelectedSpellType() == SpellType_NONE) return false;
-    if(player->IsStateAttacking()) return false;
+//    if(player->IsStateAttacking()) return false;
     
     touchLocation = actorLayer->convertToNodeSpace(touchLocation);
 
@@ -276,10 +276,10 @@ bool UILayer::TouchProcessSpellEnded(CCPoint touchLocation)
     {
         return false;
     }
-    if(!player->IsStateCasting())
-    {
-        return false;
-    }
+//    if(!player->IsStateCasting())
+//    {
+//        return false;
+//    }
 
     player->ChangeToIdleState();
     GameClient::Instance().GetClientObject().SendCSRequestEndCast(GameClient::Instance().GetClientStage()->GetStageID(), player->GetActorID(), this->m_SpellQuickSlotNode->GetSelectedSpellType(), PointConverter::Convert(this->m_SpellDestinationPoint));

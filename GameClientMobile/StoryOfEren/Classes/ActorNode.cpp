@@ -251,12 +251,13 @@ bool GuideLineNode::init()
     // NOTE : our screen is landscape
     double rotateDegree = -atan2(this->m_Destination.y - this->m_Source.y, this->m_Destination.x - this->m_Source.x) * 180 / M_PI;
     
-    this->m_SpellGuideLine = CCSprite::create("ui/guide_line/spell_guide_line.png");
+    this->m_SpellGuideLine = CCDrawNode::create();
     this->m_SpellGuideLine->retain();
-    this->m_SpellGuideLine->setAnchorPoint(CCPointZero);
-    this->m_SpellGuideLine->setPosition(this->m_Source);
-    this->m_SpellGuideLine->setScaleX(scaleFactor);
-    this->m_SpellGuideLine->setRotation(rotateDegree);
+    this->m_SpellGuideLine->drawSegment(this->m_Source, this->m_Destination, 2.f, ccc4f(57.f,57.f,57.f,57.f));
+    ccBlendFunc blendFunction;
+    blendFunction.src = GL_SRC_COLOR;
+    blendFunction.dst = GL_ONE_MINUS_DST_ALPHA;
+    this->m_SpellGuideLine->setBlendFunc(blendFunction);
     
     this->m_SpellCastingIcon = SpellImageLoader::GetSpellGuideImage(this->m_SpellType);
     this->m_SpellCastingIcon->retain();
@@ -270,6 +271,7 @@ bool GuideLineNode::init()
     this->m_SpellGuideIcon->setPosition(this->m_Destination);
     
     this->addChild(this->m_SpellGuideLine);
+    
     this->addChild(this->m_SpellCastingIcon);
     this->addChild(this->m_SpellGuideIcon);
     
