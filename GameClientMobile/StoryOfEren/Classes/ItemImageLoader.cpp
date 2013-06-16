@@ -51,6 +51,9 @@ std::string ItemImageLoader::GetImageFileName(flownet::ItemType itemType)
         case ItemType_SpellBookPage:
             imageName = "spell_book_page";
             break;
+        case ItemType_Coupon:
+            imageName = "coupon";
+            break;
         default:
             imageName = "item_none";
     }
