@@ -23,7 +23,7 @@ bool MonsterNode::init()
         case flownet::MonsterType_Mushroom:
             this->m_Skeleton = CCSkeletonAnimation::createWithFile("monster/mushroom.json", "monster/mushroom.atlas");
             this->m_Skeleton->setSkin("purple");
-            this->m_Skeleton->setScale(0.13);
+            this->m_Skeleton->setScale(0.095);
             break;
         case flownet::MonsterType_Goblin:
 
