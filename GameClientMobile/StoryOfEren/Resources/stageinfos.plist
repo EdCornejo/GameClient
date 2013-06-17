@@ -6,6 +6,16 @@
 	<array>
 		<dict>
 			<key>name_kr</key>
+			<string>비밀의 방</string>
+			<key>recommended_level</key>
+			<integer>1</integer>
+			<key>stage_type</key>
+			<integer>7</integer>
+			<key>description_kr</key>
+			<string>비밀의 아이템 방입니다</string>
+		</dict>
+		<dict>
+			<key>name_kr</key>
 			<string>임시 튜토리얼</string>
 			<key>recommended_level</key>
 			<integer>15</integer>

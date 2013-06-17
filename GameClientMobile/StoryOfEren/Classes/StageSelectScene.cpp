@@ -243,7 +243,10 @@ bool StageSelectLayer::init()
     CCMenuItemImage* object3 = CCMenuItemImage::create("ui/stage_select_scene/small_object_n.png", "ui/stage_select_scene/small_object_a.png", this, menu_selector(StageSelectLayer::OnStageSelectObjectTouch));
     object3->setTag(StageType_Intro);
     object3->setPosition(ccp(worldMapSize.width * 0.5, worldMapSize.height * 0.5));
-    this->m_Menu = CCMenu::create(object0, object1, object2, object3, NULL);
+    CCMenuItemImage* object4 = CCMenuItemImage::create("ui/stage_select_scene/small_object_n.png", "ui/stage_select_scene/small_object_a.png", this, menu_selector(StageSelectLayer::OnStageSelectObjectTouch));
+    object4->setTag(StageType_IvoryTower);
+    object4->setPosition(ccp(worldMapSize.width * 0.51, worldMapSize.height * 0.51));
+    this->m_Menu = CCMenu::create(object0, object1, object2, object3, object4, NULL);
     this->m_Menu->retain();
     this->m_Menu->setPosition(CCPointZero);
 

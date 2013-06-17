@@ -38,7 +38,7 @@ std::string BackgroundImageLoader::GetFileName(flownet::StageType stageType)
             fileName = "spider_cave";
             break;
         case flownet::StageType_IvoryTower:
-            fileName = "ivorytower";
+            fileName = "ivory_tower";
             break;
         case flownet::StageType_PrivateLibrary:
             fileName = "private_library";
