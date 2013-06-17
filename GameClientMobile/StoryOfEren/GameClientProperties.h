@@ -19,5 +19,7 @@
 //#define SERVER_CONNECT_ADDRESS          "127.0.0.1"         //loop back for test server
 #define SERVER_CONNECT_PORT             1988
 
+#define OBSERVER_ENABLE // make playerID = 1 to observer character
+
 
 #endif

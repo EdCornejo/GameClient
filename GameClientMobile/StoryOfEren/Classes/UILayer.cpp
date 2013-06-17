@@ -135,6 +135,10 @@ void UILayer::OnLoad()
 {
     BaseLayer::OnLoad();
     
+    this->InitializeMenuBar();
+    
+    
+    #ifndef OBSERVER_ENABLE
     switch (this->m_StageType) {
         case flownet::StageType_MushroomField:
         case flownet::StageType_SpiderCaveFront:
@@ -144,12 +148,13 @@ void UILayer::OnLoad()
             this->InitializeInventory();
             //this->InitializeStash();
             this->InitializeEquipment();
-            this->InitializeMenuBar();
+            
             this->InitializeExpBar();
             this->InitializeChatting();
 
             break;
     }
+    #endif
 }
 
 void UILayer::InitializeSpellQuickSlot()
