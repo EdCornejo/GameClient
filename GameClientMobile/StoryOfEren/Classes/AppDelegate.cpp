@@ -45,8 +45,11 @@ bool AppDelegate::applicationDidFinishLaunching()
     }
     else
     {
-        searchPaths.push_back(smallResource.directory);
-        pDirector->setContentScaleFactor(smallResource.size.height/designResolutionSize.height);
+        searchPaths.push_back(iphoneHDResource.directory);
+        pDirector->setContentScaleFactor(iphoneHDResource.size.height/designResolutionSize.height);
+    
+//        searchPaths.push_back(smallResource.directory);
+//        pDirector->setContentScaleFactor(smallResource.size.height/designResolutionSize.height);
     }
     
     searchPaths.push_back("");
