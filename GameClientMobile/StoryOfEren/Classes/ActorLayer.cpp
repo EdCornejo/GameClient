@@ -456,7 +456,7 @@ void ActorLayer::KnockBackActor(flownet::ActorID actorID, flownet::POINT current
     knockbackObject->StopAnimationActions();
 
     CCFiniteTimeAction* animateAttacked = CCCallFunc::create(knockbackObject, callfunc_selector(ActorNode::AnimateAttacked));
-    CCFiniteTimeAction* actionMove = CCEaseOut::create(CCMoveTo::create(KNOCKBACK_DURATION, PointConverter::Convert(knockbackDestination)), 2.f);
+    CCFiniteTimeAction* actionMove = CCEaseOut::create(CCMoveTo::create(KNOCKBACK_DURATION, PointConverter::Convert(knockbackDestination)), 4.f);
     CCFiniteTimeAction* actionMoveDone = CCCallFunc::create( knockbackObject, callfunc_selector(ActorNode::AnimateIdle));
     CCSequence* sequence = CCSequence::create(animateAttacked, actionMove, actionMoveDone, NULL);
     sequence->setTag(ActionType_Animation);
