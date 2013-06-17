@@ -1,159 +1,332 @@
-character-hd.png
+character1.png
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-boy/boy_default_left_lower_arm
-  rotate: false
-  xy: 2015, 368
-  size: 88, 69
-  orig: 88, 69
-  offset: 0, 0
-  index: -1
-boy/boy_wizard_right_lower_arm
-  rotate: false
-  xy: 2289, 936
-  size: 78, 93
-  orig: 78, 93
-  offset: 0, 0
-  index: -1
-boy/boy_mouse
-  rotate: false
-  xy: 814, 2006
-  size: 62, 24
-  orig: 62, 24
-  offset: 0, 0
-  index: -1
-boy/boy_bang_hair
-  rotate: false
-  xy: 1816, 2
-  size: 392, 364
-  orig: 392, 364
-  offset: 0, 0
-  index: -1
-boy/boy_shortcut_nohat_hair
-  rotate: false
-  xy: 1564, 443
-  size: 393, 381
-  orig: 393, 381
-  offset: 0, 0
-  index: -1
-girl/girl_head
-  rotate: false
-  xy: 1992, 763
-  size: 295, 303
-  orig: 295, 303
-  offset: 0, 0
-  index: -1
-boy/moon_wand
-  rotate: false
-  xy: 1614, 2
-  size: 200, 367
-  orig: 200, 367
-  offset: 0, 0
-  index: -1
-boy/boy_default_nect
-  rotate: false
-  xy: 2078, 1068
-  size: 178, 100
-  orig: 178, 100
-  offset: 0, 0
-  index: -1
-girl/girl_ear
-  rotate: false
-  xy: 1861, 368
-  size: 62, 72
-  orig: 62, 72
-  offset: 0, 0
-  index: -1
-girl/girl_default_robe_up
-  rotate: false
-  xy: 710, 453
-  size: 171, 141
-  orig: 171, 141
-  offset: 0, 0
-  index: -1
-girl/girl_eyes_open
-  rotate: false
-  xy: 2258, 1068
-  size: 218, 93
-  orig: 218, 93
-  offset: 0, 0
-  index: -1
-girl/girl_default_hair_rear
-  rotate: false
-  xy: 1992, 1068
-  size: 84, 106
-  orig: 84, 108
-  offset: 0, 0
-  index: -1
-boy/stick
-  rotate: false
-  xy: 1842, 1176
-  size: 308, 192
-  orig: 308, 192
-  offset: 0, 0
-  index: -1
-boy/boy_head
-  rotate: false
-  xy: 1529, 1446
-  size: 373, 355
-  orig: 373, 355
-  offset: 0, 0
-  index: -1
-boy/boy_wizard_robe_down
-  rotate: false
-  xy: 1553, 1238
-  size: 287, 196
-  orig: 287, 196
-  offset: 0, 0
-  index: -1
 girl/girl_wizard_hair_rear
   rotate: false
-  xy: 691, 1464
+  xy: 1391, 453
   size: 441, 540
   orig: 443, 540
   offset: 1, 0
   index: -1
-girl/girl_wizard_left_upper_arm
-  rotate: false
-  xy: 760, 596
-  size: 95, 80
-  orig: 95, 80
-  offset: 0, 0
-  index: -1
-girl/girl_default_hat
-  rotate: false
-  xy: 393, 596
-  size: 365, 257
-  orig: 365, 257
-  offset: 0, 0
-  index: -1
 girl/girl_fedora_hat
   rotate: false
-  xy: 393, 2
+  xy: 369, 817
   size: 315, 592
   orig: 315, 592
   offset: 0, 0
   index: -1
+girl/girl_mouse
+  rotate: false
+  xy: 1912, 783
+  size: 59, 15
+  orig: 59, 15
+  offset: 0, 0
+  index: -1
 girl/girl_wizard_hat_front
   rotate: false
-  xy: 883, 453
+  xy: 719, 2
   size: 679, 397
   orig: 679, 397
   offset: 0, 0
   index: -1
-boy/boy_wizard_left_upper_arm
+girl/girl_default_robe_up
   rotate: false
-  xy: 2394, 495
+  xy: 1852, 2
+  size: 171, 141
+  orig: 171, 141
+  offset: 0, 0
+  index: -1
+girl/girl_eyes_close
+  rotate: false
+  xy: 1171, 496
+  size: 213, 46
+  orig: 213, 46
+  offset: 0, 0
+  index: -1
+girl/girl_ear
+  rotate: false
+  xy: 1979, 770
+  size: 62, 72
+  orig: 62, 72
+  offset: 0, 0
+  index: -1
+girl/girl_head
+  rotate: false
+  xy: 2, 1192
+  size: 295, 303
+  orig: 295, 303
+  offset: 0, 0
+  index: -1
+girl/girl_wizard_left_lower_arm
+  rotate: false
+  xy: 1834, 467
+  size: 88, 69
+  orig: 88, 69
+  offset: 0, 0
+  index: -1
+girl/girl_default_left_lower_arm
+  rotate: false
+  xy: 1924, 467
+  size: 88, 69
+  orig: 88, 69
+  offset: 0, 0
+  index: -1
+girl/girl_default_hair_rear
+  rotate: false
+  xy: 1834, 538
+  size: 84, 106
+  orig: 84, 108
+  offset: 0, 0
+  index: -1
+girl/girl_wizard_robe_up
+  rotate: false
+  xy: 1852, 145
+  size: 158, 149
+  orig: 158, 149
+  offset: 0, 0
+  index: -1
+girl/girl_default_nect
+  rotate: false
+  xy: 1852, 296
+  size: 134, 87
+  orig: 134, 87
+  offset: 0, 0
+  index: -1
+girl/girl_right_hand
+  rotate: false
+  xy: 1979, 711
+  size: 63, 57
+  orig: 63, 57
+  offset: 0, 0
+  index: -1
+girl/girl_default_left_upper_arm
+  rotate: false
+  xy: 1949, 385
   size: 95, 80
   orig: 95, 80
   offset: 0, 0
   index: -1
+girl/girl_wizard_left_upper_arm
+  rotate: false
+  xy: 1852, 385
+  size: 95, 80
+  orig: 95, 80
+  offset: 0, 0
+  index: -1
+girl/girl_left_hand
+  rotate: false
+  xy: 1988, 296
+  size: 53, 60
+  orig: 53, 60
+  offset: 0, 0
+  index: -1
+blank
+  rotate: false
+  xy: 2025, 2
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+girl/girl_wizard_right_upper_arm
+  rotate: false
+  xy: 1920, 538
+  size: 76, 171
+  orig: 76, 171
+  offset: 0, 0
+  index: -1
+girl/girl_wizard_neck
+  rotate: false
+  xy: 2, 1673
+  size: 295, 147
+  orig: 295, 147
+  offset: 0, 0
+  index: -1
+girl/girl_default_hat
+  rotate: false
+  xy: 2, 609
+  size: 365, 257
+  orig: 365, 257
+  offset: 0, 0
+  index: -1
+girl/girl_wizard_robe_down
+  rotate: false
+  xy: 369, 609
+  size: 339, 206
+  orig: 339, 206
+  offset: 0, 0
+  index: -1
+girl/girl_wizard_hair_front
+  rotate: false
+  xy: 2, 868
+  size: 356, 322
+  orig: 356, 322
+  offset: 0, 0
+  index: -1
+girl/girl_default_robe_down
+  rotate: false
+  xy: 2, 1497
+  size: 260, 174
+  orig: 260, 174
+  offset: 0, 0
+  index: -1
+girl/girl_left_finger
+  rotate: false
+  xy: 1912, 711
+  size: 65, 70
+  orig: 65, 70
+  offset: 0, 0
+  index: -1
+girl/girl_wizard_hat_rear
+  rotate: false
+  xy: 2, 2
+  size: 715, 605
+  orig: 715, 605
+  offset: 0, 0
+  index: -1
+girl/girl_eyes_open
+  rotate: false
+  xy: 1171, 401
+  size: 218, 93
+  orig: 218, 93
+  offset: 0, 0
+  index: -1
+girl/girl_default_hair_front
+  rotate: false
+  xy: 719, 401
+  size: 450, 439
+  orig: 450, 439
+  offset: 0, 0
+  index: -1
+girl/girl_default_hair
+  rotate: false
+  xy: 1400, 2
+  size: 450, 449
+  orig: 450, 449
+  offset: 0, 0
+  index: -1
+girl/girl_default_right_upper_arm
+  rotate: false
+  xy: 1834, 646
+  size: 76, 171
+  orig: 76, 171
+  offset: 0, 0
+  index: -1
+
+character2.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
 boy/boy_right_hand
   rotate: false
-  xy: 1643, 1176
+  xy: 1971, 2
   size: 62, 58
   orig: 62, 58
+  offset: 0, 0
+  index: -1
+boy/boy_eyes_close
+  rotate: false
+  xy: 2, 1995
+  size: 218, 42
+  orig: 218, 44
+  offset: 0, 1
+  index: -1
+boy/boy_wizard_left_upper_arm
+  rotate: false
+  xy: 810, 751
+  size: 95, 80
+  orig: 95, 80
+  offset: 0, 0
+  index: -1
+boy/boy_mouse02
+  rotate: false
+  xy: 222, 1995
+  size: 59, 32
+  orig: 59, 32
+  offset: 0, 0
+  index: -1
+boy/default_wand
+  rotate: false
+  xy: 2, 1441
+  size: 211, 440
+  orig: 211, 440
+  offset: 0, 0
+  index: -1
+boy/boy_bang_hair
+  rotate: false
+  xy: 595, 385
+  size: 392, 364
+  orig: 392, 364
+  offset: 0, 0
+  index: -1
+boy/boy_default_right_lower_arm
+  rotate: false
+  xy: 653, 751
+  size: 78, 93
+  orig: 78, 93
+  offset: 0, 0
+  index: -1
+boy/boy_ear
+  rotate: false
+  xy: 1183, 288
+  size: 62, 72
+  orig: 62, 72
+  offset: 0, 0
+  index: -1
+boy/boy_default_left_upper_arm
+  rotate: false
+  xy: 907, 751
+  size: 95, 80
+  orig: 95, 80
+  offset: 0, 0
+  index: -1
+boy/boy_mouse01
+  rotate: false
+  xy: 685, 2025
+  size: 59, 18
+  orig: 59, 18
+  offset: 0, 0
+  index: -1
+boy/boy_default_hair
+  rotate: false
+  xy: 989, 362
+  size: 402, 348
+  orig: 402, 348
+  offset: 0, 0
+  index: -1
+boy/stick
+  rotate: false
+  xy: 1590, 2
+  size: 308, 192
+  orig: 308, 192
+  offset: 0, 0
+  index: -1
+boy/boy_shortcut_nohat_hair
+  rotate: false
+  xy: 393, 2
+  size: 393, 381
+  orig: 393, 381
+  offset: 0, 0
+  index: -1
+boy/boy_head
+  rotate: false
+  xy: 691, 846
+  size: 373, 355
+  orig: 373, 355
+  offset: 0, 0
+  index: -1
+boy/boy_default_right_upper_arm
+  rotate: false
+  xy: 733, 751
+  size: 75, 92
+  orig: 75, 92
+  offset: 0, 0
+  index: -1
+boy/boy_wizard_hat_rear
+  rotate: false
+  xy: 2, 857
+  size: 687, 582
+  orig: 687, 582
   offset: 0, 0
   index: -1
 boy/wood_wand
@@ -163,304 +336,136 @@ boy/wood_wand
   orig: 389, 853
   offset: 0, 0
   index: -1
-girl/girl_eyes_close
+boy/boy_left_finger
   rotate: false
-  xy: 997, 1238
-  size: 213, 46
-  orig: 213, 46
+  xy: 1900, 2
+  size: 69, 76
+  orig: 69, 76
   offset: 0, 0
   index: -1
-boy/default_wand
+boy/boy_default_left_lower_arm
   rotate: false
-  xy: 719, 855
-  size: 211, 440
-  orig: 211, 440
-  offset: 0, 0
-  index: -1
-boy/boy_default_robe_down
-  rotate: false
-  xy: 1904, 1370
-  size: 287, 191
-  orig: 287, 191
-  offset: 0, 0
-  index: -1
-boy/boy_wizard_left_lower_arm
-  rotate: false
-  xy: 1925, 368
+  xy: 1337, 288
   size: 88, 69
   orig: 88, 69
-  offset: 0, 0
-  index: -1
-girl/girl_default_robe_down
-  rotate: false
-  xy: 2152, 1170
-  size: 260, 174
-  orig: 260, 174
-  offset: 0, 0
-  index: -1
-boy/boy_default_robe_up
-  rotate: false
-  xy: 1134, 1806
-  size: 202, 201
-  orig: 202, 201
-  offset: 0, 0
-  index: -1
-girl/girl_default_nect
-  rotate: false
-  xy: 2317, 589
-  size: 134, 87
-  orig: 134, 87
-  offset: 0, 0
-  index: -1
-boy/boy_mouse02
-  rotate: false
-  xy: 691, 2006
-  size: 59, 32
-  orig: 59, 32
-  offset: 0, 0
-  index: -1
-girl/girl_wizard_hair_front
-  rotate: false
-  xy: 1959, 439
-  size: 356, 322
-  orig: 356, 322
-  offset: 0, 0
-  index: -1
-girl/girl_default_left_lower_arm
-  rotate: false
-  xy: 1771, 371
-  size: 88, 69
-  orig: 88, 69
-  offset: 0, 0
-  index: -1
-boy/boy_default_right_upper_arm
-  rotate: false
-  xy: 2317, 495
-  size: 75, 92
-  orig: 75, 92
-  offset: 0, 0
-  index: -1
-girl/girl_right_hand
-  rotate: false
-  xy: 932, 1238
-  size: 63, 57
-  orig: 63, 57
   offset: 0, 0
   index: -1
 boy/boy_wizard_neck
   rotate: false
-  xy: 1536, 1803
+  xy: 691, 1203
   size: 366, 194
   orig: 366, 194
   offset: 0, 0
   index: -1
 boy/boy_eyes_open
   rotate: false
-  xy: 2210, 288
+  xy: 2, 1883
   size: 223, 110
   orig: 223, 110
   offset: 0, 0
   index: -1
-girl/girl_default_left_upper_arm
-  rotate: false
-  xy: 2317, 678
-  size: 95, 80
-  orig: 95, 80
-  offset: 0, 0
-  index: -1
-girl/girl_left_finger
-  rotate: false
-  xy: 1614, 371
-  size: 65, 70
-  orig: 65, 70
-  offset: 0, 0
-  index: -1
-boy/boy_mouse01
-  rotate: false
-  xy: 909, 2006
-  size: 59, 18
-  orig: 59, 18
-  offset: 0, 0
-  index: -1
-blank
-  rotate: false
-  xy: 691, 2040
-  size: 1, 1
-  orig: 1, 1
-  offset: 0, 0
-  index: -1
-girl/girl_mouse
-  rotate: false
-  xy: 878, 2030
-  size: 59, 15
-  orig: 59, 15
-  offset: 0, 0
-  index: -1
-girl/girl_wizard_robe_down
-  rotate: false
-  xy: 1212, 1238
-  size: 339, 206
-  orig: 339, 206
-  offset: 0, 0
-  index: -1
-girl/girl_default_right_upper_arm
-  rotate: false
-  xy: 2289, 763
-  size: 76, 171
-  orig: 76, 171
-  offset: 0, 0
-  index: -1
-boy/boy_left_finger
-  rotate: false
-  xy: 2367, 760
-  size: 69, 76
-  orig: 69, 76
-  offset: 0, 0
-  index: -1
-boy/boy_left_hand
-  rotate: false
-  xy: 2435, 288
-  size: 69, 76
-  orig: 69, 76
-  offset: 0, 0
-  index: -1
-girl/girl_wizard_neck
-  rotate: false
-  xy: 879, 1297
-  size: 295, 147
-  orig: 295, 147
-  offset: 0, 0
-  index: -1
-boy/boy_eyes_close
-  rotate: false
-  xy: 1536, 1999
-  size: 218, 42
-  orig: 218, 44
-  offset: 0, 1
-  index: -1
-girl/girl_wizard_left_lower_arm
-  rotate: false
-  xy: 1681, 371
-  size: 88, 69
-  orig: 88, 69
-  offset: 0, 0
-  index: -1
-girl/girl_left_hand
-  rotate: false
-  xy: 1588, 1176
-  size: 53, 60
-  orig: 53, 60
-  offset: 0, 0
-  index: -1
 boy/boy_mouse04
   rotate: false
-  xy: 878, 2006
+  xy: 227, 1883
   size: 29, 22
   orig: 29, 22
   offset: 0, 0
   index: -1
+boy/boy_wizard_left_lower_arm
+  rotate: false
+  xy: 1247, 288
+  size: 88, 69
+  orig: 88, 69
+  offset: 0, 0
+  index: -1
+boy/boy_wizard_robe_down
+  rotate: false
+  xy: 685, 1827
+  size: 287, 196
+  orig: 287, 196
+  offset: 0, 0
+  index: -1
+boy/moon_wand
+  rotate: false
+  xy: 393, 385
+  size: 200, 367
+  orig: 200, 367
+  offset: 0, 0
+  index: -1
+boy/boy_mouse
+  rotate: false
+  xy: 215, 1827
+  size: 62, 24
+  orig: 62, 24
+  offset: 0, 0
+  index: -1
 boy/boy_shortcut_onhat_hair
   rotate: false
-  xy: 1134, 1446
+  xy: 788, 2
   size: 393, 358
   orig: 393, 358
   offset: 0, 0
   index: -1
-boy/boy_default_hair
+boy/boy_wizard_right_lower_arm
   rotate: false
-  xy: 1588, 826
-  size: 402, 348
-  orig: 402, 348
-  offset: 0, 0
-  index: -1
-girl/girl_default_hair
-  rotate: false
-  xy: 710, 2
-  size: 450, 449
-  orig: 450, 449
-  offset: 0, 0
-  index: -1
-girl/girl_wizard_robe_up
-  rotate: false
-  xy: 719, 1297
-  size: 158, 149
-  orig: 158, 149
-  offset: 0, 0
-  index: -1
-boy/boy_wizard_robe_up
-  rotate: false
-  xy: 1338, 1806
-  size: 196, 201
-  orig: 196, 201
-  offset: 0, 0
-  index: -1
-boy/boy_wizard_hat_front
-  rotate: false
-  xy: 932, 852
-  size: 654, 384
-  orig: 654, 384
-  offset: 0, 0
-  index: -1
-boy/boy_ear
-  rotate: false
-  xy: 1861, 368
-  size: 62, 72
-  orig: 62, 72
-  offset: 0, 0
-  index: -1
-boy/boy_default_left_upper_arm
-  rotate: false
-  xy: 2397, 400
-  size: 95, 80
-  orig: 95, 80
-  offset: 0, 0
-  index: -1
-girl/girl_wizard_right_upper_arm
-  rotate: false
-  xy: 760, 678
-  size: 76, 171
-  orig: 76, 171
-  offset: 0, 0
-  index: -1
-boy/boy_mouse03
-  rotate: false
-  xy: 752, 2006
-  size: 60, 28
-  orig: 60, 28
-  offset: 0, 0
-  index: -1
-girl/girl_wizard_hat_rear
-  rotate: false
-  xy: 2, 857
-  size: 715, 605
-  orig: 715, 605
-  offset: 0, 0
-  index: -1
-boy/boy_wizard_hat_rear
-  rotate: false
-  xy: 2, 1464
-  size: 687, 582
-  orig: 687, 582
-  offset: 0, 0
-  index: -1
-boy/boy_default_right_lower_arm
-  rotate: false
-  xy: 2317, 400
+  xy: 573, 754
   size: 78, 93
   orig: 78, 93
   offset: 0, 0
   index: -1
 boy/boy_default_hat
   rotate: false
-  xy: 2210, 2
+  xy: 1183, 2
   size: 405, 284
   orig: 405, 284
   offset: 0, 0
   index: -1
-girl/girl_default_hair_front
+boy/boy_default_robe_down
   rotate: false
-  xy: 1162, 2
-  size: 450, 439
-  orig: 450, 439
+  xy: 1590, 196
+  size: 287, 191
+  orig: 287, 191
+  offset: 0, 0
+  index: -1
+boy/boy_wizard_robe_up
+  rotate: false
+  xy: 487, 1827
+  size: 196, 201
+  orig: 196, 201
+  offset: 0, 0
+  index: -1
+boy/boy_default_nect
+  rotate: false
+  xy: 393, 754
+  size: 178, 100
+  orig: 178, 100
+  offset: 0, 0
+  index: -1
+boy/boy_wizard_hat_front
+  rotate: false
+  xy: 215, 1441
+  size: 654, 384
+  orig: 654, 384
+  offset: 0, 0
+  index: -1
+boy/boy_default_robe_up
+  rotate: false
+  xy: 283, 1827
+  size: 202, 201
+  orig: 202, 201
+  offset: 0, 0
+  index: -1
+boy/boy_mouse03
+  rotate: false
+  xy: 215, 1853
+  size: 60, 28
+  orig: 60, 28
+  offset: 0, 0
+  index: -1
+boy/boy_left_hand
+  rotate: false
+  xy: 1004, 712
+  size: 69, 76
+  orig: 69, 76
   offset: 0, 0
   index: -1

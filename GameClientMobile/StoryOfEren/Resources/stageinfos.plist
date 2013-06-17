@@ -6,13 +6,13 @@
 	<array>
 		<dict>
 			<key>name_kr</key>
-			<string>시발</string>
+			<string>임시 튜토리얼</string>
 			<key>recommended_level</key>
 			<integer>15</integer>
 			<key>stage_type</key>
 			<integer>1</integer>
 			<key>description_kr</key>
-			<string>하얀 늑대가 있다고 하는 기괴한 숲이에요</string>
+			<string>튜토리얼을 진행 할 수 있어요</string>
 		</dict>
 		<dict>
 			<key>name_kr</key>
