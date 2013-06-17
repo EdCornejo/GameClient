@@ -90,6 +90,20 @@ struct ActorNodeSet : public CCNode {
         return this->m_ZOrder;
     }
     
+    void SetVisible(bool visibility)
+    {
+        if(this->m_ActorNode) this->m_ActorNode->setVisible(visibility);
+        if(this->m_HUDNode) this->m_HUDNode->setVisible(visibility);
+        if(this->m_ShadowNode) this->m_ShadowNode->setVisible(visibility);
+        if(this->m_HighlightNode) this->m_HighlightNode->setVisible(visibility);
+        if(this->m_ChatBalloonNode) this->m_ChatBalloonNode->setVisible(visibility);
+    }
+    
+    bool IsVisible()
+    {
+        if(this->m_ActorNode) this->m_ActorNode->isVisible();
+    }
+    
     void AddActorNode(flownet::ActorID actorID)
     {
         this->RemoveActorNode();
