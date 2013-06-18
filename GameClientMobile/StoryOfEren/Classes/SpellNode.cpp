@@ -287,23 +287,21 @@ std::string SpellNode::GetFileName(SpellType spellType)
     
     switch (this->m_SpellInfo.m_SpellType) {
     case flownet::SpellType_FireBall:
-        effectFileName += "fire_burst";
+        effectFileName += "fire_ball";
         break;
     case flownet::SpellType_FireBurst:
-        effectFileName += "fire_burst";
+        effectFileName += "meteor";
         break;
     case flownet::SpellType_IceArrow:
     {
-        int i = CCRANDOM_0_1();
         effectFileName += "ice_arrow";
-        effectFileName.push_back('0' + i);
         break;
     }
     case flownet::SpellType_IceFog:
-        effectFileName += "ice_arrow";
+        effectFileName += "ice_fog";
         break;
     case flownet::SpellType_Crystalize :
-        effectFileName += "ice_arrow";
+        effectFileName += "crystalize";
         break;
     default:
         ASSERT_DEBUG(false);
@@ -315,14 +313,26 @@ std::string SpellNode::GetFileName(SpellType spellType)
 
 void SpellNode::PlayStartingEffect()
 {
-    std::string effectFileName = "sound/effect/spell/" + GetFileName(this->m_SpellInfo.m_SpellType) + "_start.mp3";
-    AudioEngine::Instance()->PlayEffect(effectFileName.c_str());
+    std::string effectFileName = "sound/effect/spell/" + GetFileName(this->m_SpellInfo.m_SpellType);
+    
+    // try with mp3
+    unsigned int result = AudioEngine::Instance()->PlayEffect((effectFileName + ".mp3").c_str());
+    if(result != AudioEngine::MUTE) return;
+    
+    // try with wav
+    result = AudioEngine::Instance()->PlayEffect((effectFileName + ".wav").c_str());
+    if(result != AudioEngine::MUTE) return;
 }
 
 void SpellNode::PlayEndingEffect()
 {
-    std::string effectFileName = "sound/effect/spell/" + GetFileName(this->m_SpellInfo.m_SpellType) + "_end.mp3";
-    AudioEngine::Instance()->PlayEffect(effectFileName.c_str());
+    std::string effectFileName = "sound/effect/spell/" + GetFileName(this->m_SpellInfo.m_SpellType) + "_end";
+    
+    unsigned int result = AudioEngine::Instance()->PlayEffect((effectFileName + ".mp3").c_str());
+    if(result != AudioEngine::MUTE) return;
+    
+    result = AudioEngine::Instance()->PlayEffect((effectFileName + ".wav").c_str());
+    if(result != AudioEngine::MUTE) return;
 }
 
 void SpellNode::BeginAfterEffect()

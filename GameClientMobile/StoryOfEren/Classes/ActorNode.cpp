@@ -601,6 +601,7 @@ void ActorNode::AnimateIdle()
     // NOTE : check for same animation
     if(this->m_Skeleton->states[0]->animation != nullptr && strcmp(this->m_Skeleton->states[0]->animation->name, "idle") == 0) return;
     this->m_Skeleton->setAnimation("idle", true);
+    this->PlayIdleEffect(false);
 }
 
 void ActorNode::AnimateMoving()
@@ -646,6 +647,7 @@ void ActorNode::AnimateMoving()
     // NOTE : check for same animation, flipping animation is left behind
     if(this->m_Skeleton->states[0]->animation != nullptr && strcmp(this->m_Skeleton->states[0]->animation->name, "moving") == 0) return;
     this->m_Skeleton->setAnimation("moving", true);
+    this->PlayMovingEffect(false);
 }
 
 void ActorNode::AnimateAttacking()
@@ -687,6 +689,7 @@ void ActorNode::AnimateAttacking()
     // NOTE : this->m_Skeleton->state->animation != nullptr &&  is test code
     if(this->m_Skeleton->states[0]->animation != nullptr && strcmp(this->m_Skeleton->states[0]->animation->name, "attacking") == 0) return;
     this->m_Skeleton->setAnimation("attacking", false);
+    this->PlayAttackingEffect(false);
 }
 
 void ActorNode::AnimateAttacked()
@@ -728,6 +731,7 @@ void ActorNode::AnimateAttacked()
     // NOTE : check for same animation
     if(this->m_Skeleton->states[0]->animation != nullptr && strcmp(this->m_Skeleton->states[0]->animation->name, "attacked") == 0) return;
     this->m_Skeleton->setAnimation("attacked", false);
+    this->PlayAttackedEffect(false);
 }
 
 void ActorNode::AnimateBeginCasting()
@@ -758,6 +762,7 @@ void ActorNode::AnimateBeginCasting()
     // NOTE : check for same animation
     if(this->m_Skeleton->states[0]->animation != nullptr && strcmp(this->m_Skeleton->states[0]->animation->name, "begin_casting") == 0) return;
     this->m_Skeleton->setAnimation("begin_casting", false);
+    this->PlayBeginCastingEffect(false);
 }
 
 void ActorNode::AnimateRepeatCasting()
@@ -797,6 +802,7 @@ void ActorNode::AnimateRepeatCasting()
      // NOTE : check for same animation
     if(this->m_Skeleton->states[0]->animation != nullptr && strcmp(this->m_Skeleton->states[0]->animation->name, "repeat_casting") == 0) return;
     this->m_Skeleton->setAnimation("repeat_casting", true);
+    this->PlayRepeatCastingEffect(false);
 }
 
 void ActorNode::AnimateEndCasting()
@@ -836,6 +842,7 @@ void ActorNode::AnimateEndCasting()
     // NOTE : check for same animation
     if(this->m_Skeleton->states[0]->animation != nullptr && strcmp(this->m_Skeleton->states[0]->animation->name, "end_casting") == 0) return;
     this->m_Skeleton->setAnimation("end_casting", false);
+    this->PlayEndCastingEffect(false);
 }
 
 void ActorNode::AnimateFire()
@@ -910,6 +917,7 @@ void ActorNode::AnimateDead()
     // NOTE : check for same animation
     if(this->m_Skeleton->states[0]->animation != nullptr && strcmp(this->m_Skeleton->states[0]->animation->name, "dead") == 0) return;
     this->m_Skeleton->setAnimation("dead", false);
+    this->PlayDeadEffect(false);
 }
 
 void ActorNode::PlayIdleEffect(bool loop)

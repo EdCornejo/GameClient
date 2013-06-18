@@ -15,6 +15,10 @@
 class AudioEngine
 {
 public:
+    enum {
+        MUTE = 0xFEEDBAB,
+    };
+
     static AudioEngine* Instance();
     static void Destory();
 

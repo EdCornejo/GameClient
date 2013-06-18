@@ -21,7 +21,7 @@ bool MonsterNode::init()
     switch(monster->GetMonsterType())
     {
         case flownet::MonsterType_Mushroom:
-            this->m_Skeleton = CCSkeletonAnimation::createWithFile("monster/mushroom.json", "monster/mushroom.atlas");
+            this->m_Skeleton = CCSkeletonAnimation::createWithFile("common/mushroom.json", "monster/mushroom.atlas");
             this->m_Skeleton->setSkin("purple");
             this->m_Skeleton->setScale(0.095);
             break;
@@ -30,7 +30,7 @@ bool MonsterNode::init()
         case flownet::MonsterType_Spider:
 
         case flownet::MonsterType_KingSpider:
-            this->m_Skeleton = CCSkeletonAnimation::createWithFile("monster/goblin.json", "monster/goblin.atlas");
+            this->m_Skeleton = CCSkeletonAnimation::createWithFile("common/goblin.json", "monster/goblin.atlas");
             this->m_Skeleton->setSkin("club");
             this->m_Skeleton->setScale(0.3);
             this->m_Skeleton->skeleton->flipX = true;
@@ -67,7 +67,7 @@ bool MonsterNode::init()
             this->m_Skeleton->setScale(0.12);
             break;
         default:
-            this->m_Skeleton = CCSkeletonAnimation::createWithFile("monster/goblin.json", "monster/goblin.atlas");
+            this->m_Skeleton = CCSkeletonAnimation::createWithFile("common/goblin.json", "monster/goblin.atlas");
             this->m_Skeleton->setSkin("club");
             this->m_Skeleton->setScale(0.24);
             this->m_Skeleton->skeleton->flipX = true;
@@ -98,4 +98,353 @@ MonsterNode* MonsterNode::create(flownet::ActorID actorID)
         delete newNode;
         return nullptr;
     }
+}
+
+void MonsterNode::PlayIdleEffect(bool loop)
+{
+    Monster* monster = static_cast<Monster*>(this->GetActorInfo());
+
+    if(!monster){
+        ASSERT_DEBUG(monster);
+        return;
+    }
+    
+    std::string fileName = "sound/effect/monster/";
+    
+    switch(monster->GetMonsterType())
+    {
+        case flownet::MonsterType_ColosseumGuardian:
+        case flownet::MonsterType_NightmareTree:
+            fileName += "tree";
+            break;
+        case flownet::MonsterType_GrandWolfKing:
+        case flownet::MonsterType_Wolf:
+        case flownet::MonsterType_YoungWolf:
+            fileName += "wolf";
+            break;
+        case flownet::MonsterType_Goblin:
+            fileName += "goblin";
+            break;
+        case flownet::MonsterType_KingSpider:
+        case flownet::MonsterType_Spider:
+            fileName += "spider";
+            break;
+        case flownet::MonsterType_Mushroom:
+            fileName += "mushroom";
+            break;
+    }
+    
+    fileName += "/idle";
+
+    unsigned int result = AudioEngine::Instance()->PlayEffect((fileName + ".wav").c_str());
+    if(result != AudioEngine::MUTE) return;
+    
+    result = AudioEngine::Instance()->PlayEffect((fileName + ".mp3").c_str());
+    if(result != AudioEngine::MUTE) return;
+}
+
+void MonsterNode::PlayMovingEffect(bool loop)
+{
+    Monster* monster = static_cast<Monster*>(this->GetActorInfo());
+
+    if(!monster){
+        ASSERT_DEBUG(monster);
+        return;
+    }
+    
+    std::string fileName = "sound/effect/monster/";
+    
+    switch(monster->GetMonsterType())
+    {
+        case flownet::MonsterType_ColosseumGuardian:
+        case flownet::MonsterType_NightmareTree:
+            fileName += "tree";
+            break;
+        case flownet::MonsterType_GrandWolfKing:
+        case flownet::MonsterType_Wolf:
+        case flownet::MonsterType_YoungWolf:
+            fileName += "wolf";
+            break;
+        case flownet::MonsterType_Goblin:
+            fileName += "goblin";
+            break;
+        case flownet::MonsterType_KingSpider:
+        case flownet::MonsterType_Spider:
+            fileName += "spider";
+            break;
+        case flownet::MonsterType_Mushroom:
+            fileName += "mushroom";
+            break;
+    }
+    
+    fileName += "/moving";
+
+    unsigned int result = AudioEngine::Instance()->PlayEffect((fileName + ".wav").c_str());
+    if(result != AudioEngine::MUTE) return;
+    
+    result = AudioEngine::Instance()->PlayEffect((fileName + ".mp3").c_str());
+    if(result != AudioEngine::MUTE) return;
+}
+
+void MonsterNode::PlayAttackingEffect(bool loop)
+{
+    Monster* monster = static_cast<Monster*>(this->GetActorInfo());
+
+    if(!monster){
+        ASSERT_DEBUG(monster);
+        return;
+    }
+    
+    std::string fileName = "sound/effect/monster/";
+    
+    switch(monster->GetMonsterType())
+    {
+        case flownet::MonsterType_ColosseumGuardian:
+        case flownet::MonsterType_NightmareTree:
+            fileName += "tree";
+            break;
+        case flownet::MonsterType_GrandWolfKing:
+        case flownet::MonsterType_Wolf:
+        case flownet::MonsterType_YoungWolf:
+            fileName += "wolf";
+            break;
+        case flownet::MonsterType_Goblin:
+            fileName += "goblin";
+            break;
+        case flownet::MonsterType_KingSpider:
+        case flownet::MonsterType_Spider:
+            fileName += "spider";
+            break;
+        case flownet::MonsterType_Mushroom:
+            fileName += "mushroom";
+            break;
+    }
+    
+    fileName += "/attacking";
+
+    unsigned int result = AudioEngine::Instance()->PlayEffect((fileName + ".wav").c_str());
+    if(result != AudioEngine::MUTE) return;
+    
+    result = AudioEngine::Instance()->PlayEffect((fileName + ".mp3").c_str());
+    if(result != AudioEngine::MUTE) return;
+}
+
+void MonsterNode::PlayAttackedEffect(bool loop)
+{
+    Monster* monster = static_cast<Monster*>(this->GetActorInfo());
+
+    if(!monster){
+        ASSERT_DEBUG(monster);
+        return;
+    }
+    
+    std::string fileName = "sound/effect/monster/";
+    
+    switch(monster->GetMonsterType())
+    {
+        case flownet::MonsterType_ColosseumGuardian:
+        case flownet::MonsterType_NightmareTree:
+            fileName += "tree";
+            break;
+        case flownet::MonsterType_GrandWolfKing:
+        case flownet::MonsterType_Wolf:
+        case flownet::MonsterType_YoungWolf:
+            fileName += "wolf";
+            break;
+        case flownet::MonsterType_Goblin:
+            fileName += "goblin";
+            break;
+        case flownet::MonsterType_KingSpider:
+        case flownet::MonsterType_Spider:
+            fileName += "spider";
+            break;
+        case flownet::MonsterType_Mushroom:
+            fileName += "mushroom";
+            break;
+    }
+    
+    fileName += "/attacked";
+
+    unsigned int result = AudioEngine::Instance()->PlayEffect((fileName + ".wav").c_str());
+    if(result != AudioEngine::MUTE) return;
+    
+    result = AudioEngine::Instance()->PlayEffect((fileName + ".mp3").c_str());
+    if(result != AudioEngine::MUTE) return;
+
+}
+
+void MonsterNode::PlayBeginCastingEffect(bool loop)
+{
+    Monster* monster = static_cast<Monster*>(this->GetActorInfo());
+
+    if(!monster){
+        ASSERT_DEBUG(monster);
+        return;
+    }
+    
+    std::string fileName = "sound/effect/monster/";
+    
+    switch(monster->GetMonsterType())
+    {
+        case flownet::MonsterType_ColosseumGuardian:
+        case flownet::MonsterType_NightmareTree:
+            fileName += "tree";
+            break;
+        case flownet::MonsterType_GrandWolfKing:
+        case flownet::MonsterType_Wolf:
+        case flownet::MonsterType_YoungWolf:
+            fileName += "wolf";
+            break;
+        case flownet::MonsterType_Goblin:
+            fileName += "goblin";
+            break;
+        case flownet::MonsterType_KingSpider:
+        case flownet::MonsterType_Spider:
+            fileName += "spider";
+            break;
+        case flownet::MonsterType_Mushroom:
+            fileName += "mushroom";
+            break;
+    }
+    
+    fileName += "/begin_casting";
+
+    unsigned int result = AudioEngine::Instance()->PlayEffect((fileName + ".wav").c_str());
+    if(result != AudioEngine::MUTE) return;
+    
+    result = AudioEngine::Instance()->PlayEffect((fileName + ".mp3").c_str());
+    if(result != AudioEngine::MUTE) return;
+
+}
+
+void MonsterNode::PlayRepeatCastingEffect(bool loop)
+{
+    Monster* monster = static_cast<Monster*>(this->GetActorInfo());
+
+    if(!monster){
+        ASSERT_DEBUG(monster);
+        return;
+    }
+    
+    std::string fileName = "sound/effect/monster/";
+    
+    switch(monster->GetMonsterType())
+    {
+        case flownet::MonsterType_ColosseumGuardian:
+        case flownet::MonsterType_NightmareTree:
+            fileName += "tree";
+            break;
+        case flownet::MonsterType_GrandWolfKing:
+        case flownet::MonsterType_Wolf:
+        case flownet::MonsterType_YoungWolf:
+            fileName += "wolf";
+            break;
+        case flownet::MonsterType_Goblin:
+            fileName += "goblin";
+            break;
+        case flownet::MonsterType_KingSpider:
+        case flownet::MonsterType_Spider:
+            fileName += "spider";
+            break;
+        case flownet::MonsterType_Mushroom:
+            fileName += "mushroom";
+            break;
+    }
+    
+    fileName += "/repeat_casting";
+
+    unsigned int result = AudioEngine::Instance()->PlayEffect((fileName + ".wav").c_str());
+    if(result != AudioEngine::MUTE) return;
+    
+    result = AudioEngine::Instance()->PlayEffect((fileName + ".mp3").c_str());
+    if(result != AudioEngine::MUTE) return;
+
+}
+
+void MonsterNode::PlayEndCastingEffect(bool loop)
+{
+    Monster* monster = static_cast<Monster*>(this->GetActorInfo());
+
+    if(!monster){
+        ASSERT_DEBUG(monster);
+        return;
+    }
+    
+    std::string fileName = "sound/effect/monster/";
+    
+    switch(monster->GetMonsterType())
+    {
+        case flownet::MonsterType_ColosseumGuardian:
+        case flownet::MonsterType_NightmareTree:
+            fileName += "tree";
+            break;
+        case flownet::MonsterType_GrandWolfKing:
+        case flownet::MonsterType_Wolf:
+        case flownet::MonsterType_YoungWolf:
+            fileName += "wolf";
+            break;
+        case flownet::MonsterType_Goblin:
+            fileName += "goblin";
+            break;
+        case flownet::MonsterType_KingSpider:
+        case flownet::MonsterType_Spider:
+            fileName += "spider";
+            break;
+        case flownet::MonsterType_Mushroom:
+            fileName += "mushroom";
+            break;
+    }
+    
+    fileName += "/end_casting";
+
+    unsigned int result = AudioEngine::Instance()->PlayEffect((fileName + ".wav").c_str());
+    if(result != AudioEngine::MUTE) return;
+    
+    result = AudioEngine::Instance()->PlayEffect((fileName + ".mp3").c_str());
+    if(result != AudioEngine::MUTE) return;
+
+}
+
+void MonsterNode::PlayDeadEffect(bool loop)
+{
+    Monster* monster = static_cast<Monster*>(this->GetActorInfo());
+
+    if(!monster){
+        ASSERT_DEBUG(monster);
+        return;
+    }
+    
+    std::string fileName = "sound/effect/monster/";
+    
+    switch(monster->GetMonsterType())
+    {
+        case flownet::MonsterType_ColosseumGuardian:
+        case flownet::MonsterType_NightmareTree:
+            fileName += "tree";
+            break;
+        case flownet::MonsterType_GrandWolfKing:
+        case flownet::MonsterType_Wolf:
+        case flownet::MonsterType_YoungWolf:
+            fileName += "wolf";
+            break;
+        case flownet::MonsterType_Goblin:
+            fileName += "goblin";
+            break;
+        case flownet::MonsterType_KingSpider:
+        case flownet::MonsterType_Spider:
+            fileName += "spider";
+            break;
+        case flownet::MonsterType_Mushroom:
+            fileName += "mushroom";
+            break;
+    }
+    
+    fileName += "/dead";
+
+    unsigned int result = AudioEngine::Instance()->PlayEffect((fileName + ".wav").c_str());
+    if(result != AudioEngine::MUTE) return;
+    
+    result = AudioEngine::Instance()->PlayEffect((fileName + ".mp3").c_str());
+    if(result != AudioEngine::MUTE) return;
+
 }
