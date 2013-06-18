@@ -583,6 +583,17 @@ void ActorNode::AnimateIdle()
     {
         flipX = true;
     }
+    
+    // DEMO CODE 
+    if(IsMonsterID(this->m_ActorID))
+    {
+        Monster* monsterInfo = static_cast<Monster*>(actorInfo);
+        if(monsterInfo->GetMonsterType() == MonsterType_Goblin)
+            flipX = !flipX;
+    }
+    // END OF DEMO CODE
+    
+    
 
     this->StopCharacterAnimate();
     this->m_Skeleton->skeleton->flipX = flipX;
@@ -618,6 +629,17 @@ void ActorNode::AnimateMoving()
         flipX = true;
     }
 
+
+    // DEMO CODE 
+    if(IsMonsterID(this->m_ActorID))
+    {
+        Monster* monsterInfo = static_cast<Monster*>(actorInfo);
+        if(monsterInfo->GetMonsterType() == MonsterType_Goblin)
+            flipX = !flipX;
+    }
+    // END OF DEMO CODE
+    
+    
     this->StopCharacterAnimate();
     this->m_Skeleton->skeleton->flipX = flipX;
     
@@ -650,6 +672,15 @@ void ActorNode::AnimateAttacking()
         flipX = true;
     }
 
+    // DEMO CODE 
+    if(IsMonsterID(this->m_ActorID))
+    {
+        Monster* monsterInfo = static_cast<Monster*>(actorInfo);
+        if(monsterInfo->GetMonsterType() == MonsterType_Goblin)
+            flipX = !flipX;
+    }
+    // END OF DEMO CODE
+
     this->StopCharacterAnimate();
     this->m_Skeleton->skeleton->flipX = flipX;
     // NOTE : check for same animation
@@ -681,6 +712,16 @@ void ActorNode::AnimateAttacked()
         flipX = true;
     }
 
+    // DEMO CODE 
+    if(IsMonsterID(this->m_ActorID))
+    {
+        Monster* monsterInfo = static_cast<Monster*>(actorInfo);
+        if(monsterInfo->GetMonsterType() == MonsterType_Goblin)
+            flipX = !flipX;
+    }
+    // END OF DEMO CODE
+    
+    
     this->StopCharacterAnimate();
     this->m_Skeleton->skeleton->flipX = flipX;
      
@@ -742,6 +783,15 @@ void ActorNode::AnimateRepeatCasting()
         flipX = true;
     }
 
+    // DEMO CODE 
+    if(IsMonsterID(this->m_ActorID))
+    {
+        Monster* monsterInfo = static_cast<Monster*>(actorInfo);
+        if(monsterInfo->GetMonsterType() == MonsterType_Goblin)
+            flipX = !flipX;
+    }
+    // END OF DEMO CODE
+    
     this->StopCharacterAnimate();
     this->m_Skeleton->skeleton->flipX = flipX;
      // NOTE : check for same animation
@@ -772,6 +822,15 @@ void ActorNode::AnimateEndCasting()
         flipX = true;
     }
 
+    // DEMO CODE 
+    if(IsMonsterID(this->m_ActorID))
+    {
+        Monster* monsterInfo = static_cast<Monster*>(actorInfo);
+        if(monsterInfo->GetMonsterType() == MonsterType_Goblin)
+            flipX = !flipX;
+    }
+    // END OF DEMO CODE
+    
     this->StopCharacterAnimate();
     this->m_Skeleton->skeleton->flipX = flipX;
     // NOTE : check for same animation
@@ -802,6 +861,15 @@ void ActorNode::AnimateFire()
         flipX = true;
     }
 
+    // DEMO CODE 
+    if(IsMonsterID(this->m_ActorID))
+    {
+        Monster* monsterInfo = static_cast<Monster*>(actorInfo);
+        if(monsterInfo->GetMonsterType() == MonsterType_Goblin)
+            flipX = !flipX;
+    }
+    // END OF DEMO CODE
+    
     this->StopCharacterAnimate();
     this->m_Skeleton->skeleton->flipX = flipX;
      // NOTE : check for same animation
@@ -827,6 +895,15 @@ void ActorNode::AnimateDead()
         flipX = true;
     }
 
+    // DEMO CODE 
+    if(IsMonsterID(this->m_ActorID))
+    {
+        Monster* monsterInfo = static_cast<Monster*>(actorInfo);
+        if(monsterInfo->GetMonsterType() == MonsterType_Goblin)
+            flipX = !flipX;
+    }
+    // END OF DEMO CODE
+    
     this->StopCharacterAnimate();
     this->m_Skeleton->skeleton->flipX = flipX;
     
