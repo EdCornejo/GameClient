@@ -290,7 +290,7 @@ bool StashNode::init()
 
     for(int i = 0; i < PerPage; i++)
     {
-        ItemData* itemData = new ItemData(ItemGroup_None, ItemType_None, EquipmentSlot_None);
+        ItemData* itemData = new ItemData(ItemGroup_None, ItemType_None, EquipmentSlot_None, "");
         Item* item = new Item(ItemGroup_None, ItemType_None, static_cast<ItemID>(i), itemData);
         
         ItemSlotNode* node = ItemSlotNode::create(item->GetItemType(), item->GetItemID(), static_cast<InventorySlot>(i));

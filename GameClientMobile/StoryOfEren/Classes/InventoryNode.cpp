@@ -131,10 +131,10 @@ bool InventoryNode::init()
     // for changing order of render
     
     
-    this->m_DescriptionLabel = CCLabelTTF::create("description", "", 10); // TO DO : multi line?
+    this->m_DescriptionLabel = CCLabelTTF::create("", "thonburi", 7); // TO DO : multi line?
     this->m_DescriptionLabel->retain();
     this->m_DescriptionLabel->setAnchorPoint(CCPointUpperLeft);
-    this->m_DescriptionLabel->setPosition(ccp(30, bodyRect.size.height - 20));
+    this->m_DescriptionLabel->setPosition(ccp(30, bodyRect.size.height - 24));
     
     this->m_Body->addChild(this->m_DescriptionLabel);
 
@@ -195,6 +195,7 @@ InventoryNode* InventoryNode::create()
         return nullptr;
     }
 }
+
 
 bool InventoryNode::ccTouchBegan(CCTouch* touch, CCEvent* event)
 {
@@ -270,6 +271,7 @@ void InventoryNode::ccTouchEnded(cocos2d::CCTouch *touch, cocos2d::CCEvent *even
                 CCLOG("used");
                 this->m_HighlightedItemSlotNode->ResetHighlight();
                 this->m_HighlightedItemSlotNode = nullptr;
+                this->m_DescriptionLabel->setString("");
                 if(this->m_CurrentItemGroup == ItemGroup_Consume)
                 {
                     client.GetClientObject().SendCSRequestUseItem(client.GetClientStage()->GetStageID(), client.GetMyActorID(), this->m_TrackingItemSlotNode->GetItemID());
@@ -287,6 +289,8 @@ void InventoryNode::ccTouchEnded(cocos2d::CCTouch *touch, cocos2d::CCEvent *even
                 {
                     this->m_HighlightedItemSlotNode = this->m_TrackingItemSlotNode;
                     this->m_HighlightedItemSlotNode->Highlight();
+                    const ItemData* itemData = ItemDataDictionary::Instance().GetItemData(this->m_HighlightedItemSlotNode->GetItemType());
+                    this->m_DescriptionLabel->setString(itemData->GetItemDescription().c_str());
                 }
             }
         }
@@ -439,6 +443,7 @@ void InventoryNode::OnEquipmentButtonClicked(CCObject* sender)
     this->m_CurrentItemGroup = ItemGroup_Equipment;
     this->m_TrackingItemSlotNode = nullptr;
     this->m_HighlightedItemSlotNode = nullptr;
+    this->m_DescriptionLabel->setString("");
     
     this->Update();
 }
@@ -457,6 +462,7 @@ void InventoryNode::OnConsumeButtonClicked(CCObject* sender)
     this->m_CurrentItemGroup = ItemGroup_Consume;
     this->m_TrackingItemSlotNode = nullptr;
     this->m_HighlightedItemSlotNode = nullptr;
+    this->m_DescriptionLabel->setString("");
     
     this->Update();
 }
@@ -475,7 +481,8 @@ void InventoryNode::OnMaterialButtonClicked(CCObject* sender)
     this->m_CurrentItemGroup = ItemGroup_Material;
     this->m_TrackingItemSlotNode = nullptr;
     this->m_HighlightedItemSlotNode = nullptr;    
-
+    this->m_DescriptionLabel->setString("");
+    
     this->Update();
 }
 
