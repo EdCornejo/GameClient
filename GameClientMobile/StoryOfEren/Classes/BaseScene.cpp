@@ -200,7 +200,7 @@ void BaseScene::UpdateGPSInfo() {
             
             if(GPS::GetCurrentAddress().empty()) return;
             
-            label->setString(CCString::createWithFormat("gps %3.3f, %3.3f", gps.latitude, gps.longitude)->getCString());
+            label->setString(CCString::createWithFormat("gps %3.3f, %3.3f, %s", gps.latitude, gps.longitude, GPS::GetCurrentAddress().c_str())->getCString());
         }
     }
 }
