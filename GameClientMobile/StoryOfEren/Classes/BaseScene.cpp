@@ -51,7 +51,8 @@ bool BaseScene::init()
         this->addChild(m_HeartbeatLayer, 10);
     }
     
-    //this->InitializeGPSInfo();
+    this->InitializeGPSInfo();
+    
     return true;
 }
 
@@ -65,7 +66,7 @@ void BaseScene::update(float deltaTime)
     RenderingTaskWorkerRoutine& renderingTaskWorkerRoutine = GameClient::Instance().GetRenderingTaskWorkerRoutine();
     renderingTaskWorkerRoutine.Run(THREAD_SCHEDULING_TIMESLICE);
     
-    //this->UpdateGPSInfo();
+    this->UpdateGPSInfo();
 }
 
 BackgroundLayer* BaseScene::GetBackgroundLayer() const
@@ -185,7 +186,7 @@ void BaseScene::InitializeGPSInfo() {
     CCLabelTTF* label = CCLabelTTF::create("gps info", "thonburi", 13);
     label->setTag(753);
     label->setZOrder(333);
-    label->setPosition(ccp(240,160));
+    label->setPosition(ccp(240,306));
     this->addChild(label);
 }
 
@@ -199,7 +200,7 @@ void BaseScene::UpdateGPSInfo() {
             
             if(GPS::GetCurrentAddress().empty()) return;
             
-            label->setString(CCString::createWithFormat("gps %f, %f, %s", gps.latitude, gps.longitude, GPS::GetCurrentAddress().c_str())->getCString());
+            label->setString(CCString::createWithFormat("gps %3.3f, %3.3f", gps.latitude, gps.longitude)->getCString());
         }
     }
 }
