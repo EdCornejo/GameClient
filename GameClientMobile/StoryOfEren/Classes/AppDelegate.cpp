@@ -1330,13 +1330,33 @@ void AppDelegate::OnSCNotifyRunOutMovingMana(StageID stageID, ActorID actorID) c
     ASSERT_DEBUG(actorLayer);
     actorLayer->ActorRunOutOfMana(actorID);
     
-    UILayer* uiLayer = scene->GetUILayer();
-    ASSERT_DEBUG(uiLayer);
-    uiLayer->SystemMessageReceived("움직일 마나가 부족합니다");
+    if(actorID == GameClient::Instance().GetMyActorID())
+    {
+        UILayer* uiLayer = scene->GetUILayer();
+        ASSERT_DEBUG(uiLayer);
+        uiLayer->SystemMessageReceived("마나가 부족하여 움직일 수 없습니다");
+    }
 }
 
 void AppDelegate::OnSCNotifyRunOutSpellMana(StageID stageID, ActorID actorID) const
 {
     // To Do : implement this handler
+    ClientStage* clientStage = GameClient::Instance().GetClientStage();
+    if(clientStage == nullptr) return;
+    if(stageID != clientStage->GetStageID()) ASSERT_DEBUG(stageID == clientStage->GetStageID());
     
+    BaseScene* scene = static_cast<BaseScene*>(CCDirector::sharedDirector()->getRunningScene());;
+    ASSERT_DEBUG(scene);
+    
+    ActorLayer* actorLayer = scene->GetActorLayer();
+    ASSERT_DEBUG(actorLayer);
+    actorLayer->ActorRunOutOfMana(actorID);
+    
+    if(actorID == GameClient::Instance().GetMyActorID())
+    {
+        UILayer* uiLayer = scene->GetUILayer();
+        ASSERT_DEBUG(uiLayer);
+        uiLayer->SystemMessageReceived("마나가 부족하여 마법을 사용할 수 없습니다");
+    }
+
 }
