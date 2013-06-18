@@ -95,7 +95,7 @@ bool SpellNode::initWithFile(const char* fileName)
     // NOTE : if the spell is nova like need rotation
     switch (this->m_SpellInfo.m_SpellType) {
     case flownet::SpellType_IceFog:
-        this->setScaleY(0.45);
+        this->setScaleY(0.25);
         break;
     default:
         break;

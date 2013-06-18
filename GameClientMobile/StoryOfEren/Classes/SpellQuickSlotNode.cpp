@@ -38,7 +38,7 @@ bool SpellQuickSlotNode::init()
         SpellType spellType = spellList[i];
         CCSprite* spellIconImage = SpellImageLoader::GetSpellQuickSlotImage(spellType);
         CCSprite* spellIconImageDisabled = SpellImageLoader::GetSpellQuickSlotImage(spellType);
-        spellIconImageDisabled->setColor(ccGRAY);
+        spellIconImageDisabled->setColor(ccBLACK);
         
         CCMenuItemSprite* menuItem = CCMenuItemSprite::create(spellIconImage, spellIconImage, spellIconImageDisabled, this, menu_selector(SpellQuickSlotNode::OnSkillTouched));
         
@@ -52,7 +52,7 @@ bool SpellQuickSlotNode::init()
         SpellType spellType = SpellType_NONE;
         CCSprite* spellIconImage = SpellImageLoader::GetSpellQuickSlotImage(spellType);
         CCSprite* spellIconImageDisabled = SpellImageLoader::GetSpellQuickSlotImage(spellType);
-        spellIconImageDisabled->setColor(ccGRAY);
+        spellIconImageDisabled->setColor(ccBLACK);
         
         CCMenuItemSprite* menuItem = CCMenuItemSprite::create(spellIconImage, spellIconImage, spellIconImageDisabled, this, menu_selector(SpellQuickSlotNode::OnSkillTouched));
         menuItem->setEnabled(false);

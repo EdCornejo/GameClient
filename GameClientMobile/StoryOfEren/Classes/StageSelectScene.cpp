@@ -231,15 +231,40 @@ bool StageSelectLayer::init()
     // 지금은 월드맵 오브젝트 위치를 맵사이즈안의 퍼센티지로 표현하겠음 obejct1 은 0.21, 0.21
     // object2 는 0.23, 0.56임
     // 오브젝트의 태그로 자신의 스테이지 타입을 저장한다
-    CCMenuItemImage* object0 = CCMenuItemImage::create("ui/stage_select_scene/object_normal.png", "ui/stage_select_scene/object_active.png", this, menu_selector(StageSelectLayer::OnStageSelectObjectTouch));
+    
+    CCFiniteTimeAction* moveUp = CCEaseInOut::create(CCMoveBy::create(1, ccp(0, 4)), 2.f);
+    CCFiniteTimeAction* moveDown = CCEaseInOut::create(CCMoveBy::create(1, ccp(0, -4)), 2.f);
+    CCRepeatForever* move = CCRepeatForever::create(CCSequence::create(moveUp, moveDown, NULL));
+    CCSprite* normalImage0 = CCSprite::create("ui/stage_select_scene/object_normal.png");
+    CCSprite* activeImage0 = CCSprite::create("ui/stage_select_scene/object_normal.png");
+    activeImage0->setColor(ccBLACK);
+    CCMenuItemSprite* object0 = CCMenuItemSprite::create(normalImage0, activeImage0, this, menu_selector(StageSelectLayer::OnStageSelectObjectTouch));
     object0->setTag(StageType_Colosseum);
-    object0->setPosition(ccp(worldMapSize.width * 0.15, worldMapSize.height * 0.5));
-    CCMenuItemImage* object1 = CCMenuItemImage::create("ui/stage_select_scene/object_normal.png", "ui/stage_select_scene/object_active.png", this, menu_selector(StageSelectLayer::OnStageSelectObjectTouch));
+    object0->setPosition(ccp(worldMapSize.width * 0.15, worldMapSize.height * 0.48));
+    object0->runAction(move);
+    
+    moveUp = CCEaseInOut::create(CCMoveBy::create(1, ccp(0, 4)), 2.f);
+    moveDown = CCEaseInOut::create(CCMoveBy::create(1, ccp(0, -4)), 2.f);
+    move = CCRepeatForever::create(CCSequence::create(moveUp, moveDown, NULL));
+    CCSprite* normalImage1 = CCSprite::create("ui/stage_select_scene/object_normal.png");
+    CCSprite* activeImage1 = CCSprite::create("ui/stage_select_scene/object_normal.png");
+    activeImage1->setColor(ccBLACK);
+    CCMenuItemSprite* object1 = CCMenuItemSprite::create(normalImage1, activeImage1, this, menu_selector(StageSelectLayer::OnStageSelectObjectTouch));
     object1->setTag(StageType_MushroomField);
-    object1->setPosition(ccp(worldMapSize.width * 0.64, worldMapSize.height * 0.17));
-    CCMenuItemImage* object2 = CCMenuItemImage::create("ui/stage_select_scene/object_normal.png", "ui/stage_select_scene/object_active.png", this, menu_selector(StageSelectLayer::OnStageSelectObjectTouch));
+    object1->setPosition(ccp(worldMapSize.width * 0.64, worldMapSize.height * 0.12));
+    object1->runAction(move);
+    
+    moveUp = CCEaseInOut::create(CCMoveBy::create(1, ccp(0, 4)), 2.f);
+    moveDown = CCEaseInOut::create(CCMoveBy::create(1, ccp(0, -4)), 2.f);
+    move = CCRepeatForever::create(CCSequence::create(moveUp, moveDown, NULL));
+    CCSprite* normalImage2 = CCSprite::create("ui/stage_select_scene/object_normal.png");
+    CCSprite* activeImage2 = CCSprite::create("ui/stage_select_scene/object_normal.png");
+    activeImage2->setColor(ccBLACK);
+    CCMenuItemSprite* object2 = CCMenuItemSprite::create(normalImage2, activeImage2, this, menu_selector(StageSelectLayer::OnStageSelectObjectTouch));
     object2->setTag(StageType_WolfForest);
-    object2->setPosition(ccp(worldMapSize.width * 0.08, worldMapSize.height * 0.87));
+    object2->setPosition(ccp(worldMapSize.width * 0.07, worldMapSize.height * 0.83));
+    object2->runAction(move);
+    
     CCMenuItemImage* object3 = CCMenuItemImage::create("ui/stage_select_scene/small_object_n.png", "ui/stage_select_scene/small_object_a.png", this, menu_selector(StageSelectLayer::OnStageSelectObjectTouch));
     object3->setTag(StageType_Intro);
     object3->setPosition(ccp(worldMapSize.width * 0.5, worldMapSize.height * 0.5));

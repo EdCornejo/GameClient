@@ -25,7 +25,7 @@ std::string SpellImageLoader::GetImageFileName(SpellType spellType)
             imageName = "ice_fog.png";
             break;
         case SpellType_Crystalize:
-            imageName = "fire_ball.png";
+            imageName = "crystalize.png";
             break;
         case SpellType_NONE:
         default:
