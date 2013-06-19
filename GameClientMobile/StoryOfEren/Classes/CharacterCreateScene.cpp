@@ -215,7 +215,7 @@ CharacterCreateScene::~CharacterCreateScene()
 bool CharacterCreateScene::init() {
     if(!BaseScene::init()) return false;
     
-    this->m_BackgroundLayer = BackgroundLayer::create("ui/background/background.jpg");
+    this->m_BackgroundLayer = BackgroundLayer::create("ui/background/background.png");
     this->m_BackgroundLayer->retain();
     this->addChild(this->m_BackgroundLayer);
     

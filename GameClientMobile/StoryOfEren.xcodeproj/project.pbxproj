@@ -234,6 +234,7 @@
 		6B6CA6E417534C0D002FF7B2 /* ExpBarNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B6CA6E217534C0D002FF7B2 /* ExpBarNode.cpp */; };
 		6B6CA6E8175432C3002FF7B2 /* StageObjectNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B6CA6E6175432C3002FF7B2 /* StageObjectNode.cpp */; };
 		6B6EC65D1700785C001E273F /* ClientDirector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B6EC65B1700785C001E273F /* ClientDirector.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		6B71BBDF17717EBD00F5FB9F /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B71BBDE17717EBD00F5FB9F /* Default.png */; };
 		6B7477B216F0C7AD0014C286 /* LoadingScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B7477B016F0C7AD0014C286 /* LoadingScene.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		6B7477B416F0CBC00014C286 /* loading_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B7477B316F0CBC00014C286 /* loading_background.png */; };
 		6B7477B816F0E6C20014C286 /* RenderingTaskWorkerRoutine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B7477B616F0E6C20014C286 /* RenderingTaskWorkerRoutine.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -835,6 +836,7 @@
 		6B6CA6E7175432C3002FF7B2 /* StageObjectNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StageObjectNode.h; path = Classes/StageObjectNode.h; sourceTree = "<group>"; };
 		6B6EC65B1700785C001E273F /* ClientDirector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ClientDirector.cpp; path = Classes/ClientDirector.cpp; sourceTree = "<group>"; };
 		6B6EC65C1700785C001E273F /* ClientDirector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ClientDirector.h; path = Classes/ClientDirector.h; sourceTree = "<group>"; };
+		6B71BBDE17717EBD00F5FB9F /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		6B7477B016F0C7AD0014C286 /* LoadingScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LoadingScene.cpp; path = Classes/LoadingScene.cpp; sourceTree = "<group>"; };
 		6B7477B116F0C7AD0014C286 /* LoadingScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoadingScene.h; path = Classes/LoadingScene.h; sourceTree = "<group>"; };
 		6B7477B316F0CBC00014C286 /* loading_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = loading_background.png; path = Resources/loading_background.png; sourceTree = "<group>"; };
@@ -2197,6 +2199,7 @@
 		94F29CA316DDD6FA005DFDE4 = {
 			isa = PBXGroup;
 			children = (
+				6B71BBDE17717EBD00F5FB9F /* Default.png */,
 				945D872517422BF300C03494 /* boost.framework */,
 				945D872117422BE200C03494 /* libflownetMobile.a */,
 				945D872217422BE200C03494 /* libGameSharedMobile.a */,
@@ -2436,6 +2439,7 @@
 				6B30CE79171D491300316D9F /* common in Resources */,
 				6BA11857174CD5BE0085E43B /* stageinfos.plist in Resources */,
 				6BDFB4171754E8DB00669128 /* sound in Resources */,
+				6B71BBDF17717EBD00F5FB9F /* Default.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

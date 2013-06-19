@@ -58,13 +58,6 @@ bool StageScene::init()
     {
         AudioEngine::Instance()->PlayBackgroundMusic("sound/bgm/seal.mp3", true);
     }
-    
-    CCSkeletonAnimation* node = CCSkeletonAnimation::createWithFile("common/dragon.json", "monster/dragon.atlas");
-    node->setAnimation("flying", true);
-    node->setScale(0.11);
-    node->setPosition(ccp(100,100));
-    this->addChild(node);
-    
 
     scheduleUpdate();
     
