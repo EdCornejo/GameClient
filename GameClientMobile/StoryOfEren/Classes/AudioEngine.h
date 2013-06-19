@@ -32,6 +32,9 @@ private:
     std::string m_CurrentBackgroundMusic;
   
 public:
+    void SetBackgroundVolume(float volume);
+    float GetBackgroundVolume();
+
     void PlayBackgroundMusic(std::string fileName, bool loop);
     void PlayBackgroundMusic(std::string fileName);
     void StopBackgroundMusic(bool release);

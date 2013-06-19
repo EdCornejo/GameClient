@@ -21,8 +21,19 @@ AudioEngine* AudioEngine::Instance()
 {
     if(!instance) {
         instance = new AudioEngine();
+        instance->SetBackgroundVolume(0.7);
     }
     return instance;
+}
+
+void AudioEngine::SetBackgroundVolume(float volume)
+{
+    this->m_Engine->setBackgroundMusicVolume(volume);
+}
+
+float AudioEngine::GetBackgroundVolume()
+{
+    this->m_Engine->getBackgroundMusicVolume();
 }
 
 void AudioEngine::PlayBackgroundMusic(std::string fileName, bool loop)
