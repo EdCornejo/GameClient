@@ -17,7 +17,7 @@ public :
 };
 
 // TO DO : extend BaseLayer
-class CharacterCreateLayer : public CCLayerColor
+class CharacterCreateLayer : public BaseLayer
 {
 private:
     flownet::Gender m_SelectedGender;

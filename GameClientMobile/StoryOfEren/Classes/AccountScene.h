@@ -16,7 +16,7 @@ public:
     CREATE_FUNC(AccountSceneTextFieldDelegate);
 };
 
-class AccountLayer : public CCLayerColor // TO DO : change parent class to BaseLayer when background image arrives
+class AccountLayer : public BaseLayer
 {
 private:
     AccountSceneTextFieldDelegate* m_Delegate;

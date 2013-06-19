@@ -26,6 +26,15 @@ bool BackgroundLayer::initWithBackgroundFileName(const char* fileName)
 {
     if(!BaseLayer::init()) return false;
     
+    this->m_BackgroundParallaxNode = CCParallaxNode::create();
+    this->m_BackgroundParallaxNode->retain();
+    
+    CCSprite* image = CCSprite::create(fileName);
+    CCSize imageSize = image->getContentSize();
+    this->m_BackgroundParallaxNode->addChild(image, 0, ccp(1, 1), ccp(imageSize.width / 2, imageSize.height / 2));
+    
+    this->addChild(this->m_BackgroundParallaxNode);
+    
     return true;
 }
 

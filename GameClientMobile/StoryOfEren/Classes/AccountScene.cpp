@@ -59,7 +59,7 @@ AccountLayer::~AccountLayer()
 
 bool AccountLayer::init()
 {
-    if(!CCLayerColor::initWithColor(ccc4(43, 39, 36, 255)))
+    if(!BaseLayer::init())
     {
         ASSERT_DEBUG(false);
         return false;
@@ -306,6 +306,10 @@ AccountScene::~AccountScene()
 bool AccountScene::init()
 {
     if(!BaseScene::init()) return false;
+    
+    this->m_BackgroundLayer = BackgroundLayer::create("ui/background/background.jpg");
+    this->m_BackgroundLayer->retain();
+    this->addChild(this->m_BackgroundLayer);
     
     this->m_Layer = AccountLayer::create();
     this->m_Layer->retain();

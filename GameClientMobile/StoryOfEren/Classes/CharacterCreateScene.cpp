@@ -56,7 +56,7 @@ CharacterCreateLayer::~CharacterCreateLayer()
 
 bool CharacterCreateLayer::init()
 {
-    if(!CCLayerColor::initWithColor(ccc4(43, 39, 36, 255))) return false;
+    if(!BaseLayer::init()) return false;
     
     
     this->m_BackgroundImage = CCSprite::create("ui/character_create_scene/background.png");
@@ -215,8 +215,11 @@ CharacterCreateScene::~CharacterCreateScene()
 bool CharacterCreateScene::init() {
     if(!BaseScene::init()) return false;
     
-    CharacterCreateLayer* layer = CharacterCreateLayer::create();
+    this->m_BackgroundLayer = BackgroundLayer::create("ui/background/background.jpg");
+    this->m_BackgroundLayer->retain();
+    this->addChild(this->m_BackgroundLayer);
     
+    CharacterCreateLayer* layer = CharacterCreateLayer::create();
     this->addChild(layer);
     
     this->m_UILayer = UILayer::create(StageType_NONE);
