@@ -9,7 +9,7 @@
 #include "Headers.pch"
 
 
-MenuBarNode::MenuBarNode(): m_IsOpen(false), m_SlideButton(nullptr), m_Body(nullptr), m_HomeButton(nullptr), m_SettingButton(nullptr), m_LogoutButton(nullptr) {}
+MenuBarNode::MenuBarNode(): m_IsOpen(false), m_SlideButton(nullptr), m_Body(nullptr), m_HomeButton(nullptr), m_MapButton(nullptr), m_LogoutButton(nullptr) {}
 MenuBarNode::~MenuBarNode()
 {
     if(this->m_SlideButton)
@@ -27,10 +27,10 @@ MenuBarNode::~MenuBarNode()
         this->m_HomeButton->release();
         this->m_HomeButton = nullptr;
     }
-    if(this->m_SettingButton)
+    if(this->m_MapButton)
     {
-        this->m_SettingButton->release();
-        this->m_SettingButton = nullptr;
+        this->m_MapButton->release();
+        this->m_MapButton = nullptr;
     }
     if(this->m_LogoutButton)
     {
@@ -52,12 +52,12 @@ bool MenuBarNode::init()
     
     this->m_HomeButton = CCMenuItemImage::create("ui/system_menu/home.png", "ui/system_menu/home.png", this, menu_selector(MenuBarNode::OnHomeButtonClicked));
     this->m_HomeButton->retain();
-    this->m_SettingButton = CCMenuItemImage::create("ui/system_menu/settings.png", "ui/system_menu/settings.png", this, menu_selector(MenuBarNode::OnSettingButtonClicked));
-    this->m_SettingButton->retain();
-    this->m_LogoutButton = CCMenuItemImage::create("ui/system_menu/settings.png", "ui/system_menu/settings.png", this, menu_selector(MenuBarNode::OnLogoutButtonClicked));
+    this->m_MapButton = CCMenuItemImage::create("ui/system_menu/map.png", "ui/system_menu/map.png", this, menu_selector(MenuBarNode::OnMapButtonClicked));
+    this->m_MapButton->retain();
+    this->m_LogoutButton = CCMenuItemImage::create("ui/system_menu/logout.png", "ui/system_menu/logout.png", this, menu_selector(MenuBarNode::OnLogoutButtonClicked));
     this->m_LogoutButton->retain();
 
-    CCMenu* menu = CCMenu::create(this->m_HomeButton, this->m_SettingButton, this->m_LogoutButton, NULL);
+    CCMenu* menu = CCMenu::create(this->m_HomeButton, this->m_MapButton, this->m_LogoutButton, NULL);
     CCRect bodyRect = this->m_Body->getTextureRect();
     menu->setPosition(ccp(bodyRect.size.width / 2, bodyRect.size.height / 2)); // change it's position
     menu->alignItemsHorizontallyWithPadding(10);
@@ -115,9 +115,9 @@ void MenuBarNode::OnResponse() const
     {
         this->m_HomeButton->setEnabled(true);
     }
-    if(this->m_SettingButton)
+    if(this->m_MapButton)
     {
-        this->m_SettingButton->setEnabled(true);
+        this->m_MapButton->setEnabled(true);
     }
     if(this->m_LogoutButton)
     {
@@ -129,7 +129,6 @@ void MenuBarNode::Slide()
 {
     if(this->m_IsOpen)
     {
-        CCLOG("slide in"); 
         CCPoint slidePosition = CCPoint(PositionX, PositionY);
         CCMoveTo* moveIn = CCMoveTo::create(0.3, slidePosition);
         moveIn->setTag(ActionType_UI);
@@ -137,7 +136,6 @@ void MenuBarNode::Slide()
         this->runAction(moveIn);
     }
     else{
-        CCLOG("slide out");
         CCPoint slidePosition = CCPoint(PositionX - this->m_Body->getTextureRect().size.width + 10, PositionY);
         CCMoveTo* moveOut = CCMoveTo::create(0.3, slidePosition); 
         moveOut->setTag(ActionType_UI);
@@ -157,15 +155,15 @@ void MenuBarNode::OnHomeButtonClicked(CCObject* sender)
     }
     GameClient::Instance().GetClientObject().SendCSRequestExitStage(GameClient::Instance().GetClientStage()->GetStageID());
     this->m_HomeButton->setEnabled(false);
-    this->m_SettingButton->setEnabled(false);
+    this->m_MapButton->setEnabled(false);
     this->m_LogoutButton->setEnabled(false);
 }
 
-void MenuBarNode::OnSettingButtonClicked(CCObject* sender)
+void MenuBarNode::OnMapButtonClicked(CCObject* sender)
 {
     GameClient::Instance().GetClientObject().SendCSRequestExitStage(GameClient::Instance().GetClientStage()->GetStageID());
     this->m_HomeButton->setEnabled(false);
-    this->m_SettingButton->setEnabled(false);
+    this->m_MapButton->setEnabled(false);
     this->m_LogoutButton->setEnabled(false);
 }
 
@@ -173,6 +171,6 @@ void MenuBarNode::OnLogoutButtonClicked(CCObject* sender)
 {
     GameClient::Instance().GetClientObject().SendCSRequestLogOutUserAccount(GameClient::Instance().GetDeviceID(), GameClient::Instance().GetUserID());
     this->m_HomeButton->setEnabled(false);
-    this->m_SettingButton->setEnabled(false);
+    this->m_MapButton->setEnabled(false);
     this->m_LogoutButton->setEnabled(false);
 }

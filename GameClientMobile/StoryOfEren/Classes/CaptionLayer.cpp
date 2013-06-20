@@ -134,11 +134,11 @@ bool CaptionLayer::ccTouchBegan(CCTouch* touch, CCEvent* event)
         Player* actor = GameClient::Instance().GetClientStage()->FindPlayer(GameClient::Instance().GetMyActorID());
         if(!actor || actor->GetGender() == Gender_Female)
         {
-            characterImageFileName += "girl";
+            characterImageFileName += "blank";
         }
         else
         {
-            characterImageFileName += "boy";
+            characterImageFileName += "blank";
         }
     }
     else {

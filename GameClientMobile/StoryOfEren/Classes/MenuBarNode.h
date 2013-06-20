@@ -16,7 +16,7 @@ private:
     CCSprite* m_SlideButton;
     CCSprite* m_Body;
     CCMenuItem* m_HomeButton;
-    CCMenuItem* m_SettingButton;
+    CCMenuItem* m_MapButton;
     CCMenuItem* m_LogoutButton;
 
 public:
@@ -39,7 +39,7 @@ private:
     void Slide();
 
     void OnHomeButtonClicked(CCObject* sender);
-    void OnSettingButtonClicked(CCObject* sender);
+    void OnMapButtonClicked(CCObject* sender);
     void OnLogoutButtonClicked(CCObject* sender);
 };
 
