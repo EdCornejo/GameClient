@@ -613,9 +613,16 @@ void ActorLayer::ActorDead(flownet::ActorID deadActorID, bool afterDelete)
         ASSERT_DEBUG(actor);
         return;
     }
-    
-    ASSERT_DEBUG(actorNodeSet);
-    ASSERT_DEBUG(deadObject);
+    if(!actorNodeSet)
+    {
+        ASSERT_DEBUG(actorNodeSet);
+        return;
+    }
+    if(!deadObject)
+    {
+        ASSERT_DEBUG(deadObject);
+        return;
+    }
     
     if(IsMonsterID(deadActorID))
     {
@@ -631,8 +638,9 @@ void ActorLayer::ActorDead(flownet::ActorID deadActorID, bool afterDelete)
     CCAction* sequence = nullptr;
     CCFiniteTimeAction* animateDead = CCCallFunc::create(deadObject, callfunc_selector(ActorNode::AnimateDead));
     CCBlink* blink = CCBlink::create(3, 6);
+    CCDelayTime* delay = CCDelayTime::create(2);
     CCCallFunc* hide = CCCallFunc::create(actorNodeSet, callfunc_selector(ActorNodeSet::Hide));
-    sequence = CCSequence::create(animateDead, blink, hide, NULL);
+    sequence = CCSequence::create(animateDead, blink, delay, hide, NULL);
     sequence->setTag(ActionType_Animation);
     deadObject->runAction(sequence);
 
@@ -641,12 +649,24 @@ void ActorLayer::ActorDead(flownet::ActorID deadActorID, bool afterDelete)
 void ActorLayer::ActorTakeDamage(flownet::ActorID actorID)
 {
     Actor* actor = GameClient::Instance().GetClientStage()->FindActor(actorID);
-    ASSERT_DEBUG(actor != nullptr);
+    if(!actor)
+    {
+        ASSERT_DEBUG(actor);
+        return;
+    }
     
     ActorNodeSet* actorNodeSet = this->FindActorNodeSet(actorID);
-    ASSERT_DEBUG(actorNodeSet != nullptr);
-    
-    ASSERT_DEBUG(actor->GetMaxHealthPoint() != 0); // just checking for division by zero exception, will be this happened?
+    if(!actorNodeSet)
+    {
+        ASSERT_DEBUG(actorNodeSet != nullptr);
+        return;
+    }
+
+    if(actor->GetMaxHealthPoint() == 0)
+    {
+        ASSERT_DEBUG(actor->GetMaxHealthPoint() != 0); // just checking for division by zero exception, will be this happened?
+        return;
+    }
     
     actorNodeSet->m_HUDNode->ChangeHealthPointBar(actor->GetHealthPoint() / actor->GetMaxHealthPoint());
 }
@@ -654,12 +674,24 @@ void ActorLayer::ActorTakeDamage(flownet::ActorID actorID)
 void ActorLayer::ActorConsumedMana(flownet::ActorID actorID)
 {
     Actor* actor = GameClient::Instance().GetClientStage()->FindActor(actorID);
-    ASSERT_DEBUG(actor);
+    if(!actor)
+    {
+        ASSERT_DEBUG(actor);
+        return;
+    }
     
     ActorNodeSet* actorNodeSet = this->FindActorNodeSet(actorID);
-    ASSERT_DEBUG(actorNodeSet);
+    if(!actorNodeSet)
+    {
+        ASSERT_DEBUG(actorNodeSet);
+        return;
+    }
     
-    ASSERT_DEBUG(actor->GetMaxManaPoint() != 0);
+    if(actor->GetMaxHealthPoint() == 0)
+    {
+        ASSERT_DEBUG(actor->GetMaxManaPoint() != 0);
+        return;
+    }
     
     actorNodeSet->m_HUDNode->ChangeManaPointBar(actor->GetManaPoint() / actor->GetMaxManaPoint());
 }
@@ -667,7 +699,11 @@ void ActorLayer::ActorConsumedMana(flownet::ActorID actorID)
 void ActorLayer::ActorRunOutOfMana(flownet::ActorID actorID)
 {
     ActorNode* actorNode = this->FindActorNode(actorID);
-    ASSERT_DEBUG(actorNode);
+    if(!actorNode)
+    {
+        ASSERT_DEBUG(actorNode);
+        return;
+    }
     
     CCPoint currentPosition = actorNode->getPosition();
     CCMoveTo* moveRight = CCMoveTo::create(0.01, ccp(currentPosition.x + 2, currentPosition.y));
@@ -680,16 +716,33 @@ void ActorLayer::ActorRunOutOfMana(flownet::ActorID actorID)
 void ActorLayer::ActorTeamChanged(flownet::ActorID actorID)
 {
     ActorNodeSet* actorNodeSet = this->FindActorNodeSet(actorID);
+    if(!actorNodeSet)
+    {
+        ASSERT_DEBUG(actorNodeSet);
+        return;
+    }
+    
     actorNodeSet->AddHighlightNode(actorID);
     
-    if(actorNodeSet->m_HighlightNode) this->addChild(actorNodeSet->m_HighlightNode);
+    if(!actorNodeSet->m_HighlightNode)
+    {
+        ASSERT_DEBUG(actorNodeSet->m_HighlightNode);
+        actorNodeSet->RemoveHighlightNode();
+        return;
+    }
+    
+    this->addChild(actorNodeSet->m_HighlightNode);
 }
 
 void ActorLayer::ActorNodeReload(flownet::ActorID actorID)
 {
     ActorNode* actorNode = this->FindActorNode(actorID);
-    ASSERT_DEBUG(actorNode != nullptr);
-    
+    if(!actorNode)
+    {
+        ASSERT_DEBUG(actorNode != nullptr);
+        return;
+    }
+
     actorNode->Reload();
 }
 
