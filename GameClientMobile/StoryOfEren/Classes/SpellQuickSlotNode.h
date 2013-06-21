@@ -39,6 +39,7 @@ public:
 private:
     ButtonSpellMap m_ButtonSpellMap;
     CCSprite* m_HighlightImage;
+    CCMenu* m_QuickSlotMenu;
     flownet::SpellType m_SelectedSpellType;
     
 public:
@@ -64,6 +65,8 @@ public:
 
     void ApplyCoolTime(flownet::SpellType spellType);
     void RemoveHighlight();
+    
+    void Update();
 };
 
 #endif /* defined(__GameClientMobile__SpellQuickSlotNode__) */

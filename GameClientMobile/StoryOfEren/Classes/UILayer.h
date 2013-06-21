@@ -73,6 +73,7 @@ public:
     void UpdateStash();
     void UpdateEquipment();
     void UpdateExpBar();
+    void UpdateSpellQuickSlot();
     
 private:
     void RemoveChild(CCObject* object);

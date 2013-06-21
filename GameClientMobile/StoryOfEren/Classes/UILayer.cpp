@@ -533,6 +533,14 @@ void UILayer::UpdateExpBar()
     }
 }
 
+void UILayer::UpdateSpellQuickSlot()
+{
+    if(this->m_SpellQuickSlotNode)
+    {
+        this->m_SpellQuickSlotNode->Update();
+    }
+}
+
 void UILayer::RemoveChild(CCObject* object)
 {
     CCNode* node = static_cast<CCNode*>(object);

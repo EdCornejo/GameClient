@@ -774,8 +774,10 @@ void AppDelegate::OnSCNotifyActorAttributeChanged(flownet::StageID stageID, flow
             break;
         case ActorAttribute_CastingSpeed:
             break;
-        case ActorAttribute_ExperiencePoint:
         case ActorAttribute_Level :
+            ASSERT_DEBUG(uiLayer);
+            uiLayer->UpdateSpellQuickSlot();
+        case ActorAttribute_ExperiencePoint:
             ASSERT_DEBUG(uiLayer);
             uiLayer->UpdateExpBar();
             break;

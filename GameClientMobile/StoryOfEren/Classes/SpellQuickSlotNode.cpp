@@ -8,13 +8,15 @@
 
 #include "Headers.pch"
 
-SpellQuickSlotNode::SpellQuickSlotNode(): m_ButtonSpellMap(), m_HighlightImage(nullptr), m_SelectedSpellType(SpellType_NONE)
+SpellQuickSlotNode::SpellQuickSlotNode(): m_ButtonSpellMap(), m_HighlightImage(nullptr), m_QuickSlotMenu(nullptr), m_SelectedSpellType(SpellType_NONE)
 {
 
 }
 
 SpellQuickSlotNode::~SpellQuickSlotNode()
 {
+    CC_SAFE_RELEASE(this->m_QuickSlotMenu);
+
     this->m_ButtonSpellMap.clear();
     CC_SAFE_RELEASE(this->m_HighlightImage);
 }
@@ -26,7 +28,8 @@ bool SpellQuickSlotNode::init()
     // TO DO : initialize with player's spell info
     std::vector<SpellType> spellList = {SpellType_FireBall, SpellType_IceArrow, SpellType_FireBurst, SpellType_IceFog, SpellType_Crystalize};
     
-    CCMenu* menu = CCMenu::create();
+    this->m_QuickSlotMenu = CCMenu::create();
+    this->m_QuickSlotMenu->retain();
     
     // NOTE : spell can be activated by player's level
     const int level = player->GetLevel();
@@ -43,7 +46,7 @@ bool SpellQuickSlotNode::init()
         CCMenuItemSprite* menuItem = CCMenuItemSprite::create(spellIconImage, spellIconImage, spellIconImageDisabled, this, menu_selector(SpellQuickSlotNode::OnSkillTouched));
         
         this->m_ButtonSpellMap.insert(ButtonSpellMap::value_type(menuItem, spellType));
-        menu->addChild(menuItem);
+        this->m_QuickSlotMenu->addChild(menuItem);
     }
     
     const int NumOfPlaceHolders = 5 - SpellListMax;
@@ -56,13 +59,14 @@ bool SpellQuickSlotNode::init()
         
         CCMenuItemSprite* menuItem = CCMenuItemSprite::create(spellIconImage, spellIconImage, spellIconImageDisabled, this, menu_selector(SpellQuickSlotNode::OnSkillTouched));
         menuItem->setEnabled(false);
-        menu->addChild(menuItem);
+        this->m_ButtonSpellMap.insert(ButtonSpellMap::value_type(menuItem, spellType));
+        this->m_QuickSlotMenu->addChild(menuItem);
     }
     
-    menu->alignItemsHorizontallyWithPadding(4);
-    menu->setPosition(CCPointZero);
+    this->m_QuickSlotMenu->alignItemsHorizontallyWithPadding(4);
+    this->m_QuickSlotMenu->setPosition(CCPointZero);
 
-    this->addChild(menu);
+    this->addChild(this->m_QuickSlotMenu);
     
     return true;
 }
@@ -184,4 +188,18 @@ void SpellQuickSlotNode::ApplyCoolTime(flownet::SpellType spellType)
     CCSequence* sequence = CCSequence::create(delay, removeChild, NULL);
 
     this->runAction(sequence);
+}
+
+void SpellQuickSlotNode::Update()
+{
+    if(this->m_QuickSlotMenu)
+    {
+        this->m_QuickSlotMenu->release();
+        this->m_QuickSlotMenu->removeFromParent();
+        this->m_QuickSlotMenu = nullptr;
+    }
+    
+    this->m_ButtonSpellMap.clear();
+    
+    this->init();
 }
