@@ -35,7 +35,6 @@
 				<string>fireBall9.png</string>
 				<string>fireBall10.png</string>
 				<string>fireBall11.png</string>
-				<string>fireBall12.png</string>
 			</array>
 		</dict>
 		<key>explosion</key>
@@ -113,7 +112,6 @@
 				<string>iceField2.png</string>
 				<string>iceField3.png</string>
 				<string>iceField4.png</string>
-				<string>iceField5.png</string>
 				<string>iceField6.png</string>
 				<string>iceField7.png</string>
 				<string>iceField8.png</string>
