@@ -130,14 +130,14 @@ void MenuBarNode::Slide()
     if(this->m_IsOpen)
     {
         CCPoint slidePosition = CCPoint(PositionX, PositionY);
-        CCMoveTo* moveIn = CCMoveTo::create(0.3, slidePosition);
+        CCEaseOut* moveIn = CCEaseOut::create(CCMoveTo::create(0.3, slidePosition), 3.f);
         moveIn->setTag(ActionType_UI);
         this->stopActionByTag(ActionType_UI);
         this->runAction(moveIn);
     }
     else{
         CCPoint slidePosition = CCPoint(PositionX - this->m_Body->getTextureRect().size.width + 10, PositionY);
-        CCMoveTo* moveOut = CCMoveTo::create(0.3, slidePosition); 
+        CCEaseOut* moveOut = CCEaseOut::create(CCMoveTo::create(0.3, slidePosition), 3.f);
         moveOut->setTag(ActionType_UI);
         this->stopActionByTag(ActionType_UI);
         this->runAction(moveOut);

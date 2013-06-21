@@ -251,7 +251,7 @@ void EquipmentNode::Slide()
         CCLOG("slide in");
 
         CCPoint slidePosition = CCPoint(PositionX, PositionY);
-        CCMoveTo* moveIn = CCMoveTo::create(0.2, slidePosition);
+        CCEaseOut* moveIn = CCEaseOut::create(CCMoveTo::create(0.2, slidePosition), 3.f);
         moveIn->setTag(ActionType_UI);
         this->stopActionByTag(ActionType_UI);
         this->runAction(moveIn);
@@ -260,7 +260,7 @@ void EquipmentNode::Slide()
     {
         CCLOG("slide out");
         CCPoint slidePosition = CCPoint(PositionX + this->m_Body->getTextureRect().size.width, PositionY);
-        CCMoveTo* moveOut = CCMoveTo::create(0.2, slidePosition);
+        CCEaseOut* moveOut = CCEaseOut::create(CCMoveTo::create(0.2, slidePosition), 3.f);
         moveOut->setTag(ActionType_UI);
         this->stopActionByTag(ActionType_UI);
         this->runAction(moveOut);
