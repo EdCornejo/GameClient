@@ -100,6 +100,9 @@ CCAnimation* SpellAnimationLoader::GetAfterEffectAnimation(flownet::SpellType sp
         case flownet::SpellType_FireBall:
             afterEffectAnimationName = "explosion";
             break;
+        case flownet::SpellType_IceArrow:
+            afterEffectAnimationName = "iceCrystalize";
+            break;
         default:
             break;
     }
