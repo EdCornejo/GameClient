@@ -345,7 +345,11 @@ bool UILayer::TouchProcessMove(CCPoint touchLocation)
     
     PlayerNode* node = actorLayer->FindPlayerNode(myActorID);
     
-    ASSERT_DEBUG(node != nullptr);
+    if(!node)
+    {
+        ASSERT_DEBUG(node);
+        return false;
+    }
 
     const float doubleTouchRadius = 20;
     const ServerTime doubleTouchTimeRange = ServerTime(300); // millisecond

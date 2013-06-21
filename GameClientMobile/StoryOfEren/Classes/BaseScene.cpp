@@ -8,13 +8,14 @@
 
 #include "Headers.pch"
 
-BaseScene::BaseScene() : m_BackgroundLayer(nullptr), m_EffectLayer(nullptr), m_ObjectLayer(nullptr), m_ActorLayer(nullptr), m_UILayer(nullptr), m_CaptionLayer(nullptr), m_LoadingLayer(nullptr), m_LastGPSTime(0)
+BaseScene::BaseScene() : m_GPSLabel(nullptr), m_BackgroundLayer(nullptr), m_EffectLayer(nullptr), m_ObjectLayer(nullptr), m_ActorLayer(nullptr), m_UILayer(nullptr), m_CaptionLayer(nullptr), m_LoadingLayer(nullptr), m_LastGPSTime(0)
 {
     CCLOG("Base scene created");
 }
 
 BaseScene::~BaseScene()
 {
+    CC_SAFE_RELEASE(this->m_GPSLabel);
     CC_SAFE_RELEASE(this->m_BackgroundLayer);
     CC_SAFE_RELEASE(this->m_EffectLayer);
     CC_SAFE_RELEASE(this->m_ObjectLayer);
@@ -33,17 +34,6 @@ bool BaseScene::init()
     
     ClientStage* stage = GameClient::Instance().GetClientStage();
     
-    // load animations
-    SpellAnimationLoader::Instance();
-    
-    // NOTE : all animation file comes here
-    std::vector<std::string> animationPListFileList = {
-        "spell_animations.plist",
-        };
-    std::for_each(animationPListFileList.begin(), animationPListFileList.end(), [](std::string plistFileName){
-        CCAnimationCache::sharedAnimationCache()->addAnimationsWithFile(plistFileName.c_str());
-    });
-
     this->m_HeartbeatLayer = HeartbeatLayer::create();
     if(this->m_HeartbeatLayer)
     {
@@ -183,24 +173,24 @@ void BaseScene::OnClearTier()
 }
 
 void BaseScene::InitializeGPSInfo() {
-    CCLabelTTF* label = CCLabelTTF::create("gps info", "thonburi", 13);
-    label->setTag(753);
-    label->setZOrder(333);
-    label->setPosition(ccp(240,306));
-    this->addChild(label);
+    this->m_GPSLabel = CCLabelTTF::create("gps info", "thonburi", 13);
+    this->m_GPSLabel->retain();
+    this->m_GPSLabel->setTag(753);
+    this->m_GPSLabel->setZOrder(333);
+    this->m_GPSLabel->setPosition(ccp(240,306));
+    this->addChild(this->m_GPSLabel);
 }
 
 void BaseScene::UpdateGPSInfo() {
     ServerTime currentTime = GameClient::Instance().GetClientTimer().Check();
     if(currentTime - this->m_LastGPSTime > ServerTime(5000)) {
         this->m_LastGPSTime = currentTime;
-        CCLabelTTF* label = static_cast<CCLabelTTF*>(this->getChildByTag(753));
-        if(label) {
+        if(this->m_GPSLabel) {
             GPSPoint gps = GPS::GetCurrentGPSPoint();
             
             if(GPS::GetCurrentAddress().empty()) return;
             
-            label->setString(CCString::createWithFormat("gps %3.3f, %3.3f, %s", gps.latitude, gps.longitude, GPS::GetCurrentAddress().c_str())->getCString());
+            this->m_GPSLabel->setString(CCString::createWithFormat("gps %3.3f, %3.3f, %s", gps.latitude, gps.longitude, GPS::GetCurrentAddress().c_str())->getCString());
         }
     }
 }

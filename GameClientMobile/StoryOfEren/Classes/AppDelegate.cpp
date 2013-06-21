@@ -65,6 +65,19 @@ bool AppDelegate::applicationDidFinishLaunching()
     // set FPS. the default value is 1.0/60 if you don't call this
     pDirector->setAnimationInterval(1.0 / 60);
 
+
+    // load animations
+    SpellAnimationLoader::Instance();
+    
+    // NOTE : all animation file comes here
+    std::vector<std::string> animationPListFileList = {
+        "spell_animations.plist",
+        };
+    std::for_each(animationPListFileList.begin(), animationPListFileList.end(), [](std::string plistFileName){
+        CCAnimationCache::sharedAnimationCache()->addAnimationsWithFile(plistFileName.c_str());
+    });
+
+
     // create a scene. it's an autorelease object
     CCScene *pScene = SplashScene::create();
 
@@ -96,6 +109,18 @@ void AppDelegate::applicationDidEnterBackground()
 // this function will be called when the app is active again
 void AppDelegate::applicationWillEnterForeground()
 {
+    // load animations
+    SpellAnimationLoader::Instance();
+    
+    // NOTE : all animation file comes here
+    std::vector<std::string> animationPListFileList = {
+        "spell_animations.plist",
+        };
+    std::for_each(animationPListFileList.begin(), animationPListFileList.end(), [](std::string plistFileName){
+        CCAnimationCache::sharedAnimationCache()->addAnimationsWithFile(plistFileName.c_str());
+    });
+
+
     // Re start GameClient
     flownet::GameClient::Instance().InitializeClient(this);
     if(!this->InitializeConnection()) CCMessageBox("Cannot connect with server", "Error!");

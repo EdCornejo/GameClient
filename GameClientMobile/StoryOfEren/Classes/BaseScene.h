@@ -13,6 +13,11 @@ using namespace cocos2d;
 
 class BaseScene : public cocos2d::CCScene
 {
+// DEMO CODE
+private :
+    CCLabelTTF* m_GPSLabel;
+// END OF DEMO CODE
+
 protected:
     BackgroundLayer* m_BackgroundLayer;
     EffectLayer* m_EffectLayer;
