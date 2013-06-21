@@ -262,6 +262,7 @@ struct ActorNodeSet : public CCNode {
     {
         if(this->m_ActorNode) this->m_ActorNode->setVisible(false);
         if(this->m_HUDNode) this->m_HUDNode->setVisible(false);
+        if(this->m_ShadowNode) this->m_ShadowNode->setVisible(false);
         if(this->m_HighlightNode) this->m_HighlightNode->setVisible(false);
         if(this->m_GuideLineNode) this->m_GuideLineNode->setVisible(false);
     }
