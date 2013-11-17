@@ -18,11 +18,11 @@ private:
     ~PointConverter();
     
 public:
-    static const float RateOfChangeCCPointToFlownetPointX = 0.05333333333333;
-    static const float RateOfChangeCCPointToFlownetPointY = 0.10526315789474;
-    static const float RateOfChangeFlownetPointToCCPointX = 18.75;
-    static const float RateOfChangeFlownetPointToCCPointY = 9.5;
-    static const float CCPointOffsetX = 15;
+    static const float RateOfChangeCCPointToFlownetPointX;
+    static const float RateOfChangeCCPointToFlownetPointY;
+    static const float RateOfChangeFlownetPointToCCPointX;
+    static const float RateOfChangeFlownetPointToCCPointY;
+    static const float CCPointOffsetX;
     
 public:
     static CCPoint Convert(flownet::POINT point);

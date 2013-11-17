@@ -10,6 +10,13 @@
 
 #define BOUNDARY 15
 
+const float PointConverter::RateOfChangeCCPointToFlownetPointX = 0.05333333333333;
+const float PointConverter::RateOfChangeCCPointToFlownetPointY = 0.10526315789474;
+const float PointConverter::RateOfChangeFlownetPointToCCPointX = 18.75;
+const float PointConverter::RateOfChangeFlownetPointToCCPointY = 9.5;
+const float PointConverter::CCPointOffsetX = 15;
+
+
 // NOTE : default mapping from flownet::POINT to CCPoint
 //        rate of change(CCPoint / flownet::POINT) for x is 18.75
 //        rate of change(CCPoint / flownet::POINT) for y is 9.5

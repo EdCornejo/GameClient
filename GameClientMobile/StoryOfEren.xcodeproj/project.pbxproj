@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4D95D24C183884BB008ADE77 /* libflownetMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D95D24A183884BB008ADE77 /* libflownetMobile.a */; };
+		4D95D24D183884BB008ADE77 /* libGameSharedMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D95D24B183884BB008ADE77 /* libGameSharedMobile.a */; };
 		6B08439317586BF400257246 /* GPS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6B08439117586BF400257246 /* GPS.mm */; };
 		6B08439C1758718400257246 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B08439A1758716C00257246 /* CoreLocation.framework */; };
 		6B08439F1758739B00257246 /* GPS_ios.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B08439E1758739B00257246 /* GPS_ios.m */; };
@@ -291,8 +293,6 @@
 		6BFA0EBA1715DCCF00E4F079 /* SpellImageLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BFA0EB81715DCCF00E4F079 /* SpellImageLoader.cpp */; };
 		6BFD76331754654E0005BF98 /* NPCNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BFD76311754654E0005BF98 /* NPCNode.cpp */; };
 		6BFD7637175468020005BF98 /* StageObjectImageLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BFD7635175468020005BF98 /* StageObjectImageLoader.cpp */; };
-		945D872317422BE200C03494 /* libflownetMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 945D872117422BE200C03494 /* libflownetMobile.a */; };
-		945D872417422BE200C03494 /* libGameSharedMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 945D872217422BE200C03494 /* libGameSharedMobile.a */; };
 		945D872617422BF300C03494 /* boost.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 945D872517422BF300C03494 /* boost.framework */; };
 		94F29CB316DDD6FB005DFDE4 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94F29CB216DDD6FB005DFDE4 /* QuartzCore.framework */; };
 		94F29CB516DDD6FB005DFDE4 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94F29CB416DDD6FB005DFDE4 /* OpenGLES.framework */; };
@@ -322,6 +322,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		4D95D2481838847D008ADE77 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4D95D2431838847D008ADE77 /* CocosDenshion.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D87CC2E5154FC6C500AAFE11;
+			remoteInfo = CocosDenshion;
+		};
+		4D95D275183884EE008ADE77 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4D95D271183884EE008ADE77 /* CocosDenshion.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D87CC2E5154FC6C500AAFE11;
+			remoteInfo = CocosDenshion;
+		};
 		6B532BF01712E0F4009127B2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6B532AAF1712E0F4009127B2 /* CocosDenshion.xcodeproj */;
@@ -332,6 +346,62 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4D95D2221838847D008ADE77 /* Android.mk */ = {isa = PBXFileReference; lastKnownFileType = text; path = Android.mk; sourceTree = "<group>"; };
+		4D95D2241838847D008ADE77 /* SimpleAudioEngineJni.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SimpleAudioEngineJni.cpp; sourceTree = "<group>"; };
+		4D95D2251838847D008ADE77 /* SimpleAudioEngineJni.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimpleAudioEngineJni.h; sourceTree = "<group>"; };
+		4D95D2281838847D008ADE77 /* asset_manager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = asset_manager.h; sourceTree = "<group>"; };
+		4D95D2291838847D008ADE77 /* asset_manager_jni.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = asset_manager_jni.h; sourceTree = "<group>"; };
+		4D95D22A1838847D008ADE77 /* OpenSLEngine.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OpenSLEngine.cpp; sourceTree = "<group>"; };
+		4D95D22B1838847D008ADE77 /* OpenSLEngine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenSLEngine.h; sourceTree = "<group>"; };
+		4D95D22C1838847D008ADE77 /* SimpleAudioEngineOpenSL.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SimpleAudioEngineOpenSL.cpp; sourceTree = "<group>"; };
+		4D95D22D1838847D008ADE77 /* SimpleAudioEngineOpenSL.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimpleAudioEngineOpenSL.h; sourceTree = "<group>"; };
+		4D95D22F1838847D008ADE77 /* OpenSLES.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenSLES.h; sourceTree = "<group>"; };
+		4D95D2301838847D008ADE77 /* OpenSLES_Android.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenSLES_Android.h; sourceTree = "<group>"; };
+		4D95D2311838847D008ADE77 /* OpenSLES_AndroidConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenSLES_AndroidConfiguration.h; sourceTree = "<group>"; };
+		4D95D2321838847D008ADE77 /* OpenSLES_Platform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenSLES_Platform.h; sourceTree = "<group>"; };
+		4D95D2331838847D008ADE77 /* SimpleAudioEngine.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SimpleAudioEngine.cpp; sourceTree = "<group>"; };
+		4D95D2351838847D008ADE77 /* Export.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Export.h; sourceTree = "<group>"; };
+		4D95D2361838847D008ADE77 /* SimpleAudioEngine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimpleAudioEngine.h; sourceTree = "<group>"; };
+		4D95D2381838847D008ADE77 /* CDAudioManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CDAudioManager.h; sourceTree = "<group>"; };
+		4D95D2391838847D008ADE77 /* CDAudioManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CDAudioManager.m; sourceTree = "<group>"; };
+		4D95D23A1838847D008ADE77 /* CDConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CDConfig.h; sourceTree = "<group>"; };
+		4D95D23B1838847D008ADE77 /* CDOpenALSupport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CDOpenALSupport.h; sourceTree = "<group>"; };
+		4D95D23C1838847D008ADE77 /* CDOpenALSupport.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CDOpenALSupport.m; sourceTree = "<group>"; };
+		4D95D23D1838847D008ADE77 /* CocosDenshion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CocosDenshion.h; sourceTree = "<group>"; };
+		4D95D23E1838847D008ADE77 /* CocosDenshion.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CocosDenshion.m; sourceTree = "<group>"; };
+		4D95D23F1838847D008ADE77 /* SimpleAudioEngine.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = SimpleAudioEngine.mm; sourceTree = "<group>"; };
+		4D95D2401838847D008ADE77 /* SimpleAudioEngine_objc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimpleAudioEngine_objc.h; sourceTree = "<group>"; };
+		4D95D2411838847D008ADE77 /* SimpleAudioEngine_objc.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimpleAudioEngine_objc.m; sourceTree = "<group>"; };
+		4D95D2431838847D008ADE77 /* CocosDenshion.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = CocosDenshion.xcodeproj; sourceTree = "<group>"; };
+		4D95D24A183884BB008ADE77 /* libflownetMobile.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = libflownetMobile.a; path = "../../flownet/flownet/build/Debug-iphoneos/libflownetMobile.a"; sourceTree = "<group>"; };
+		4D95D24B183884BB008ADE77 /* libGameSharedMobile.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = libGameSharedMobile.a; path = "../../GameShared/GameShared/build/Debug-iphoneos/libGameSharedMobile.a"; sourceTree = "<group>"; };
+		4D95D250183884EE008ADE77 /* Android.mk */ = {isa = PBXFileReference; lastKnownFileType = text; path = Android.mk; sourceTree = "<group>"; };
+		4D95D252183884EE008ADE77 /* SimpleAudioEngineJni.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SimpleAudioEngineJni.cpp; sourceTree = "<group>"; };
+		4D95D253183884EE008ADE77 /* SimpleAudioEngineJni.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimpleAudioEngineJni.h; sourceTree = "<group>"; };
+		4D95D256183884EE008ADE77 /* asset_manager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = asset_manager.h; sourceTree = "<group>"; };
+		4D95D257183884EE008ADE77 /* asset_manager_jni.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = asset_manager_jni.h; sourceTree = "<group>"; };
+		4D95D258183884EE008ADE77 /* OpenSLEngine.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OpenSLEngine.cpp; sourceTree = "<group>"; };
+		4D95D259183884EE008ADE77 /* OpenSLEngine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenSLEngine.h; sourceTree = "<group>"; };
+		4D95D25A183884EE008ADE77 /* SimpleAudioEngineOpenSL.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SimpleAudioEngineOpenSL.cpp; sourceTree = "<group>"; };
+		4D95D25B183884EE008ADE77 /* SimpleAudioEngineOpenSL.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimpleAudioEngineOpenSL.h; sourceTree = "<group>"; };
+		4D95D25D183884EE008ADE77 /* OpenSLES.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenSLES.h; sourceTree = "<group>"; };
+		4D95D25E183884EE008ADE77 /* OpenSLES_Android.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenSLES_Android.h; sourceTree = "<group>"; };
+		4D95D25F183884EE008ADE77 /* OpenSLES_AndroidConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenSLES_AndroidConfiguration.h; sourceTree = "<group>"; };
+		4D95D260183884EE008ADE77 /* OpenSLES_Platform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenSLES_Platform.h; sourceTree = "<group>"; };
+		4D95D261183884EE008ADE77 /* SimpleAudioEngine.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SimpleAudioEngine.cpp; sourceTree = "<group>"; };
+		4D95D263183884EE008ADE77 /* Export.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Export.h; sourceTree = "<group>"; };
+		4D95D264183884EE008ADE77 /* SimpleAudioEngine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimpleAudioEngine.h; sourceTree = "<group>"; };
+		4D95D266183884EE008ADE77 /* CDAudioManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CDAudioManager.h; sourceTree = "<group>"; };
+		4D95D267183884EE008ADE77 /* CDAudioManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CDAudioManager.m; sourceTree = "<group>"; };
+		4D95D268183884EE008ADE77 /* CDConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CDConfig.h; sourceTree = "<group>"; };
+		4D95D269183884EE008ADE77 /* CDOpenALSupport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CDOpenALSupport.h; sourceTree = "<group>"; };
+		4D95D26A183884EE008ADE77 /* CDOpenALSupport.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CDOpenALSupport.m; sourceTree = "<group>"; };
+		4D95D26B183884EE008ADE77 /* CocosDenshion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CocosDenshion.h; sourceTree = "<group>"; };
+		4D95D26C183884EE008ADE77 /* CocosDenshion.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CocosDenshion.m; sourceTree = "<group>"; };
+		4D95D26D183884EE008ADE77 /* SimpleAudioEngine.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = SimpleAudioEngine.mm; sourceTree = "<group>"; };
+		4D95D26E183884EE008ADE77 /* SimpleAudioEngine_objc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimpleAudioEngine_objc.h; sourceTree = "<group>"; };
+		4D95D26F183884EE008ADE77 /* SimpleAudioEngine_objc.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimpleAudioEngine_objc.m; sourceTree = "<group>"; };
+		4D95D271183884EE008ADE77 /* CocosDenshion.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = CocosDenshion.xcodeproj; sourceTree = "<group>"; };
 		6B08439117586BF400257246 /* GPS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = GPS.mm; path = Classes/GPS.mm; sourceTree = "<group>"; };
 		6B08439217586BF400257246 /* GPS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GPS.h; path = Classes/GPS.h; sourceTree = "<group>"; };
 		6B08439A1758716C00257246 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -998,10 +1068,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4D95D24C183884BB008ADE77 /* libflownetMobile.a in Frameworks */,
+				4D95D24D183884BB008ADE77 /* libGameSharedMobile.a in Frameworks */,
 				6B1AAD061761956B00B56ECE /* libCocosDenshion.a in Frameworks */,
 				945D872617422BF300C03494 /* boost.framework in Frameworks */,
-				945D872317422BE200C03494 /* libflownetMobile.a in Frameworks */,
-				945D872417422BE200C03494 /* libGameSharedMobile.a in Frameworks */,
 				94F29CB316DDD6FB005DFDE4 /* QuartzCore.framework in Frameworks */,
 				94F29CB516DDD6FB005DFDE4 /* OpenGLES.framework in Frameworks */,
 				94F29CB716DDD6FB005DFDE4 /* OpenAL.framework in Frameworks */,
@@ -1019,6 +1089,220 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4D95D2201838847D008ADE77 /* CocosDenshion */ = {
+			isa = PBXGroup;
+			children = (
+				4D95D2211838847D008ADE77 /* android */,
+				4D95D2341838847D008ADE77 /* include */,
+				4D95D2371838847D008ADE77 /* ios */,
+				4D95D2421838847D008ADE77 /* proj.ios */,
+			);
+			name = CocosDenshion;
+			path = StoryOfEren/libs/CocosDenshion;
+			sourceTree = "<group>";
+		};
+		4D95D2211838847D008ADE77 /* android */ = {
+			isa = PBXGroup;
+			children = (
+				4D95D2221838847D008ADE77 /* Android.mk */,
+				4D95D2231838847D008ADE77 /* jni */,
+				4D95D2261838847D008ADE77 /* opensl */,
+				4D95D2331838847D008ADE77 /* SimpleAudioEngine.cpp */,
+			);
+			path = android;
+			sourceTree = "<group>";
+		};
+		4D95D2231838847D008ADE77 /* jni */ = {
+			isa = PBXGroup;
+			children = (
+				4D95D2241838847D008ADE77 /* SimpleAudioEngineJni.cpp */,
+				4D95D2251838847D008ADE77 /* SimpleAudioEngineJni.h */,
+			);
+			path = jni;
+			sourceTree = "<group>";
+		};
+		4D95D2261838847D008ADE77 /* opensl */ = {
+			isa = PBXGroup;
+			children = (
+				4D95D2271838847D008ADE77 /* android */,
+				4D95D22A1838847D008ADE77 /* OpenSLEngine.cpp */,
+				4D95D22B1838847D008ADE77 /* OpenSLEngine.h */,
+				4D95D22C1838847D008ADE77 /* SimpleAudioEngineOpenSL.cpp */,
+				4D95D22D1838847D008ADE77 /* SimpleAudioEngineOpenSL.h */,
+				4D95D22E1838847D008ADE77 /* SLES */,
+			);
+			path = opensl;
+			sourceTree = "<group>";
+		};
+		4D95D2271838847D008ADE77 /* android */ = {
+			isa = PBXGroup;
+			children = (
+				4D95D2281838847D008ADE77 /* asset_manager.h */,
+				4D95D2291838847D008ADE77 /* asset_manager_jni.h */,
+			);
+			path = android;
+			sourceTree = "<group>";
+		};
+		4D95D22E1838847D008ADE77 /* SLES */ = {
+			isa = PBXGroup;
+			children = (
+				4D95D22F1838847D008ADE77 /* OpenSLES.h */,
+				4D95D2301838847D008ADE77 /* OpenSLES_Android.h */,
+				4D95D2311838847D008ADE77 /* OpenSLES_AndroidConfiguration.h */,
+				4D95D2321838847D008ADE77 /* OpenSLES_Platform.h */,
+			);
+			path = SLES;
+			sourceTree = "<group>";
+		};
+		4D95D2341838847D008ADE77 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				4D95D2351838847D008ADE77 /* Export.h */,
+				4D95D2361838847D008ADE77 /* SimpleAudioEngine.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		4D95D2371838847D008ADE77 /* ios */ = {
+			isa = PBXGroup;
+			children = (
+				4D95D2381838847D008ADE77 /* CDAudioManager.h */,
+				4D95D2391838847D008ADE77 /* CDAudioManager.m */,
+				4D95D23A1838847D008ADE77 /* CDConfig.h */,
+				4D95D23B1838847D008ADE77 /* CDOpenALSupport.h */,
+				4D95D23C1838847D008ADE77 /* CDOpenALSupport.m */,
+				4D95D23D1838847D008ADE77 /* CocosDenshion.h */,
+				4D95D23E1838847D008ADE77 /* CocosDenshion.m */,
+				4D95D23F1838847D008ADE77 /* SimpleAudioEngine.mm */,
+				4D95D2401838847D008ADE77 /* SimpleAudioEngine_objc.h */,
+				4D95D2411838847D008ADE77 /* SimpleAudioEngine_objc.m */,
+			);
+			path = ios;
+			sourceTree = "<group>";
+		};
+		4D95D2421838847D008ADE77 /* proj.ios */ = {
+			isa = PBXGroup;
+			children = (
+				4D95D2431838847D008ADE77 /* CocosDenshion.xcodeproj */,
+			);
+			path = proj.ios;
+			sourceTree = "<group>";
+		};
+		4D95D2441838847D008ADE77 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4D95D2491838847D008ADE77 /* libCocosDenshion.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4D95D24E183884EE008ADE77 /* CocosDenshion */ = {
+			isa = PBXGroup;
+			children = (
+				4D95D24F183884EE008ADE77 /* android */,
+				4D95D262183884EE008ADE77 /* include */,
+				4D95D265183884EE008ADE77 /* ios */,
+				4D95D270183884EE008ADE77 /* proj.ios */,
+			);
+			name = CocosDenshion;
+			path = StoryOfEren/libs/CocosDenshion;
+			sourceTree = "<group>";
+		};
+		4D95D24F183884EE008ADE77 /* android */ = {
+			isa = PBXGroup;
+			children = (
+				4D95D250183884EE008ADE77 /* Android.mk */,
+				4D95D251183884EE008ADE77 /* jni */,
+				4D95D254183884EE008ADE77 /* opensl */,
+				4D95D261183884EE008ADE77 /* SimpleAudioEngine.cpp */,
+			);
+			path = android;
+			sourceTree = "<group>";
+		};
+		4D95D251183884EE008ADE77 /* jni */ = {
+			isa = PBXGroup;
+			children = (
+				4D95D252183884EE008ADE77 /* SimpleAudioEngineJni.cpp */,
+				4D95D253183884EE008ADE77 /* SimpleAudioEngineJni.h */,
+			);
+			path = jni;
+			sourceTree = "<group>";
+		};
+		4D95D254183884EE008ADE77 /* opensl */ = {
+			isa = PBXGroup;
+			children = (
+				4D95D255183884EE008ADE77 /* android */,
+				4D95D258183884EE008ADE77 /* OpenSLEngine.cpp */,
+				4D95D259183884EE008ADE77 /* OpenSLEngine.h */,
+				4D95D25A183884EE008ADE77 /* SimpleAudioEngineOpenSL.cpp */,
+				4D95D25B183884EE008ADE77 /* SimpleAudioEngineOpenSL.h */,
+				4D95D25C183884EE008ADE77 /* SLES */,
+			);
+			path = opensl;
+			sourceTree = "<group>";
+		};
+		4D95D255183884EE008ADE77 /* android */ = {
+			isa = PBXGroup;
+			children = (
+				4D95D256183884EE008ADE77 /* asset_manager.h */,
+				4D95D257183884EE008ADE77 /* asset_manager_jni.h */,
+			);
+			path = android;
+			sourceTree = "<group>";
+		};
+		4D95D25C183884EE008ADE77 /* SLES */ = {
+			isa = PBXGroup;
+			children = (
+				4D95D25D183884EE008ADE77 /* OpenSLES.h */,
+				4D95D25E183884EE008ADE77 /* OpenSLES_Android.h */,
+				4D95D25F183884EE008ADE77 /* OpenSLES_AndroidConfiguration.h */,
+				4D95D260183884EE008ADE77 /* OpenSLES_Platform.h */,
+			);
+			path = SLES;
+			sourceTree = "<group>";
+		};
+		4D95D262183884EE008ADE77 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				4D95D263183884EE008ADE77 /* Export.h */,
+				4D95D264183884EE008ADE77 /* SimpleAudioEngine.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		4D95D265183884EE008ADE77 /* ios */ = {
+			isa = PBXGroup;
+			children = (
+				4D95D266183884EE008ADE77 /* CDAudioManager.h */,
+				4D95D267183884EE008ADE77 /* CDAudioManager.m */,
+				4D95D268183884EE008ADE77 /* CDConfig.h */,
+				4D95D269183884EE008ADE77 /* CDOpenALSupport.h */,
+				4D95D26A183884EE008ADE77 /* CDOpenALSupport.m */,
+				4D95D26B183884EE008ADE77 /* CocosDenshion.h */,
+				4D95D26C183884EE008ADE77 /* CocosDenshion.m */,
+				4D95D26D183884EE008ADE77 /* SimpleAudioEngine.mm */,
+				4D95D26E183884EE008ADE77 /* SimpleAudioEngine_objc.h */,
+				4D95D26F183884EE008ADE77 /* SimpleAudioEngine_objc.m */,
+			);
+			path = ios;
+			sourceTree = "<group>";
+		};
+		4D95D270183884EE008ADE77 /* proj.ios */ = {
+			isa = PBXGroup;
+			children = (
+				4D95D271183884EE008ADE77 /* CocosDenshion.xcodeproj */,
+			);
+			path = proj.ios;
+			sourceTree = "<group>";
+		};
+		4D95D272183884EE008ADE77 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4D95D276183884EE008ADE77 /* libCocosDenshion.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		6B3C0FB216E862210089F2C8 /* Nodes */ = {
 			isa = PBXGroup;
 			children = (
@@ -2216,6 +2500,10 @@
 		94F29CB116DDD6FB005DFDE4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4D95D24E183884EE008ADE77 /* CocosDenshion */,
+				4D95D24A183884BB008ADE77 /* libflownetMobile.a */,
+				4D95D24B183884BB008ADE77 /* libGameSharedMobile.a */,
+				4D95D2201838847D008ADE77 /* CocosDenshion */,
 				6B08439A1758716C00257246 /* CoreLocation.framework */,
 				94F29CB216DDD6FB005DFDE4 /* QuartzCore.framework */,
 				94F29CB416DDD6FB005DFDE4 /* OpenGLES.framework */,
@@ -2382,6 +2670,14 @@
 					ProductGroup = 6B532AB01712E0F4009127B2 /* Products */;
 					ProjectRef = 6B532AAF1712E0F4009127B2 /* CocosDenshion.xcodeproj */;
 				},
+				{
+					ProductGroup = 4D95D272183884EE008ADE77 /* Products */;
+					ProjectRef = 4D95D271183884EE008ADE77 /* CocosDenshion.xcodeproj */;
+				},
+				{
+					ProductGroup = 4D95D2441838847D008ADE77 /* Products */;
+					ProjectRef = 4D95D2431838847D008ADE77 /* CocosDenshion.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -2391,6 +2687,20 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		4D95D2491838847D008ADE77 /* libCocosDenshion.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libCocosDenshion.a;
+			remoteRef = 4D95D2481838847D008ADE77 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4D95D276183884EE008ADE77 /* libCocosDenshion.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libCocosDenshion.a;
+			remoteRef = 4D95D275183884EE008ADE77 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		6B532BF11712E0F4009127B2 /* libCocosDenshion.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;

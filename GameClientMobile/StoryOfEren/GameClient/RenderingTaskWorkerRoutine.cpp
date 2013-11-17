@@ -18,7 +18,7 @@ RenderingTaskWorkerRoutine::RenderingTaskWorkerRoutine() : m_TaskQueue(), m_IsPa
 
 RenderingTaskWorkerRoutine::~RenderingTaskWorkerRoutine()
 {
-    if( 0 != m_TaskQueue.size() )
+    if( m_TaskQueue.IsEmpty() == false )
     {
         // ASSERT_RELEASE(false);
         EmptyTaskQueue();
