@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4D95D24C183884BB008ADE77 /* libflownetMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D95D24A183884BB008ADE77 /* libflownetMobile.a */; };
 		4D95D24D183884BB008ADE77 /* libGameSharedMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D95D24B183884BB008ADE77 /* libGameSharedMobile.a */; };
+		4DFD47091839C6D7008C2F04 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4DFD47081839C6D7008C2F04 /* Images.xcassets */; };
 		6B08439317586BF400257246 /* GPS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6B08439117586BF400257246 /* GPS.mm */; };
 		6B08439C1758718400257246 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B08439A1758716C00257246 /* CoreLocation.framework */; };
 		6B08439F1758739B00257246 /* GPS_ios.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B08439E1758739B00257246 /* GPS_ios.m */; };
@@ -373,8 +374,8 @@
 		4D95D2401838847D008ADE77 /* SimpleAudioEngine_objc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimpleAudioEngine_objc.h; sourceTree = "<group>"; };
 		4D95D2411838847D008ADE77 /* SimpleAudioEngine_objc.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimpleAudioEngine_objc.m; sourceTree = "<group>"; };
 		4D95D2431838847D008ADE77 /* CocosDenshion.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = CocosDenshion.xcodeproj; sourceTree = "<group>"; };
-		4D95D24A183884BB008ADE77 /* libflownetMobile.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = libflownetMobile.a; path = "../../flownet/flownet/build/Debug-iphoneos/libflownetMobile.a"; sourceTree = "<group>"; };
-		4D95D24B183884BB008ADE77 /* libGameSharedMobile.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = libGameSharedMobile.a; path = "../../GameShared/GameShared/build/Debug-iphoneos/libGameSharedMobile.a"; sourceTree = "<group>"; };
+		4D95D24A183884BB008ADE77 /* libflownetMobile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libflownetMobile.a; path = "../../flownet/flownet/build/Debug-iphoneos/libflownetMobile.a"; sourceTree = "<group>"; };
+		4D95D24B183884BB008ADE77 /* libGameSharedMobile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGameSharedMobile.a; path = "../../GameShared/GameShared/build/Debug-iphoneos/libGameSharedMobile.a"; sourceTree = "<group>"; };
 		4D95D250183884EE008ADE77 /* Android.mk */ = {isa = PBXFileReference; lastKnownFileType = text; path = Android.mk; sourceTree = "<group>"; };
 		4D95D252183884EE008ADE77 /* SimpleAudioEngineJni.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SimpleAudioEngineJni.cpp; sourceTree = "<group>"; };
 		4D95D253183884EE008ADE77 /* SimpleAudioEngineJni.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimpleAudioEngineJni.h; sourceTree = "<group>"; };
@@ -402,6 +403,10 @@
 		4D95D26E183884EE008ADE77 /* SimpleAudioEngine_objc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimpleAudioEngine_objc.h; sourceTree = "<group>"; };
 		4D95D26F183884EE008ADE77 /* SimpleAudioEngine_objc.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimpleAudioEngine_objc.m; sourceTree = "<group>"; };
 		4D95D271183884EE008ADE77 /* CocosDenshion.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = CocosDenshion.xcodeproj; sourceTree = "<group>"; };
+		4DFD47021839C653008C2F04 /* roughhands58.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = roughhands58.png; path = StoryOfEren/Resources/roughhands58.png; sourceTree = "<group>"; };
+		4DFD47061839C69A008C2F04 /* roughhands120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = roughhands120.png; path = StoryOfEren/Resources/roughhands120.png; sourceTree = "<group>"; };
+		4DFD47071839C6AC008C2F04 /* roughhands80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = roughhands80.png; path = StoryOfEren/Resources/roughhands80.png; sourceTree = "<group>"; };
+		4DFD47081839C6D7008C2F04 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		6B08439117586BF400257246 /* GPS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = GPS.mm; path = Classes/GPS.mm; sourceTree = "<group>"; };
 		6B08439217586BF400257246 /* GPS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GPS.h; path = Classes/GPS.h; sourceTree = "<group>"; };
 		6B08439A1758716C00257246 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -2477,6 +2482,9 @@
 		94F29CA316DDD6FA005DFDE4 = {
 			isa = PBXGroup;
 			children = (
+				4DFD47071839C6AC008C2F04 /* roughhands80.png */,
+				4DFD47061839C69A008C2F04 /* roughhands120.png */,
+				4DFD47021839C653008C2F04 /* roughhands58.png */,
 				945D872517422BF300C03494 /* boost.framework */,
 				945D872117422BE200C03494 /* libflownetMobile.a */,
 				945D872217422BE200C03494 /* libGameSharedMobile.a */,
@@ -2524,6 +2532,7 @@
 				94F29CDB16DDD6FB005DFDE4 /* ios */,
 				94F29CE416DDD6FB005DFDE4 /* libs */,
 				94F29F6C16DDD700005DFDE4 /* Classes */,
+				4DFD47081839C6D7008C2F04 /* Images.xcassets */,
 				94F29F6A16DDD700005DFDE4 /* Supporting Files */,
 			);
 			path = StoryOfEren;
@@ -2724,6 +2733,7 @@
 				94F29CD916DDD6FB005DFDE4 /* iTunesArtwork in Resources */,
 				6B7477B416F0CBC00014C286 /* loading_background.png in Resources */,
 				6B2AA34016FA2ECB00DEB7C3 /* blank.png in Resources */,
+				4DFD47091839C6D7008C2F04 /* Images.xcassets in Resources */,
 				6B2AA38B16FAD27700DEB7C3 /* test_dot.png in Resources */,
 				6B2AA3F516FB449E00DEB7C3 /* iphone in Resources */,
 				6B2AA3F716FB44AF00DEB7C3 /* iphonehd in Resources */,
@@ -3112,6 +3122,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				COPY_PHASE_STRIP = NO;
@@ -3145,7 +3157,7 @@
 					"\"$(PROJECT_NAME)/libs/spine-c/include\"",
 				);
 				INFOPLIST_FILE = StoryOfEren/Resources/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/StoryOfEren/libs/cocos2dx/platform/third_party/ios/libraries\"",
@@ -3168,6 +3180,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				COPY_PHASE_STRIP = YES;
@@ -3197,7 +3211,7 @@
 					"\"$(PROJECT_NAME)/libs/spine-c/include\"",
 				);
 				INFOPLIST_FILE = StoryOfEren/Resources/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/StoryOfEren/libs/cocos2dx/platform/third_party/ios/libraries\"",
