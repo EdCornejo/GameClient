@@ -10,6 +10,7 @@
 		4D95D24C183884BB008ADE77 /* libflownetMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D95D24A183884BB008ADE77 /* libflownetMobile.a */; };
 		4D95D24D183884BB008ADE77 /* libGameSharedMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D95D24B183884BB008ADE77 /* libGameSharedMobile.a */; };
 		4DFD47091839C6D7008C2F04 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4DFD47081839C6D7008C2F04 /* Images.xcassets */; };
+		4DFD470B1839E4B7008C2F04 /* iphonehd in Resources */ = {isa = PBXBuildFile; fileRef = 6B2AA3F616FB44AF00DEB7C3 /* iphonehd */; };
 		6B08439317586BF400257246 /* GPS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6B08439117586BF400257246 /* GPS.mm */; };
 		6B08439C1758718400257246 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B08439A1758716C00257246 /* CoreLocation.framework */; };
 		6B08439F1758739B00257246 /* GPS_ios.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B08439E1758739B00257246 /* GPS_ios.m */; };
@@ -24,7 +25,6 @@
 		6B2AA38B16FAD27700DEB7C3 /* test_dot.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B2AA38A16FAD27700DEB7C3 /* test_dot.png */; };
 		6B2AA3BA16FB2D4300DEB7C3 /* SpellQuickSlotNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B2AA3B816FB2D4000DEB7C3 /* SpellQuickSlotNode.cpp */; };
 		6B2AA3F516FB449E00DEB7C3 /* iphone in Resources */ = {isa = PBXBuildFile; fileRef = 6B2AA3F416FB449D00DEB7C3 /* iphone */; };
-		6B2AA3F716FB44AF00DEB7C3 /* iphonehd in Resources */ = {isa = PBXBuildFile; fileRef = 6B2AA3F616FB44AF00DEB7C3 /* iphonehd */; };
 		6B2AA3FA16FC56EF00DEB7C3 /* SpellAnimationLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B2AA3F816FC56ED00DEB7C3 /* SpellAnimationLoader.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		6B2AA3FD16FC6A6700DEB7C3 /* SpellNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B2AA3FB16FC6A6500DEB7C3 /* SpellNode.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		6B2AA40116FC72F100DEB7C3 /* spell_animations.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B2AA40016FC72F100DEB7C3 /* spell_animations.plist */; };
@@ -2736,7 +2736,7 @@
 				4DFD47091839C6D7008C2F04 /* Images.xcassets in Resources */,
 				6B2AA38B16FAD27700DEB7C3 /* test_dot.png in Resources */,
 				6B2AA3F516FB449E00DEB7C3 /* iphone in Resources */,
-				6B2AA3F716FB44AF00DEB7C3 /* iphonehd in Resources */,
+				4DFD470B1839E4B7008C2F04 /* iphonehd in Resources */,
 				6B2AA40116FC72F100DEB7C3 /* spell_animations.plist in Resources */,
 				6B2AA40916FE89E700DEB7C3 /* script in Resources */,
 				6B532B521712E0F4009127B2 /* ChangeLog in Resources */,
